@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+
+	<!-- Basic Page Needs
+	================================================== -->
+	<meta charset="utf-8">
+	<title>Booking Ring | BR</title>
+	<meta name="description" content="Professional Creative Template" />
+	<meta name="author" content="IG Design">
+	<meta name="keywords"
+		content="ig design, website, design, html5, css3, jquery, creative, clean, animated, portfolio, blog, one-page, multi-page, corporate, business," />
+	<meta property="og:title" content="Professional Creative Template" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="" />
+	<meta property="og:image" content="" />
+	<meta property="og:image:width" content="470" />
+	<meta property="og:image:height" content="246" />
+	<meta property="og:site_name" content="" />
+	<meta property="og:description" content="Professional Creative Template" />
+	<meta name="twitter:card" content="" />
+	<meta name="twitter:site" content="https://twitter.com/IvanGrozdic" />
+	<meta name="twitter:domain" content="http://ivang-design.com/" />
+	<meta name="twitter:title" content="" />
+	<meta name="twitter:description" content="Professional Creative Template" />
+	<meta name="twitter:image" content="http://ivang-design.com/" />
+	<!-- <div>Icons made by <a href="https://www.flaticon.com/authors/ini-dia-icon-studio" title="ini dia icon studio">ini
+			dia icon studio</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
+
+
+	<!-- Mobile Specific Metas
+	================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="theme-color" content="#212121" />
+	<meta name="msapplication-navbutton-color" content="#212121" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="#212121" />
+
+	<!-- Web Fonts 
+	================================================== -->
+	<link
+		href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+		rel="stylesheet" />
+	<link
+		href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
+		rel="stylesheet">
+
+	<!-- CSS
+	================================================== -->
+	<link rel="icon" type="image/x-icon" href="/img/logo.jpg">
+	<link rel="stylesheet" href="/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="/css/ionicons.min.css" />
+	<link rel="stylesheet" href="/css/datepicker.css" />
+	<link rel="stylesheet" href="/css/jquery.fancybox.min.css" />
+	<link rel="stylesheet" href="/css/owl.carousel.css" />
+	<link rel="stylesheet" href="/css/owl.transitions.css" />
+	<link rel="stylesheet" href="/css/style.css" />
+	<link rel="stylesheet" href="/css/colors/color.css" />
+	<link rel="stylesheet" href="/css/select2.min.css" />
+
+
+	<!-- Favicons
+	================================================== -->
+	<link rel="icon" type="../image/png" href="/favicon.png">
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+
+
+	<style>
+		.sliderContainerClass {
+			padding-top: 70px !important;
+			z-index: 999 !important;
+			position: relative;
+		}
+
+		.logo img {
+			height: 200%;
+			margin-top: -35%;
+		}
+
+		@media only screen and (min-width: 600px) {
+			.customClass {
+				padding: 250px;
+			}
+		}
+
+		@media (min-width: 600px) and (max-width: 1024px) {
+			.sliderContainerClass {
+				padding-top: 0px !important;
+				/* z-index: 99999999999999999999999999999999999999999999999999999 !important; */
+			}
+
+			/* .customBtnSearch {
+				margin-top: 0px !important;
+			} */
+		}
+
+		@media only screen and (max-width: 768px) {
+			.customJustifier {
+				padding-top: 10px;
+				padding-bottom: 10px;
+			}
+
+			.customBtnSearch {
+				margin-top: 25px !important;
+			}
+
+			.customWrapper {
+				background-color: rgba(21, 21, 21, .92);
+				padding-top: -5px !important;
+				/* z-index: 99999999999999999999999999999999999999999999999999999 !important; */
+			}
+		}
+
+
+		@media only screen and (max-width: 425px) {
+			.customJustifier {
+				padding-top: 10px;
+				padding-bottom: 10px;
+			}
+
+			.selectClassCustom {
+				padding: 0px 20px 0px 20px;
+			}
+
+			.inputClass {
+				padding: 5px;
+			}
+
+			.customHeader {
+				text-align: center !important;
+			}
+
+			#dateId {
+				max-width: 100% !important;
+			}
+
+			.customCol {
+				max-width: 100% !important;
+				margin-top: 10px !important;
+
+			}
+
+			.customBtnSearch {
+				margin-top: 25px !important;
+			}
+
+			.customWrapper {
+				background-color: rgba(21, 21, 21, .92);
+				/* padding-top: -5px !important; */
+				/* z-index: 99999999999999999999999999999999999999999999999999999 !important; */
+			}
+
+			.sliderContainerClass {
+				padding-top: 0px !important;
+			}
+
+			.booking-button {
+				margin-top: 5px !important;
+			}
+		}
+	</style>
+
+</head>
+
+<body>
+
+
+	<!-- <div class="loader">
+		<div class="loader__figure"></div>
+	</div> -->
+
+	<svg class="hidden">
+		<svg id="icon-nav" viewBox="0 0 152 63">
+			<title>navarrow</title>
+			<path
+				d="M115.737 29L92.77 6.283c-.932-.92-1.21-2.84-.617-4.281.594-1.443 1.837-1.862 2.765-.953l28.429 28.116c.574.57.925 1.557.925 2.619 0 1.06-.351 2.046-.925 2.616l-28.43 28.114c-.336.327-.707.486-1.074.486-.659 0-1.307-.509-1.69-1.437-.593-1.442-.315-3.362.617-4.284L115.299 35H3.442C2.032 35 .89 33.656.89 32c0-1.658 1.143-3 2.552-3H115.737z" />
+		</svg>
+	</svg>
+
+
+	<!-- Nav and Logo
+	================================================== -->
+
+	<nav id="menu-wrap" class="menu-back cbp-af-header">
+		<div class="menu-top background-black">
+			<div class="container">
+				<div class="row">
+					<div class="col-6 px-0 px-md-3 pl-1 py-3">
+						<span class="call-top">call us:</span> <a href="#" class="call-top">0346 0973906</a>
+					</div>
+					<div class="col-6 px-0 px-md-3 py-3 text-right">
+						<a href="https://www.facebook.com/thegreenheights" target="_blank" class="social-top"><i
+								class="fa fa-facebook"></i></a>
+						<a href="https://www.facebook.com/thegreenheights" target="_blank" class="social-top"><i
+								class="fa fa-instagram"></i></a>
+						<a href="https://www.facebook.com/thegreenheights" target="_blank" class="social-top"
+							style="border-right: none;"><i class="fa fa-twitter"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="menu" style="max-width: 100% !important;">
+			<a href="/">
+				<div class="logo">
+					<!-- <h5 class="text-white">Booking Ring</h5> -->
+					<img src="../img/bg-logo.png" alt="">
+				</div>
+			</a>
+			<ul>
+				<li>
+					<a href="/">home</a>
+				</li>
+
+				<!-- <li>
+					<a href="#">rooms</a>
+					<ul>
+						<li><a href="rooms.html">Our Rooms</a></li>
+						<li><a href="rooms-gallery.html">Room Gallery</a></li>
+						<li><a href="rooms-video.html">Room Video</a></li>
+					</ul>
+				</li> -->
+
+				<!-- <li>
+					<a href="#">services</a>
+					<ul>
+						<li><a href="/Appartments/allappartments">Appartments / Houses</a></li>
+						<li><a href="/Appartments/hotels">Hotels / Rooms</a></li>
+						<li><a href="/Appartments/vehicles">Cars</a></li>
+						<li><a href="/Appartments/galleryAppRoom">Gallery</a></li>
+					</ul>
+				</li> -->
+
+				<!-- New Changes -->
+
+				<li>
+					<a href="/Hotels/list">Hotels</a>
+				</li>
+
+				<li>
+					<a href="/Appartments/allappartments">Apartments</a>
+				</li>
+
+				<li>
+					<a href="/Vehicles/list">Vehicles</a>
+				</li>
+
+				<li>
+					<a href="/Appartments/galleryAppRoom">Gallery</a>
+				</li>
+				<!-- /New Changes -->
+				<li>
+					<a href="/Tours/tours">Tours</a>
+				</li>
+
+				<!-- <li>
+					<a href="#">Tours</a>
+					<ul>
+						<li><a href="/Tours/tours">Tours</a></li>
+						<li><a href="/Tours/hike">Hiking</a></li>
+						<li><a href="/Tours/gallerytandh">Gallery</a></li>
+					</ul>
+				</li> -->
+
+				<li>
+					<a href="/News/news">news</a>
+				</li>
+
+				<li>
+					<a href="/About/about">about us</a>
+				</li>
+
+				<li>
+					<a href="/Contact/contact">contact US</a>
+				</li>
+
+				<li>
+					<a href="/FAQs/faqs">FAQ's</a>
+				</li>
+
+				<li>
+					<a href="/User/login"><span>Register / Login</span></a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<%- body %>
+
+
+		<div class="section padding-top-bottom-small background-black over-hide footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-3 text-center text-md-left">
+						<div class="subtitle with-line text-center mb-4 customHeader">
+							<h5 style="color: White;">Booking Ring</h5>
+						</div>
+						<p class="color-grey mt-4"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp; 1<sup>st</sup>
+							Floor
+							Sultan Tower, Swat.</p>
+						<p class="color-grey mt-4"><i class="fa fa-phone"></i>&nbsp;&nbsp;&nbsp; 0346 0973906 | 0946
+							700553</p>
+						<p class="color-grey mt-4"><i class="fa fa-envelope"></i>&nbsp;&nbsp;&nbsp; info@bookingring.com
+						</p>
+					</div>
+					<div class="col-md-4 text-center text-md-left">
+						<div class="subtitle with-line text-center mb-4">
+							<h6 class="color-white mb-3">quick access</h6>
+						</div>
+						<div align="center">
+							<a href="/Hotels/list">Hotels</a>
+							<a href="/Appartments/allappartments">Appartments</a>
+							<a href="/Appartments/vehicles">Rental Vehicles</a>
+							<a href="/Tours/tours">Tours</a>
+							<a href="/TermsConditions/termsAndCondition">Terms &amp; Conditions</a>
+						</div>
+
+					</div>
+					<div class="col-md-5 mt-4 mt-md-0 text-center text-md-left logos-footer">
+						<div class="subtitle with-line text-center mb-4">
+							<h6 class="color-white mb-3">about Booking Ring</h6>
+						</div>
+						<p class="color-grey mb-4">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+							blanditiis
+							praesentium voluptatum deleniti atque corrupti quos dolores.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="section py-4 background-dark over-hide footer-bottom">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 text-center text-md-left mb-2 mb-md-0">
+						<p>2021 © Booking Ring. All rights reserved.</p>
+					</div>
+					<div class="col-md-6 text-center text-md-right">
+						<a href="#" class="social-footer-bottom">facebook</a>
+						<a href="#" class="social-footer-bottom">twitter</a>
+						<a href="#" class="social-footer-bottom">instagram</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Scroll to top -->
+		<!-- <div class="scroll-to-top"></div> -->
+
+
+		<!-- JAVASCRIPT ================================================== -->
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/popper.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/plugins.js"></script>
+		<script src="/js/flip-slider.js"></script>
+		<script src="/js/reveal-home.js"></script>
+		<script src="/js/custom.js"></script>
+		<script src="/js/select2.min.js"></script>
+		<script src="/js/select2.min.js"></script>
+
+
+		<!-- End Document ================================================== -->
+		<script>
+			var elementPosition = $('#fixed').offset();
+
+			$(window).scroll(function () {
+				if ($(window).scrollTop() > elementPosition.top) {
+					$('#fixed').css('position', 'sticky').css('top', '0');
+				} else {
+					$('#fixed').css('position', 'static');
+				}
+			});
+
+			$("#searchHotels").click(function () {
+				const checkIn = $('#start-date-1').val();
+				const checkOut = $('#end-date-1').val();
+				const area = $('#area').val();
+				const adults = $('#adults').val();
+				const data = JSON.stringify({
+					checkIn: checkIn,
+					checkOut: checkOut,
+					area: area,
+					adults: adults
+				});
+				fetch('/Hotels/search/', {
+					method: "POST",
+					body: data,
+					headers: {
+						"Content-type": "application/json; charset=UTF-8"
+					}
+				})
+					// Checking Status
+					.then(response => {
+						if (response.status === 200) {
+							console.log('succes')
+						} else {
+							alert('oop\'s something went wrong, Please Try again')
+						}
+					})
+			});
+
+			$("#roomBooking").click(function () {
+				const roomId = $('#roomId').val();
+				const htoelId = $('#hotelId').val();
+				const checkIn = $('#start-date-1').val();
+				const checkOut = $('#end-date-1').val();
+				const adults = $('#adults').val();
+				const children = $('#childs').val();
+				const data = JSON.stringify({
+					checkIn: checkIn,
+					checkOut: checkOut,
+					adults: adults,
+					children: children,
+					roomId: roomId,
+					hotelId: htoelId
+				});
+				fetch('/hotels/roomBooking', {
+					method: "POST",
+					body: data,
+					headers: {
+						"Content-type": "application/json; charset=UTF-8"
+					}
+				})
+					// Checking Status
+					.then(response => {
+						if (response.status === 200) {
+							console.log('succes')
+						} else {
+							alert('oop\'s something went wrong, Please Try again')
+						}
+					})
+			});
+
+			$("#appartmentBooking").click(function () {
+				const appartmentId = $('#appartmentId').val();
+				const checkIn = $('#start-date-1').val();
+				const checkOut = $('#end-date-1').val();
+				const adults = $('#adults').val();
+				const children = $('#childs').val();
+				const data = JSON.stringify({
+					checkIn: checkIn,
+					checkOut: checkOut,
+					adults: adults,
+					children: children,
+					appartmentId: appartmentId
+				});
+				fetch('/Appartments/apartmentBooking', {
+					method: "POST",
+					body: data,
+					headers: {
+						"Content-type": "application/json; charset=UTF-8"
+					}
+				})
+					// Checking Status
+					.then(response => {
+						if (response.status === 200) {
+							console.log('succes')
+						} else {
+							alert('oop\'s something went wrong, Please Try again')
+						}
+					})
+			});
+
+			$("#vehicleBooking").click(function () {
+				const vehicleId = $('#vehicleId').val();
+				const checkIn = $('#start-date-1').val();
+				const checkOut = $('#end-date-1').val();
+				const location = $('#location').val();
+				const adults = $('#adults').val();
+				const children = $('#childs').val();
+				const data = JSON.stringify({
+					checkIn: checkIn,
+					checkOut: checkOut,
+					adults: adults,
+					location: location,
+					children: children,
+					vehicleId: vehicleId
+				});
+				fetch('/Vehicles/booking', {
+					method: "POST",
+					body: data,
+					headers: {
+						"Content-type": "application/json; charset=UTF-8"
+					}
+				})
+					// Checking Status
+					.then(response => {
+						if (response.status === 200) {
+							console.log('succes')
+						} else {
+							alert('oop\'s something went wrong, Please Try again')
+						}
+					})
+			});
+
+			$("#tourEnrolling").click(function () {
+				const tourId = $('#tourId').val();
+				const seats = $('#seats').val();
+				const data = JSON.stringify({
+					tourId: tourId,
+					seats: seats
+				});
+				fetch('/Tours/enrolling', {
+					method: "POST",
+					body: data,
+					headers: {
+						"Content-type": "application/json; charset=UTF-8"
+					}
+				})
+					// Checking Status
+					.then(response => {
+						if (response.status === 200) {
+							console.log('success')
+						} else {
+							alert('oop\'s something went wrong, Please Try again')
+						}
+					})
+			});
+
+			$("#send").click(function () {
+				const name = $('#name').val();
+				const email = $('#email').val();
+				const message = $('#message').val();
+				const data = JSON.stringify({
+					name: name,
+					email: email,
+					message: message
+				});
+				fetch('/Contact/feedback', {
+					method: "POST",
+					body: data,
+					headers: {
+						"Content-type": "application/json; charset=UTF-8"
+					}
+				})
+					// Checking Status
+					.then(response => {
+						if (response.status === 200) {
+							console.log('success')
+						} else {
+							alert('oop\'s something went wrong, Please Try again')
+						}
+					})
+			});
+
+
+		</script>
+
+
+
+
+		<!-- <script>
+			$(document).ready(function () {
+				$('.phone').inputmask('(999)-999-9999');
+			});
+		</script> -->
+		<!--Start of Tawk.to Script-->
+		<script type="text/javascript">
+			var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+			(function () {
+				var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+				s1.async = true;
+				s1.src = 'https://embed.tawk.to/620731339bd1f31184dc3f17/1frm1gd37';
+				s1.charset = 'UTF-8';
+				s1.setAttribute('crossorigin', '*');
+				s0.parentNode.insertBefore(s1, s0);
+			})();
+		</script>
+		<!--End of Tawk.to Script-->
+
+</body>
+
+</html>

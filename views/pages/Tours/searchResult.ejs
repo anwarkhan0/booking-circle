@@ -1,0 +1,67 @@
+
+    
+    <!-- Tours sections -->
+    <div class="section padding-top-bottom over-hide">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 align-self-center">
+                    <div class="subtitle with-line text-center mb-4">Booking Ring</div>
+                    <h3 class="text-center padding-bottom-small">Tours</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section background-grey over-hide">
+        <div class="container-fluid px-0">
+    
+            <% for(let i= 0; i< tours.length; i++){ %> 
+                <!-- this condition just to mantain the styling behaviour as expected -->
+                <% if(i%2===0){ %> 
+            <div class="row mx-0">
+                <div class="col-xl-6 px-0">
+                    <div class="img-wrap" id="rev-1">
+                        <img src="../img/gallery/kalam.jpg" alt="">
+                        <div class="text-element-over">Tour to <%= tours[i].toPlace %></div>
+                    </div>
+                </div>
+                <div class="col-xl-6 px-0 mt-4 mt-xl-0 align-self-center">
+                    <div class="row justify-content-center">
+                        <div class="col-10 col-xl-8 text-center">
+                            <h3 class="text-center"><%= tours[i].toPlace %> Tour</h3>
+                            <p class="text-center mt-4"><b>Tour: </b> <%= tours[i].fromPlace %> to <%= tours[i].toPlace %></p>
+                            <p class="text-center mt-4"><b>Date: </b> <%= tours[i].startDate %></p>
+                            <p class="text-center mt-4"><b>Duration: </b> <%= tours[i].days %> Days <%= tours[i].nights %> Nights</p>
+                            <a class="mt-5 btn btn-primary" href="/Tours/booking/<%= tours[i].id %>">Reserve Seat!</a>
+                            <a class="mt-5 btn btn-info" href="#">Wishlist!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% }else{ %> 
+            <div class="row mx-0">
+                <div class="col-xl-6 px-0 mt-4 mt-xl-0 pb-5 pb-xl-0 align-self-center">
+                    <div class="row justify-content-center">
+                        <div class="col-10 col-xl-8 text-center">
+                            <h3 class="text-center"><%= tours[i].toPlace %> Tour</h3>
+                            <p class="text-center mt-4"><b>Tour: </b> <%= tours[i].fromPlace %> to <%= tours[i].toPlace %></p>
+                            <p class="text-center mt-4"><b>Date: </b> <%= tours[i].startDate %></p>
+                            <p class="text-center mt-4"><b>Duration: </b> <%= tours[i].days %> Days <%= tours[i].nights %> Nights</p>
+                            <a class="mt-5 btn btn-primary" href="/Tours/booking">Reserve Seat!</a>
+                            <a class="mt-5 btn btn-info" href="#">Wishlist!</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 px-0 order-first order-xl-last mt-5 mt-xl-0">
+                    <div class="img-wrap" id="rev-2">
+                        <img src="../img/gallery/bahrain.jpg" alt="">
+                        <div class="text-element-over">Tour to <%= tours[i].toPlace %></div>
+                    </div>
+                </div>
+            </div>
+            <% } %> 
+            <% } %> 
+    
+        </div>
+    </div>
+    

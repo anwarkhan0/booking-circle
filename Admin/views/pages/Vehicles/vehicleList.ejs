@@ -1,0 +1,112 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Rental Vehicles</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <!-- <li class="breadcrumb-item">Appartments</li> -->
+            <li class="breadcrumb-item active">Rental Vehicles List</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <% if(flashMessage.length> 0){ %>
+      <div class="alert alert-info m-3 mt-2" style="z-index: 10001;" role="alert" id="flashMessage">
+        <%= flashMessage %>
+      </div>
+      <% } %>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-success">
+            <div class="card-header">
+              <h3 class="card-title">Rental Vehicles List</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <table id="tableData" class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>S#</th>
+                    <th>Type</th>
+                    <th>Owner Name</th>
+                    <th>Owner Contact</th>
+                    <th>Vehicle No.</th>
+                    <!-- <th>Condition</th> -->
+                    <th>Status</th>
+                    <th style="text-align: center">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for(let i=0; i< vehicles.length; i++){ %>
+                    <tr id="<%= vehicles[i].id %>">
+                      <td>
+                        <%= i + 1 %>
+                      </td>
+                      <td>
+                        <%= vehicles[i].categoryName %>
+                      </td>
+                      <td>
+                        <%= vehicles[i].ownerName %>
+                      </td>
+                      <td>
+                        <%= vehicles[i].ownerContact %>
+                      </td>
+                      <td>
+                        <%= vehicles[i].vehicleNo %>
+                      </td>
+                      <!-- <td>
+                        <%= vehicles[i].condition %>
+                      </td> -->
+                      <td>
+                        <% if(vehicles[i].availabilityStatus){ %>
+                          <span class="badge badge-primary">Available</span>
+                          <% } else{ %>
+                            <span class="badge badge-danger">Not Available</span>
+                            <% } %>
+                      </td>
+                      <td align="center">
+                        <a href="<%= '/admin/Vehicles/editVehicle/' + vehicles[i].id %>" class="btn btn-primary btn-sm">Edit
+                          <i class="fa fa-pencil"></i></a>
+                        <a href="<%= '/admin/Vehicles/addVehicleGallery/' + vehicles[i].id %>" class="btn btn-info btn-sm">Add
+                          <i class="fa fa-picture-o"></i></a>
+                        <a href="<%= '/admin/Vehicles/editVehicleGallery/' + vehicles[i].id %>"
+                          class="btn btn-success btn-sm">Edit <i class="fa fa-picture-o"></i></a>
+                        <button class="btn btn-danger btn-sm" onclick="<%= `deleteHandler('/admin/Vehicles/deleteVehicle', ${vehicles[i].id.toString()})` %>"><i
+                            class="fa fa-trash"></i></button>
+
+                      </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>S#</th>
+                    <th>Type</th>
+                    <th>Owner Name</th>
+                    <th>Owner Contact</th>
+                    <th>Vehicle No.</th>
+                    <!-- <th>Condition</th> -->
+                    <th>Status</th>
+                    <th style="text-align: center">Action</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>

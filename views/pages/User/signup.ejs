@@ -1,0 +1,97 @@
+<link rel="stylesheet" href="../../Logincss/style.css">
+
+<style>
+    .customStyle {
+        margin-top: 5% !important;
+        margin-bottom: 10% !important;
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+<link rel="icon" href="assets/img/favicon.png" type="image/png"><!-- Font Awesome -->
+<link rel="stylesheet" href="assets/libs/@fortawesome/fontawesome-free/css/all.min.css">
+<link rel="stylesheet" href="assets/libs/dropzone/dropzone.css">
+<!-- Quick CSS -->
+<link rel="stylesheet" href="assets/css/quick-website.css" id="stylesheet">
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center customStyle">
+            <div class="col-md-6 col-lg-4">
+                <div class="login-wrap p-0">
+                    <% if(flashMessage.length > 0){ %>
+                        <div class="alert alert-danger m-3 mt-2" style="z-index: 1000001;" role="alert" id="flashMessage">
+                          <%= flashMessage %>
+                        </div>
+                        <% } %>
+                    <h3 class="mb-4 text-center">Create Account!</h3>
+                    <form action="/signUp" method="post" class="signin-form">
+                        <div class="form-group">
+                            <input type="text" name="name" value="<%= oldInput.name %>" id="name-field" class="form-control" placeholder="Name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" name="phoneNo" value="<%= oldInput.phoneNo %>" class="form-control phone" id="phone" placeholder="03xx xxxx xxxx "
+                                required="" data-inputmask="'mask': '9999 999 9999'">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="email" name="email" value="<%= oldInput.email %>" id="email-field" class="form-control" placeholder="Email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <input id="password-field" name="password" value="<%= oldInput.password %>" type="password" class="form-control" placeholder="Password"
+                                required>
+                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <button type="submit" id="register" class="form-control btn btn-primary submit px-3">Create
+                                Account</button>
+                        </div>
+                    </form>
+                    <p class="w-100 text-center">&mdash; Already Have an account? &mdash;</p>
+                    <div class="social d-flex text-center">
+                        <!-- <a href="#" class="px-2 py-2 mr-md-1 rounded"><span class="ion-logo-facebook mr-2"></span>
+                            Facebook</a> -->
+                        <a href="/User/login" class="px-2 py-2 ml-md-1 rounded"><span
+                                class="ion-logo-twitter mr-2"></span>
+                            Sign In</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.body.style.backgroundImage = "url('../Loginimages/bg.jpg')";
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+
+<script src="../Loginjs/main.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#phone').keyup(function () {
+            if (this.value.replace(/[_-]/g, '').length < 13) {
+                $('#register').attr('disabled', 'disabled');
+            } else {
+                $('#register').removeAttr('disabled');
+            }
+        }).trigger('keyup');
+    });
+</script>
+
+
+
+<script src="assets/js/quick-website.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.3/lottie.min.js"></script>
+<script src="assets/lottie/lottie.js"></script>
+<script type="text/javascript" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
+<script>
+    $('input').inputmask();
+</script>

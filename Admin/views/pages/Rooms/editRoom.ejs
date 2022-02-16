@@ -1,0 +1,179 @@
+<div id="spinner">
+  <div id="spinning-wheel" class="text-center ">
+    <div class="spinner-grow" style="width: 4rem; height: 4rem;" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Rooms</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">Room</li>
+            <li class="breadcrumb-item active">Edit Room</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <% if(flashMessage.length> 0){ %>
+      <div class="alert alert-danger m-3 mt-2" style="z-index: 10001;" role="alert" id="flashMessage">
+        <%= flashMessage %>
+      </div>
+      <% } %>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-success">
+            <div class="card-header">
+              <h3 class="card-title">Edit Room</h3>
+            </div>
+            <div class="card-body">
+              <form action="/admin/Rooms/editRoom" method="POST">
+                <h5><b>Room Details</b></h5>
+                <hr>
+                <div class="row">
+                  <div class="form-group col-md-4">
+                    <label>Select Beds</label>
+                    <select class="form-control" name="beds">
+                      <% for(let i=1; i<=5; i++) { %>
+                        <option value="<%= i %>" <%=room.beds==i ? 'selected' : '' %> >
+                          <%= i + ' Bedded' %>
+                        </option>
+                        <% } %>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label>Hot Water</label>
+                    <select class="form-control" name="hotWater">
+                      <option value="true" <%=room.hotWater ? 'selected' : '' %> >Yes</option>
+                      <option value="false" <%=!room.hotWater ? 'selected' : '' %> >No</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label>Heater</label>
+                    <select class="form-control" name="heater">
+                      <option value="true" <%=room.heater ? 'selected' : '' %> >Yes</option>
+                      <option value="false" <%=!room.heater ? 'selected' : '' %> >No</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label>Balcony</label>
+                    <select class="form-control" name="balcony">
+                      <option value="true" <%=room.balcony ? 'selected' : '' %> >Yes</option>
+                      <option value="false" <%=!room.balcony ? 'selected' : '' %> >No</option>
+                    </select>
+                  </div>
+
+                  <!-- <div class="form-group col-md-4">
+                    <label>Room Service</label>
+                    <select class="form-control" name="roomService">
+                      <option value="true" <%=room.roomService ? 'selected' : '' %> >Yes</option>
+                      <option value="false" <%=!room.roomService ? 'selected' : '' %> >No</option>
+                    </select>
+                  </div> -->
+
+                  <div class="form-group col-md-4">
+                    <label>Room Status</label>
+                    <select class="form-control" name="status">
+                      <option value="true" <%=room.status ? 'selected' : '' %> >Available</option>
+                      <option value="false" <%=!room.status ? 'selected' : '' %> >Unavailable</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label>Location</label>
+                    <input type="text" name="location" value="<%= room.location %>" placeholder="i.e: 3rd Floor"
+                      class="form-control" required>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label>Room Charges</label>
+                    <input type="number" name="charges" value="<%= room.charges %>" placeholder="i.e: 5000"
+                      class="form-control" required>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label>Room No</label>
+                    <input type="number" name="roomNo" value="<%= room.roomNo %>" placeholder="i.e: 5"
+                      class="form-control" required>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label>Room Size</label>
+                    <input type="text" name="size" value="<%= room.size %>" placeholder="i.e: 47-52 sqft"
+                      class="form-control" required>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label>Room Occupency</label>
+                    <input type="text" name="occupency" value="<%= room.occupency %>"
+                      placeholder="i.e: Upto 4 childrens" class="form-control" required>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label>Room Bed Size</label>
+                    <select class="form-control select2" style="width: 100%;" name="bedSize">
+                      <option value="king" <%=room.bedSize==='king' ? 'selected' : '' %> >King Bed Only</option>
+                      <option value="regular" <%=room.bedSize==='regular' ? 'selected' : '' %>>Regular Beds Only
+                      </option>
+                      <option value="king&regular" <%=room.bedSize==='king&regular' ? 'selected' : '' %> >King &amp;
+                        Regular Beds</option>
+                    </select>
+                  </div>
+
+                  <!-- New Data -->
+                  <div class="form-group col-md-4">
+                    <label>Room Video</label>
+                    <input type="url" name="videoUrl" value="<%= room.videoUrl %>" placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0"
+                      class="form-control" required>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label>Room Description</label>
+                    <textarea name="description" id="" rows="5" class="form-control" placeholder="Room Description . . ."
+                      required><%= room.description %></textarea>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label>Room Features</label>
+                    <textarea name="features" id="" rows="5" class="form-control" placeholder="Room Features . . ."
+                      required><%= room.features %></textarea>
+                  </div>
+
+
+                  <!-- /New Data -->
+                </div>
+
+                <input type="hidden" value="<%= hotelId %>" name="hotel">
+                <input type="hidden" value="<%= roomIndex %>" name="roomIndex">
+
+
+                <hr>
+                <div class="form-group">
+                  <a class="btn btn-secondary btn-sm" name="cancel" type="submit" onclick="history.back(-1)">Cancel</a>
+                  <button class="btn btn-success btn-sm" type="submit" name="">Edit Room</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>

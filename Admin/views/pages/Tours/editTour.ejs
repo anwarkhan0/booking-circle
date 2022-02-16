@@ -1,0 +1,182 @@
+<div id="spinner">
+  <div id="spinning-wheel" class="text-center ">
+    <div class="spinner-grow" style="width: 4rem; height: 4rem;" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Tours</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">Tours</li>
+            <li class="breadcrumb-item active">Edit Tour/Hike</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-success">
+            <div class="card-header">
+              <h3 class="card-title">Edit Tour/Hike Details</h3>
+            </div>
+            <div class="card-body">
+              <form action="/admin/Tours/editTour/" method="POST">
+                <h5><b>Tour/Hike</b></h5>
+                <hr>
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label>Select Tour or Hike</label>
+                    <select class="form-control select2" style="width: 100%; height: 100%;" name="tourType">
+                      <option value="tour" <%=tour.tourType==='tour' ? 'selected' : '' %> >Tour</option>
+                      <option value="hike" <%=tour.tourType==='hike' ? 'selected' : '' %> >Hike</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-3">
+                    <label>Tour/Hike Start Date</label>
+                    <input type="date" class="form-control" name="startDate" value="<%= tour.startDate %>" required>
+                  </div>
+
+                  <div class="form-group col-md-3">
+                    <label>Tour/Hike Return Date</label>
+                    <input type="date" class="form-control" name="endDate" value="<%= tour.endDate %>" required>
+                  </div>
+                </div>
+
+                <hr>
+
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label>Tour/Hike From Place</label>
+                    <select class="form-control select2" style="width: 100%; height: 100%;" name="fromPlace">
+                      <% for(let i=0; i < areas.length; i++) { %>
+                        <option value="<%= JSON.stringify({ id: areas[i].id, areaName: areas[i].name }) %>"
+                          <%=areas[i].name===tour.fromPlace ? 'selected' : '' %> >
+                          <%= areas[i].name %>
+                        </option>
+                        <% } %>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label>Tour/Hike To Place</label>
+                    <select class="form-control select2" style="width: 100%; height: 100%;" name="toPlace">
+                      <% for(let i=0; i < areas.length; i++) { %>
+                        <option value="<%= JSON.stringify({ id: areas[i].id, areaName: areas[i].name }) %>"
+                          <%=areas[i].name===tour.toPlace ? 'selected' : '' %>>
+                          <%= areas[i].name %>
+                        </option>
+                        <% } %>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label>Pick-Up Location</label>
+                    <select class="form-control select2" style="width: 100%; height: 100%;" name="pickupLoc">
+                      <% for(let i=0; i < areas.length; i++) { %>
+                        <option value="<%= JSON.stringify({ id: areas[i].id, areaName: areas[i].name }) %>"
+                          <%=areas[i].name===tour.pickupLocation ? 'selected' : '' %>>
+                          <%= areas[i].name %>
+                        </option>
+                        <% } %>
+                    </select>
+                  </div>
+
+                  <div class=" form-group col-md-6">
+                    <label>Drop-Off Location</label>
+                    <select class="form-control select2" style="width: 100%; height: 100%;" name="dropoffLoc">
+                      <% for(let i=0; i < areas.length; i++) { %>
+                        <option value="<%= JSON.stringify({ id: areas[i].id, areaName: areas[i].name }) %>"
+                          <%=areas[i].name===tour.dropoffLocation ? 'selected' : '' %>>
+                          <%= areas[i].name %>
+                        </option>
+                        <% } %>
+                    </select>
+                  </div>
+
+
+                  <div class=" form-group col-md-6">
+                    <label>Hotel Stay</label>
+                    <select class="form-control select2" style="width: 100%; height: 100%;" name="stayHotel">
+                      <% for(let i=0; i < hotels.length; i++) { %>
+                        <option value="<%= JSON.stringify( {id: hotels[i].id, hotelName: hotels[i].name} ) %>"
+                          <%=hotels[i].name===tour.stayHotel ? 'selected' : '' %> >
+                          <%= hotels[i].name %>
+                        </option>
+                        <% } %>
+                    </select>
+                  </div>
+
+                  <!-- New Data -->
+                  <div class="form-group col-md-6">
+                    <label>Tour Video</label>
+                    <input type="url" name="videoUrl" value="<%= tour.videoUrl %>" placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0"
+                      class="form-control" required>
+                  </div>
+                  <!-- /New Data -->
+                </div>
+
+                <hr>
+
+
+                <div class="row">
+                  <div class="form-group col-md-3">
+                    <label>Tour/Hike Days</label>
+                    <input type="number" name="days" value="<%= tour.days %>" placeholder="" class="form-control"
+                      required>
+                  </div>
+
+                  <div class="form-group col-md-3">
+                    <label>Tour/Hike Nights</label>
+                    <input type="number" value="<%= tour.nights %>" name="nights" placeholder="" class="form-control"
+                      required>
+                  </div>
+
+                  <div class="form-group col-md-3">
+                    <label>Available Seats/Vacancies</label>
+                    <input type="number" name="seats" placeholder="" value="<%= tour.availableSeats %>"
+                      class="form-control" required>
+                  </div>
+
+                  <div class="form-group col-md-3">
+                    <label>Charges (Per Head Charges)</label>
+                    <input type="number" name="charges" value="<%= tour.chargesPerHead %>" placeholder=""
+                      class="form-control" required>
+                  </div>
+
+                  <div class="form-group col-md-12">
+                    <label>Description</label>
+                    <textarea name="desc" id="" cols="10" rows="10" class="form-control" placeholder=""
+                      required><%= tour.description %> </textarea>
+                  </div>
+                </div>
+                <input type="hidden" value="<%= tour.id %>" name="tourId" />
+                <hr>
+                <div class="form-group">
+                  <a class="btn btn-secondary btn-sm" name="cancel" type="submit" onclick="history.back(-1)">Cancel</a>
+                  <button class="btn btn-success btn-sm" type="submit" name="">Edit Tour/Hike</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>

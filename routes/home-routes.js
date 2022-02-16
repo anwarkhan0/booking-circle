@@ -1,0 +1,143 @@
+const express = require('express');
+
+const {
+    // HomePage
+    home,
+
+    // Services (Appartments)
+    appartments, allappartments, apartmentBooking, appartmentGallery, postAppartmentBooking, searchAppartments,
+    
+    //hotels
+    hotels, hotelGallery, hotelRooms,  roomBooking, searchHotels, postRoomBooking,
+    
+    //vehicles
+    vehicles, vehicleBooking, galleryAppRoom, postVehicleBooking, searchVehicles,
+
+    // Tours
+    tours, hike, booking, gallerytandh, postTourEnrolling, searchTour,
+
+    // News
+    news, exploreNews,
+
+    // About Us
+    about,
+
+    // Contact
+    contact, postFeedback,
+
+    // User
+    login, signup, verification, forgotPassword, passwordReset, postSignUp,
+
+    // Terms And Conditions
+    termsAndCondition,
+
+    // FAQ's
+    faqs
+
+} = require('../controllers/homeController');
+const router = express.Router();
+const { body } = require("express-validator");
+const UsersModel = require('../models/usersModel');
+
+// HomePage
+router.get('/', home)
+
+///////////////////////// Services ///////////////////////////
+// Appartments
+router.get('/Appartments/appartments', appartments)
+router.get('/Appartments/allappartments', allappartments)
+router.get('/Appartments/apartmentBooking/:id', apartmentBooking)
+router.get('/Appartments/appartmentGallery', appartmentGallery)
+router.get('/Appartments/:location', searchAppartments)
+router.post('/Appartments/apartmentBooking', postAppartmentBooking)
+
+router.get('/Hotels/list', hotels)
+router.get('/Hotels/hotelGallery/:id', hotelGallery)
+router.get('/Hotels/rooms/:id', hotelRooms)
+router.get('/Hotels/roomBooking/:hotelId', roomBooking)
+router.post('/hotels/roomBooking', postRoomBooking)
+router.get('/Hotels/:location', searchHotels)
+
+router.get('/Vehicles/list', vehicles)
+router.get('/Vehicles/vehicleBooking/:id', vehicleBooking)
+router.get('/Appartments/galleryAppRoom', galleryAppRoom)
+router.get('/Vehicles/:location', searchVehicles)
+router.post('/Vehicles/booking', postVehicleBooking)
+
+
+// Tours
+router.get('/Tours/tours', tours)
+router.get('/Tours/hike', hike)
+router.get('/Tours/booking/:id', booking)
+router.get('/Tours/gallerytandh', gallerytandh)
+router.get('/Tours/:location', searchTour)
+router.post('/Tours/enrolling', postTourEnrolling)
+
+// News
+router.get('/News/news', news)
+router.get('/News/post/:id', exploreNews)
+
+// About Us
+router.get('/About/about', about)
+
+// Contact
+router.get('/Contact/contact', contact)
+router.post('/Contact/feedback', postFeedback)
+
+// User
+router.get('/User/login', login)
+router.get('/User/signup', signup)
+router.get('/User/verification', verification)
+router.get('/User/forgotPassword', forgotPassword)
+router.get('/User/passwordReset', passwordReset)
+router.post(
+  "/signUp",
+  [
+    body("name", "Please enter valid name.")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .trim()
+      .escape(),
+    body("phoneNo", "Please enter valid phone number.")
+      .isLength({ min: 10, max: 13})
+      .trim(),
+    body("email")
+      .isEmail()
+      .withMessage("Please enter a valid email.")
+      .custom((value, { req }) => {
+        return UsersModel.findOne({ email: value }).then((user) => {
+          if (user) {
+            return Promise.reject(
+              "E-Mail exists already, please pick a different one."
+            );
+          }
+        });
+      })
+      .normalizeEmail(),
+    body(
+      "password",
+      "Please enter a password with only numbers and text and at least 8 characters."
+    )
+      .isLength({ min: 8 })
+      .isAlphanumeric()
+      .trim(),
+  ],
+  postSignUp
+);
+
+// Terms And Conditions
+router.get('/TermsConditions/termsAndCondition', termsAndCondition)
+
+// FAQ's
+router.get('/FAQs/faqs', faqs)
+
+
+module.exports = {
+    routes: router
+}

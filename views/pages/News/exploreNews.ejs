@@ -1,0 +1,67 @@
+<!-- Primary Page Layout -->
+
+<div class="section big-55-height over-hide z-bigger customClass">
+
+    <div class="parallax parallax-top" style="background-image: url('/img/blog/post.jpg')"></div>
+    <div class="dark-over-pages"></div>
+
+    <div class="hero-center-section pages">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 parallax-fade-top">
+                    <div class="hero-text"><%= post.heading %></div>
+                    <div class="hero-small-text mt-2">news by <%= post.author %></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section padding-top padding-bottom-smaller z-bigger background-grey">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+                <div class="section drop-shadow rounded">
+                    <div class="post-box background-white over-hide">
+                        <div class="padding-in">
+                            <blockquote class="blockquote">
+                                <p><%= post.heading %></p>
+                                <footer class="blockquote-footer"><%= post.author %></footer>
+                            </blockquote>
+                            <div class="separator-wrap pt-4 pb-4">
+                                <span class="separator"><span class="separator-line dashed"></span></span>
+                            </div>
+                            <p class="mt-4"><%= post.description %></p>
+                            
+                            
+                        </div>
+                        <img src="<%= '/uploads/' + post.media %>" alt="" style="padding: 10%;" class="blog-home-img" />
+                    </div>
+                </div>
+
+                <!-- <div class="section drop-shadow rounded mt-4">
+                    <div class="post-comm-box background-white over-hide">
+                        <h5 class="mb-3">Leave a comment</h5>
+                        <div class="subscribe-box mt-3">
+                            <input type="text" value="" placeholder="Your Name *" class="form-control" />
+                        </div>
+                        <div class="subscribe-box mt-4">
+                            <input type="text" value="" placeholder="Email *" class="form-control" />
+                        </div>
+                        <div class="subscribe-box mt-4">
+                            <input type="text" value="" placeholder="Website" class="form-control" />
+                        </div>
+                        <div class="subscribe-box mt-4">
+                            <textarea name="message" placeholder="Comment *"
+                                class="for-textarea form-control"></textarea>
+                        </div>
+                        <button class="btn btn-primary btn-round btn-long mt-4" type="button"><span>submit
+                                comment</span></button>
+                    </div>
+                </div> -->
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+    </div>
+</div>

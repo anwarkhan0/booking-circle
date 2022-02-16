@@ -1,0 +1,144 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Rental Vehicles</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">Rental Vehicle</li>
+            <li class="breadcrumb-item active">Edit Vehicle</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <% if(flashMessage.length> 0){ %>
+      <div class="alert alert-danger m-3 mt-2" style="z-index: 10001;" role="alert" id="flashMessage">
+        <%= flashMessage %>
+      </div>
+      <% } %>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-success">
+            <div class="card-header">
+              <h3 class="card-title">Edit Rental Vehicle</h3>
+            </div>
+            <div class="card-body">
+              <form action="/admin/Vehicles/editVehicle" method="POST">
+                <h5><b>Rental Vehicle Details</b></h5>
+                <hr>
+                <div class="row">
+                  <div class="form-group col-md-4">
+                    <label>Vehicle Category</label>
+                    <select class="form-control" name="category" required>
+                      <% for(let i=0; i< cats.length; i++) { %>
+                        <option value="<%= JSON.stringify({id: cats[i].id, name: cats[i].name}) %>"
+                          <%=vehicle.categoryId==cats[i].id ? 'selected' : '' %> ><%= cats[i].name %>
+                        </option>
+                        <% } %>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label>Vehicle No</label>
+                    <input type="text" name="vehicleNo" value="<%= vehicle.vehicleNo %>"
+                      placeholder="Example: X-2652" class="form-control" required>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label>Vehicle Model</label>
+                    <input type="number" value="<%= vehicle.model %>" name="model" placeholder="Example: 2002"
+                      class="form-control" required>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label>Vehicle Status</label>
+                    <select class="form-control" name="status" required>
+                      <option value="true" <%=vehicle.availabilityStatus ? 'selected' : '' %> >Available</option>
+                      <option value="false" <%=!vehicle.availabilityStatus ? 'selected' : '' %>>Not Available
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label>Vehicle Seats</label>
+                    <input type="number" name="seats" value="<%= vehicle.seats %>" placeholder="Example: 5"
+                      class="form-control" required>
+                  </div>
+
+                  <!-- New Data -->
+                  <div class="form-group col-md-4">
+                    <label>Vehicle Video</label>
+                    <input type="url" name="videoUrl" value="<%= vehicle.videoUrl %>" placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0"
+                      class="form-control" required>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label>Vehicle Description</label>
+                    <textarea name="description" id="" rows="5" class="form-control" placeholder="Vehicle Description . . ."
+                      required> <%= vehicle.description %> </textarea>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label>Vehicle Features</label>
+                    <textarea name="features" id="" rows="5" class="form-control" placeholder="Vehicle Features . . ."
+                      required><%= vehicle.features %> </textarea>
+                  </div>
+                  <!-- /New Data -->
+                </div>
+
+                <h5><b>Owner Details</b></h5>
+                <hr>
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label>Owner Name</label>
+                    <input type="text" value="<%= vehicle.ownerName %>" name="ownerName"
+                      placeholder="Example: Asif Khan" class="form-control" required>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label>Owner CNIC #</label>
+                    <input type="number" name="ownerCNIC" value="<%= vehicle.ownerCNIC %>"
+                      placeholder="Example: xxxxx-xxxxxxx-x" class="form-control" required>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label>Owner Contact</label>
+                    <input type="number" name="ownerContact" value="<%= vehicle.ownerContact %>"
+                      placeholder="Example: 03xxxxxxxxx" class="form-control" required>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label>Owner Address</label>
+                    <input type="text" name="ownerAddress" value="<%= vehicle.ownerAddress %>"
+                      placeholder="Example: Mingora, Landikas" class="form-control" required>
+                  </div>
+                </div>
+
+                <hr>
+
+                <input type="hidden" name="id" value="<%= vehicle.id %>">
+
+                <hr>
+                <div class="form-group">
+                  <a class="btn btn-secondary btn-sm" name="cancel" type="submit" onclick="history.back(-1)">Cancel</a>
+                  <button class="btn btn-success btn-sm" type="submit" name="">Edit Rental Vehicle</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>

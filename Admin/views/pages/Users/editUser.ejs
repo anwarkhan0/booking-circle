@@ -1,0 +1,124 @@
+<div id="spinner" >
+  <div id="spinning-wheel" class="text-center ">
+    <div class="spinner-grow" style="width: 4rem; height: 4rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>System Users</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <!-- <li class="breadcrumb-item">Hotel</li> -->
+              <li class="breadcrumb-item active">Edit System User</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <% if(flashMessage.length> 0){ %>
+        <div class="alert alert-danger m-3 mt-2" style="z-index: 10001;" role="alert" id="flashMessage">
+          <%= flashMessage %>
+        </div>
+        <% } %>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-success">
+              <div class="card-header">
+                <h3 class="card-title">Edit System User</h3>
+              </div>
+              <div class="card-body">
+                <form action="/admin/Users/editUser" method="POST">
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label>Name</label>
+                      <input type="text" name="name" value="<%= user.name %>" placeholder="Example: Example" class="form-control" required>
+                    </div>
+                
+                    <div class="form-group col-md-3">
+                      <label>User Contact</label>
+                      <input type="number" value="<%= user.contact %>" name="contact" placeholder="Example: 03460973906" class="form-control" required>
+                    </div>
+                
+                    <div class="form-group col-md-3">
+                      <label>User CNIC</label>
+                      <input type="number" name="cnic" value="<%= user.CNIC %>" placeholder="Example: xxxxx-xxxxxxx-x" class="form-control" required>
+                    </div>
+                
+                    <div class="form-group col-md-3">
+                      <label>User Gender</label>
+                      <select class="form-control" name="gender">
+                        <option value="male" <%= user.gender === 'male' ? 'selected' : '' %> >Male</option>
+                        <option value="female" <%= user.gender === 'female' ? 'selected' : '' %> >Female</option>
+                        <option value="other" <%= user.gender === 'other' ? 'selected' : '' %> >Other</option>
+                      </select>
+                    </div>
+                
+                    <div class="form-group col-md-3">
+                      <label>Location</label>
+                      <select class="form-control select2" name="location">
+                        <% for(let i=0; i< areas.length; i++) { %> 
+                        <option value="<%= JSON.stringify( {id: areas[i].id, areaName: areas[i].name} ) %>" <%= areas[i].name===user.location ? 'selected' : '' %> ><%= areas[i].name %></option>
+                        <% } %> 
+                      </select>
+                    </div>
+                
+                    <div class="form-group col-md-6">
+                      <label>User Address</label>
+                      <input type="text" name="address" value="<%= user.address %>" placeholder="Example: House No, Street No, City, District." class="form-control"
+                        required>
+                    </div>
+                
+                    <div class="form-group col-md-6">
+                      <label>User Type</label>
+                      <select class="form-control" style="width: 100%;" name="type">
+                        <option value="superAdmin" <%= user.type === 'admin' ? 'selected' : '' %> >Admin Dashbaord User</option>
+                        <option value="admin" <%= user.type === 'owner' ? 'selected' : '' %> >Owner</option>
+                      </select>
+                    </div>
+                  </div>
+                
+                  <hr>
+                
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label>User Email</label>
+                      <input type="text" name="email" value="<%= user.email %>" placeholder="example@gmail.com" class="form-control" required>
+                    </div>
+                
+                    <div class="form-group col-md-6">
+                      <label>Enter New Password</label>
+                      <input type="hidden" value="<%= user.password %>" name="oldPassword">
+                      <input type="password" name="password" value="" placeholder="Change Password" class="form-control" />
+                    </div>
+                  </div>
+                
+                  <input type="hidden" value="<%= user.id %>" name="userId" />
+                
+                  <hr>
+                  <div class="form-group">
+                
+                    <a class="btn btn-secondary btn-sm" name="cancel" type="submit" onclick="history.back(-1)">Cancel</a>
+                    <button class="btn btn-success btn-sm" type="submit" name="">Add User</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>

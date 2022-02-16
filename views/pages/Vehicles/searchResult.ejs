@@ -1,0 +1,23 @@
+
+    <div class="section padding-top-bottom over-hide background-grey">
+        <div class="container">
+            <div class="row justify-content-center">
+    
+                <% for(let i= 0; i< vehicles.length; i++){ %> 
+                <div class="col-md-6 mt-4 mt-md-0" data-scroll-reveal="enter bottom move 50px over 0.7s after 0.2s">
+                    <div class="room-box background-white">
+                        <div class="room-name"><%= vehicles[i].model %> </div>
+                        <img src="../img/gallery/1920-x-1080-car-01.jpg" alt="">
+                        <div class="room-box-in">
+                            <h5 class=""><%= vehicles[i].categoryName %></h5>
+                            <p class="mt-3"><%= vehicles[i].description.substr(0, 100) + '....' %></p>
+                            <a class="mt-1 btn btn-primary" href="/Vehicles/vehicleBooking/<%= vehicles[i].id %>">book car</a>
+                            <!-- <a class="mt-1 btn btn-info" href="/Appartments/vehicleBooking">Full Info</a> -->
+                        </div>
+                    </div>
+                </div>
+                <% } %> 			
+                
+            </div>
+        </div>
+    </div>

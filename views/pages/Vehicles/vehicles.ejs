@@ -1,0 +1,126 @@
+<!-- Primary Page Layout
+	================================================== -->
+<div class="section big-55-height over-hide z-bigger customClass">
+
+	<div class="parallax parallax-top" style="background-image: url('../img/gallery/3547446.jpg')"></div>
+	<div class="dark-over-pages"></div>
+
+	<div class="hero-center-section pages">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-12 parallax-fade-top">
+					<div class="hero-text">Rental Vehicles</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container sliderContainerClass" id="fixed">
+	<div class="row">
+		<div class="col-12 mt-3">
+			<div class="booking-hero-wrap customWrapper">
+				<div class="row justify-content-center customJustifier">
+					<div class="col-md-3 col-sm-1 customCol">
+						<select class="wide nice-select">
+							<option data-display="Location"></option>
+							<% for(let i= 0; i< areas.length; i++){ %> 
+							<option value="<%= areas[i].id %>"><%= areas[i].name %></option>
+							<% } %> 
+						</select>
+					</div>
+
+
+					<div class="col-md-3 col-sm-6 customCol">
+						<select name="adults" class="wide">
+							<option data-display="adults">adults</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						</select>
+					</div>
+
+					<div class="col-md-3 col-sm-6 customCol">
+						<select name="children" class="wide">
+							<option data-display="children">childrens</option>
+							<option value="0">0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						</select>
+					</div>
+
+					<div class="col-6 col-sm-4 col-lg-2">
+						<a class="booking-button" href="search.html">Search!</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="section padding-top-bottom over-hide background-grey">
+	<div class="container">
+		<div class="row justify-content-center">
+
+			<% for(let i= 0; i< vehicles.length; i++){ %> 
+			<div class="col-md-6 mt-4 mt-md-0" data-scroll-reveal="enter bottom move 50px over 0.7s after 0.2s">
+				<div class="room-box background-white">
+					<div class="room-name"><%= vehicles[i].model %> </div>
+					<img src="<%= '/uploads/' + vehicles[i].gallery[0] %>" alt="">
+					<div class="room-box-in">
+						<h5 class=""><%= vehicles[i].categoryName %></h5>
+						<p class="mt-3"><%= vehicles[i].description.substr(0, 100) + '....' %></p>
+						<a class="mt-1 btn btn-primary" href="/Vehicles/vehicleBooking/<%= vehicles[i].id %>">book car</a>
+						<!-- <a class="mt-1 btn btn-info" href="/Appartments/vehicleBooking">Full Info</a> -->
+					</div>
+				</div>
+			</div>
+			<% } %> 			
+			
+		</div>
+	</div>
+</div>
+
+<!-- <div class="section background-dark over-hide">
+		<div class="container-fluid py-4">
+			<div class="row">
+				<div class="col-sm-6 col-lg-3">
+					<a href="services.html">
+						<div class="img-wrap services-wrap">
+							<img src="../img/ser-1.jpg" alt="">
+							<div class="services-text-over">spa salon</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-sm-6 col-lg-3 pt-4 pt-sm-0">
+					<a href="services.html">
+						<div class="img-wrap services-wrap">
+							<img src="../img/ser-2.jpg" alt="">
+							<div class="services-text-over">restaurant</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-sm-6 col-lg-3 pt-4 pt-lg-0">
+					<a href="services.html">
+						<div class="img-wrap services-wrap">
+							<img src="../img/ser-3.jpg" alt="">
+							<div class="services-text-over">pool</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-sm-6 col-lg-3 pt-4 pt-lg-0">
+					<a href="services.html">
+						<div class="img-wrap services-wrap">
+							<img src="../img/ser-4.jpg" alt="">
+							<div class="services-text-over">activities</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div> -->

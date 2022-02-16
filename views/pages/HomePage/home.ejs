@@ -1,0 +1,696 @@
+﻿<!-- Primary Page Layout
+	================================================== -->
+
+<div class="section background-dark over-hide">
+	<!-- <br><br> -->
+	<div class="hero-center-section">
+		<div class="container">
+			<div class="row justify-content-center">
+
+				<div class="col-10 col-sm-8 parallax-fade-top">
+					<div class="hero-text" style="margin-top: 90px;">Online Best Hotels & Tours Booking</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="slideshow">
+		<div class="slide slide--current parallax-top">
+			<figure class="slide__figure">
+				<div class="slide__figure-inner">
+					<div class="slide__figure-img" style="background-image: url(img/1.jpg)"></div>
+					<div class="slide__figure-reveal"></div>
+				</div>
+			</figure>
+		</div>
+		<div class="slide parallax-top">
+			<figure class="slide__figure">
+				<div class="slide__figure-inner">
+					<div class="slide__figure-img" style="background-image: url(img/2.jpg)"></div>
+					<div class="slide__figure-reveal"></div>
+				</div>
+			</figure>
+		</div>
+		<div class="slide parallax-top">
+			<figure class="slide__figure">
+				<div class="slide__figure-inner">
+					<div class="slide__figure-img" style="background-image: url(img/3.jpg)"></div>
+					<div class="slide__figure-reveal"></div>
+				</div>
+			</figure>
+		</div>
+
+		<!-- revealer -->
+		<div class="revealer">
+			<div class="revealer__item revealer__item--left"></div>
+			<div class="revealer__item revealer__item--right"></div>
+		</div>
+		<nav class="arrow-nav fade-top">
+			<button class="arrow-nav__item arrow-nav__item--prev">
+				<svg class="icon icon--nav">
+					<use xlink:href="#icon-nav"></use>
+				</svg>
+			</button>
+			<button class="arrow-nav__item arrow-nav__item--next">
+				<svg class="icon icon--nav">
+					<use xlink:href="#icon-nav"></use>
+				</svg>
+			</button>
+		</nav>
+		<!-- navigation -->
+
+		<nav class="nav fade-top">
+			<button class="nav__button">
+				<span class="nav__button-text"></span>
+			</button>
+			<h2 class="nav__chapter">discover your paradise</h2>
+			<div class="toc">
+				<a class="toc__item" href="#entry-1">
+					<span class="toc__item-title">discover your paradise</span>
+				</a>
+				<a class="toc__item" href="#entry-2">
+					<span class="toc__item-title">unpretentious comfort</span>
+				</a>
+				<a class="toc__item" href="#entry-3">
+					<span class="toc__item-title">azure sea sparkling</span>
+				</a>
+			</div>
+		</nav>
+		<!-- little sides -->
+		<div class="slideshow__indicator"></div>
+		<div class="slideshow__indicator"></div>
+	</div>
+</div>
+
+<div class="container sliderContainerClass" id="fixed">
+	<div class="row">
+		<div class="col-12 mt-3">
+			<div class="booking-hero-wrap customWrapper">
+				<div class="row justify-content-center customJustifier">
+					<div class="col-5 customCol">
+						<!-- <select class="wide nice-select select2"> -->
+						<select class="wide nice-select ">
+							<option data-display="Please Select Service"></option>
+							<option value="">Hotel</option>
+							<option value="">Apartment</option>
+							<option value="">Rental Vehicles</option>
+						</select>
+					</div>
+
+					<div class="col-5 customCol">
+						<!-- <select class="wide nice-select select2"> -->
+						<select class="wide nice-select">
+							<option data-display="Please Select Location"></option>
+							<% for(let i= 0; i< areas.length; i++){ %> 
+							<option value="<%= areas[i].id %>"><%= areas[i].name %></option>
+							<% } %> 
+						</select>
+					</div>
+
+
+					<!-- <div class="col-5 no-mob">
+						<div class="row">
+							<div class="col-6">
+								<select name="adults" class="wide">
+									<option data-display="adults">adults</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+								</select>
+							</div>
+
+							<div class="col-6">
+								<select name="children" class="wide">
+									<option data-display="children">children</option>
+									<option value="0">0</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+								</select>
+							</div>
+						</div>
+					</div> -->
+					<div class="col-6  col-sm-4 col-lg-2">
+						<a class="booking-button customBtnSearch" href="search.html">Search Now!</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="section padding-top-bottom over-hide">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 align-self-center">
+				<div class="row justify-content-center">
+					<div class="col-10 text-center">
+						<div class="subtitle text-center mb-4">hotel Booking Ring</div>
+						<h2 class="text-center">Hotels</h2>
+						<p class="text-center mt-5">
+							Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+							Nemo voluptas voluptates provident asperiores officiis aperiam autem quia omnis similique!
+							Nemo at deserunt ad alias, doloribus dolore quo fugiat. Magnam, quos.
+						</p>
+						<a class="mt-5 btn btn-primary" href="/Hotels/list">check availability</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 mt-4 mt-md-0">
+				<div class="img-wrap">
+					<img src="img/rooms.png" alt="">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="section background-grey over-hide">
+	<div class="container-fluid px-0">
+		<div class="row mx-0">
+			<div class="col-xl-6 px-0">
+				<div class="img-wrap" id="rev-1">
+					<img src="img/room1.jpg" alt="">
+					<div class="text-element-over">Apartments</div>
+				</div>
+			</div>
+			<div class="col-xl-6 px-0 mt-4 mt-xl-0 align-self-center">
+				<div class="row justify-content-center">
+					<div class="col-10 col-xl-8 text-center">
+						<h3 class="text-center">Apartments</h3>
+						<p class="text-center mt-4">
+							Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+							Nemo voluptas voluptates provident asperiores officiis aperiam autem quia omnis similique!
+							Nemo at deserunt ad alias, doloribus dolore quo fugiat. Magnam, quos.
+						</p>
+						<a class="mt-5 btn btn-primary" href="/Appartments/allappartments">check availability</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row mx-0">
+			<div class="col-xl-6 px-0 mt-4 mt-xl-0 pb-5 pb-xl-0 align-self-center">
+				<div class="row justify-content-center">
+					<div class="col-10 col-xl-8 text-center">
+						<h3 class="text-center">Rental Vehicles</h3>
+						<p class="text-center mt-4">
+							Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+							Nemo voluptas voluptates provident asperiores officiis aperiam autem quia omnis similique!
+							Nemo at deserunt ad alias, doloribus dolore quo fugiat. Magnam, quos.
+						</p>
+						<a class="mt-5 btn btn-primary" href="/Vehicles/list">check availability</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-6 px-0 order-first order-xl-last mt-5 mt-xl-0">
+				<div class="img-wrap" id="rev-2">
+					<img src="img/gallery/Luxury-Cars.jpeg" alt="">
+					<div class="text-element-over">Rental Vehicles</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Hotels -->
+<div class="section background-dark over-hide">
+	<div class="container py-4">
+		<h3 class="text-center  text-white subtitle with-line mb-5">OUR HOTELS IN</h3>
+		<div class="row">
+			<div class="col-sm-6 col-lg-8">
+				<a href="/Hotels/<%= areas[0].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/gallery/kalam.jpg" alt="" class="image-cover">
+						<div class="services-text-over btn btn-primary fit-content"><%= areas[0].name %></div>
+					</div>
+				</a>
+			</div>
+
+			<div class="col-sm-6 col-lg-4 ">
+				<a href="/Hotels/<%= areas[1].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/gallery/bahrain.jpg" alt="" class="image-cover">
+						<div class="services-text-over btn btn-primary fit-content"><%= areas[1].name %></div>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="section background-dark over-hide">
+	<div class="container py-4">
+		<div class="row">
+
+			<div class="col-sm-6 col-lg-4">
+				<a href="/Hotels/<%= areas[2].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/gallery/Malam-Jabba.jpeg" alt="" class="image-cover">
+						<div class="services-text-over btn btn-primary fit-content"><%= areas[2].name %></div>
+					</div>
+				</a>
+			</div>
+			<div class="col-sm-6 col-lg-4 ">
+				<a href="/Hotels/<%= areas[3].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/ser-3.jpg" alt="" class="image-cover">
+						<div class="services-text-over btn btn-primary fit-content"><%= areas[3].name %></div>
+					</div>
+				</a>
+			</div>
+			<div class="col-sm-6 col-lg-4 pt-4 pt-lg-0">
+				<a href="/Hotels/<%= areas[4].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/ser-4.jpg" alt="" class="image-cover">
+						<div class="services-text-over btn btn-primary fit-content"><%= areas[4].name %></div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<a class="booking-button mt-5" href="/Hotels/list">Explore Hotels in all Cities</a>
+	</div>
+</div>
+
+<div class="section background-dark over-hide">
+	<div class="container py-4">
+		<h3 class="text-center  text-white subtitle with-line mb-5">OUR APARTMENTS IN</h3>
+		<div class="row">
+			<div class="col-sm-6 col-lg-8">
+				<a href="/Appartments/<%= areas[0].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/gallery/1.jpg" alt="" class="image-cover">
+						<div class="services-text-over btn btn-primary fit-content"><%= areas[0].name %></div>
+					</div>
+				</a>
+			</div>
+
+			<div class="col-sm-6 col-lg-4 ">
+				<a href="/Appartments/<%= areas[1].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/gallery/2.jpg" alt="" class="image-cover">
+						<div class="services-text-over btn btn-primary fit-content"><%= areas[1].name %></div>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="section background-dark over-hide">
+	<div class="container py-4">
+		<div class="row">
+
+			<div class="col-sm-6 col-lg-4">
+				<a href="/Appartments/<%= areas[2].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/gallery/3.jpg" alt="" class="image-cover">
+						<div class="services-text-over btn btn-primary fit-content"><%= areas[2].name %></div>
+					</div>
+				</a>
+			</div>
+			<div class="col-sm-6 col-lg-4 ">
+				<a href="/Appartments/<%= areas[3].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/gallery/4.jpg" alt="" class="image-cover">
+						<div class="services-text-over btn btn-primary fit-content"><%= areas[3].name %></div>
+					</div>
+				</a>
+			</div>
+			<div class="col-sm-6 col-lg-4 pt-4 pt-lg-0">
+				<a href="/Appartments/<%= areas[4].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/gallery/5.jpg" alt="" class="image-cover">
+						<div class="services-text-over btn btn-primary fit-content"><%= areas[4].name %></div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<a class="booking-button mt-5" href="/Appartments/allappartments">Explore all Apartments</a>
+	</div>
+</div>
+
+
+
+
+<!-- Tours to -->
+
+<div class="section background-dark over-hide">
+	<div class="container py-4">
+
+		<h3 class="text-center  text-white subtitle with-line mb-5">Our Tours to</h3>
+
+		<div class="row">
+			<div class="col-sm-6 col-lg-4 ">
+				<a href="/Tours/<%= areas[0].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/gallery/bahrain.jpg" alt="" class="image-cover">
+						<div class="services-text-over booking-button fit-content"><%= areas[0].name %></div>
+					</div>
+				</a>
+			</div>
+			<div class="col-sm-6 col-lg-8">
+				<a href="/Tours/<%= areas[1].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/gallery/kalam.jpg" alt="" class="image-cover">
+						<div class="services-text-over booking-button fit-content"><%= areas[1].name %></div>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section background-dark over-hide">
+	<div class="container py-4">
+		<div class="row">
+
+			<div class="col-sm-6 col-lg-4">
+				<a href="/Tours/<%= areas[2].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/gallery/Malam-Jabba.jpeg" alt="" class="image-cover">
+						<div class="services-text-over booking-button fit-content"><%= areas[2].name %></div>
+					</div>
+				</a>
+			</div>
+			<div class="col-sm-6 col-lg-4 ">
+				<a href="/Tours/<%= areas[3].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/ser-3.jpg" alt="" class="image-cover">
+						<div class="services-text-over booking-button fit-content"><%= areas[3].name %></div>
+					</div>
+				</a>
+			</div>
+			<div class="col-sm-6 col-lg-4 pt-4 pt-lg-0">
+				<a href="/Tours/<%= areas[4].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/ser-4.jpg" alt="" class="image-cover">
+						<div class="services-text-over booking-button fit-content"><%= areas[4].name %></div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<a class="booking-button mt-5" href="/Tours/tours">Tours in all Cities</a>
+
+	</div>
+</div>
+
+
+<div class="section background-dark over-hide">
+	<div class="container py-4">
+
+		<h3 class="text-center  text-white subtitle with-line mb-5">OUR Cars</h3>
+
+		<div class="row">
+			<div class="col-sm-6 col-lg-4 ">
+				<a href="/Vehicles/<%= areas[0].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/gallery/Luxury-Cars.jpeg" alt="" class="image-cover">
+						<div class="services-text-over booking-button fit-content"><%= areas[0].name %></div>
+					</div>
+				</a>
+			</div>
+			<div class="col-sm-6 col-lg-8">
+				<a href="/Vehicles/<%= areas[1].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/gallery/Rangerover_tracking.jpg" alt="" class="image-cover">
+						<div class="services-text-over booking-button fit-content"><%= areas[1].name %></div>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section background-dark over-hide">
+	<div class="container py-4">
+		<div class="row">
+
+			<div class="col-sm-6 col-lg-4">
+				<a href="/Vehicles/<%= areas[2].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/gallery/CullinanMagma.jpg" alt="" class="image-cover">
+						<div class="services-text-over booking-button fit-content"><%= areas[2].name %> </div>
+					</div>
+				</a>
+			</div>
+			<div class="col-sm-6 col-lg-4 ">
+				<a href="/Vehicles/<%= areas[3].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/gallery/Toyota-Corolla.jpg" alt="" class="image-cover">
+						<div class="services-text-over booking-button fit-content"><%= areas[3].name %> </div>
+					</div>
+				</a>
+			</div>
+			<div class="col-sm-6 col-lg-4 pt-4 pt-lg-0">
+				<a href="/Vehicles/<%= areas[4].name %>">
+					<div class="img-wrap services-wrap h-300">
+						<img src="img/gallery/Corolla-2018.jpg" alt="" class="image-cover">
+						<div class="services-text-over booking-button fit-content"><%= areas[4].name %></div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<a class="booking-button mt-5" href="/vehicles/list">Cars in all Cities</a>
+
+	</div>
+</div>
+
+<div class="section background-dark over-hide">
+	<br>
+	<hr style="background-color: white;">
+	<br>
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-8 align-self-center">
+				<!-- <div class="subtitle with-line text-center mb-4"></div> -->
+				<h3 class="text-center  text-white subtitle with-line mb-5">Feedback</h3>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="section padding-top-bottom-big over-hide">
+	<div class="parallax" style="background-image: url('img/5.jpg')"></div>
+	<div class="section z-bigger">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-8">
+					<div id="owl-sep-1" class="owl-carousel owl-theme">
+						<div class="item">
+							<div class="quote-sep">
+								<h4>"Chilling out on the bed in your hotel room watching television, while wearing
+									your own pajamas, is sometimes the best part of a vacation."</h4>
+								<h6>Jason Salvatore</h6>
+							</div>
+						</div>
+						<div class="item">
+							<div class="quote-sep">
+								<h4>"Every good day starts off with a cappuccino, and there's no place better to
+									enjoy some frothy caffeine than at the Thalia Hotel."</h4>
+								<h6>Terry Mitchell</h6>
+							</div>
+						</div>
+						<div class="item">
+							<div class="quote-sep">
+								<h4>"I still enjoy traveling a lot. I mean, it amazes me that I still get excited in
+									hotel rooms just to see what kind of shampoo they've left me."</h4>
+								<h6>Michael Brighton</h6>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="section padding-top-bottom-small background-dark-2 over-hide">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<h5 class="color-grey">A new dimension of luxury.</h5>
+				<p class="color-white mt-3 mb-3"><em>our presentation, 0:48 min</em></p>
+				<a href="https://vimeo.com/54851233" class="video-button" data-fancybox><i class="fa fa-play"></i></a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- GET IN TOUCH -->
+
+<div class="section padding-top z-bigger">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<div class="subtitle with-line text-center mb-4">get in touch</div>
+				<!-- <h3 class="text-center padding-bottom-small">drop us a line</h3> -->
+				<h3 class="text-center padding-bottom-small">Subscribe Booking Ring!</h3>
+			</div>
+			<!-- <div class="section clearfix"></div> -->
+			<!-- <div class="col-md-6 col-lg-4">
+				<div class="address">
+					<div class="address-in text-left">
+						<p class="color-black">Address:</p>
+					</div>
+					<div class="address-in text-right">
+						<p>1<sup>st</sup> Floor, Sultan Tower </p>
+					</div>
+				</div>
+				<div class="address">
+					<div class="address-in text-left">
+						<p class="color-black">City:</p>
+					</div>
+					<div class="address-in text-right">
+						<p>Mingora, Swat</p>
+					</div>
+				</div>
+			</div> -->
+			<!-- <div class="col-md-6 col-lg-4">
+				<div class="address">
+					<div class="address-in text-left">
+						<p class="color-black">Phone:</p>
+					</div>
+					<div class="address-in text-right">
+						<p>+92 346 097 3906</p>
+					</div>
+				</div>
+				<div class="address">
+					<div class="address-in text-left">
+						<p class="color-black">Email:</p>
+					</div>
+					<div class="address-in text-right">
+						<p>info@bookingring.com</p>
+					</div>
+				</div>
+			</div> -->
+			<!-- <div class="section clearfix"></div>
+			<div class="col-md-8 text-center mt-5" data-scroll-reveal="enter bottom move 50px over 0.7s after 0.2s">
+				<p class="mb-0"><em>Available at: 8 AM - 10 PM</em></p>
+				<h2 class="text-opacity">+92 346 097 3906</h2>
+			</div> -->
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<div class="subscribe-home">
+					<input type="text" placeholder="your email here" />
+					<button>subscribe</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Room Gallery -->
+
+<div class="section">
+	<div id="owl-sep-2" class="owl-carousel owl-theme">
+		<div class="item">
+			<a href="img/gallery/1.jpg" data-fancybox="gallery">
+				<div class="img-wrap gallery-small">
+					<img src="img/gallery/1-s.jpg" alt="">
+				</div>
+			</a>
+		</div>
+		<div class="item">
+			<a href="img/gallery/2.jpg" data-fancybox="gallery">
+				<div class="img-wrap gallery-small">
+					<img src="img/gallery/2-s.jpg" alt="">
+				</div>
+			</a>
+		</div>
+		<div class="item">
+			<a href="img/gallery/3.jpg" data-fancybox="gallery">
+				<div class="img-wrap gallery-small">
+					<img src="img/gallery/3-s.jpg" alt="">
+				</div>
+			</a>
+		</div>
+		<div class="item">
+			<a href="img/gallery/4.jpg" data-fancybox="gallery">
+				<div class="img-wrap gallery-small">
+					<img src="img/gallery/4-s.jpg" alt="">
+				</div>
+			</a>
+		</div>
+		<div class="item">
+			<a href="img/gallery/5.jpg" data-fancybox="gallery">
+				<div class="img-wrap gallery-small">
+					<img src="img/gallery/5-s.jpg" alt="">
+				</div>
+			</a>
+		</div>
+		<div class="item">
+			<a href="img/gallery/6.jpg" data-fancybox="gallery">
+				<div class="img-wrap gallery-small">
+					<img src="img/gallery/6-s.jpg" alt="">
+				</div>
+			</a>
+		</div>
+		<div class="item">
+			<a href="img/gallery/7.jpg" data-fancybox="gallery">
+				<div class="img-wrap gallery-small">
+					<img src="img/gallery/7-s.jpg" alt="">
+				</div>
+			</a>
+		</div>
+		<div class="item">
+			<a href="img/gallery/8.jpg" data-fancybox="gallery">
+				<div class="img-wrap gallery-small">
+					<img src="img/gallery/8-s.jpg" alt="">
+				</div>
+			</a>
+		</div>
+		<div class="item">
+			<a href="img/gallery/9.jpg" data-fancybox="gallery">
+				<div class="img-wrap gallery-small">
+					<img src="img/gallery/9-s.jpg" alt="">
+				</div>
+			</a>
+		</div>
+		<div class="item">
+			<a href="img/gallery/10.jpg" data-fancybox="gallery">
+				<div class="img-wrap gallery-small">
+					<img src="img/gallery/10-s.jpg" alt="">
+				</div>
+			</a>
+		</div>
+		<div class="item">
+			<a href="img/gallery/1.jpg" data-fancybox="gallery">
+				<div class="img-wrap gallery-small">
+					<img src="img/gallery/1-s.jpg" alt="">
+				</div>
+			</a>
+		</div>
+		<div class="item">
+			<a href="img/gallery/2.jpg" data-fancybox="gallery">
+				<div class="img-wrap gallery-small">
+					<img src="img/gallery/2-s.jpg" alt="">
+				</div>
+			</a>
+		</div>
+		<div class="item">
+			<a href="img/gallery/3.jpg" data-fancybox="gallery">
+				<div class="img-wrap gallery-small">
+					<img src="img/gallery/3-s.jpg" alt="">
+				</div>
+			</a>
+		</div>
+		<div class="item">
+			<a href="img/gallery/4.jpg" data-fancybox="gallery">
+				<div class="img-wrap gallery-small">
+					<img src="img/gallery/4-s.jpg" alt="">
+				</div>
+			</a>
+		</div>
+		<div class="item">
+			<a href="img/gallery/5.jpg" data-fancybox="gallery">
+				<div class="img-wrap gallery-small">
+					<img src="img/gallery/5-s.jpg" alt="">
+				</div>
+			</a>
+		</div>
+	</div>
+</div>
