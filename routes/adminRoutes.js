@@ -131,7 +131,7 @@ const {
   postDeleteUser,
 } = require("../controllers/adminController");
 const router = express.Router();
-const isAuth = require("../Admin/middleware/isAuth");
+const isAuth = require("../middleware/isAuth");
 const { body } = require("express-validator");
 const Appartment = require("../Admin/models/Appartment");
 

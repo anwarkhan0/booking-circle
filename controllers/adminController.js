@@ -54,7 +54,7 @@ const postLogin = (req, res, next) => {
         .compare(password, user.password)
         .then((doMatch) => {
           if (doMatch) {
-            req.session.loggedIn = true;
+            req.session.adminLoggedIn = true;
             req.session.user = user;
             req.flash("message", "Welcome " + user.name);
             return req.session.save((err) => {

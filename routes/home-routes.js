@@ -26,7 +26,7 @@ const {
     contact, postFeedback,
 
     // User
-    login, signup, verification, forgotPassword, passwordReset, postSignUp,
+    login, signup, verification, forgotPassword, passwordReset, postSignUp, postLogin, logout,
 
     // Terms And Conditions
     termsAndCondition,
@@ -38,6 +38,7 @@ const {
 const router = express.Router();
 const { body } = require("express-validator");
 const UsersModel = require('../models/usersModel');
+const isAuth = require('../middleware/userAuth');
 
 // HomePage
 router.get('/', home)
@@ -86,6 +87,7 @@ router.post('/Contact/feedback', postFeedback)
 
 // User
 router.get('/User/login', login)
+router.get('/User/logout', logout)
 router.get('/User/signup', signup)
 router.get('/User/verification', verification)
 router.get('/User/forgotPassword', forgotPassword)
@@ -129,6 +131,19 @@ router.post(
       .trim(),
   ],
   postSignUp
+);
+
+router.post(
+  "/user/postLogin",
+  [
+    body("email")
+      .isEmail()
+      .withMessage("Please enter a valid email address.")
+      .normalizeEmail()
+      .trim(),
+    body("password", "Password has to be valid.").trim(),
+  ],
+  postLogin
 );
 
 // Terms And Conditions
