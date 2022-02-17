@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { validationResult } = require("express-validator");
+const { validationResult, check } = require("express-validator");
 
 const HomeModel = require('../models/homeModel');
 const AreasModel = require('../Admin/models/Location');
@@ -102,6 +102,48 @@ const searchHotels = async (req, res, next)=>{
     hotels: hotels
   })
 }
+
+const findHotels = async (req, res, next)=> {
+
+  const checkIn = req.query.checkIn;
+  const checkOut = req.query.checkOut;
+  const location = req.query.area;
+  const adults = req.query.adults;
+
+  const queryParams = {};
+  if(location){
+    queryParams.area = location;
+  }
+  
+  //areas
+  const areas = await AreasModel.find();
+  //hotels
+  const hotels = await HotelsModel.find(queryParams);
+
+  // const matchedHotels = [];
+  // for (let i = 0; i < hotels.length; i++) {
+  //   if (checkIn) {
+  //     for(let j= 0; hotels[i].rooms.length; j++){
+        
+        
+  //     }
+  //   }
+  //   if (checkOut) {
+  //     console.log(checkOut);
+  //   }
+  //   if (adults) {
+  //     console.log(adults);
+  //   }
+  // }
+  res.render('./pages/Hotels/hotels', {
+      loggedIn: req.session.userLoggedIn,
+      hotels: hotels,
+      areas: areas
+  });
+  
+
+}
+
 
 const hotelGallery = async (req, res, next) => {
   const hotelId = req.params.id;
@@ -492,7 +534,7 @@ module.exports = {
     appartments, allappartments, apartmentBooking, appartmentGallery, postAppartmentBooking, searchAppartments,
     
     //hotels
-    hotels, hotelGallery, hotelRooms, roomBooking, postRoomBooking,
+    hotels, hotelGallery, hotelRooms, roomBooking, postRoomBooking, findHotels,
     
     //vehicles
     vehicles, vehicleBooking, galleryAppRoom, searchHotels, postVehicleBooking, searchVehicles,

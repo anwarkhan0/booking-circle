@@ -8,7 +8,7 @@ const {
     appartments, allappartments, apartmentBooking, appartmentGallery, postAppartmentBooking, searchAppartments,
     
     //hotels
-    hotels, hotelGallery, hotelRooms,  roomBooking, searchHotels, postRoomBooking,
+    hotels, hotelGallery, hotelRooms,  roomBooking, searchHotels, postRoomBooking, findHotels,
     
     //vehicles
     vehicles, vehicleBooking, galleryAppRoom, postVehicleBooking, searchVehicles,
@@ -52,12 +52,14 @@ router.get('/Appartments/appartmentGallery', appartmentGallery)
 router.get('/Appartments/:location', searchAppartments)
 router.post('/Appartments/apartmentBooking', postAppartmentBooking)
 
+router.get('/Hotels/availableHotels/', findHotels)
 router.get('/Hotels/list', hotels)
 router.get('/Hotels/hotelGallery/:id', hotelGallery)
 router.get('/Hotels/rooms/:id', hotelRooms)
 router.get('/Hotels/roomBooking/:hotelId', roomBooking)
 router.post('/hotels/roomBooking', postRoomBooking)
 router.get('/Hotels/:location', searchHotels)
+
 
 router.get('/Vehicles/list', vehicles)
 router.get('/Vehicles/vehicleBooking/:id', vehicleBooking)

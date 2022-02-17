@@ -40,27 +40,9 @@
 							const checkOut = $('#end-date-1').val();
 							const area = $('#area').val();
 							const adults = $('#adults').val();
-							const data = JSON.stringify({
-								checkIn: checkIn,
-								checkOut: checkOut,
-								area: area,
-								adults: adults
-							});
-							fetch('/Hotels/search/', {
-								method: "POST",
-								body: data,
-								headers: {
-									"Content-type": "application/json; charset=UTF-8"
-								}
-							})
-								// Checking Status
-								.then(response => {
-									if (response.status === 200) {
-										console.log('succes')
-									} else {
-										alert('oop\'s something went wrong, Please Try again')
-									}
-								})
+							
+							window.location.href = `/Hotels/availableHotels/?checkIn=${checkIn}&checkOut=${checkOut}&area=${area}&adults=${adults}`;
+							
 						});
 
 						$("#roomBooking").click(function () {
