@@ -72,7 +72,12 @@ const HotelsSchema = new Schema({
         features: String,
         videoUrl: String,
         gallery: [String],
-        reservations: [Object]
+        reservations: [{
+          checkIn: Date,
+          checkOut: Date,
+          adults: Number,
+          children: Number
+        }]
       },
     ],
     required: false,

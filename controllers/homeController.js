@@ -105,8 +105,8 @@ const searchHotels = async (req, res, next)=>{
 
 const findHotels = async (req, res, next)=> {
 
-  const checkIn = req.query.checkIn;
-  const checkOut = req.query.checkOut;
+  const checkIn = (req.query.checkIn).replace(/\./g, "/");
+  const checkOut = new Date((req.query.checkOut).replace(/\./g, "/"));
   const location = req.query.area;
   const adults = req.query.adults;
 
@@ -120,24 +120,42 @@ const findHotels = async (req, res, next)=> {
   //hotels
   const hotels = await HotelsModel.find(queryParams);
 
-  // const matchedHotels = [];
-  // for (let i = 0; i < hotels.length; i++) {
-  //   if (checkIn) {
-  //     for(let j= 0; hotels[i].rooms.length; j++){
+  const filteredHotels = [];
+  for (let i = 0; i < hotels.length; i++) {
+ 
+    let availibilityFlag = true;
+    if (checkIn) {
+
+      for(let j= 0; j < hotels[i].rooms.length; j++){
+
+        let reservations = hotels[i].rooms[j].reservations;
         
-        
-  //     }
-  //   }
-  //   if (checkOut) {
-  //     console.log(checkOut);
-  //   }
-  //   if (adults) {
-  //     console.log(adults);
-  //   }
-  // }
+        for(let k= 0; k < reservations.length; k++){
+          console.log(reservations[k].checkOut)
+          // if(reservations[k].checkOut < new Date(checkIn)){
+          //   console.log('room found')
+          //   availibilityFlag = true;
+          // }
+        }
+
+      }
+
+    }
+
+    // if (checkOut) {
+    //   // console.log(checkOut);
+    // }
+    // if (adults) {
+    //   console.log(adults);
+    // }
+
+    if(availibilityFlag){
+      filteredHotels.push(hotels[i]);
+    }
+  }
   res.render('./pages/Hotels/hotels', {
       loggedIn: req.session.userLoggedIn,
-      hotels: hotels,
+      hotels: filteredHotels,
       areas: areas
   });
   
@@ -243,8 +261,8 @@ const postRoomBooking = async (req, res, next)=>{
   
   const hotelId = req.body.hotelId;
   const roomId = req.body.roomId;
-  const checkIn = req.body.checkIn;
-  const checkOut = req.body.checkOut;
+  const checkIn = (req.body.checkIn).replace(/\./g, "/");
+  const checkOut = (req.body.checkOut).replace(/\./g, "/");
   const adults = req.body.adults;
   const children = req.body.children;
 
@@ -252,8 +270,8 @@ const postRoomBooking = async (req, res, next)=>{
   for(let i= 0; i< hotel.rooms.length; i++){
     if(hotel.rooms[i].id === roomId){
       hotel.rooms[i].reservations.push({
-        checkIn: checkIn,
-        checkOut: checkOut,
+        checkIn: new Date(checkIn),
+        checkOut: new Date(checkOut),
         adults: adults,
         children: children
       })
