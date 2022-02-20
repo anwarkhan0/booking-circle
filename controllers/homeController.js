@@ -625,11 +625,128 @@ const verification = (req, res, next) =>
 const forgotPassword = (req, res, next) =>
   res.render("./pages/User/forgotPassword", {
     loggedIn: req.session.userLoggedIn,
+    flashMessage: '',
+    email: ''
   });
-const passwordReset = (req, res, next) =>
-  res.render("./pages/User/passwordReset", {
-    loggedIn: req.session.userLoggedIn,
-  });
+
+const sendMail = async (req, res, next) => {
+
+  const userEmail = req.body.email;
+
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    res.render("./pages/User/forgotPassword", {
+      loggedIn: req.session.userLoggedIn,
+      flashMessage: errors.errors[0].msg,
+      email: userEmail
+    });
+  }else{
+    const nodemailer = require("nodemailer");
+
+    const user = await UsersModel.findOne({email: userEmail});
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "jacksparrow0340@gmail.com",
+        pass: "cin>>mygoogleid1234",
+      },
+    });
+  
+    const mailOptions = {
+      from: process.env.EMAIL,
+      to: userEmail,
+      subject: "Reset Password",
+      html: `<p>You requested password please click the link below to reset your password.</p> <hr> <a href='http://localhost:3000/User/passwordReset/?u=${user.id}'>reset password</a>`,
+    };
+  
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+        res.redirect('/User/forgotPassword')
+      } else {
+        console.log("Email sent: " + info.response);
+        res.redirect('/user/mailSent')
+      }
+    }); 
+  }
+
+
+  // const mailjet = require("node-mailjet").connect(
+  //   "61e0d98a1a3d43d7aa28d3be0ab1d613",
+  //   "d6d4bc2548bcb79cc5ea4c003ee8665b"
+  // );
+  // const request = mailjet.post("send", { version: "v3.1" }).request({
+  //   Messages: [
+  //     {
+  //       From: {
+  //         Email: "jacksparr0340@gmail.com",
+  //         Name: "anwar",
+  //       },
+  //       To: [
+  //         {
+  //           Email: userEmail,
+  //           Name: "anwar",
+  //         },
+  //       ],
+  //       Subject: "Reset Password",
+  //       TextPart: "Password reset",
+  //       HTMLPart:
+  //         "<p>you requested password reset click the link below to reset your password. <br> <a href='http://localhost:3000/User/passwordReset'>new password</a>",
+  //       CustomID: "AppGettingStartedTest",
+  //     },
+  //   ],
+  // });
+  // request
+  //   .then((result) => {
+  //     console.log(result.body);
+  //     res.redirect('/')
+  //   })
+  //   .catch((err) => {
+  //     console.log(err.statusCode);
+  //   });
+
+
+
+
+};
+
+const passwordReset = async (req, res, next) =>{
+  const id = req.query.u;
+  try {
+    res.render("./pages/User/passwordReset", {
+      userId: id,
+      loggedIn: req.session.userLoggedIn,
+    });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/User/forgotPassword");
+  }
+  
+}
+
+//post request for password reset
+const resetPassword = async (req, res, next)=>{
+  const userId = req.body.userId;
+  const password = req.body.password;
+
+  // generate salt to hash password
+  const salt = await bcrypt.genSalt(16);
+  // now we set user password to hashed password
+  const hashedPassword = await bcrypt.hash(password, salt);
+
+  try {
+    const user = await UsersModel.findById(userId);
+    user.password = hashedPassword;
+    user.save();
+    console.log('password reset succesffully');
+    res.redirect("/");
+  } catch (err) {
+    console.log(err);
+    res.redirect("/User/forgotPassword");
+  }
+}
+ 
 
 //postLogin
 const postLogin = (req, res, next) => {
@@ -748,6 +865,57 @@ const termsAndCondition = (req, res, next) =>
 const faqs = (req, res, next) =>
   res.render("./pages/FAQs/faqs", { loggedIn: req.session.userLoggedIn });
 
+const payment = (req, res, next)=>{
+  res.render('./pages/Payment/checkout', {layout: false, loggedIn: req.session.userLoggedIn});
+}
+
+const postPayment = async (req, res) => {
+  const stripe = require('stripe')(process.env.SECRET_KEY)
+  
+  const product = await stripe.products.create({ name: "Service" });
+  const price = await stripe.prices.create({
+    product: product.id,
+    unit_amount: 2000,
+    currency: "usd",
+  });
+
+  const session = await stripe.checkout.sessions.create({
+
+    line_items: [
+
+      {
+
+        // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+
+        price: price.id,
+
+        quantity: 1,
+
+      },
+
+    ],
+
+    mode: 'payment',
+
+    success_url: `http://localhost:3000/payment/success`,
+
+    cancel_url: `http://localhost:3000/payment/cancel`,
+
+  });
+
+
+  res.redirect(303, session.url);
+
+};
+
+const paymentSuccess = (req, res, next)=>{
+  res.render('./pages/Payment/success',  {layout: false, loggedIn: req.session.userLoggedIn});
+}
+
+const paymentCancel = (req, res, next)=>{
+  res.render('./pages/Payment/cancel',  {layout: false, loggedIn: req.session.userLoggedIn});
+}
+
 module.exports = {
   // HomePage
   home,
@@ -806,10 +974,18 @@ module.exports = {
   postSignUp,
   postLogin,
   logout,
+  sendMail,
+  resetPassword,
 
   // Terms And Conditions
   termsAndCondition,
 
   // FAQ's
   faqs,
+
+  //payment
+  payment,
+  postPayment,
+  paymentSuccess,
+  paymentCancel
 };

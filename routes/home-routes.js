@@ -26,13 +26,19 @@ const {
     contact, postFeedback,
 
     // User
-    login, signup, verification, forgotPassword, passwordReset, postSignUp, postLogin, logout,
+    login, signup, verification, forgotPassword, passwordReset, postSignUp, postLogin, logout, sendMail, resetPassword,
 
     // Terms And Conditions
     termsAndCondition,
 
     // FAQ's
-    faqs
+    faqs,
+
+    //payment
+    payment,
+    postPayment,
+    paymentSuccess,
+    paymentCancel
 
 } = require('../controllers/homeController');
 const router = express.Router();
@@ -42,6 +48,11 @@ const isAuth = require('../middleware/userAuth');
 
 // HomePage
 router.get('/', home)
+
+router.get('/payment', payment)
+router.post('/payment', postPayment)
+router.get('/payment/success', paymentSuccess)
+router.get('/paymentCancel', paymentCancel)
 
 ///////////////////////// Services ///////////////////////////
 // Appartments
@@ -94,7 +105,23 @@ router.get('/User/logout', logout)
 router.get('/User/signup', signup)
 router.get('/User/verification', verification)
 router.get('/User/forgotPassword', forgotPassword)
+router.post('/User/forgotPassword',
+  body("email")
+    .isEmail()
+    .custom((value, { req }) => {
+      return UsersModel.findOne({ email: value }).then((user) => {
+        if (!user) {
+          return Promise.reject(
+            "E-Mail does not exist Please enter a valid one."
+          );
+        }
+      });
+    })
+    .normalizeEmail()
+    .trim()
+    , sendMail)
 router.get('/User/passwordReset', passwordReset)
+router.post('/User/passwordReset', resetPassword)
 router.post(
   "/signUp",
   [
@@ -148,6 +175,8 @@ router.post(
   ],
   postLogin
 );
+
+router.get('/user/mailSent', (req, res, next)=> res.render('./pages/User/emailSent', {layout: false}));
 
 // Terms And Conditions
 router.get('/TermsConditions/termsAndCondition', termsAndCondition)
