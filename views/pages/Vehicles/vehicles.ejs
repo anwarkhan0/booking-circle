@@ -22,18 +22,18 @@
 			<div class="booking-hero-wrap customWrapper">
 				<div class="row justify-content-center customJustifier">
 					<div class="col-md-3 col-sm-1 customCol">
-						<select class="wide nice-select">
-							<option data-display="Location"></option>
+						<select class="wide nice-select" id="area">
+							<option data-display="Location" value=""></option>
 							<% for(let i= 0; i< areas.length; i++){ %> 
-							<option value="<%= areas[i].id %>"><%= areas[i].name %></option>
+							<option value="<%= areas[i].name %>"><%= areas[i].name %></option>
 							<% } %> 
 						</select>
 					</div>
 
 
 					<div class="col-md-3 col-sm-6 customCol">
-						<select name="adults" class="wide">
-							<option data-display="adults">adults</option>
+						<select name="adults" class="wide" id="adults">
+							<option data-display="adults" value="false">adults</option>
 							<option value="1">1</option>
 							<option value="2">2</option>
 							<option value="3">3</option>
@@ -55,7 +55,7 @@
 					</div>
 
 					<div class="col-6 col-sm-4 col-lg-2">
-						<a class="booking-button" href="search.html">Search!</a>
+						<a class="booking-button" href="javascript: ;" id="searchVehicles">Search!</a>
 					</div>
 				</div>
 			</div>

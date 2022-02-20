@@ -35,6 +35,12 @@
 							}
 						});
 
+						$("#homeSearchCats").click(()=>{
+							const cat = $('#category').val();
+							const area = $('#areaName').val();
+							window.location.href = `/${cat}/${area}`;
+						})
+
 						$("#searchHotels").click(function () {
 							const checkIn = $('#start-date-1').val();
 							const checkOut = $('#end-date-1').val();
@@ -42,6 +48,24 @@
 							const adults = $('#adults').val();
 							
 							window.location.href = `/Hotels/availableHotels/?checkIn=${checkIn}&checkOut=${checkOut}&area=${area}&adults=${adults}`;
+							
+						});
+
+						$("#searchAppartments").click(function () {
+							const checkIn = $('#start-date-1').val();
+							const checkOut = $('#end-date-1').val();
+							const area = $('#area').val();
+							const adults = $('#adults').val();
+							
+							window.location.href = `/Appartments/availableAppartments/?checkIn=${checkIn}&checkOut=${checkOut}&area=${area}&adults=${adults}`;
+							
+						});
+
+						$("#searchVehicles").click(function () {
+							const area = $('#area').val();
+							const adults = $('#adults').val();
+							
+							window.location.href = `/Vehicles/availableVehicles/?area=${area}&adults=${adults}`;
 							
 						});
 
