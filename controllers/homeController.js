@@ -935,25 +935,32 @@ const stripePayment = async (req, res) => {
     currency: "usd",
   });
 
-  const session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+  try{
+    const session = await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+  
+          price: price.id,
+  
+          quantity: 1,
+        },
+      ],
+  
+      mode: "payment",
+  
+      success_url: `${process.env.BASE_URL}/payment/success`,
+  
+      cancel_url: `${process.env.BASE_URL}/`,
+    });
+  
+    res.redirect(303, session.url);
+  }catch(err){
+    console.log(err);
+    res.redirect('/payment/error');
+  }
 
-        price: price.id,
-
-        quantity: 1,
-      },
-    ],
-
-    mode: "payment",
-
-    success_url: `${process.env.BASE_URL}/payment/success`,
-
-    cancel_url: `${process.env.BASE_URL}/`,
-  });
-
-  res.redirect(303, session.url);
+  
 };
 
 const paymentSuccess = (req, res, next)=>{
@@ -962,6 +969,10 @@ const paymentSuccess = (req, res, next)=>{
 
 const paymentCancel = (req, res, next)=>{
   res.render('./pages/Payment/cancel',  {layout: false, loggedIn: req.session.userLoggedIn});
+}
+
+const paymentError = (req, res, next)=>{
+  res.render('./pages/Payment/error',  {layout: false, loggedIn: req.session.userLoggedIn});
 }
 
 module.exports = {
@@ -1036,5 +1047,6 @@ module.exports = {
   safepayPayment,
   stripePayment,
   paymentSuccess,
-  paymentCancel
+  paymentCancel,
+  paymentError
 };

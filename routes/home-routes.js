@@ -39,7 +39,8 @@ const {
     safepayPayment,
     stripePayment,
     paymentSuccess,
-    paymentCancel
+    paymentCancel,
+    paymentError
 
 } = require('../controllers/homeController');
 const router = express.Router();
@@ -55,6 +56,7 @@ router.get('/payment/paymentSafepay', safepayPayment)
 router.get('/payment/paymentStripe', stripePayment)
 router.get('/payment/success', paymentSuccess)
 router.get('/payment/cancel', paymentCancel)
+router.get('/payment/error', paymentError)
 
 ///////////////////////// Services ///////////////////////////
 // Appartments
