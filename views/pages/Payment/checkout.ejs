@@ -1,22 +1,139 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Make Payment</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
-    <script src="https://js.stripe.com/v3/"></script>
-  </head>
-  <body>
-    <section>
-      <div class="product">
-        <div class="description">
-          <h3>Booking</h3>
-          <h5>2000</h5>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Payfast Payment Integration</title>
+  <style>
+    body {
+      background-color: #EBEAEF
+    }
+
+    .container {
+      flex-wrap: wrap
+    }
+
+    .card {
+      border: none;
+      border-radius: 10px;
+      background-color: #4270C8;
+      width: 350px;
+      margin-top: -60px
+    }
+
+    p.mb-1 {
+      font-size: 25px;
+      color: #9FB7FD
+    }
+
+    .btn-primary {
+      border: none;
+      background: #5777DE;
+      margin-bottom: 60px
+    }
+
+    .btn-primary small {
+      color: #9FB7FD
+    }
+
+    .btn-primary span {
+      font-size: 13px
+    }
+
+    .card.two {
+      border-top-right-radius: 60px;
+      border-top-left-radius: 0
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 2rem
+    }
+
+    .form-control {
+      border: none;
+      border-radius: 0;
+      outline: 0;
+      border-bottom: 1.5px solid #E6EBEE
+    }
+
+    .form-control:focus {
+      box-shadow: none;
+      border-radius: 0;
+      border-bottom: 2px solid #8A97A8
+    }
+
+    .form-control-placeholder {
+      position: absolute;
+      top: 15px;
+      left: 10px;
+      transition: all 200ms;
+      opacity: 0.5;
+      font-size: 80%
+    }
+
+    .form-control:focus+.form-control-placeholder,
+    .form-control:valid+.form-control-placeholder {
+      font-size: 80%;
+      transform: translate3d(0, -90%, 0);
+      opacity: 1;
+      top: 10px;
+      color: #8B92AC
+    }
+
+    .btn-block {
+      border: none;
+      border-radius: 8px;
+      background-color: #506CCF;
+      padding: 10px 0 12px
+    }
+
+    .btn-block:focus {
+      box-shadow: none
+    }
+
+    .btn-block span {
+      font-size: 15px;
+      color: #D0E6FF
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container d-flex justify-content-center">
+
+    <div class="d-flex flex-column justify-content-between">
+      <a href="/" class="m-2 btn btn-secondary"><i class="fas fa-long-arrow-alt-left m-2"></i>Cancel Booking</a>
+      <div class="card mt-3 p-5">
+        <div class="logo mb-3"><img src="https://imgur.com/zydrQCr.png"></div>
+        <div>
+          <!-- <p class="mb-1">Choose Payment Method</p> -->
+          <h4 class="mb-5 text-white">Choose Payment Method</h4>
         </div>
       </div>
-      <form action="/payment" method="POST">
-        <button type="submit" id="checkout-button">Checkout</button>
-      </form>
-    </section>
-  </body>
+      <div class="card two bg-white px-5 py-4 mb-3">
+        <div class="form-group">
+          <!-- <input type="number" name="amount" class="form-control" id="amount" required> -->
+          <!-- <label class="form-control-placeholder" for="amount">Payment Amount</label> -->
+        </div>
+        <a href="/payment/paymentSafepay" class="btn btn-primary btn-block btn-lg mt-1 mb-2"><span>SafePay<i
+              class="fas fa-long-arrow-alt-right ml-2"></i></span></a>
+        <a href="/payment/paymentStripe" class="btn btn-primary btn-block btn-lg mt-1 mb-2"><span>Stripe<i
+              class="fas fa-long-arrow-alt-right ml-2"></i></span></a>
+        <a href="#" class="btn btn-primary btn-block btn-lg mt-1 mb-2"><span>JazzCash<i
+              class="fas fa-long-arrow-alt-right ml-2"></i></span></a>
+        <a href="#" class="btn btn-primary btn-block btn-lg mt-1 mb-2"><span>EasyPaisa<i
+              class="fas fa-long-arrow-alt-right ml-2"></i></span></a>
+      </div>
+    </div>
+  </div>
+</body>
+
 </html>

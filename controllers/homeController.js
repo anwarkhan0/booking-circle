@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const { validationResult, check } = require("express-validator");
+const Safepay = require("safepay");
 
 const HomeModel = require("../models/homeModel");
 const AreasModel = require("../Admin/models/Location");
@@ -869,9 +870,64 @@ const payment = (req, res, next)=>{
   res.render('./pages/Payment/checkout', {layout: false, loggedIn: req.session.userLoggedIn});
 }
 
-const postPayment = async (req, res) => {
-  const stripe = require('stripe')(process.env.SECRET_KEY)
+const safepayPayment = async (req, res) => {
+  // const amount = req.body.amount;
   
+  const config = {
+    environment: "sandbox",
+    sandbox: {
+      baseUrl: "https://sandbox.api.getsafepay.com",
+      apiKey: process.env.SAFEPAY_API_KEY,
+      apiSecret: process.env.SAFEPAY_SECRET_KEY,
+    }
+    // production: {
+    //   baseUrl: "https://api.getsafepay.com",
+    //   apiKey: process.env.API_KEY,
+    //   apiSecret: process.env.API_SECRET,
+    // },
+  };
+
+  let sfpy = new Safepay(config);
+
+  console.log(sfpy)
+
+  // --------------------
+  // Payments
+  // --------------------
+
+  // initialize payment
+  sfpy.payments
+    .create({
+      amount: 2000,
+      currency: "PKR",
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .then((data) => {
+      console.log(data)
+      return sfpy.checkout.create({
+        tracker: data.data.token,
+        orderId: "1234",
+        source: "custom",
+        cancelUrl: `${process.env.BASE_URL}/cancel`,
+        redirectUrl: `${process.env.BASE_URL}/paymentComplete`,
+      });
+    })
+    .then((url) => {
+      console.log(url);
+      res.redirect(url);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.redirect('/')
+    });
+
+};
+
+const stripePayment = async (req, res) => {
+  const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
   const product = await stripe.products.create({ name: "Service" });
   const price = await stripe.prices.create({
     product: product.id,
@@ -880,32 +936,24 @@ const postPayment = async (req, res) => {
   });
 
   const session = await stripe.checkout.sessions.create({
-
     line_items: [
-
       {
-
         // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
 
         price: price.id,
 
         quantity: 1,
-
       },
-
     ],
 
-    mode: 'payment',
+    mode: "payment",
 
-    success_url: `http://localhost:3000/payment/success`,
+    success_url: `${process.env.BASE_URL}/payment/success`,
 
-    cancel_url: `http://localhost:3000/payment/cancel`,
-
+    cancel_url: `${process.env.BASE_URL}/`,
   });
 
-
   res.redirect(303, session.url);
-
 };
 
 const paymentSuccess = (req, res, next)=>{
@@ -985,7 +1033,8 @@ module.exports = {
 
   //payment
   payment,
-  postPayment,
+  safepayPayment,
+  stripePayment,
   paymentSuccess,
   paymentCancel
 };

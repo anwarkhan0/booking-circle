@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "16.10.0"
+    "node": "16.13.2"
   },
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
@@ -30,6 +31,7 @@
     "multer": "^1.4.3",
     "node-mailjet": "^3.3.7",
     "nodemailer": "^6.7.2",
+    "safepay": "^0.0.2",
     "stripe": "^8.203.0"
   },
   "devDependencies": {

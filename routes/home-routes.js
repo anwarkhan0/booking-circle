@@ -36,7 +36,8 @@ const {
 
     //payment
     payment,
-    postPayment,
+    safepayPayment,
+    stripePayment,
     paymentSuccess,
     paymentCancel
 
@@ -50,9 +51,10 @@ const isAuth = require('../middleware/userAuth');
 router.get('/', home)
 
 router.get('/payment', payment)
-router.post('/payment', postPayment)
+router.get('/payment/paymentSafepay', safepayPayment)
+router.get('/payment/paymentStripe', stripePayment)
 router.get('/payment/success', paymentSuccess)
-router.get('/paymentCancel', paymentCancel)
+router.get('/payment/cancel', paymentCancel)
 
 ///////////////////////// Services ///////////////////////////
 // Appartments
