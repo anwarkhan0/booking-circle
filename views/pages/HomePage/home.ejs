@@ -15,31 +15,17 @@
 	</div>
 
 	<div class="slideshow">
+		<% for(let i= 0; i< sliderGallery.length; i++){ %> 
 		<div class="slide slide--current parallax-top">
 			<figure class="slide__figure">
 				<div class="slide__figure-inner">
-					<div class="slide__figure-img" style="background-image: url(img/1.jpg)"></div>
+					<div class="slide__figure-img" style="background-image: url(uploads/<%= sliderGallery[i] %>)"></div>
 					<div class="slide__figure-reveal"></div>
 				</div>
 			</figure>
 		</div>
-		<div class="slide parallax-top">
-			<figure class="slide__figure">
-				<div class="slide__figure-inner">
-					<div class="slide__figure-img" style="background-image: url(img/2.jpg)"></div>
-					<div class="slide__figure-reveal"></div>
-				</div>
-			</figure>
-		</div>
-		<div class="slide parallax-top">
-			<figure class="slide__figure">
-				<div class="slide__figure-inner">
-					<div class="slide__figure-img" style="background-image: url(img/3.jpg)"></div>
-					<div class="slide__figure-reveal"></div>
-				</div>
-			</figure>
-		</div>
-
+		<% } %> 
+		
 		<!-- revealer -->
 		<div class="revealer">
 			<div class="revealer__item revealer__item--left"></div>

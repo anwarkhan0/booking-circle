@@ -11,13 +11,34 @@ const ToursModel = require("../Admin/models/Tour");
 const NewsModel = require("../Admin/models/Updates");
 const UsersModel = require("../models/usersModel");
 const FeedbackModel = require("../Admin/models/Feedback");
+const sliderGallery = require('../Admin/models/SliderGallery');
 const { json } = require("express");
 
 // HomePage
 const home = async (req, res, next) => {
   const areas = await HomeModel.fetchAreas();
+  const sliderImages = await sliderGallery.findOne();
+
+  const hotels = [];
+  // Get the count of all hotels
+  await HotelsModel.countDocuments().exec((err, count)=> {
+
+    for(let i= 0; i< count; i++){
+      let random = Math.floor(Math.random() * count);
+
+      // Again query all users but only fetch one offset by our random #
+      HotelsModel.findOne().skip(random).exec(
+        function (err, result) {
+          // random hotel
+          hotels.push(result);
+        })
+
+    }
+  })
+  console.log(hotels);
   res.render("./pages/HomePage/home", {
     loggedIn: req.session.userLoggedIn,
+    sliderGallery: sliderImages.images,
     areas: areas,
   });
 };

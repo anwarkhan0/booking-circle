@@ -2218,7 +2218,7 @@ const postAddSliderImages = async (req, res) => {
   if (existingGallery) {
     console.log("the gallery updated");
     req.flash("message", "Slider Gallery Updated Successfully");
-    res.redirect("/SliderImages/sliderImagesList");
+    res.redirect("/admin/SliderImages/sliderImagesList");
   } else {
     const gallery = new sliderGallery({
       images: sliderImages,
@@ -2229,7 +2229,7 @@ const postAddSliderImages = async (req, res) => {
         // console.log(result);
         console.log("Created Gallery");
         req.flash("message", "Slider Gallery Added Successfully");
-        res.redirect("/SliderImages/sliderImagesList");
+        res.redirect("/admin/SliderImages/sliderImagesList");
       })
       .catch((err) => {
         console.log(err);
@@ -2258,7 +2258,7 @@ const postDeleteSliderGalleryImage = (req, res) => {
       if (images.length === 0) {
         res.redirect("/");
       } else {
-        res.redirect("/SliderImages/sliderImagesList");
+        res.redirect("/admin/SliderImages/sliderImagesList");
       }
     })
     .catch((err) => console.log(err));

@@ -45,7 +45,7 @@
                   <% for(let i=0; i< gallery.images.length; i++) { %>
                     <div class="col-md-4" id="<%= 'elem' + i %>">
                       <img src="<%= '/uploads/' + gallery.images[i] %>" class="img-thumbnail" width="304" height="236">
-                        <button style="width: 90%" class="btn btn-danger btn-sm" onclick="<%= `deleteImageHandler('/admin/SliderGallery/deleteImage', ${gallery.id}, ${gallery.images[i]}, ${'elem' + i}` %>">Delete <i
+                        <button style="width: 90%" class="btn btn-danger btn-sm" onclick="<%= `deleteImageHandler('/admin/SliderGallery/deleteImage', '${gallery.id}', '${gallery.images[i]}', '${'elem' + i}')` %>">Delete <i
                             class="fa fa-trash"></i></button>
                     </div>
                     <% } %>
