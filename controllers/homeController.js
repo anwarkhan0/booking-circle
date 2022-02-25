@@ -13,33 +13,30 @@ const UsersModel = require("../models/usersModel");
 const FeedbackModel = require("../Admin/models/Feedback");
 const sliderGallery = require('../Admin/models/SliderGallery');
 const { json } = require("express");
+const Hotel = require("../Admin/models/Hotel");
 
 // HomePage
 const home = async (req, res, next) => {
   const areas = await HomeModel.fetchAreas();
-  const sliderImages = await sliderGallery.findOne();
+  const sliderGall = await sliderGallery.findOne();
 
-  const hotels = [];
-  // Get the count of all hotels
-  await HotelsModel.countDocuments().exec((err, count)=> {
+  // const hotels = await HotelsModel.distinct();
+  // const ourHotelsIn = [];
 
-    for(let i= 0; i< count; i++){
-      let random = Math.floor(Math.random() * count);
+  // let oldRandom = null;
+  // for(let i= 0; i< 5; i++){
+  //   let random = Math.floor(Math.random() * count);
+  //   if(random != oldRandom){
+  //     ourHotelsIn.push(hotels[random]);
+  //   }
+  //   oldRandom = random;
+  // }
 
-      // Again query all users but only fetch one offset by our random #
-      HotelsModel.findOne().skip(random).exec(
-        function (err, result) {
-          // random hotel
-          hotels.push(result);
-        })
-
-    }
-  })
-  console.log(hotels);
   res.render("./pages/HomePage/home", {
     loggedIn: req.session.userLoggedIn,
-    sliderGallery: sliderImages.images,
+    sliderGallery: sliderGall.images,
     areas: areas,
+    hotels: ourHotelsIn
   });
 };
 
