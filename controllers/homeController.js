@@ -20,6 +20,16 @@ const home = async (req, res, next) => {
   const areas = await HomeModel.fetchAreas();
   const sliderGall = await sliderGallery.findOne();
 
+  console.log(await HotelsModel.aggregate([
+    {
+      $group: {
+        _id: "$area",
+        hotel: { $first: '$name' }
+      }
+    }
+  ]))
+  // console.log(rhotels)
+
   // const hotels = await HotelsModel.distinct();
   // const ourHotelsIn = [];
 
@@ -36,7 +46,7 @@ const home = async (req, res, next) => {
     loggedIn: req.session.userLoggedIn,
     sliderGallery: sliderGall.images,
     areas: areas,
-    hotels: ourHotelsIn
+    hotels: []
   });
 };
 
