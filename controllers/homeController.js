@@ -602,13 +602,40 @@ const gallerytandh = (req, res, next) =>
   });
 
 // News
-const news = async (req, res, next) => {
-  const news = await NewsModel.find();
-  res.render("./pages/News/news", {
-    loggedIn: req.session.userLoggedIn,
-    news: news,
-  });
+const news = (req, res, next) => {
+
+  const page = req.query.page;
+  const ITEMS_PER_PAGE = 20;
+  let totalItems;
+  
+  NewsModel.find()
+    .count()
+    .then(news => {
+      totalItems = news;
+      return NewsModel.find()
+        .skip((page - 1) * ITEMS_PER_PAGE)
+        .limit(ITEMS_PER_PAGE);
+    })
+    .then(news => {
+      res.render('./pages/News/news', {
+        loggedIn: req.session.userLoggedIn,
+        news: news,
+        totalProducts: totalItems,
+        hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+        hasPreviousPage: page > 1,
+        nextPage: page + 1,
+        previousPage: page - 1,
+        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
+      });
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+    
 };
+
 const exploreNews = async (req, res, next) => {
   const id = req.params.id;
   try {
