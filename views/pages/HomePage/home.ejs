@@ -230,55 +230,18 @@
 	<div class="container py-4">
 		<h3 class="text-center  text-white subtitle with-line mb-5">OUR APARTMENTS IN</h3>
 		<div class="row">
-			<div class="col-sm-6 col-lg-8">
-				<a href="/Appartments/<%= areas[0].name %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="img/gallery/1.jpg" alt="" class="image-cover">
-						<div class="services-text-over btn btn-primary fit-content"><%= areas[0].name %></div>
-					</div>
-				</a>
-			</div>
 
-			<div class="col-sm-6 col-lg-4 ">
-				<a href="/Appartments/<%= areas[1].name %>">
+			<% for(let i= 0; i< appartments.length; i++){ %> 
+			<div class="col-sm-6 col-lg-4 mb-3">
+				<a href="/Appartments/<%= appartments[i].area %>">
 					<div class="img-wrap services-wrap h-300">
-						<img src="img/gallery/2.jpg" alt="" class="image-cover">
-						<div class="services-text-over btn btn-primary fit-content"><%= areas[1].name %></div>
+						<img src="uploads/<%= appartments[i].gallery[0] %>" alt="" class="image-cover">
+						<div class="services-text-over btn btn-primary fit-content"><%= appartments[i].area %></div>
 					</div>
 				</a>
 			</div>
-		</div>
-	</div>
-</div>
-
-<div class="section background-dark over-hide">
-	<div class="container py-4">
-		<div class="row">
-
-			<div class="col-sm-6 col-lg-4">
-				<a href="/Appartments/<%= areas[2].name %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="img/gallery/3.jpg" alt="" class="image-cover">
-						<div class="services-text-over btn btn-primary fit-content"><%= areas[2].name %></div>
-					</div>
-				</a>
-			</div>
-			<div class="col-sm-6 col-lg-4 ">
-				<a href="/Appartments/<%= areas[3].name %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="img/gallery/4.jpg" alt="" class="image-cover">
-						<div class="services-text-over btn btn-primary fit-content"><%= areas[3].name %></div>
-					</div>
-				</a>
-			</div>
-			<div class="col-sm-6 col-lg-4 pt-4 pt-lg-0">
-				<a href="/Appartments/<%= areas[4].name %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="img/gallery/5.jpg" alt="" class="image-cover">
-						<div class="services-text-over btn btn-primary fit-content"><%= areas[4].name %></div>
-					</div>
-				</a>
-			</div>
+			<% } %> 
+			
 		</div>
 		<a class="booking-button mt-5" href="/Appartments/allappartments">Explore all Apartments</a>
 	</div>
@@ -295,58 +258,21 @@
 		<h3 class="text-center  text-white subtitle with-line mb-5">Our Tours to</h3>
 
 		<div class="row">
-			<div class="col-sm-6 col-lg-4 ">
-				<a href="/Tours/<%= areas[0].name %>">
+			<% for(let i= 0; i< tours.length; i++){ %> 
+			<div class="col-sm-6 col-lg-4 mb-3">
+				<a href="/Tours/<%= tours[i].toPlace %>">
 					<div class="img-wrap services-wrap h-300">
-						<img src="img/gallery/bahrain.jpg" alt="" class="image-cover">
-						<div class="services-text-over booking-button fit-content"><%= areas[0].name %></div>
+						<img src="img/Mahodand-lake-kalam.jpg" alt="" class="image-cover">
+						<div class="services-text-over booking-button fit-content"><%= tours[i].toPlace %></div>
 					</div>
 				</a>
 			</div>
-			<div class="col-sm-6 col-lg-8">
-				<a href="/Tours/<%= areas[1].name %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="img/gallery/kalam.jpg" alt="" class="image-cover">
-						<div class="services-text-over booking-button fit-content"><%= areas[1].name %></div>
-					</div>
-				</a>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="section background-dark over-hide">
-	<div class="container py-4">
-		<div class="row">
-
-			<div class="col-sm-6 col-lg-4">
-				<a href="/Tours/<%= areas[2].name %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="img/gallery/Malam-Jabba.jpeg" alt="" class="image-cover">
-						<div class="services-text-over booking-button fit-content"><%= areas[2].name %></div>
-					</div>
-				</a>
-			</div>
-			<div class="col-sm-6 col-lg-4 ">
-				<a href="/Tours/<%= areas[3].name %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="img/ser-3.jpg" alt="" class="image-cover">
-						<div class="services-text-over booking-button fit-content"><%= areas[3].name %></div>
-					</div>
-				</a>
-			</div>
-			<div class="col-sm-6 col-lg-4 pt-4 pt-lg-0">
-				<a href="/Tours/<%= areas[4].name %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="img/ser-4.jpg" alt="" class="image-cover">
-						<div class="services-text-over booking-button fit-content"><%= areas[4].name %></div>
-					</div>
-				</a>
-			</div>
+			<% } %> 
 		</div>
 		<a class="booking-button mt-5" href="/Tours/tours">Tours in all Cities</a>
-
 	</div>
 </div>
+
 
 
 <div class="section background-dark over-hide">
@@ -355,56 +281,18 @@
 		<h3 class="text-center  text-white subtitle with-line mb-5">OUR Cars</h3>
 
 		<div class="row">
+			<% for(let i= 0; i< vehicles.length; i++){ %> 
 			<div class="col-sm-6 col-lg-4 ">
-				<a href="/Vehicles/<%= areas[0].name %>">
+				<a href="/Vehicles/<%= vehicles[i].ownerAddress %>">
 					<div class="img-wrap services-wrap h-300">
-						<img src="img/gallery/Luxury-Cars.jpeg" alt="" class="image-cover">
-						<div class="services-text-over booking-button fit-content"><%= areas[0].name %></div>
+						<img src="uploads/<%= vehicles[i].gallery[0] %>" alt="" class="image-cover">
+						<div class="services-text-over booking-button fit-content"><%= vehicles[i].ownerAddress %></div>
 					</div>
 				</a>
 			</div>
-			<div class="col-sm-6 col-lg-8">
-				<a href="/Vehicles/<%= areas[1].name %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="img/gallery/Rangerover_tracking.jpg" alt="" class="image-cover">
-						<div class="services-text-over booking-button fit-content"><%= areas[1].name %></div>
-					</div>
-				</a>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="section background-dark over-hide">
-	<div class="container py-4">
-		<div class="row">
-
-			<div class="col-sm-6 col-lg-4">
-				<a href="/Vehicles/<%= areas[2].name %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="img/gallery/CullinanMagma.jpg" alt="" class="image-cover">
-						<div class="services-text-over booking-button fit-content"><%= areas[2].name %> </div>
-					</div>
-				</a>
-			</div>
-			<div class="col-sm-6 col-lg-4 ">
-				<a href="/Vehicles/<%= areas[3].name %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="img/gallery/Toyota-Corolla.jpg" alt="" class="image-cover">
-						<div class="services-text-over booking-button fit-content"><%= areas[3].name %> </div>
-					</div>
-				</a>
-			</div>
-			<div class="col-sm-6 col-lg-4 pt-4 pt-lg-0">
-				<a href="/Vehicles/<%= areas[4].name %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="img/gallery/Corolla-2018.jpg" alt="" class="image-cover">
-						<div class="services-text-over booking-button fit-content"><%= areas[4].name %></div>
-					</div>
-				</a>
-			</div>
+			<% } %> 
 		</div>
 		<a class="booking-button mt-5" href="/vehicles/list">Cars in all Cities</a>
-
 	</div>
 </div>
 
@@ -526,8 +414,8 @@
 		<div class="row justify-content-center">
 			<div class="col-md-8">
 				<div class="subscribe-home">
-					<input type="text" placeholder="your email here" />
-					<button>subscribe</button>
+					<input type="text" id="subscriptionEmail" placeholder="your email here" />
+					<button id="subscribe">subscribe</button>
 				</div>
 			</div>
 		</div>

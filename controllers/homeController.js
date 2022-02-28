@@ -78,7 +78,10 @@ const home = async (req, res, next) => {
     loggedIn: req.session.userLoggedIn,
     sliderGallery: sliderGall.images,
     areas: areas,
-    hotels: ourHotelsIn
+    hotels: ourHotelsIn,
+    appartments: ourtAppartmentsIn,
+    tours: ourToursIn,
+    vehicles: ourVehiclesIn
   });
 };
 
@@ -916,6 +919,12 @@ const postSignUp = async (req, res) => {
   }
 };
 
+const subscribe = (req, res)=>{
+  const email = req.body.email;
+  console.log('subscribed')
+  res.redirect('/')
+}
+
 // Terms And Conditions
 const termsAndCondition = (req, res, next) =>
   res.render("./pages/TermsConditions/termsAndCondition", {
@@ -1095,6 +1104,7 @@ module.exports = {
   logout,
   sendMail,
   resetPassword,
+  subscribe,
 
   // Terms And Conditions
   termsAndCondition,

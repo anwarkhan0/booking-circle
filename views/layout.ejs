@@ -213,6 +213,30 @@
 								})
 						});
 
+						$("#subscribe").click(function () {
+							const email = $('#subscriptionEmail').val();
+							const data = JSON.stringify({
+								email: email
+							});
+							fetch('/User/subscribe', {
+								method: "POST",
+								body: data,
+								headers: {
+									"Content-type": "application/json; charset=UTF-8"
+								}
+							})
+								// Checking Status
+								.then(response => {
+									if (response.status === 200) {
+										console.log('success')
+									} else {
+										alert('oop\'s something went wrong, Please Try again')
+									}
+								})
+						});
+
+						
+
 
 					</script>
 
