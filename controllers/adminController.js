@@ -1877,6 +1877,20 @@ const postAddUpdate = (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+      res.render("../views/pages/Updates/addUpdates", {
+        path: "/Updates/addUpdate",
+        pageTitle: "Updates",
+        flashMessage: 'Something went wrong, please try again.',
+        oldInput: {
+          blogNo: blogNo,
+          heading: heading,
+          author: author,
+          date: date,
+          media: media,
+          description: desc,
+        },
+        validationErrors: errors.array(),
+      });
     });
 };
 

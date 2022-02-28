@@ -604,14 +604,14 @@ const gallerytandh = (req, res, next) =>
 // News
 const news = (req, res, next) => {
 
-  const page = req.query.page;
-  const ITEMS_PER_PAGE = 20;
+  const page = Number(req.query.page);
+  const ITEMS_PER_PAGE = 6;
   let totalItems;
   
   NewsModel.find()
     .count()
-    .then(news => {
-      totalItems = news;
+    .then(newsLength => {
+      totalItems = newsLength;
       return NewsModel.find()
         .skip((page - 1) * ITEMS_PER_PAGE)
         .limit(ITEMS_PER_PAGE);
