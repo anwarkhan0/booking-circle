@@ -20,33 +20,25 @@ const home = async (req, res, next) => {
   const areas = await HomeModel.fetchAreas();
   const sliderGall = await sliderGallery.findOne();
 
-  console.log(await HotelsModel.aggregate([
-    {
-      $group: {
-        _id: "$area",
-        hotel: { $first: '$name' }
-      }
-    }
-  ]))
-  // console.log(rhotels)
+  const hotels = await HotelsModel.find();
+  const ourHotelsIn = [];
 
-  // const hotels = await HotelsModel.distinct();
-  // const ourHotelsIn = [];
+  const count = hotels.length;
+  let random = Math.floor(Math.random() * count);
 
-  // let oldRandom = null;
-  // for(let i= 0; i< 5; i++){
-  //   let random = Math.floor(Math.random() * count);
-  //   if(random != oldRandom){
-  //     ourHotelsIn.push(hotels[random]);
-  //   }
-  //   oldRandom = random;
-  // }
+  if(random == count){
+    random = 0;
+  }
+
+  for(let i= random; i< count; i++){
+    ourHotelsIn.push(hotels[i]);
+  }
 
   res.render("./pages/HomePage/home", {
     loggedIn: req.session.userLoggedIn,
     sliderGallery: sliderGall.images,
     areas: areas,
-    hotels: []
+    hotels: ourHotelsIn
   });
 };
 

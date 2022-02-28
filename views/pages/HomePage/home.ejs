@@ -203,63 +203,28 @@
 </div>
 
 <!-- Hotels -->
+
 <div class="section background-dark over-hide">
 	<div class="container py-4">
 		<h3 class="text-center  text-white subtitle with-line mb-5">OUR HOTELS IN</h3>
 		<div class="row">
-			<div class="col-sm-6 col-lg-8">
-				<a href="/Hotels/<%= areas[0].name %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="img/gallery/kalam.jpg" alt="" class="image-cover">
-						<div class="services-text-over btn btn-primary fit-content"><%= areas[0].name %></div>
-					</div>
-				</a>
-			</div>
 
-			<div class="col-sm-6 col-lg-4 ">
-				<a href="/Hotels/<%= areas[1].name %>">
+			<% for(let i= 0; i< hotels.length; i++){ %>
+			<div class="col-sm-6 col-lg-4 mb-3">
+				<a href="/Hotels/<%= hotels[i].area %>">
 					<div class="img-wrap services-wrap h-300">
-						<img src="img/gallery/bahrain.jpg" alt="" class="image-cover">
-						<div class="services-text-over btn btn-primary fit-content"><%= areas[1].name %></div>
+						<img src="uploads/<%= hotels[i].gallery[i]%>" alt="" class="image-cover">
+						<div class="services-text-over btn btn-primary fit-content"><%= hotels[i].area %></div>
 					</div>
 				</a>
 			</div>
-		</div>
-	</div>
-</div>
-
-<div class="section background-dark over-hide">
-	<div class="container py-4">
-		<div class="row">
-
-			<div class="col-sm-6 col-lg-4">
-				<a href="/Hotels/<%= areas[2].name %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="img/gallery/Malam-Jabba.jpeg" alt="" class="image-cover">
-						<div class="services-text-over btn btn-primary fit-content"><%= areas[2].name %></div>
-					</div>
-				</a>
-			</div>
-			<div class="col-sm-6 col-lg-4 ">
-				<a href="/Hotels/<%= areas[3].name %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="img/ser-3.jpg" alt="" class="image-cover">
-						<div class="services-text-over btn btn-primary fit-content"><%= areas[3].name %></div>
-					</div>
-				</a>
-			</div>
-			<div class="col-sm-6 col-lg-4 pt-4 pt-lg-0">
-				<a href="/Hotels/<%= areas[4].name %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="img/ser-4.jpg" alt="" class="image-cover">
-						<div class="services-text-over btn btn-primary fit-content"><%= areas[4].name %></div>
-					</div>
-				</a>
-			</div>
+			<% } %>
+			
 		</div>
 		<a class="booking-button mt-5" href="/Hotels/list">Explore Hotels in all Cities</a>
 	</div>
 </div>
+
 
 <div class="section background-dark over-hide">
 	<div class="container py-4">
