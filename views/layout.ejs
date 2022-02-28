@@ -228,6 +228,7 @@
 								// Checking Status
 								.then(response => {
 									if (response.status === 200) {
+										$('#subscriptionEmail').val('');
 										console.log('success')
 									} else {
 										alert('oop\'s something went wrong, Please Try again')

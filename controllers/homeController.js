@@ -12,6 +12,7 @@ const NewsModel = require("../Admin/models/Updates");
 const UsersModel = require("../models/usersModel");
 const FeedbackModel = require("../Admin/models/Feedback");
 const sliderGallery = require('../Admin/models/SliderGallery');
+const subscribeModel = require('../models/subscribeModel');
 const { json } = require("express");
 const Hotel = require("../Admin/models/Hotel");
 
@@ -921,8 +922,17 @@ const postSignUp = async (req, res) => {
 
 const subscribe = (req, res)=>{
   const email = req.body.email;
-  console.log('subscribed')
-  res.redirect('/')
+  const subscription = new subscribeModel({
+    email: email
+  })
+  try{
+    subscription.save();
+    console.log('subscription succeeded')
+    res.redirect('/');
+  }catch(err){
+    console.log(err);
+    res.redirect('/');
+  }
 }
 
 // Terms And Conditions
