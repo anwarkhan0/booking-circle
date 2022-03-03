@@ -1081,6 +1081,11 @@ const paymentError = (req, res, next)=>{
   res.render('./pages/Payment/error',  {layout: false, loggedIn: req.session.userLoggedIn});
 }
 
+const jazzCashResponse = (req, res)=>{
+  console.log(req.body);
+  res.send('jazz response arrived');
+}
+
 module.exports = {
   // HomePage
   home,
@@ -1155,5 +1160,6 @@ module.exports = {
   stripePayment,
   paymentSuccess,
   paymentCancel,
-  paymentError
+  paymentError,
+  jazzCashResponse
 };

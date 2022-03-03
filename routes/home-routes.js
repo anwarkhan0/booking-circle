@@ -75,6 +75,7 @@ const {
   paymentSuccess,
   paymentCancel,
   paymentError,
+  jazzCashResponse
 } = require("../controllers/homeController");
 const router = express.Router();
 const { body } = require("express-validator");
@@ -90,6 +91,7 @@ router.get("/payment/paymentStripe", stripePayment);
 router.get("/payment/success", paymentSuccess);
 router.get("/payment/cancel", paymentCancel);
 router.get("/payment/error", paymentError);
+router.post("/payment/jazzcash", jazzCashResponse)
 
 ///////////////////////// Services ///////////////////////////
 // Appartments
