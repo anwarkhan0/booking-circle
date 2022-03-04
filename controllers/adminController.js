@@ -1183,11 +1183,11 @@ const postAddRoom = async (req, res) => {
     // console.log(result);
     console.log("Added Room");
     req.flash("message", "Room Added Successfully");
-    res.redirect("/");
+    res.redirect("/admin");
   } catch (err) {
     console.log(err);
     req.flash("message", "Something went wrong");
-    res.redirect("/");
+    res.redirect("/admin");
   }
 };
 

@@ -26,17 +26,17 @@
 						<% for(let i= 0; i< rooms.length; i++){ %> 
 						<div class="col-lg-6 mt-4" data-scroll-reveal="enter bottom move 50px over 0.7s after 0.2s">
 							<div class="room-box background-grey">
-								<div class="room-name">Room No.<%= rooms[i].roomNo %> </div>
-								<div class="room-per">
+								<div class="room-name">Room</div>
+								<!-- <div class="room-per">
 									<i class="fa fa-star"></i>
 									<i class="fa fa-star"></i>
 									<i class="fa fa-star"></i>
 									<i class="fa fa-star"></i>
 									<i class="fa fa-star"></i>
-								</div>
+								</div> -->
 								<img src="<%= '/uploads/' + rooms[i].gallery[0] %> " alt="">
 								<div class="room-box-in">
-									<h5 class="">Room</h5>
+									<h5 class="">Room No.<%= rooms[i].roomNo %></h5>
 									<p class="mt-3"><%= rooms[i].description.substr(0, 60) + '....' %> </p>
 									<a class="mt-1 btn btn-primary" href="<%= `/Hotels/roomBooking/${hotelId}?i=${i}` %>">book from <%= rooms[i].charges %> 
 										PKR</a>
@@ -58,7 +58,7 @@
 										<div class="col-12">
 											<div class="form-item">
 												<span class="fontawesome-calendar"></span>
-												<input class="input-sm" type="text" autocomplete="off" id="start-date-1"
+												<input class="input-sm" type="text" autocomplete="off" id="fromDate"
 													name="start" placeholder="chech-in date"
 													data-date-format="DD, MM d" />
 												<span class="date-text date-depart"></span>
@@ -67,7 +67,7 @@
 										<div class="col-12 pt-4">
 											<div class="form-item">
 												<span class="fontawesome-calendar"></span>
-												<input class="input-sm" type="text" autocomplete="off" id="end-date-1"
+												<input class="input-sm" type="text" autocomplete="off" id="toDate"
 													name="end" placeholder="check-out date"
 													data-date-format="DD, MM d" />
 												<span class="date-text date-return"></span>
@@ -79,8 +79,8 @@
 							<div class="col-12">
 								<div class="row">
 									<div class="col-12 pt-4">
-										<select name="adults" class="wide" id="adults">
-											<option data-display="adults">adults</option>
+										<select name="roomAdults" class="wide" id="roomAdults">
+											<option data-display="adults" value="false">adults</option>
 											<option value="1">1</option>
 											<option value="2">2</option>
 											<option value="3">3</option>
@@ -90,7 +90,7 @@
 									</div>
 									<div class="col-12 pt-4">
 										<select name="children" class="wide" id="children">
-											<option data-display="children">children</option>
+											<option data-display="children" value="false">children</option>
 											<option value="1">1</option>
 											<option value="2">2</option>
 											<option value="3">3</option>
@@ -150,6 +150,7 @@
 											Room Service
 										</label>
 									</li>
+									<input type="hidden" id="hotelId" value="<%= hotelId %>" />
 								</ul>
 							</div>
 						</div>

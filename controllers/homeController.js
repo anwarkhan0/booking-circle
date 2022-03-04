@@ -393,9 +393,45 @@ const hotelRooms = async (req, res, next) => {
   });
 };
 
-const roomFilter = (req, res, next)=>{
-  console.log(req.body)
-  res.sendStatus(200)
+const roomFilter = async (req, res, next)=>{
+  const hotelId = req.body.hotelId;
+  const checkIn = req.body.checkIn.replace(/\./g, "/");
+  // const checkOut = req.body.checkOut.replace(/\./g, "/");
+  const adults = req.body.adults;
+  const children = req.body.children;
+  const priceRange = req.body.priceRange;
+  const hotWater = req.body.hotWater;
+  const heater = req.body.heater;
+  const kingBeds = req.body.kingBeds;
+  const balcony = req.body.balcony;
+  const parking = req.body.parking;
+  const roomService = req.body.roomService;
+
+  const hotel = await HotelsModel.findById(hotelId);
+  const filteredRooms = [];
+
+  if (adults != "false" && children != "false") {
+    let people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
+    for (let i = 0; i < hotel.rooms.length; i++) {
+      if (hotel.rooms[i].occupency == people) {
+        filteredRooms.push(hotel.rooms[i]);
+      }
+    }
+  } else if (adults != "false") {
+    for (let i = 0; i < hotel.rooms.length; i++) {
+      if (hotel.rooms[i].occupency >= Number(adults)) {
+        filteredRooms.push(hotel.rooms[i]);
+      }
+    }
+  }
+
+  
+  return res.render("./pages/Hotels/hotelRooms", {
+    loggedIn: req.session.userLoggedIn,
+    hotelId: hotel.id,
+    rooms: filteredRooms
+  });
+
 }
 
 // vehicles
