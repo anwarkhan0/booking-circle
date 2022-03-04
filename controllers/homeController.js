@@ -26,11 +26,7 @@ const home = async (req, res, next) => {
   const tours = await ToursModel.find();
   const vehicles = await VehiclesModel.find();
 
-  const ourHotelsIn = [];
-  const ourtAppartmentsIn = [];
-  const ourToursIn = [];
-  const ourVehiclesIn = [];
-
+  //generate random number
   function getRandom(count) {
     let random = Math.floor(Math.random() * count);
 
@@ -41,39 +37,27 @@ const home = async (req, res, next) => {
     return random;
   }
 
+  //return random data
+  function getRandomData(random, data){
+    let randomData = []
+    for(let i= random; i< data.length; i++){
+      if(typeof data[i] === undefined){
+        break;
+      }
+      randomData.push(data[i]);
+    }
+    return randomData;
+  }
+
   const hotelsRandom = getRandom(hotels.length);
   const appartmentsRandom = getRandom(appartments.length);
   const toursRandom = getRandom(tours.length);
   const vehiclesRandom = getRandom(vehicles.length);
-  
 
-  for(let i= hotelsRandom; i< hotels.length; i++){
-    if(typeof hotels[i] === undefined){
-      break;
-    }
-    ourHotelsIn.push(hotels[i]);
-  }
-
-  for(let i= appartmentsRandom; i< appartments.length; i++){
-    if(typeof appartments[i] === undefined){
-      break;
-    }
-    ourtAppartmentsIn.push(appartments[i]);
-  }
-
-  for(let i= toursRandom; i< tours.length; i++){
-    if(typeof tours[i] === undefined){
-      break;
-    }
-    ourToursIn.push(tours[i]);
-  }
-
-  for(let i= vehiclesRandom; i< vehicles.length; i++){
-    if(typeof vehicles[i] === undefined){
-      break;
-    }
-    ourVehiclesIn.push(vehicles[i]);
-  }
+  const ourHotelsIn = getRandomData(hotelsRandom, hotels);
+  const ourtAppartmentsIn = getRandomData(appartmentsRandom, appartments);
+  const ourToursIn = getRandomData(toursRandom, tours);
+  const ourVehiclesIn = getRandomData(vehiclesRandom, vehicles);
 
   res.render("./pages/HomePage/home", {
     loggedIn: req.session.userLoggedIn,
@@ -1082,7 +1066,7 @@ const paymentError = (req, res, next)=>{
 }
 
 const jazzCashResponse = (req, res)=>{
-  console.log(req.body);
+  console.log(req.data);
   res.send('jazz response arrived');
 }
 

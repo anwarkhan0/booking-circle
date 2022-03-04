@@ -25,7 +25,7 @@
 
 					<!-- End Document ================================================== -->
 					<script>
-						var elementPosition = $('#fixed').offset();
+						const elementPosition = $('#fixed').offset();
 
 						$(window).scroll(function () {
 							if ($(window).scrollTop() > elementPosition.top) {
@@ -100,6 +100,86 @@
 									}
 								})
 						});
+
+						function roomFilter(){
+
+							const htoelId = $('#hotelId').val();
+							const checkIn = $('#start-date-1').val();
+							const checkOut = $('#end-date-1').val();
+							const adults = $('#adults').val();
+							const children = $('#children').val();
+							const priceRange = $('#priceRange').val();
+							const hotWater = $('#hotWater').val();
+							const heater = $('#heater').val() == 'false' ? false : true;
+							const kingBeds = $('#kingBeds').val() == 'false' ? false : true;
+							const balcony = $('#balcony').val() == 'false' ? false : true;
+							const parking = $('#parking').val() == 'false' ? false : true;
+							const roomService = $('#roomServices').val() == 'false' ? false : true;
+							const data = JSON.stringify({
+								checkIn: checkIn,
+								checkOut: checkOut,
+								adults: adults,
+								children: children,
+								priceRange: priceRange,
+								hotWater: hotWater,
+								heater: heater,
+								kingBeds: kingBeds,
+								balcony: balcony,
+								parking: parking,
+								roomService: roomService,
+								hotelId: htoelId
+							});
+							console.log(data)
+							// fetch('/hotels/roomBooking', {
+							// 	method: "POST",
+							// 	body: data,
+							// 	headers: {
+							// 		"Content-type": "application/json; charset=UTF-8"
+							// 	}
+							// })
+							// 	// Checking Status
+							// 	.then(response => {
+							// 		if (response.status === 200) {
+							// 			console.log('succes')
+							// 		} else {
+							// 			alert('oop\'s something went wrong, Please Try again')
+							// 		}
+							// 	})
+						}
+
+						$("#start-date-1").change(()=>{
+							roomFilter();
+						})
+						$("#end-date-1").change(()=>{
+							roomFilter();
+						})
+						$("#adults").change(()=>{
+							roomFilter();
+						})
+						$("#children").change(()=>{
+							roomFilter();
+						})
+						$("#priceRange").change(()=>{
+							roomFilter();
+						})
+						$("#hotWater").change(()=>{
+							roomFilter();
+						})
+						$("#heater").change(()=>{
+							roomFilter();
+						})
+						$("#kingBeds").change(()=>{
+							roomFilter();
+						})
+						$("#balcony").change(()=>{
+							roomFilter();
+						})
+						$("#parking").change(()=>{
+							roomFilter();
+						})
+						$("#roomServices").change(()=>{
+							roomFilter();
+						})
 
 						$("#appartmentBooking").click(function () {
 							const appartmentId = $('#appartmentId').val();

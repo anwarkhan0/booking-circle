@@ -51,7 +51,7 @@
 				</div>
 				<div class="col-lg-4 order-first order-lg-last">
 					<div class="section background-dark p-4">
-						<div class="row">
+						<div class="row" id="roomFilter">
 							<div class="col-12">
 								<div class="input-daterange input-group" id="flight-datepicker">
 									<div class="row">
@@ -79,7 +79,7 @@
 							<div class="col-12">
 								<div class="row">
 									<div class="col-12 pt-4">
-										<select name="adults" class="wide">
+										<select name="adults" class="wide" id="adults">
 											<option data-display="adults">adults</option>
 											<option value="1">1</option>
 											<option value="2">2</option>
@@ -89,7 +89,7 @@
 										</select>
 									</div>
 									<div class="col-12 pt-4">
-										<select name="children" class="wide">
+										<select name="children" class="wide" id="children">
 											<option data-display="children">children</option>
 											<option value="1">1</option>
 											<option value="2">2</option>
@@ -104,7 +104,7 @@
 								<h6 class="color-white mb-3">Max night price:</h6>
 								<div class="selecteurPrix">
 									<div class="range-slider">
-										<input class="input-range" type="range" value="1000" min="500" max="25000">
+										<input class="input-range" type="range" value="25000" min="500" max="25000" id="priceRange">
 										<div class="valeurPrix">
 											<span class="range-value"></span>
 										</div>
@@ -116,37 +116,37 @@
 								<ul class="list">
 									<li class="list__item">
 										<label class="label--checkbox">
-											<input type="checkbox" class="checkbox">
+											<input type="checkbox" class="checkbox" value="false" id="hotWater">
 											Hot Water
 										</label>
 									</li>
 									<li class="list__item">
 										<label class="label--checkbox">
-											<input type="checkbox" class="checkbox">
+											<input type="checkbox" class="checkbox" value="false" id="heater">
 											Heater / AC
 										</label>
 									</li>
 									<li class="list__item">
 										<label class="label--checkbox">
-											<input type="checkbox" class="checkbox">
+											<input type="checkbox" class="checkbox" value="false" id="kingBeds">
 											King beds
 										</label>
 									</li>
 									<li class="list__item">
 										<label class="label--checkbox">
-											<input type="checkbox" class="checkbox">
+											<input type="checkbox" class="checkbox" value="false" id="balcony">
 											Balcony
 										</label>
 									</li>
 									<li class="list__item">
 										<label class="label--checkbox">
-											<input type="checkbox" class="checkbox">
+											<input type="checkbox" class="checkbox" value="false" id="parking">
 											Parking
 										</label>
 									</li>
 									<li class="list__item">
 										<label class="label--checkbox">
-											<input type="checkbox" class="checkbox">
+											<input type="checkbox" class="checkbox" value="false" id="roomService">
 											Room Service
 										</label>
 									</li>
