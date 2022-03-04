@@ -101,20 +101,23 @@
 								})
 						});
 
-						function roomFilter(){
+						
 
+						$("#start-date-1").change(()=>{
+							
 							const htoelId = $('#hotelId').val();
 							const checkIn = $('#start-date-1').val();
 							const checkOut = $('#end-date-1').val();
 							const adults = $('#adults').val();
 							const children = $('#children').val();
 							const priceRange = $('#priceRange').val();
-							const hotWater = $('#hotWater').val();
-							const heater = $('#heater').val() == 'false' ? false : true;
-							const kingBeds = $('#kingBeds').val() == 'false' ? false : true;
-							const balcony = $('#balcony').val() == 'false' ? false : true;
-							const parking = $('#parking').val() == 'false' ? false : true;
-							const roomService = $('#roomServices').val() == 'false' ? false : true;
+							const hotWater = $('#hotWater').val() == 'false' ? 'false' : 'true';
+							const heater = $('#heater').val()== 'false' ? 'false' : 'true';
+							const kingBeds = $('#kingBeds').val() == 'false' ? 'false' : 'true';
+							const balcony = $('#balcony').val() == 'false' ? 'false' : 'true';
+							const parking = $('#parking').val() == 'false' ? 'false' : 'true';
+							const roomService = $('#roomServices').val() == 'false' ? 'false' : 'true';
+
 							const data = JSON.stringify({
 								checkIn: checkIn,
 								checkOut: checkOut,
@@ -145,12 +148,8 @@
 							// 			alert('oop\'s something went wrong, Please Try again')
 							// 		}
 							// 	})
-						}
-
-						$("#start-date-1").change(()=>{
-							roomFilter();
 						})
-						$("#end-date-1").change(()=>{
+						$("#end-date-1").focusout(()=>{
 							roomFilter();
 						})
 						$("#adults").change(()=>{
@@ -159,25 +158,25 @@
 						$("#children").change(()=>{
 							roomFilter();
 						})
-						$("#priceRange").change(()=>{
+						$("#priceRange").click(()=>{
 							roomFilter();
 						})
-						$("#hotWater").change(()=>{
+						$("#hotWater").click(()=>{
 							roomFilter();
 						})
-						$("#heater").change(()=>{
+						$("#heater").click(()=>{
 							roomFilter();
 						})
-						$("#kingBeds").change(()=>{
+						$("#kingBeds").click(()=>{
 							roomFilter();
 						})
-						$("#balcony").change(()=>{
+						$("#balcony").click(()=>{
 							roomFilter();
 						})
-						$("#parking").change(()=>{
+						$("#parking").click(()=>{
 							roomFilter();
 						})
-						$("#roomServices").change(()=>{
+						$("#roomServices").click(()=>{
 							roomFilter();
 						})
 
