@@ -49,11 +49,13 @@ const home = async (req, res, next) => {
     return randomData;
   }
 
+  // save random num for every category
   const hotelsRandom = getRandom(hotels.length);
   const appartmentsRandom = getRandom(appartments.length);
   const toursRandom = getRandom(tours.length);
   const vehiclesRandom = getRandom(vehicles.length);
-
+  
+  // save random data for homepage
   const ourHotelsIn = getRandomData(hotelsRandom, hotels);
   const ourtAppartmentsIn = getRandomData(appartmentsRandom, appartments);
   const ourToursIn = getRandomData(toursRandom, tours);
@@ -390,6 +392,11 @@ const hotelRooms = async (req, res, next) => {
     rooms: rooms,
   });
 };
+
+const roomFilter = (req, res, next)=>{
+  console.log(req.body)
+  res.sendStatus(200)
+}
 
 // vehicles
 const vehicles = async (req, res, next) => {
@@ -1090,6 +1097,7 @@ module.exports = {
   roomBooking,
   postRoomBooking,
   findHotels,
+  roomFilter,
 
   //vehicles
   vehicles,

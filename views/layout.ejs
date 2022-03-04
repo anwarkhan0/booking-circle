@@ -35,7 +35,7 @@
 							}
 						});
 
-						$("#homeSearchCats").click(()=>{
+						$("#homeSearchCats").click(() => {
 							const cat = $('#category').val();
 							const area = $('#areaName').val();
 							window.location.href = `/${cat}/${area}`;
@@ -46,9 +46,9 @@
 							const checkOut = $('#end-date-1').val();
 							const area = $('#area').val();
 							const adults = $('#adults').val();
-							
+
 							window.location.href = `/Hotels/availableHotels/?checkIn=${checkIn}&checkOut=${checkOut}&area=${area}&adults=${adults}`;
-							
+
 						});
 
 						$("#searchAppartments").click(function () {
@@ -56,17 +56,17 @@
 							const checkOut = $('#end-date-1').val();
 							const area = $('#area').val();
 							const adults = $('#adults').val();
-							
+
 							window.location.href = `/Appartments/availableAppartments/?checkIn=${checkIn}&checkOut=${checkOut}&area=${area}&adults=${adults}`;
-							
+
 						});
 
 						$("#searchVehicles").click(function () {
 							const area = $('#area').val();
 							const adults = $('#adults').val();
-							
+
 							window.location.href = `/Vehicles/availableVehicles/?area=${area}&adults=${adults}`;
-							
+
 						});
 
 						$("#roomBooking").click(function () {
@@ -101,23 +101,20 @@
 								})
 						});
 
-						
+						function roomFilter() {
 
-						$("#start-date-1").change(()=>{
-							
 							const htoelId = $('#hotelId').val();
 							const checkIn = $('#start-date-1').val();
 							const checkOut = $('#end-date-1').val();
 							const adults = $('#adults').val();
 							const children = $('#children').val();
 							const priceRange = $('#priceRange').val();
-							const hotWater = $('#hotWater').val() == 'false' ? 'false' : 'true';
-							const heater = $('#heater').val()== 'false' ? 'false' : 'true';
-							const kingBeds = $('#kingBeds').val() == 'false' ? 'false' : 'true';
-							const balcony = $('#balcony').val() == 'false' ? 'false' : 'true';
-							const parking = $('#parking').val() == 'false' ? 'false' : 'true';
-							const roomService = $('#roomServices').val() == 'false' ? 'false' : 'true';
-
+							const hotWater = $('#hotWater').val();
+							const heater = $('#heater').val();
+							const kingBeds = $('#kingBeds').val();
+							const balcony = $('#balcony').val();
+							const parking = $('#parking').val();
+							const roomService = $('#roomServices').val();
 							const data = JSON.stringify({
 								checkIn: checkIn,
 								checkOut: checkOut,
@@ -133,50 +130,62 @@
 								hotelId: htoelId
 							});
 							console.log(data)
-							// fetch('/hotels/roomBooking', {
-							// 	method: "POST",
-							// 	body: data,
-							// 	headers: {
-							// 		"Content-type": "application/json; charset=UTF-8"
-							// 	}
-							// })
-							// 	// Checking Status
-							// 	.then(response => {
-							// 		if (response.status === 200) {
-							// 			console.log('succes')
-							// 		} else {
-							// 			alert('oop\'s something went wrong, Please Try again')
-							// 		}
-							// 	})
+							fetch('/hotels/roomBooking/filter', {
+								method: "POST",
+								body: data,
+								headers: {
+									"Content-type": "application/json; charset=UTF-8"
+								}
+							})
+								// Checking Status
+								.then(response => {
+									if (response.status === 200) {
+										console.log('succes')
+									} else {
+										alert('oop\'s something went wrong, Please Try again')
+									}
+								})
+						}
+
+						$("#start-date-1").change(() => {
+							const valStart = $("#start-date-1").val();
+							const valEnd = $("#end-date-1").val();
+							if(valStart != '' && valStart != valEnd){
+								roomFilter();
+							}
 						})
-						$("#end-date-1").focusout(()=>{
+						$("#end-date-1").change(() => {
+							const valStart = $("#start-date-1").val();
+							const valEnd = $("#end-date-1").val();
+							if(valStart != '' && valStart != valEnd){
+								roomFilter();
+							}
+						})
+						$("#adults").change(() => {
 							roomFilter();
 						})
-						$("#adults").change(()=>{
+						$("#children").change(() => {
 							roomFilter();
 						})
-						$("#children").change(()=>{
+						$("#priceRange").change(() => {
 							roomFilter();
 						})
-						$("#priceRange").click(()=>{
+						$("#hotWater").change(() => {
 							roomFilter();
 						})
-						$("#hotWater").click(()=>{
+						$("#heater").change(() => {
 							roomFilter();
 						})
-						$("#heater").click(()=>{
+						$("#kingBeds").change(() => {
 							roomFilter();
 						})
-						$("#kingBeds").click(()=>{
+						$("#balcony").change(() => {
 							roomFilter();
 						})
-						$("#balcony").click(()=>{
+						$("#parking").change(() => {
 							roomFilter();
 						})
-						$("#parking").click(()=>{
-							roomFilter();
-						})
-						$("#roomServices").click(()=>{
+						$("#roomServices").change(() => {
 							roomFilter();
 						})
 
@@ -315,7 +324,7 @@
 								})
 						});
 
-						
+
 
 
 					</script>
