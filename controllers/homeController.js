@@ -388,24 +388,24 @@ const hotelRooms = async (req, res, next) => {
 
   res.render("./pages/Hotels/hotelRooms", {
     loggedIn: req.session.userLoggedIn,
-    hotelId: hotel.id,
+    hotelId: hotelId,
     rooms: rooms,
   });
 };
 
 const roomFilter = async (req, res, next)=>{
-  const hotelId = req.body.hotelId;
-  const checkIn = req.body.checkIn.replace(/\./g, "/");
+  const hotelId = req.query.hotelId;
+  const checkIn = req.query.checkIn.replace(/\./g, "/");
   // const checkOut = req.body.checkOut.replace(/\./g, "/");
-  const adults = req.body.adults;
-  const children = req.body.children;
-  const priceRange = req.body.priceRange;
-  const hotWater = req.body.hotWater;
-  const heater = req.body.heater;
-  const kingBeds = req.body.kingBeds;
-  const balcony = req.body.balcony;
-  const parking = req.body.parking;
-  const roomService = req.body.roomService;
+  const adults = req.query.adults;
+  const children = req.query.children;
+  const priceRange = req.query.priceRange;
+  const hotWater = req.query.hotWater;
+  const heater = req.query.heater;
+  const kingBeds = req.query.kingBeds;
+  const balcony = req.query.balcony;
+  const parking = req.query.parking;
+  const roomService = req.query.roomService;
 
   const hotel = await HotelsModel.findById(hotelId);
   const filteredRooms = [];
@@ -424,9 +424,8 @@ const roomFilter = async (req, res, next)=>{
       }
     }
   }
-
   
-  return res.render("./pages/Hotels/hotelRooms", {
+  res.render("./pages/Hotels/hotelRooms", {
     loggedIn: req.session.userLoggedIn,
     hotelId: hotel.id,
     rooms: filteredRooms

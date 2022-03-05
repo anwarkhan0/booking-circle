@@ -103,7 +103,7 @@
 
 						function roomFilter() {
 
-							const htoelId = $('#hotelId').val();
+							const htoelId = $('#roomFilterhotelId').val();
 							const checkIn = $('#fromDate').val();
 							const checkOut = $('#toDate').val();
 							const adults = $('#roomAdults').val();
@@ -115,36 +115,38 @@
 							const balcony = $('#balcony').val();
 							const parking = $('#parking').val();
 							const roomService = $('#roomService').val();
-							const data = JSON.stringify({
-								checkIn: checkIn,
-								checkOut: checkOut,
-								adults: adults,
-								children: children,
-								priceRange: priceRange,
-								hotWater: hotWater,
-								heater: heater,
-								kingBeds: kingBeds,
-								balcony: balcony,
-								parking: parking,
-								roomService: roomService,
-								hotelId: htoelId
-							});
-							console.log(data)
-							fetch('/hotels/roomBooking/filter', {
-								method: "POST",
-								body: data,
-								headers: {
-									"Content-type": "application/json; charset=UTF-8"
-								}
-							})
-								// Checking Status
-								.then(response => {
-									if (response.status === 200) {
-										console.log('succes')
-									} else {
-										alert('oop\'s something went wrong, Please Try again')
-									}
-								})
+							console.log(hotelId)
+							// window.location.href = `/hotels/roomBooking/filter/?checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}&children=${children}&priceRange=${priceRange}&hotWater=${hotWater}&heater=${heater}&kingBeds=${kingBeds}&balcony=${balcony}&parking=${parking}&roomService=${roomService}&hotelId=${hotelId.toString()}`;
+							// const data = JSON.stringify({
+							// 	checkIn: checkIn,
+							// 	checkOut: checkOut,
+							// 	adults: adults,
+							// 	children: children,
+							// 	priceRange: priceRange,
+							// 	hotWater: hotWater,
+							// 	heater: heater,
+							// 	kingBeds: kingBeds,
+							// 	balcony: balcony,
+							// 	parking: parking,
+							// 	roomService: roomService,
+							// 	hotelId: htoelId
+							// });
+							// console.log(data)
+							// fetch('/hotels/roomBooking/filter', {
+							// 	method: "POST",
+							// 	body: data,
+							// 	headers: {
+							// 		"Content-type": "application/json; charset=UTF-8"
+							// 	}
+							// })
+							// 	// Checking Status
+							// 	.then(response => {
+							// 		if (response.status === 200) {
+							// 			window.location.reload();
+							// 		} else {
+							// 			alert('oop\'s something went wrong, Please Try again')
+							// 		}
+							// 	})
 						}
 
 						$("#fromDate").change(() => {

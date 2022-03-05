@@ -111,7 +111,7 @@ router.get("/Hotels/rooms/:id", hotelRooms);
 router.get("/Hotels/roomBooking/:hotelId", roomBooking);
 router.post("/hotels/roomBooking", postRoomBooking);
 router.get("/Hotels/:location", searchHotels);
-router.post("/Hotels/roomBooking/filter", roomFilter)
+router.get("/Hotels/roomBooking/filter", roomFilter);
 
 router.get("/Vehicles/availableVehicles/", findVehicles);
 router.get("/Vehicles/list", vehicles);
