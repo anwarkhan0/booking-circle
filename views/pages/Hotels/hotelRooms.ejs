@@ -46,7 +46,6 @@
 						</div>
 						<% } %> 
 						
-						
 					</div>
 				</div>
 				<div class="col-lg-4 order-first order-lg-last">
@@ -60,7 +59,7 @@
 												<span class="fontawesome-calendar"></span>
 												<input class="input-sm" type="text" autocomplete="off" id="fromDate"
 													name="start" placeholder="chech-in date"
-													data-date-format="DD, MM d" />
+													data-date-format="DD, MM d" value="<%= oldInput.checkIn %>" />
 												<span class="date-text date-depart"></span>
 											</div>
 										</div>
@@ -69,33 +68,34 @@
 												<span class="fontawesome-calendar"></span>
 												<input class="input-sm" type="text" autocomplete="off" id="toDate"
 													name="end" placeholder="check-out date"
-													data-date-format="DD, MM d" />
+													data-date-format="DD, MM d" value="<%= oldInput.checkOut %>" />
 												<span class="date-text date-return"></span>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
+							<input type="hidden" id="roomFilterhotelId" value="<%= hotelId %>" />
 							<div class="col-12">
 								<div class="row">
 									<div class="col-12 pt-4">
 										<select name="roomAdults" class="wide" id="roomAdults">
 											<option data-display="adults" value="false">adults</option>
-											<option value="1">1</option>
-											<option value="2">2</option>
-											<option value="3">3</option>
-											<option value="4">4</option>
-											<option value="5">5</option>
+											<option value="1" <%= oldInput.adults == 1 ? 'selected' : '' %> >1</option>
+											<option value="2" <%= oldInput.adults == 2 ? 'selected' : '' %> >2</option>
+											<option value="3" <%= oldInput.adults == 3 ? 'selected' : '' %> >3</option>
+											<option value="4" <%= oldInput.adults == 4 ? 'selected' : '' %> >4</option>
+											<option value="5" <%= oldInput.adults == 5 ? 'selected' : '' %> >5</option>
 										</select>
 									</div>
 									<div class="col-12 pt-4">
 										<select name="children" class="wide" id="children">
 											<option data-display="children" value="false">children</option>
-											<option value="1">1</option>
-											<option value="2">2</option>
-											<option value="3">3</option>
-											<option value="4">4</option>
-											<option value="5">5</option>
+											<option value="1" <%= oldInput.children == 1 ? 'selected' : '' %> >1</option>
+											<option value="2" <%= oldInput.children == 2 ? 'selected' : '' %> >2</option>
+											<option value="3" <%= oldInput.children == 3 ? 'selected' : '' %> >3</option>
+											<option value="4" <%= oldInput.children == 4 ? 'selected' : '' %> >4</option>
+											<option value="5" <%= oldInput.children == 5 ? 'selected' : '' %> >5</option>
 										</select>
 									</div>
 								</div>
@@ -104,7 +104,7 @@
 								<h6 class="color-white mb-3">Max night price:</h6>
 								<div class="selecteurPrix">
 									<div class="range-slider">
-										<input class="input-range" type="range" value="25000" min="500" max="25000" id="priceRange">
+										<input class="input-range" type="range" value="<%= oldInput.priceRange %>" min="500" max="25000" id="priceRange">
 										<div class="valeurPrix">
 											<span class="range-value"></span>
 										</div>
@@ -116,37 +116,37 @@
 								<ul class="list">
 									<li class="list__item">
 										<label class="label--checkbox">
-											<input type="checkbox" class="checkbox" value="false" id="hotWater">
+											<input type="checkbox" class="checkbox" value="<%= oldInput.hotWater %>" id="hotWater" <%= oldInput.hotWater == true ? 'checked' : '' %> >
 											Hot Water
 										</label>
 									</li>
 									<li class="list__item">
 										<label class="label--checkbox">
-											<input type="checkbox" class="checkbox" value="false" id="heater">
+											<input type="checkbox" class="checkbox" value="<%= oldInput.heater %>"  id="heater" <%= oldInput.heater == true ? 'checked' : '' %> >
 											Heater / AC
 										</label>
 									</li>
 									<li class="list__item">
 										<label class="label--checkbox">
-											<input type="checkbox" class="checkbox" value="false" id="kingBeds">
+											<input type="checkbox" class="checkbox" value="<%= oldInput.kingBeds %>"  id="kingBeds" <%= oldInput.kingBeds == true ? 'checked' : '' %> >
 											King beds
 										</label>
 									</li>
 									<li class="list__item">
 										<label class="label--checkbox">
-											<input type="checkbox" class="checkbox" value="false" id="balcony">
+											<input type="checkbox" class="checkbox" value="<%= oldInput.balcony %>" id="balcony" <%= oldInput.balcony == true ? 'checked' : '' %> >
 											Balcony
 										</label>
 									</li>
 									<li class="list__item">
 										<label class="label--checkbox">
-											<input type="checkbox" class="checkbox" value="false" id="parking">
+											<input type="checkbox" class="checkbox" value="<%= oldInput.parking %>" id="parking" <%= oldInput.parking == true ? 'checked' : '' %> >
 											Parking
 										</label>
 									</li>
 									<li class="list__item">
 										<label class="label--checkbox">
-											<input type="checkbox" class="checkbox" value="false" id="roomService">
+											<input type="checkbox" class="checkbox" value="<%= oldInput.roomService %>"  id="roomService" <%= oldInput.roomService == true ? 'checked' : '' %> >
 											Room Service
 										</label>
 									</li>
@@ -159,4 +159,3 @@
 		</div>
 	</div>
 </div>
-<input type="hidden" id="roomFilterhotelId" value="<%= hotelId %>" />

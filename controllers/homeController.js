@@ -388,6 +388,19 @@ const hotelRooms = async (req, res, next) => {
 
   res.render("./pages/Hotels/hotelRooms", {
     loggedIn: req.session.userLoggedIn,
+    oldInput: {
+      hotelId: '',
+      checkIn: '',
+      checkOut: '',
+      adults: '',
+      priceRange: 25000,
+      hotWater: false,
+      heater: false,
+      kingBeds: false,
+      balcony: false,
+      parking: false,
+      roomService: false
+    },
     hotelId: hotelId,
     rooms: rooms,
   });
@@ -396,7 +409,7 @@ const hotelRooms = async (req, res, next) => {
 const roomFilter = async (req, res, next)=>{
   const hotelId = req.query.hotelId;
   const checkIn = req.query.checkIn.replace(/\./g, "/");
-  // const checkOut = req.body.checkOut.replace(/\./g, "/");
+  const checkOut = req.query.checkOut.replace(/\./g, "/");
   const adults = req.query.adults;
   const children = req.query.children;
   const priceRange = req.query.priceRange;
@@ -413,13 +426,13 @@ const roomFilter = async (req, res, next)=>{
   if (adults != "false" && children != "false") {
     let people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
     for (let i = 0; i < hotel.rooms.length; i++) {
-      if (hotel.rooms[i].occupency == people) {
+      if (hotel.rooms[i].occupency >= people) {
         filteredRooms.push(hotel.rooms[i]);
       }
     }
   } else if (adults != "false") {
     for (let i = 0; i < hotel.rooms.length; i++) {
-      if (hotel.rooms[i].occupency >= Number(adults)) {
+      if (hotel.rooms[i].occupency == Number(adults)) {
         filteredRooms.push(hotel.rooms[i]);
       }
     }
@@ -427,6 +440,19 @@ const roomFilter = async (req, res, next)=>{
   
   res.render("./pages/Hotels/hotelRooms", {
     loggedIn: req.session.userLoggedIn,
+    oldInput: {
+      hotelId: hotelId,
+      checkIn: checkIn,
+      checkOut: checkOut,
+      adults: adults,
+      priceRange: priceRange,
+      hotWater: hotWater,
+      heater: heater,
+      kingBeds: kingBeds,
+      balcony: balcony,
+      parking: parking,
+      roomService: roomService
+    },
     hotelId: hotel.id,
     rooms: filteredRooms
   });

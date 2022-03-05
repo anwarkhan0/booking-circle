@@ -103,7 +103,7 @@
 
 						function roomFilter() {
 
-							const htoelId = $('#roomFilterhotelId').val();
+							const hotelId = $('#roomFilterhotelId').val();
 							const checkIn = $('#fromDate').val();
 							const checkOut = $('#toDate').val();
 							const adults = $('#roomAdults').val();
@@ -115,8 +115,9 @@
 							const balcony = $('#balcony').val();
 							const parking = $('#parking').val();
 							const roomService = $('#roomService').val();
-							console.log(hotelId)
-							// window.location.href = `/hotels/roomBooking/filter/?checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}&children=${children}&priceRange=${priceRange}&hotWater=${hotWater}&heater=${heater}&kingBeds=${kingBeds}&balcony=${balcony}&parking=${parking}&roomService=${roomService}&hotelId=${hotelId.toString()}`;
+
+							window.location.href = `/Hotels/roomFilter?checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}&children=${children}&priceRange=${priceRange}&hotWater=${hotWater}&heater=${heater}&kingBeds=${kingBeds}&balcony=${balcony}&parking=${parking}&roomService=${roomService}&hotelId=${hotelId}`;
+
 							// const data = JSON.stringify({
 							// 	checkIn: checkIn,
 							// 	checkOut: checkOut,
@@ -129,10 +130,10 @@
 							// 	balcony: balcony,
 							// 	parking: parking,
 							// 	roomService: roomService,
-							// 	hotelId: htoelId
+							// 	hotelId: hotelId
 							// });
 							// console.log(data)
-							// fetch('/hotels/roomBooking/filter', {
+							// fetch('/Hotels/roomFilter', {
 							// 	method: "POST",
 							// 	body: data,
 							// 	headers: {
@@ -142,7 +143,7 @@
 							// 	// Checking Status
 							// 	.then(response => {
 							// 		if (response.status === 200) {
-							// 			window.location.reload();
+							// 			console.log('succes')
 							// 		} else {
 							// 			alert('oop\'s something went wrong, Please Try again')
 							// 		}
