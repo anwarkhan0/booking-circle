@@ -22,6 +22,9 @@
 			<div class="row">
 				<div class="col-lg-8 mt-4 mt-lg-0">
 					<div class="row">
+						<% if(rooms.length == 0){ %>
+							<h3>No Room Found.</h3> 
+							<% } %> 
 						
 						<% for(let i= 0; i< rooms.length; i++){ %> 
 						<div class="col-lg-6 mt-4" data-scroll-reveal="enter bottom move 50px over 0.7s after 0.2s">
@@ -116,37 +119,37 @@
 								<ul class="list">
 									<li class="list__item">
 										<label class="label--checkbox">
-											<input type="checkbox" class="checkbox" value="<%= oldInput.hotWater %>" id="hotWater" <%= oldInput.hotWater == true ? 'checked' : '' %> >
+											<input type="checkbox" class="checkbox" value="<%= oldInput.hotWater %>" id="hotWater" <%= oldInput.hotWater != 'false' ? '' : 'checked' %> >
 											Hot Water
 										</label>
 									</li>
 									<li class="list__item">
 										<label class="label--checkbox">
-											<input type="checkbox" class="checkbox" value="<%= oldInput.heater %>"  id="heater" <%= oldInput.heater == true ? 'checked' : '' %> >
+											<input type="checkbox" class="checkbox" value="<%= oldInput.heater %>"  id="heater" <%= oldInput.heater == 'true' ? 'checked' : '' %> >
 											Heater / AC
 										</label>
 									</li>
 									<li class="list__item">
 										<label class="label--checkbox">
-											<input type="checkbox" class="checkbox" value="<%= oldInput.kingBeds %>"  id="kingBeds" <%= oldInput.kingBeds == true ? 'checked' : '' %> >
+											<input type="checkbox" class="checkbox" value="<%= oldInput.kingBeds %>"  id="kingBeds" <%= oldInput.kingBeds == 'true' ? 'checked' : '' %> >
 											King beds
 										</label>
 									</li>
 									<li class="list__item">
 										<label class="label--checkbox">
-											<input type="checkbox" class="checkbox" value="<%= oldInput.balcony %>" id="balcony" <%= oldInput.balcony == true ? 'checked' : '' %> >
+											<input type="checkbox" class="checkbox" value="<%= oldInput.balcony %>" id="balcony" <%= oldInput.balcony == 'true' ? 'checked' : '' %> >
 											Balcony
 										</label>
 									</li>
 									<li class="list__item">
 										<label class="label--checkbox">
-											<input type="checkbox" class="checkbox" value="<%= oldInput.parking %>" id="parking" <%= oldInput.parking == true ? 'checked' : '' %> >
+											<input type="checkbox" class="checkbox" value="<%= oldInput.parking %>" id="parking" <%= oldInput.parking == 'true' ? 'checked' : '' %> >
 											Parking
 										</label>
 									</li>
 									<li class="list__item">
 										<label class="label--checkbox">
-											<input type="checkbox" class="checkbox" value="<%= oldInput.roomService %>"  id="roomService" <%= oldInput.roomService == true ? 'checked' : '' %> >
+											<input type="checkbox" class="checkbox" value="<%= oldInput.roomService %>"  id="roomService" <%= oldInput.roomService == 'true' ? 'checked' : '' %> >
 											Room Service
 										</label>
 									</li>
