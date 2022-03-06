@@ -109,13 +109,12 @@
 							const adults = $('#roomAdults').val();
 							const children = $('#children').val();
 							const priceRange = $('#priceRange').val();
-							const hotWater = $('#hotWater').val();
-							const heater = $('#heater').val();
-							const kingBeds = $('#kingBeds').val();
-							const balcony = $('#balcony').val();
-							const parking = $('#parking').val();
-							const roomService = $('#roomService').val();
-
+							const hotWater = $('#hotWater').is(":checked");
+							const heater = $('#heater').is(":checked");
+							const kingBeds = $('#kingBeds').is(":checked");
+							const balcony = $('#balcony').is(":checked");
+							const parking = $('#parking').is(":checked");
+							const roomService = $('#roomService').is(":checked");
 							window.location.href = `/Hotels/roomFilter?checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}&children=${children}&priceRange=${priceRange}&hotWater=${hotWater}&heater=${heater}&kingBeds=${kingBeds}&balcony=${balcony}&parking=${parking}&roomService=${roomService}&hotelId=${hotelId}`;
 
 							// const data = JSON.stringify({
@@ -164,26 +163,6 @@
 								roomFilter();
 							}
 						})
-						// toggling checkbox values
-						$("#hotWater").click(() => {
-							$("#hotWater").val() == 'true' ? $("#hotWater").val(false) : $("#hotWater").val(true)
-						})
-						$("#heater").click(() => {
-							$("#heater").val() == 'true' ? $("#heater").val('false') : $("#heater").val('true')
-						})
-						$("#kingBeds").click(() => {
-							$("#kingBeds").val() == 'true' ? $("#kingBeds").val('false') : $("#kingBeds").val('true')
-						})
-						$("#balcony").click(() => {
-							$("#balcony").val() == 'true' ? $("#balcony").val('false') : $("#balcony").val('true')
-						})
-						$("#parking").click(() => {
-							$("#parking").val() == 'true' ? $("#parking").val('false') : $("#parking").val('true')
-						})
-						$("#roomService").click(() => {
-							$("#roomService").val() == 'true' ? $("#roomService").val('false') : $("#roomService").val('true')
-						})
-						// /////////////////////
 
 						$("#roomAdults").change(() => {
 							roomFilter();

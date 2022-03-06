@@ -15,6 +15,7 @@ const sliderGallery = require('../Admin/models/SliderGallery');
 const subscribeModel = require('../models/subscribeModel');
 const { json } = require("express");
 const Hotel = require("../Admin/models/Hotel");
+const checkout = require("safepay/dist/resources/checkout");
 
 // HomePage
 const home = async (req, res, next) => {
@@ -412,8 +413,8 @@ const roomFilter = async (req, res, next)=>{
   const checkOut = req.query.checkOut.replace(/\./g, "/");
   const adults = req.query.adults;
   const children = req.query.children;
-  const priceRange = req.query.priceRange;
-  const hotWater = Boolean(req.query.hotWater);
+  const priceRange = Number(req.query.priceRange);
+  const hotWater = req.query.hotWater;
   const heater = req.query.heater;
   const kingBeds = req.query.kingBeds;
   const balcony = req.query.balcony;
@@ -421,34 +422,49 @@ const roomFilter = async (req, res, next)=>{
   const roomService = req.query.roomService;
 
   const hotel = await HotelsModel.findById(hotelId);
-  const queryParams = {};
-  const filteredRooms = [];
+  let filteredRooms = [];
 
-  if(hotWater){
-    console.log('hotwater ticked')
+  switch (true) {
+    case adults != "false" && children != "false" && priceRange < 25000:
+      let people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
+      for (let i = 0; i < hotel.rooms.length; i++) {
+        if (hotel.rooms[i].beds == people) {
+          filteredRooms.push(hotel.rooms[i]);
+        }
+      }
+      break;
+    case adults != "false":
+      for (let i = 0; i < hotel.rooms.length; i++) {
+        if (hotel.rooms[i].beds == Number(adults)) {
+          filteredRooms.push(hotel.rooms[i]);
+        }
+      }
+      break;
+    case priceRange < 25000:
+      for (let i = 0; i < hotel.rooms.length; i++) {
+        if (hotel.rooms[i].charges <= priceRange) {
+          filteredRooms.push(hotel.rooms[i]);
+        }
+      }
+      break;
+    default:
+      res.redirect('/Hotels/rooms/' + hotelId);
+      return;
   }
 
-  // if (adults != "false" && children != "false") {
-  //   let people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
-  //   for (let i = 0; i < hotel.rooms.length; i++) {
-  //     if (hotel.rooms[i].occupency == people) {
-  //       filteredRooms.push(hotel.rooms[i]);
-  //     }
-  //   }
-  // } else if (adults != "false") {
-  //   for (let i = 0; i < hotel.rooms.length; i++) {
-  //     if (hotel.rooms[i].occupency == Number(adults)) {
-  //       filteredRooms.push(hotel.rooms[i]);
-  //     }
-  //   }
-  // }
-  
+  filteredRooms.forEach((item, i)=>{
+
+    console.log(item.hotWater == Boolean(hotWater))
+  })
+
+
+
   res.render("./pages/Hotels/hotelRooms", {
     loggedIn: req.session.userLoggedIn,
     oldInput: {
       hotelId: hotelId,
-      checkIn: checkIn,
-      checkOut: checkOut,
+      // checkIn: checkIn,
+      // checkOut: checkOut,
       adults: adults,
       children: children,
       priceRange: priceRange,
