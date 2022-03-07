@@ -422,11 +422,19 @@ const roomFilter = async (req, res, next)=>{
   const roomService = req.query.roomService;
 
   const hotel = await HotelsModel.findById(hotelId);
-  let filteredRooms = [];
-
+  const filteredRooms = [];
+  let people;
   switch (true) {
+    case adults != "false" && children != "false" && priceRange < 25000 && (hotWater == 'true') && (balcony == 'true') && (kingBeds == 'true'):
+      people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
+      hotel.rooms.forEach((room)=> {
+        if (room.beds == people && room.charges <= priceRange && room.hotWater && room.balcony && room.bedSize == 'king') {
+          filteredRooms.push(room);
+        }
+      })
+      break;
     case adults != "false" && children != "false" && priceRange < 25000:
-      let people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
+      people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
       hotel.rooms.forEach((room)=> {
         if (room.beds == people) {
           filteredRooms.push(room);
@@ -447,22 +455,26 @@ const roomFilter = async (req, res, next)=>{
         }
       })
       break;
+    case (hotWater == 'true') && (balcony == 'true') && (kingBeds == 'true'):
+      hotel.rooms.forEach((room)=>{
+        room.hotWater && room.balcony && room.bedSize == 'king' ? filteredRooms.push(room) : '';
+      });
+      break;
     case (hotWater == 'true'):
-      hotel.rooms.forEach((room, i)=>{
-        if(!room.hotWater){
-          filteredRooms.splice(i, 0);
-        }
-      })
+      hotel.rooms.forEach((room)=>{
+        room.hotWater ? filteredRooms.push(room) : '';
+      });
       break;
     case (balcony == 'true'):
-      console.log('balcony ticked')
+      hotel.rooms.forEach((room)=>{
+        room.balcony ? filteredRooms.push(room) : '';
+      });
       break;
     case (kingBeds == 'true'):
-      console.log('king bed ticked');
+      hotel.rooms.forEach((room)=>{
+        room.bedSize == 'king' ? filteredRooms.push(room) : '';
+      });
       break;
-    // default:
-    //   res.redirect('/Hotels/rooms/' + hotelId);
-    //   return;
   }
 
 
