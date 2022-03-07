@@ -11,8 +11,8 @@ const ToursModel = require("../Admin/models/Tour");
 const NewsModel = require("../Admin/models/Updates");
 const UsersModel = require("../models/usersModel");
 const FeedbackModel = require("../Admin/models/Feedback");
-const sliderGallery = require('../Admin/models/SliderGallery');
-const subscribeModel = require('../models/subscribeModel');
+const sliderGallery = require("../Admin/models/SliderGallery");
+const subscribeModel = require("../models/subscribeModel");
 const { json } = require("express");
 const Hotel = require("../Admin/models/Hotel");
 const checkout = require("safepay/dist/resources/checkout");
@@ -39,10 +39,10 @@ const home = async (req, res, next) => {
   }
 
   //return random data
-  function getRandomData(random, data){
-    let randomData = []
-    for(let i= random; i< data.length; i++){
-      if(typeof data[i] === undefined){
+  function getRandomData(random, data) {
+    let randomData = [];
+    for (let i = random; i < data.length; i++) {
+      if (typeof data[i] === undefined) {
         break;
       }
       randomData.push(data[i]);
@@ -55,7 +55,7 @@ const home = async (req, res, next) => {
   const appartmentsRandom = getRandom(appartments.length);
   const toursRandom = getRandom(tours.length);
   const vehiclesRandom = getRandom(vehicles.length);
-  
+
   // save random data for homepage
   const ourHotelsIn = getRandomData(hotelsRandom, hotels);
   const ourtAppartmentsIn = getRandomData(appartmentsRandom, appartments);
@@ -69,7 +69,7 @@ const home = async (req, res, next) => {
     hotels: ourHotelsIn,
     appartments: ourtAppartmentsIn,
     tours: ourToursIn,
-    vehicles: ourVehiclesIn
+    vehicles: ourVehiclesIn,
   });
 };
 
@@ -124,7 +124,7 @@ const findAppartments = async (req, res, next) => {
 
   let filteredAppartments = [];
   if (checkIn && adults != "false") {
-    console.log('checkin and adults')
+    console.log("checkin and adults");
 
     for (let i = 0; i < appartments.length; i++) {
       let availibilityFlag = false;
@@ -151,9 +151,8 @@ const findAppartments = async (req, res, next) => {
         filteredAppartments.push(appartments[i]);
       }
     }
-
   } else if (checkIn) {
-    console.log('just checkin')
+    console.log("just checkin");
 
     for (let i = 0; i < appartments.length; i++) {
       let availibilityFlag = false;
@@ -181,9 +180,8 @@ const findAppartments = async (req, res, next) => {
         filteredAppartments.push(appartments[i]);
       }
     }
-
   } else if (adults != "false") {
-    console.log('just adults')
+    console.log("just adults");
 
     for (let i = 0; i < appartments.length; i++) {
       let availibilityFlag = true;
@@ -195,11 +193,8 @@ const findAppartments = async (req, res, next) => {
         filteredAppartments.push(appartments[i]);
       }
     }
-
-  }else{
-
+  } else {
     filteredAppartments = [...appartments];
-
   }
 
   res.render("./pages/Appartments/allappartments", {
@@ -207,13 +202,12 @@ const findAppartments = async (req, res, next) => {
     areas: areas,
     appartments: filteredAppartments,
   });
-
 };
 
 const postAppartmentBooking = async (req, res, next) => {
   const appartmentId = req.body.appartmentId;
-  const checkIn = req.body.checkIn.replace(/\./g, "/");;
-  const checkOut = req.body.checkOut.replace(/\./g, "/");;
+  const checkIn = req.body.checkIn.replace(/\./g, "/");
+  const checkOut = req.body.checkOut.replace(/\./g, "/");
   const adults = req.body.adults;
   const children = req.body.children;
 
@@ -278,7 +272,7 @@ const findHotels = async (req, res, next) => {
 
   let filteredHotels = [];
   if (checkIn && adults != "false") {
-    console.log('checkin and adults')
+    console.log("checkin and adults");
 
     for (let i = 0; i < hotels.length; i++) {
       let availibilityFlag = false;
@@ -310,12 +304,10 @@ const findHotels = async (req, res, next) => {
         filteredHotels.push(hotels[i]);
       }
     }
-
   } else if (checkIn) {
-    console.log('just checkin')
+    console.log("just checkin");
 
     for (let i = 0; i < hotels.length; i++) {
-
       let availibilityFlag = false;
       //convert the date to iso format for comparison
       checkIn = new Date(checkIn);
@@ -341,14 +333,11 @@ const findHotels = async (req, res, next) => {
       if (availibilityFlag) {
         filteredHotels.push(hotels[i]);
       }
-
     }
-
   } else if (adults != "false") {
-    console.log('just adults')
+    console.log("just adults");
 
     for (let i = 0; i < hotels.length; i++) {
-
       let availibilityFlag = false;
       for (let j = 0; j < hotels[i].rooms.length; j++) {
         if (adults <= hotels[i].rooms[j].occupency) {
@@ -359,11 +348,8 @@ const findHotels = async (req, res, next) => {
         filteredHotels.push(hotels[i]);
       }
     }
-
-  }else{
-
+  } else {
     filteredHotels = [...hotels];
-
   }
 
   res.render("./pages/Hotels/hotels", {
@@ -371,7 +357,6 @@ const findHotels = async (req, res, next) => {
     hotels: filteredHotels,
     areas: areas,
   });
-
 };
 
 const hotelGallery = async (req, res, next) => {
@@ -390,27 +375,27 @@ const hotelRooms = async (req, res, next) => {
   res.render("./pages/Hotels/hotelRooms", {
     loggedIn: req.session.userLoggedIn,
     oldInput: {
-      hotelId: '',
-      checkIn: '',
-      checkOut: '',
-      adults: '',
+      hotelId: "",
+      checkIn: "",
+      checkOut: "",
+      adults: "",
       priceRange: 25000,
       hotWater: false,
       heater: false,
       kingBeds: false,
       balcony: false,
       parking: false,
-      roomService: false
+      roomService: false,
     },
     hotelId: hotelId,
     rooms: rooms,
   });
 };
 
-const roomFilter = async (req, res, next)=>{
+const roomFilter = async (req, res, next) => {
   const hotelId = req.query.hotelId;
-  const checkIn = req.query.checkIn.replace(/\./g, "/");
-  const checkOut = req.query.checkOut.replace(/\./g, "/");
+  const checkIn = req.query.checkIn;
+  const checkOut = req.query.checkOut;
   const adults = req.query.adults;
   const children = req.query.children;
   const priceRange = Number(req.query.priceRange);
@@ -424,90 +409,142 @@ const roomFilter = async (req, res, next)=>{
   const hotel = await HotelsModel.findById(hotelId);
   const filteredRooms = [];
   let people;
+
   switch (true) {
-    case adults != "false" && children != "false" && priceRange < 25000 && (hotWater == 'true') && (balcony == 'true') && (kingBeds == 'true'):
-      people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
-      hotel.rooms.forEach((room)=> {
-        if (room.beds == people && room.charges <= priceRange && room.hotWater && room.balcony && room.bedSize == 'king') {
-          filteredRooms.push(room);
-        }
-      })
-      break;
-    case adults != "false" && children != "false" && priceRange < 25000 && (hotWater == 'true')  && (balcony == 'true'):
-      people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
-      hotel.rooms.forEach((room)=> {
-        if (room.beds == people && room.charges <= priceRange && room.hotWater && room.balcony) {
-          filteredRooms.push(room);
-        }
-      })
-      break;
-    case adults != "false" && children != "false" && priceRange < 25000 && (hotWater == 'true'):
-      people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
-      hotel.rooms.forEach((room)=> {
-        if (room.beds == people && room.charges <= priceRange && room.hotWater) {
-          filteredRooms.push(room);
-        }
-      })
-      break;
-    case adults != "false" && children != "false" && priceRange < 25000:
-      people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
-      hotel.rooms.forEach((room)=> {
-        if (room.beds == people && room.charges <= priceRange) {
-          filteredRooms.push(room);
-        }
-      })
-      break;
+    
     case adults != "false" && children != "false":
       people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
-      hotel.rooms.forEach((room)=> {
-        if (room.beds == people) {
-          filteredRooms.push(room);
+      hotel.rooms.forEach((room) => {
+        if (hotWater == "true" && balcony == "true" && kingBeds == "true") {
+          room.beds == people &&
+          room.hotWater &&
+          room.bedSize == "king" &&
+          room.balcony
+            ? filteredRooms.push(room)
+            : "";
+        } else if (hotWater == "true" && balcony == "true") {
+          room.beds == people && room.hotWater && room.balcony
+            ? filteredRooms.push(room)
+            : "";
+        } else if (hotWater == "true" && kingBeds == "true") {
+          room.beds == people && room.hotWater && room.bedSize == "king"
+            ? filteredRooms.push(room)
+            : "";
+        } else if (balcony == "true" && kingBeds == "true") {
+          room.beds == people && room.balcony && room.bedSize == "king"
+            ? filteredRooms.push(room)
+            : "";
+        } else if (hotWater == "true") {
+          room.beds == people && room.hotWater ? filteredRooms.push(room) : "";
+        } else if (balcony == "true") {
+          room.beds == people && room.balcony ? filteredRooms.push(room) : "";
+        } else if (kingBeds == "true") {
+          room.beds == people && room.bedSize == "king"
+            ? filteredRooms.push(room)
+            : "";
+        }else if(priceRange < 25000){
+          room.beds == people && room.charges <= priceRange ? filteredRooms.push(room) : "";
+        } else {
+          room.beds == people ? filteredRooms.push(room) : "";
         }
-      })
+      });
+      break;
+    case checkIn != '':
+      hotel.rooms.forEach((room) => {
+        if(room.reservations.length == 0){
+          filteredRooms.push(room);
+          return;
+        }
+        let flag = false;
+        let formatedCheckIn = new Date(checkIn.replace(/\./g, "/"));
+        room.reservations.forEach((reservation) => {
+          if (formatedCheckIn > reservation.checkOut) {
+            flag = true;
+          }
+        });
+        if(flag){
+          filteredRooms.push(room);
+          return;
+        }
+      });
       break;
     case adults != "false":
-      hotel.rooms.forEach((room)=> {
-        if (room.beds == Number(adults)) {
-          filteredRooms.push(room);
+      people = Number(adults);
+      hotel.rooms.forEach((room) => {
+        if (hotWater == "true" && balcony == "true" && kingBeds == "true") {
+          room.beds == people &&
+          room.hotWater &&
+          room.bedSize == "king" &&
+          room.balcony
+            ? filteredRooms.push(room)
+            : "";
+        } else if (hotWater == "true" && balcony == "true") {
+          room.beds == people && room.hotWater && room.balcony
+            ? filteredRooms.push(room)
+            : "";
+        } else if (hotWater == "true" && kingBeds == "true") {
+          room.beds == people && room.hotWater && room.bedSize == "king"
+            ? filteredRooms.push(room)
+            : "";
+        } else if (balcony == "true" && kingBeds == "true") {
+          room.beds == people && room.balcony && room.bedSize == "king"
+            ? filteredRooms.push(room)
+            : "";
+        } else if (hotWater == "true") {
+          room.beds == people && room.hotWater ? filteredRooms.push(room) : "";
+        } else if (balcony == "true") {
+          room.beds == people && room.balcony ? filteredRooms.push(room) : "";
+        } else if (kingBeds == "true") {
+          room.beds == people && room.bedSize == "king"
+            ? filteredRooms.push(room)
+            : "";
+        }else if(priceRange < 25000){
+          room.beds == people && room.charges <= priceRange ? filteredRooms.push(room) : "";
+        } else {
+          room.beds == people ? filteredRooms.push(room) : "";
         }
-      })
+      });
       break;
-    case priceRange < 25000:
-      hotel.rooms.forEach((room)=> {
-        if (room.charges <= priceRange) {
-          filteredRooms.push(room);
+    default:
+      hotel.rooms.forEach((room) => {
+        if (hotWater == "true" && balcony == "true" && kingBeds == "true") {
+          room.hotWater &&
+          room.bedSize == "king" &&
+          room.balcony
+            ? filteredRooms.push(room)
+            : "";
+        } else if (hotWater == "true" && balcony == "true") {
+          room.hotWater && room.balcony
+            ? filteredRooms.push(room)
+            : "";
+        } else if (hotWater == "true" && kingBeds == "true") {
+          room.hotWater && room.bedSize == "king"
+            ? filteredRooms.push(room)
+            : "";
+        } else if (balcony == "true" && kingBeds == "true") {
+          room.balcony && room.bedSize == "king"
+            ? filteredRooms.push(room)
+            : "";
+        } else if (hotWater == "true") {
+          room.hotWater ? filteredRooms.push(room) : "";
+        } else if (balcony == "true") {
+          room.balcony ? filteredRooms.push(room) : "";
+        } else if (kingBeds == "true") {
+          room.bedSize == "king"
+            ? filteredRooms.push(room)
+            : "";
+        }else if(priceRange < 25000){
+          room.charges <= priceRange ? filteredRooms.push(room) : "";
         }
-      })
-      break;
-    case (hotWater == 'true') && (balcony == 'true') && (kingBeds == 'true'):
-      hotel.rooms.forEach((room)=>{
-        room.hotWater && room.balcony && room.bedSize == 'king' ? filteredRooms.push(room) : '';
       });
-      break;
-    case (hotWater == 'true'):
-      hotel.rooms.forEach((room)=>{
-        room.hotWater ? filteredRooms.push(room) : '';
-      });
-      break;
-    case (balcony == 'true'):
-      hotel.rooms.forEach((room)=>{
-        room.balcony ? filteredRooms.push(room) : '';
-      });
-      break;
-    case (kingBeds == 'true'):
-      hotel.rooms.forEach((room)=>{
-        room.bedSize == 'king' ? filteredRooms.push(room) : '';
-      });
-      break;
   }
-
 
   res.render("./pages/Hotels/hotelRooms", {
     loggedIn: req.session.userLoggedIn,
     oldInput: {
       hotelId: hotelId,
-      // checkIn: checkIn,
-      // checkOut: checkOut,
+      checkIn: checkIn,
+      checkOut: checkOut,
       adults: adults,
       children: children,
       priceRange: priceRange,
@@ -516,13 +553,12 @@ const roomFilter = async (req, res, next)=>{
       kingBeds: kingBeds,
       balcony: balcony,
       parking: parking,
-      roomService: roomService
+      roomService: roomService,
     },
     hotelId: hotel.id,
-    rooms: filteredRooms
+    rooms: filteredRooms,
   });
-
-}
+};
 
 // vehicles
 const vehicles = async (req, res, next) => {
@@ -561,12 +597,12 @@ const findVehicles = async (req, res, next) => {
   const adults = req.query.adults;
 
   const queryParams = {};
-  if(location && adults != 'false'){
+  if (location && adults != "false") {
     queryParams.area = location;
     queryParams.seats = adults;
-  }else if (location) {
+  } else if (location) {
     queryParams.area = location;
-  }else if(adults != 'false'){
+  } else if (adults != "false") {
     queryParams.seats = adults;
   }
 
@@ -580,7 +616,6 @@ const findVehicles = async (req, res, next) => {
     areas: areas,
     vehicles: vehicles,
   });
-
 };
 
 const postVehicleBooking = async (req, res, next) => {
@@ -720,21 +755,20 @@ const gallerytandh = (req, res, next) =>
 
 // News
 const news = (req, res, next) => {
-
   const page = Number(req.query.page);
   const ITEMS_PER_PAGE = 6;
   let totalItems;
-  
+
   NewsModel.find()
     .count()
-    .then(newsLength => {
+    .then((newsLength) => {
       totalItems = newsLength;
       return NewsModel.find()
         .skip((page - 1) * ITEMS_PER_PAGE)
         .limit(ITEMS_PER_PAGE);
     })
-    .then(news => {
-      res.render('./pages/News/news', {
+    .then((news) => {
+      res.render("./pages/News/news", {
         loggedIn: req.session.userLoggedIn,
         news: news,
         totalProducts: totalItems,
@@ -742,15 +776,14 @@ const news = (req, res, next) => {
         hasPreviousPage: page > 1,
         nextPage: page + 1,
         previousPage: page - 1,
-        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
+        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
       });
     })
-    .catch(err => {
+    .catch((err) => {
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(error);
     });
-    
 };
 
 const exploreNews = async (req, res, next) => {
@@ -834,12 +867,11 @@ const verification = (req, res, next) =>
 const forgotPassword = (req, res, next) =>
   res.render("./pages/User/forgotPassword", {
     loggedIn: req.session.userLoggedIn,
-    flashMessage: '',
-    email: ''
+    flashMessage: "",
+    email: "",
   });
 
 const sendMail = async (req, res, next) => {
-
   const userEmail = req.body.email;
 
   const errors = validationResult(req);
@@ -848,12 +880,12 @@ const sendMail = async (req, res, next) => {
     res.render("./pages/User/forgotPassword", {
       loggedIn: req.session.userLoggedIn,
       flashMessage: errors.errors[0].msg,
-      email: userEmail
+      email: userEmail,
     });
-  }else{
+  } else {
     const nodemailer = require("nodemailer");
 
-    const user = await UsersModel.findOne({email: userEmail});
+    const user = await UsersModel.findOne({ email: userEmail });
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -861,25 +893,24 @@ const sendMail = async (req, res, next) => {
         pass: "cin>>mygoogleid1234",
       },
     });
-  
+
     const mailOptions = {
       from: process.env.EMAIL,
       to: userEmail,
       subject: "Reset Password",
       html: `<p>You requested password please click the link below to reset your password.</p> <hr> <a href='http://localhost:3000/User/passwordReset/?u=${user.id}'>reset password</a>`,
     };
-  
+
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
-        res.redirect('/User/forgotPassword')
+        res.redirect("/User/forgotPassword");
       } else {
         console.log("Email sent: " + info.response);
-        res.redirect('/user/mailSent')
+        res.redirect("/user/mailSent");
       }
-    }); 
+    });
   }
-
 
   // const mailjet = require("node-mailjet").connect(
   //   "61e0d98a1a3d43d7aa28d3be0ab1d613",
@@ -914,13 +945,9 @@ const sendMail = async (req, res, next) => {
   //   .catch((err) => {
   //     console.log(err.statusCode);
   //   });
-
-
-
-
 };
 
-const passwordReset = async (req, res, next) =>{
+const passwordReset = async (req, res, next) => {
   const id = req.query.u;
   try {
     res.render("./pages/User/passwordReset", {
@@ -931,11 +958,10 @@ const passwordReset = async (req, res, next) =>{
     console.log(err);
     res.redirect("/User/forgotPassword");
   }
-  
-}
+};
 
 //post request for password reset
-const resetPassword = async (req, res, next)=>{
+const resetPassword = async (req, res, next) => {
   const userId = req.body.userId;
   const password = req.body.password;
 
@@ -948,14 +974,13 @@ const resetPassword = async (req, res, next)=>{
     const user = await UsersModel.findById(userId);
     user.password = hashedPassword;
     user.save();
-    console.log('password reset succesffully');
+    console.log("password reset succesffully");
     res.redirect("/");
   } catch (err) {
     console.log(err);
     res.redirect("/User/forgotPassword");
   }
-}
- 
+};
 
 //postLogin
 const postLogin = (req, res, next) => {
@@ -1064,20 +1089,20 @@ const postSignUp = async (req, res) => {
   }
 };
 
-const subscribe = (req, res)=>{
+const subscribe = (req, res) => {
   const email = req.body.email;
   const subscription = new subscribeModel({
-    email: email
-  })
-  try{
+    email: email,
+  });
+  try {
     subscription.save();
-    console.log('subscription succeeded')
-    res.redirect('/');
-  }catch(err){
+    console.log("subscription succeeded");
+    res.redirect("/");
+  } catch (err) {
     console.log(err);
-    res.redirect('/');
+    res.redirect("/");
   }
-}
+};
 
 // Terms And Conditions
 const termsAndCondition = (req, res, next) =>
@@ -1089,20 +1114,23 @@ const termsAndCondition = (req, res, next) =>
 const faqs = (req, res, next) =>
   res.render("./pages/FAQs/faqs", { loggedIn: req.session.userLoggedIn });
 
-const payment = (req, res, next)=>{
-  res.render('./pages/Payment/checkout', {layout: false, loggedIn: req.session.userLoggedIn});
-}
+const payment = (req, res, next) => {
+  res.render("./pages/Payment/checkout", {
+    layout: false,
+    loggedIn: req.session.userLoggedIn,
+  });
+};
 
 const safepayPayment = async (req, res) => {
   // const amount = req.body.amount;
-  
+
   const config = {
     environment: "sandbox",
     sandbox: {
       baseUrl: "https://sandbox.api.getsafepay.com",
       apiKey: process.env.SAFEPAY_API_KEY,
       apiSecret: process.env.SAFEPAY_SECRET_KEY,
-    }
+    },
     // production: {
     //   baseUrl: "https://api.getsafepay.com",
     //   apiKey: process.env.API_KEY,
@@ -1112,7 +1140,7 @@ const safepayPayment = async (req, res) => {
 
   let sfpy = new Safepay(config);
 
-  console.log(sfpy)
+  console.log(sfpy);
 
   // --------------------
   // Payments
@@ -1128,7 +1156,7 @@ const safepayPayment = async (req, res) => {
       return response.data;
     })
     .then((data) => {
-      console.log(data)
+      console.log(data);
       return sfpy.checkout.create({
         tracker: data.data.token,
         orderId: "1234",
@@ -1143,9 +1171,8 @@ const safepayPayment = async (req, res) => {
     })
     .catch((error) => {
       console.error(error);
-      res.redirect('/')
+      res.redirect("/");
     });
-
 };
 
 const stripePayment = async (req, res) => {
@@ -1158,50 +1185,57 @@ const stripePayment = async (req, res) => {
     currency: "usd",
   });
 
-  try{
+  try {
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
           // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-  
+
           price: price.id,
-  
+
           quantity: 1,
         },
       ],
-  
+
       mode: "payment",
-  
+
       success_url: `${process.env.BASE_URL}/payment/success`,
-  
+
       cancel_url: `${process.env.BASE_URL}/https://bookingring.herokuapp.com/`,
     });
-  
-    res.redirect(303, session.url);
-  }catch(err){
-    console.log(err);
-    res.redirect('/payment/error');
-  }
 
-  
+    res.redirect(303, session.url);
+  } catch (err) {
+    console.log(err);
+    res.redirect("/payment/error");
+  }
 };
 
-const paymentSuccess = (req, res, next)=>{
-  res.render('./pages/Payment/success',  {layout: false, loggedIn: req.session.userLoggedIn});
-}
+const paymentSuccess = (req, res, next) => {
+  res.render("./pages/Payment/success", {
+    layout: false,
+    loggedIn: req.session.userLoggedIn,
+  });
+};
 
-const paymentCancel = (req, res, next)=>{
-  res.render('./pages/Payment/cancel',  {layout: false, loggedIn: req.session.userLoggedIn});
-}
+const paymentCancel = (req, res, next) => {
+  res.render("./pages/Payment/cancel", {
+    layout: false,
+    loggedIn: req.session.userLoggedIn,
+  });
+};
 
-const paymentError = (req, res, next)=>{
-  res.render('./pages/Payment/error',  {layout: false, loggedIn: req.session.userLoggedIn});
-}
+const paymentError = (req, res, next) => {
+  res.render("./pages/Payment/error", {
+    layout: false,
+    loggedIn: req.session.userLoggedIn,
+  });
+};
 
-const jazzCashResponse = (req, res)=>{
+const jazzCashResponse = (req, res) => {
   console.log(req.data);
-  res.send('jazz response arrived');
-}
+  res.send("jazz response arrived");
+};
 
 module.exports = {
   // HomePage
@@ -1279,5 +1313,5 @@ module.exports = {
   paymentSuccess,
   paymentCancel,
   paymentError,
-  jazzCashResponse
+  jazzCashResponse,
 };

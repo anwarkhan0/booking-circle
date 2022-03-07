@@ -116,51 +116,20 @@
 							const parking = $('#parking').is(":checked");
 							const roomService = $('#roomService').is(":checked");
 							window.location.href = `/Hotels/roomFilter?checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}&children=${children}&priceRange=${priceRange}&hotWater=${hotWater}&heater=${heater}&kingBeds=${kingBeds}&balcony=${balcony}&parking=${parking}&roomService=${roomService}&hotelId=${hotelId}`;
-
-							// const data = JSON.stringify({
-							// 	checkIn: checkIn,
-							// 	checkOut: checkOut,
-							// 	adults: adults,
-							// 	children: children,
-							// 	priceRange: priceRange,
-							// 	hotWater: hotWater,
-							// 	heater: heater,
-							// 	kingBeds: kingBeds,
-							// 	balcony: balcony,
-							// 	parking: parking,
-							// 	roomService: roomService,
-							// 	hotelId: hotelId
-							// });
-							// console.log(data)
-							// fetch('/Hotels/roomFilter', {
-							// 	method: "POST",
-							// 	body: data,
-							// 	headers: {
-							// 		"Content-type": "application/json; charset=UTF-8"
-							// 	}
-							// })
-							// 	// Checking Status
-							// 	.then(response => {
-							// 		if (response.status === 200) {
-							// 			console.log('succes')
-							// 		} else {
-							// 			alert('oop\'s something went wrong, Please Try again')
-							// 		}
-							// 	})
 						}
 
+						const previousCheckIn = $("#fromDate").val();
+						const previousCheckOut = $("#toDate").val();
 						$("#fromDate").change(() => {
-							const valStart = $("#fromDate").val();
-							const valEnd = $("#toDate").val();
-							if(valStart != '' && valStart != valEnd){
-								roomFilter();
+							const currentCheckIn = $("#fromDate").val();
+							if(currentCheckIn != previousCheckIn){
+								roomFilter()
 							}
 						})
-						$("#fromDate").change(() => {
-							const valStart = $("#fromDate").val();
-							const valEnd = $("toDate").val();
-							if(valStart != '' && valStart != valEnd){
-								roomFilter();
+						$("#toDate").change(() => {
+							const currentCheckOut = $("#toDate").val();
+							if(currentCheckOut != previousCheckOut){
+								roomFilter()
 							}
 						})
 
