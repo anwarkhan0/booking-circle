@@ -433,7 +433,31 @@ const roomFilter = async (req, res, next)=>{
         }
       })
       break;
+    case adults != "false" && children != "false" && priceRange < 25000 && (hotWater == 'true')  && (balcony == 'true'):
+      people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
+      hotel.rooms.forEach((room)=> {
+        if (room.beds == people && room.charges <= priceRange && room.hotWater && room.balcony) {
+          filteredRooms.push(room);
+        }
+      })
+      break;
+    case adults != "false" && children != "false" && priceRange < 25000 && (hotWater == 'true'):
+      people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
+      hotel.rooms.forEach((room)=> {
+        if (room.beds == people && room.charges <= priceRange && room.hotWater) {
+          filteredRooms.push(room);
+        }
+      })
+      break;
     case adults != "false" && children != "false" && priceRange < 25000:
+      people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
+      hotel.rooms.forEach((room)=> {
+        if (room.beds == people && room.charges <= priceRange) {
+          filteredRooms.push(room);
+        }
+      })
+      break;
+    case adults != "false" && children != "false":
       people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
       hotel.rooms.forEach((room)=> {
         if (room.beds == people) {
