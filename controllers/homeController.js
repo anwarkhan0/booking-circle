@@ -110,7 +110,6 @@ const findAppartments = async (req, res, next) => {
   let checkIn = req.query.checkIn.replace(/\./g, "/");
   // let checkOut = req.query.checkOut.replace(/\./g, "/");
   const location = req.query.area;
-  const adults = req.query.adults;
 
   const queryParams = {};
   if (location) {
@@ -123,35 +122,7 @@ const findAppartments = async (req, res, next) => {
   const appartments = await AppartmentModel.find(queryParams);
 
   let filteredAppartments = [];
-  if (checkIn && adults != "false") {
-    console.log("checkin and adults");
-
-    for (let i = 0; i < appartments.length; i++) {
-      let availibilityFlag = false;
-      //convert the date to iso format for comparison
-      checkIn = new Date(checkIn);
-      let reservations = appartments[i].reservations;
-
-      //if hotels Rooms have no reservations
-      if (reservations.length === 0) {
-        filteredAppartments.push(appartments[i]);
-        continue;
-      }
-
-      for (let k = 0; k < reservations.length; k++) {
-        //if checkIn remains greater than checkout for all reservations then the appartment is available
-        if (checkIn > reservations[k].checkOut) {
-          availibilityFlag = true;
-        } else {
-          availibilityFlag = false;
-        }
-      }
-
-      if (availibilityFlag) {
-        filteredAppartments.push(appartments[i]);
-      }
-    }
-  } else if (checkIn) {
+  if (checkIn) {
     console.log("just checkin");
 
     for (let i = 0; i < appartments.length; i++) {
@@ -175,19 +146,6 @@ const findAppartments = async (req, res, next) => {
           availibilityFlag = false;
         }
       }
-
-      if (availibilityFlag) {
-        filteredAppartments.push(appartments[i]);
-      }
-    }
-  } else if (adults != "false") {
-    console.log("just adults");
-
-    for (let i = 0; i < appartments.length; i++) {
-      let availibilityFlag = true;
-      // if (adults <= appartments[i].occupency) {
-      //   availibilityFlag = true;
-      // }
 
       if (availibilityFlag) {
         filteredAppartments.push(appartments[i]);
@@ -1354,6 +1312,9 @@ const faqs = (req, res, next) =>
   res.render("./pages/FAQs/faqs", { loggedIn: req.session.userLoggedIn });
 
 const payment = (req, res, next) => {
+  if(!req.userLoggedIn){
+    res.redirect('/user/login')
+  }
   res.render("./pages/Payment/checkout", {
     layout: false,
     loggedIn: req.session.userLoggedIn,
