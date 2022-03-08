@@ -474,6 +474,130 @@ const roomFilter = async (req, res, next) => {
 
       });
       break;
+    case checkIn != "" && adults != "false":
+    
+      people = Number(adults);
+      hotel.rooms.forEach((room) => {
+        let reservationFlag = false;
+        let conditionsFlag = false;
+        let formatedCheckIn = new Date(checkIn.replace(/\./g, "/"));
+        // check the date against the reservation checkout dates
+        room.reservations.forEach((reservation) => {
+          if (formatedCheckIn > reservation.checkOut) {
+            reservationFlag = true;
+          }
+        });
+        // check for other options
+        if (hotWater == "true" && balcony == "true" && kingBeds == "true") {
+          room.beds == people &&
+          room.hotWater &&
+          room.bedSize == "king" &&
+          room.balcony
+            ? conditionsFlag=true
+            : "";
+        } else if (hotWater == "true" && balcony == "true") {
+          room.beds == people && room.hotWater && room.balcony
+            ? conditionsFlag=true
+            : "";
+        } else if (hotWater == "true" && kingBeds == "true") {
+          room.beds == people && room.hotWater && room.bedSize == "king"
+            ? conditionsFlag=true
+            : "";
+        } else if (balcony == "true" && kingBeds == "true") {
+          room.beds == people && room.balcony && room.bedSize == "king"
+            ? conditionsFlag=true
+            : "";
+        } else if (hotWater == "true") {
+          room.beds == people && room.hotWater
+            ? conditionsFlag=true
+            : "";
+        } else if (balcony == "true") {
+          room.beds == people && room.balcony
+            ? conditionsFlag=true
+            : "";
+        } else if (kingBeds == "true") {
+          room.beds == people && room.bedSize == "king"
+            ? conditionsFlag=true
+            : "";
+        } else if (priceRange < 25000) {
+          room.beds == people && room.charges <= priceRange
+            ? conditionsFlag=true
+            : "";
+        } else {
+          room.beds == people ? conditionsFlag=true : "";
+        }
+
+        if (room.reservations.length == 0 && conditionsFlag) {
+          filteredRooms.push(room);
+        }else if(reservationFlag && conditionsFlag){
+          filteredRooms.push(room);
+        }
+
+
+      });
+      break;
+    case checkIn != "" && children != "false":
+  
+      people = Number(children)/2;
+      hotel.rooms.forEach((room) => {
+        let reservationFlag = false;
+        let conditionsFlag = false;
+        let formatedCheckIn = new Date(checkIn.replace(/\./g, "/"));
+        // check the date against the reservation checkout dates
+        room.reservations.forEach((reservation) => {
+          if (formatedCheckIn > reservation.checkOut) {
+            reservationFlag = true;
+          }
+        });
+        // check for other options
+        if (hotWater == "true" && balcony == "true" && kingBeds == "true") {
+          room.beds == people &&
+          room.hotWater &&
+          room.bedSize == "king" &&
+          room.balcony
+            ? conditionsFlag=true
+            : "";
+        } else if (hotWater == "true" && balcony == "true") {
+          room.beds == people && room.hotWater && room.balcony
+            ? conditionsFlag=true
+            : "";
+        } else if (hotWater == "true" && kingBeds == "true") {
+          room.beds == people && room.hotWater && room.bedSize == "king"
+            ? conditionsFlag=true
+            : "";
+        } else if (balcony == "true" && kingBeds == "true") {
+          room.beds == people && room.balcony && room.bedSize == "king"
+            ? conditionsFlag=true
+            : "";
+        } else if (hotWater == "true") {
+          room.beds == people && room.hotWater
+            ? conditionsFlag=true
+            : "";
+        } else if (balcony == "true") {
+          room.beds == people && room.balcony
+            ? conditionsFlag=true
+            : "";
+        } else if (kingBeds == "true") {
+          room.beds == people && room.bedSize == "king"
+            ? conditionsFlag=true
+            : "";
+        } else if (priceRange < 25000) {
+          room.beds == people && room.charges <= priceRange
+            ? conditionsFlag=true
+            : "";
+        } else {
+          room.beds == people ? conditionsFlag=true : "";
+        }
+
+        if (room.reservations.length == 0 && conditionsFlag) {
+          filteredRooms.push(room);
+        }else if(reservationFlag && conditionsFlag){
+          filteredRooms.push(room);
+        }
+
+
+      });
+      break;
     // in case of adults and children
     case adults != "false" && children != "false":
       people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
@@ -731,10 +855,37 @@ const postVehicleBooking = async (req, res, next) => {
   }
 };
 
-const galleryAppRoom = (req, res, next) =>
-  res.render("./pages/Appartments/galleryAppRoom", {
+const galleryAppRoom = async (req, res, next) =>{
+  const hotels = await HotelsModel.find();
+  const appartments = await AppartmentModel.find();
+  const vehicles = await VehiclesModel.find();
+  const hotelGallery = [];
+  const appartmentsGallery = [];
+  const vehiclesGallery = [];
+  hotels.forEach((hotel)=>{
+    hotel.rooms.forEach((room)=>{
+      room.gallery.forEach((image) => {
+        hotelGallery.push(image);
+      });
+    })
+  })
+  appartments.forEach((appartment)=>{
+    appartment.gallery.forEach((image) => {
+      appartmentsGallery.push(image);
+    });
+  })
+  vehicles.forEach((vehicle)=>{
+    vehicle.gallery.forEach((image) => {
+      vehiclesGallery.push(image);
+    });
+  })
+  res.render("./Gallery/galleries", {
     loggedIn: req.session.userLoggedIn,
+    hGallery: hotelGallery,
+    aGallery: appartmentsGallery,
+    vGallery: vehiclesGallery
   });
+} 
 
 const roomBooking = async (req, res, next) => {
   const hotelId = req.params.hotelId;

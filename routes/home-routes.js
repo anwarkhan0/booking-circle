@@ -95,6 +95,9 @@ router.get("/payment/error", paymentError);
 router.post("/payment/jazzcash", jazzCashResponse)
 
 ///////////////////////// Services ///////////////////////////
+
+// Gallery
+router.get("/galleryAppRoom", galleryAppRoom);
 // Appartments
 router.get("/Appartments/availableAppartments/", findAppartments);
 router.get("/Appartments/appartments", appartments);
@@ -117,7 +120,6 @@ router.get("/Hotels/:location", searchHotels);
 router.get("/Vehicles/availableVehicles/", findVehicles);
 router.get("/Vehicles/list", vehicles);
 router.get("/Vehicles/vehicleBooking/:id", vehicleBooking);
-router.get("/Appartments/galleryAppRoom", galleryAppRoom);
 router.get("/Vehicles/:location", searchVehicles);
 router.post("/Vehicles/booking", postVehicleBooking);
 
