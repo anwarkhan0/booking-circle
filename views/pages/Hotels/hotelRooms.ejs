@@ -46,7 +46,7 @@
 													<%= rooms[i].description.substr(0, 60) + '....' %>
 												</p>
 												<a class="mt-1 btn btn-primary"
-													href="<%= `/Hotels/roomBooking/${hotelId}?i=${i}` %>">book from <%=
+													href="<%= `/Hotels/roomBooking/${hotelId}?roomId=${rooms[i].id}` %>">book from <%=
 														rooms[i].charges %>
 														PKR</a>
 

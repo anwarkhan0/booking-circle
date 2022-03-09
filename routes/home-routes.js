@@ -47,7 +47,7 @@ const {
 
   // Contact
   contact,
-  postFeedback,
+  postMessage,
 
   // User
   login,
@@ -87,7 +87,7 @@ const isAuth = require("../middleware/userAuth");
 // HomePage
 router.get("/", home);
 
-router.get("/payment", payment);
+// router.get("/payment", payment);
 router.get("/payment/paymentSafepay", safepayPayment);
 router.get("/payment/paymentStripe", stripePayment);
 router.get("/payment/success", paymentSuccess);
@@ -114,8 +114,8 @@ router.get("/Hotels/availableHotels/", findHotels);
 router.get("/Hotels/list", hotels);
 router.get("/Hotels/hotelGallery/:id", hotelGallery);
 router.get("/Hotels/rooms/:id", hotelRooms);
+router.get("/hotels/roomBooking/payment", postRoomBooking);
 router.get("/Hotels/roomBooking/:hotelId", roomBooking);
-router.post("/hotels/roomBooking", postRoomBooking);
 router.get("/Hotels/:location", searchHotels);
 
 router.get("/Vehicles/availableVehicles/", findVehicles);
@@ -141,7 +141,7 @@ router.get("/About/about", about);
 
 // Contact
 router.get("/Contact/contact", contact);
-router.post("/Contact/feedback", postFeedback);
+router.post("/Contact/feedback", postMessage);
 
 // User
 router.get("/User/login", login);

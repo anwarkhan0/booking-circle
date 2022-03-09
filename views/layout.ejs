@@ -71,34 +71,38 @@
 
 						$("#roomBooking").click(function () {
 							const roomId = $('#roomId').val();
-							const htoelId = $('#hotelId').val();
+							const hotelId= $('#hotelId').val();
 							const checkIn = $('#start-date-1').val();
 							const checkOut = $('#end-date-1').val();
 							const adults = $('#adults').val();
 							const children = $('#childs').val();
-							const data = JSON.stringify({
-								checkIn: checkIn,
-								checkOut: checkOut,
-								adults: adults,
-								children: children,
-								roomId: roomId,
-								hotelId: htoelId
-							});
-							fetch('/hotels/roomBooking', {
-								method: "POST",
-								body: data,
-								headers: {
-									"Content-type": "application/json; charset=UTF-8"
-								}
-							})
-								// Checking Status
-								.then(response => {
-									if (response.status === 200) {
-										console.log('succes')
-									} else {
-										alert('oop\'s something went wrong, Please Try again')
-									}
-								})
+							const routePath = '/Hotels/roomBooking/';
+							
+							window.location.href = `/Hotels/roomBooking/payment?roomId=${roomId}&hotelId=${hotelId}&checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}&children=${children}&routePath=${routePath}`;
+							// const data = JSON.stringify({
+							// 	checkIn: checkIn,
+							// 	checkOut: checkOut,
+							// 	adults: adults,
+							// 	children: children,
+							// 	roomId: roomId,
+							// 	hotelId: htoelId,
+							// 	redirectUrl: window.location.href
+							// });
+							// fetch('/payment', {
+							// 	method: "POST",
+							// 	body: data,
+							// 	headers: {
+							// 		"Content-type": "application/json; charset=UTF-8"
+							// 	}
+							// })
+							// 	// Checking Status
+							// 	.then(response => {
+							// 		if (response.status === 200) {
+							// 			console.log('succes')
+							// 		} else {
+							// 			alert('oop\'s something went wrong, Please Try again')
+							// 		}
+							// 	})
 						});
 
 						function roomFilter() {

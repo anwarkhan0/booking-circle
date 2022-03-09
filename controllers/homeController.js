@@ -10,7 +10,7 @@ const VehiclesModel = require("../Admin/models/Vehicles");
 const ToursModel = require("../Admin/models/Tour");
 const NewsModel = require("../Admin/models/Updates");
 const UsersModel = require("../models/usersModel");
-const FeedbackModel = require("../Admin/models/Feedback");
+const MessageModel = require("../Admin/models/Message");
 const sliderGallery = require("../Admin/models/SliderGallery");
 const subscribeModel = require("../models/subscribeModel");
 const queryModel = require('../Admin/models/Query');
@@ -207,8 +207,10 @@ const hotels = async (req, res, next) => {
 const searchHotels = async (req, res, next) => {
   const location = req.params.location;
   const hotels = await HotelsModel.find({ area: location });
-  res.render("./pages/Hotels/searchResult", {
+  const areas = await AreasModel.find();
+  res.render("./pages/Hotels/hotels", {
     loggedIn: req.session.userLoggedIn,
+    areas: areas,
     hotels: hotels,
   });
 };
@@ -848,43 +850,49 @@ const galleryAppRoom = async (req, res, next) =>{
 
 const roomBooking = async (req, res, next) => {
   const hotelId = req.params.hotelId;
-  const roomIndex = req.query.i;
+  const roomId = req.query.roomId;
 
   const hotel = await HotelsModel.findById(hotelId);
-  const room = hotel.rooms[roomIndex];
+  let selectedRoom;
+  hotel.rooms.forEach(room => room.id == roomId ? selectedRoom = room : '');
   res.render("./pages/Hotels/roomBooking", {
     loggedIn: req.session.userLoggedIn,
-    hotelId: hotelId,
-    room: room,
+    hotelId: hotel.id,
+    room: selectedRoom,
   });
 };
 
 const postRoomBooking = async (req, res, next) => {
-  const hotelId = req.body.hotelId;
-  const roomId = req.body.roomId;
-  const checkIn = req.body.checkIn.replace(/\./g, "/");
-  const checkOut = req.body.checkOut.replace(/\./g, "/");
-  const adults = req.body.adults;
-  const children = req.body.children;
+  const hotelId = req.query.hotelId;
+  const roomId = req.query.roomId;
+  const checkIn = req.query.checkIn.replace(/\./g, "/");
+  const checkOut = req.query.checkOut.replace(/\./g, "/");
+  const adults = req.query.adults;
+  const children = req.query.children;
+  const routePath = req.query.routePath;
+  const redirectUrl = routePath + hotelId + '?roomId=' + roomId;
 
+  if(!req.session.userLoggedIn){
+    req.session.redirectUrl = redirectUrl;
+    res.redirect('/user/login');
+    return;
+  }
   const hotel = await HotelsModel.findById(hotelId);
-  for (let i = 0; i < hotel.rooms.length; i++) {
-    if (hotel.rooms[i].id === roomId) {
-      hotel.rooms[i].reservations.push({
-        checkIn: new Date(checkIn),
-        checkOut: new Date(checkOut),
-        adults: adults,
-        children: children,
-      });
-    }
+  let selectedRoom;
+  hotel.rooms.forEach( room => room.id == roomId ? selectedRoom = room : '');
+  const bookingData = {
+    hotelId: hotelId,
+    roomId: roomId,
+    checkIn: checkIn,
+    checkOut: checkOut,
+    adults: adults,
+    children: children,
   }
-  try {
-    await hotel.save();
-    console.log("room booked");
-    res.redirect("/");
-  } catch (err) {
-    console.log(err);
-  }
+  req.session.bookingData = bookingData;
+  res.render("./pages/Payment/checkout", {
+    layout: false,
+    loggedIn: req.session.userLoggedIn,
+  });
 };
 
 // Tours
@@ -1007,22 +1015,23 @@ const contact = (req, res, next) => {
   res.render("./pages/Contact/contact", { loggedIn: req.session.userLoggedIn });
 };
 
-const postFeedback = async (req, res, next) => {
+const postMessage = async (req, res, next) => {
   const name = req.body.name;
   const email = req.body.email;
   const message = req.body.message;
 
   try {
-    const feedback = new FeedbackModel({
+    const feedback = new MessageModel({
       name: name,
       email: email,
       message: message,
     });
     await feedback.save();
-    console.log("feedback added");
+    console.log("message added");
     res.redirect("/");
   } catch (err) {
     console.log(err);
+    res.redirect('/');
   }
 };
 
@@ -1185,6 +1194,7 @@ const postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const errors = validationResult(req);
+  const redirectUrl = req.session.redirectUrl || '/';
 
   if (!errors.isEmpty()) {
     return res.status(422).render("../views/pages/User/login", {
@@ -1212,7 +1222,7 @@ const postLogin = (req, res, next) => {
             req.flash("message", "Welcome " + user.name);
             return req.session.save((err) => {
               console.log(err);
-              res.redirect("/");
+              res.redirect(redirectUrl);
             });
           }
 
@@ -1332,15 +1342,18 @@ const postQuery = (req, res, next)=>{
   }
 }
 
-const payment = (req, res, next) => {
-  if(!req.userLoggedIn){
-    res.redirect('/user/login')
-  }
-  res.render("./pages/Payment/checkout", {
-    layout: false,
-    loggedIn: req.session.userLoggedIn,
-  });
-};
+// const payment = (bookingData, redirectUrl, ) => {
+//   if(!req.session.userLoggedIn){
+//     req.session.redirectUrl = redirectUrl;
+//     res.redirect('/user/login');
+//     return;
+//   }
+//   req.session.bookingData = bookingData;
+//   res.render("./pages/Payment/checkout", {
+//     layout: false,
+//     loggedIn: req.session.userLoggedIn,
+//   });
+// };
 
 const safepayPayment = async (req, res) => {
   // const amount = req.body.amount;
@@ -1377,7 +1390,6 @@ const safepayPayment = async (req, res) => {
       return response.data;
     })
     .then((data) => {
-      console.log(data);
       return sfpy.checkout.create({
         tracker: data.data.token,
         orderId: "1234",
@@ -1387,7 +1399,6 @@ const safepayPayment = async (req, res) => {
       });
     })
     .then((url) => {
-      console.log(url);
       res.redirect(url);
     })
     .catch((error) => {
@@ -1432,10 +1443,27 @@ const stripePayment = async (req, res) => {
   }
 };
 
-const paymentSuccess = (req, res, next) => {
+const paymentSuccess = async (req, res, next) => {
+  const hotel = await HotelsModel.findById(req.session.bookingData.hotelId);
+  let reservedRoom;
+  hotel.rooms.forEach( room =>{
+    if(room.id == req.session.bookingData.roomId){
+      room.reservations.push({
+        checkIn: req.session.bookingData.checkIn,
+        checkOut: req.session.checkOut,
+        adults: req.session.adults
+      })
+      reservedRoom = room;
+    }
+  });
+  hotel.save();
   res.render("./pages/Payment/success", {
     layout: false,
-    loggedIn: req.session.userLoggedIn,
+    hotel: hotel,
+    room: reservedRoom,
+    checkIn: req.session.bookingData.checkIn,
+    checkOut: req.session.checkOut,
+    loggedIn: req.session.userLoggedIn
   });
 };
 
@@ -1506,7 +1534,7 @@ module.exports = {
 
   // Contact
   contact,
-  postFeedback,
+  postMessage,
 
   // User
   login,
@@ -1529,7 +1557,6 @@ module.exports = {
   postQuery,
 
   //payment
-  payment,
   safepayPayment,
   stripePayment,
   paymentSuccess,
