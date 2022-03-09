@@ -67,6 +67,7 @@ const {
 
   // FAQ's
   faqs,
+  postQuery,
 
   //payment
   payment,
@@ -231,6 +232,7 @@ router.get("/TermsConditions/termsAndCondition", termsAndCondition);
 
 // FAQ's
 router.get("/FAQs/faqs", faqs);
+router.post("/query", postQuery)
 
 module.exports = {
   routes: router,

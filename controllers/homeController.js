@@ -13,6 +13,7 @@ const UsersModel = require("../models/usersModel");
 const FeedbackModel = require("../Admin/models/Feedback");
 const sliderGallery = require("../Admin/models/SliderGallery");
 const subscribeModel = require("../models/subscribeModel");
+const queryModel = require('../Admin/models/Query');
 const { json } = require("express");
 const Hotel = require("../Admin/models/Hotel");
 const checkout = require("safepay/dist/resources/checkout");
@@ -22,7 +23,7 @@ const home = async (req, res, next) => {
   const areas = await HomeModel.fetchAreas();
   const sliderGall = await sliderGallery.findOne();
 
-  const hotels = await HotelsModel.find();
+  const hotels = await HotelsModel.find({approvedStatus: true});
   const appartments = await AppartmentModel.find();
   const tours = await ToursModel.find();
   const vehicles = await VehiclesModel.find();
@@ -195,7 +196,7 @@ const hotels = async (req, res, next) => {
   //areas
   const areas = await AreasModel.find();
   //hotels
-  const hotels = await HotelsModel.find();
+  const hotels = await HotelsModel.find({approvedStatus: true});
   res.render("./pages/Hotels/hotels", {
     loggedIn: req.session.userLoggedIn,
     hotels: hotels,
@@ -1308,8 +1309,28 @@ const termsAndCondition = (req, res, next) =>
   });
 
 // FAQ's
-const faqs = (req, res, next) =>
-  res.render("./pages/FAQs/faqs", { loggedIn: req.session.userLoggedIn });
+const faqs = async (req, res, next) =>{
+  const faqs = await queryModel.find();
+  res.render("./pages/FAQs/faqs", { loggedIn: req.session.userLoggedIn, faqs: faqs });
+}
+  
+
+const postQuery = (req, res, next)=>{
+  const email = req.body.email;
+  const query = req.body.query;
+  const saveQuery = new queryModel({
+    email: email,
+    query: query
+  })
+  try{
+    saveQuery.save();
+    console.log('query added successfully');
+    res.redirect('/FAQs/faqs');
+  }catch(err){
+    console.log(err);
+    res.redirect('/FAQs/faqs');
+  }
+}
 
 const payment = (req, res, next) => {
   if(!req.userLoggedIn){
@@ -1505,6 +1526,7 @@ module.exports = {
 
   // FAQ's
   faqs,
+  postQuery,
 
   //payment
   payment,
