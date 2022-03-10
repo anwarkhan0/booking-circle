@@ -1433,7 +1433,7 @@ const stripePayment = async (req, res) => {
 
       success_url: `${process.env.BASE_URL}/payment/success`,
 
-      cancel_url: `${process.env.BASE_URL}/https://bookingring.herokuapp.com/`,
+      cancel_url: `${process.env.BASE_URL}/payment/cancel`,
     });
 
     res.redirect(303, session.url);
