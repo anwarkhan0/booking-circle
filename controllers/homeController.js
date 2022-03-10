@@ -349,6 +349,7 @@ const hotelRooms = async (req, res, next) => {
       roomService: false,
     },
     hotelId: hotelId,
+    hotelName: hotel.name,
     rooms: rooms,
   });
 };
@@ -372,9 +373,72 @@ const roomFilter = async (req, res, next) => {
   let people;
 
   switch (true) {
+
     // in case of all conditions
+    case checkIn != "" && checkOut != "" && adults != "false" && children != "false":
+      people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
+      hotel.rooms.forEach((room) => {
+        let reservationFlag = false;
+        let conditionsFlag = false;
+        let formatedCheckIn = new Date(checkIn.replace(/\./g, "/"));
+        let formatedCheckOut = new Date(checkOut.replace(/\./g, "/"));
+        // check the date against the reservation checkout dates
+        room.reservations.forEach((reservation) => {
+          if (formatedCheckIn < reservation.checkIn || formatedCheckIn > reservation.checkOut && formatedCheckOut < reservation.checkIn || formatedCheckOut > reservation.checkOut) {
+            reservationFlag = true;
+          }
+        });
+        // check for other options
+        if (hotWater == "true" && balcony == "true" && kingBeds == "true") {
+          room.beds == people &&
+          room.hotWater &&
+          room.bedSize == "king" &&
+          room.balcony
+            ? conditionsFlag=true
+            : "";
+        } else if (hotWater == "true" && balcony == "true") {
+          room.beds == people && room.hotWater && room.balcony
+            ? conditionsFlag=true
+            : "";
+        } else if (hotWater == "true" && kingBeds == "true") {
+          room.beds == people && room.hotWater && room.bedSize == "king"
+            ? conditionsFlag=true
+            : "";
+        } else if (balcony == "true" && kingBeds == "true") {
+          room.beds == people && room.balcony && room.bedSize == "king"
+            ? conditionsFlag=true
+            : "";
+        } else if (hotWater == "true") {
+          room.beds == people && room.hotWater
+            ? conditionsFlag=true
+            : "";
+        } else if (balcony == "true") {
+          room.beds == people && room.balcony
+            ? conditionsFlag=true
+            : "";
+        } else if (kingBeds == "true") {
+          room.beds == people && room.bedSize == "king"
+            ? conditionsFlag=true
+            : "";
+        } else if (priceRange < 25000) {
+          room.beds == people && room.charges <= priceRange
+            ? conditionsFlag=true
+            : "";
+        } else {
+          room.beds == people ? conditionsFlag=true : "";
+        }
+
+        if (room.reservations.length == 0 && conditionsFlag) {
+          filteredRooms.push(room);
+        }else if(reservationFlag && conditionsFlag){
+          filteredRooms.push(room);
+        }
+
+
+      });
+      break;
+
     case checkIn != "" && adults != "false" && children != "false":
-      
       people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
       hotel.rooms.forEach((room) => {
         let reservationFlag = false;
@@ -382,7 +446,7 @@ const roomFilter = async (req, res, next) => {
         let formatedCheckIn = new Date(checkIn.replace(/\./g, "/"));
         // check the date against the reservation checkout dates
         room.reservations.forEach((reservation) => {
-          if (formatedCheckIn > reservation.checkOut) {
+          if (formatedCheckIn < reservation.checkIn || formatedCheckIn > reservation.checkOut) {
             reservationFlag = true;
           }
         });
@@ -435,8 +499,8 @@ const roomFilter = async (req, res, next) => {
 
       });
       break;
+
     case checkIn != "" && adults != "false":
-    
       people = Number(adults);
       hotel.rooms.forEach((room) => {
         let reservationFlag = false;
@@ -444,7 +508,7 @@ const roomFilter = async (req, res, next) => {
         let formatedCheckIn = new Date(checkIn.replace(/\./g, "/"));
         // check the date against the reservation checkout dates
         room.reservations.forEach((reservation) => {
-          if (formatedCheckIn > reservation.checkOut) {
+          if (formatedCheckIn < reservation.checkIn || formatedCheckIn > reservation.checkOut) {
             reservationFlag = true;
           }
         });
@@ -497,8 +561,8 @@ const roomFilter = async (req, res, next) => {
 
       });
       break;
+
     case checkIn != "" && children != "false":
-  
       people = Number(children)/2;
       hotel.rooms.forEach((room) => {
         let reservationFlag = false;
@@ -506,7 +570,7 @@ const roomFilter = async (req, res, next) => {
         let formatedCheckIn = new Date(checkIn.replace(/\./g, "/"));
         // check the date against the reservation checkout dates
         room.reservations.forEach((reservation) => {
-          if (formatedCheckIn > reservation.checkOut) {
+          if (formatedCheckIn < reservation.checkIn || formatedCheckIn > reservation.checkOut) {
             reservationFlag = true;
           }
         });
@@ -559,6 +623,7 @@ const roomFilter = async (req, res, next) => {
 
       });
       break;
+
     // in case of adults and children
     case adults != "false" && children != "false":
       people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
@@ -599,6 +664,7 @@ const roomFilter = async (req, res, next) => {
         }
       });
       break;
+
     // in case of checkin date
     case checkIn != "":
       hotel.rooms.forEach((room) => {
@@ -611,7 +677,7 @@ const roomFilter = async (req, res, next) => {
         let formatedCheckIn = new Date(checkIn.replace(/\./g, "/"));
         // check the date against the reservation checkout dates
         room.reservations.forEach((reservation) => {
-          if (formatedCheckIn > reservation.checkOut) {
+          if (formatedCheckIn < reservation.checkIn || formatedCheckIn > reservation.checkOut) {
             flag = true;
           }
         });
@@ -643,6 +709,7 @@ const roomFilter = async (req, res, next) => {
         }
       });
       break;
+
     // in case of just adult option
     case adults != "false":
       people = Number(adults);
@@ -683,7 +750,8 @@ const roomFilter = async (req, res, next) => {
         }
       });
       break;
-    // if no dates adults are provided just check for the other options
+
+    // if no dates and adults are provided just check for the other options
     default:
       hotel.rooms.forEach((room) => {
         if (hotWater == "true" && balcony == "true" && kingBeds == "true") {
@@ -729,6 +797,7 @@ const roomFilter = async (req, res, next) => {
       roomService: roomService,
     },
     hotelId: hotel.id,
+    hotelName: hotel.name,
     rooms: filteredRooms,
   });
 };
@@ -859,6 +928,13 @@ const roomBooking = async (req, res, next) => {
     loggedIn: req.session.userLoggedIn,
     hotelId: hotel.id,
     room: selectedRoom,
+    oldInput: {
+      checkIn: '',
+      checkOut: '',
+      adults: false,
+      children: false,
+    },
+    flashMessage: ''
   });
 };
 
@@ -877,9 +953,39 @@ const postRoomBooking = async (req, res, next) => {
     res.redirect('/user/login');
     return;
   }
+  
   const hotel = await HotelsModel.findById(hotelId);
   let selectedRoom;
-  hotel.rooms.forEach( room => room.id == roomId ? selectedRoom = room : '');
+  let available = false;
+  hotel.rooms.forEach( room =>{
+    if(room.id == roomId){
+      selectedRoom = room;
+      if(room.reservations.length == 0){
+        available = true;
+        return;
+      }
+      room.reservations.forEach(reservation =>{
+        if(checkIn < reservation.checkIn && checkOut < reservation.checkIn || checkIn > reservation.checkOut && checkOut > reservation.checkIn){
+          available = true;
+        }
+      })
+    }
+  });
+  if (!available) {
+    return res.status(422).render("./pages/Hotels/roomBooking", {
+      loggedIn: req.session.userLoggedIn,
+      hotelId: hotel.id,
+      room: selectedRoom,
+      flashMessage: 'This room is booked within these dates.',
+      oldInput: {
+        checkIn: checkIn,
+        checkOut: checkOut,
+        adults: adults,
+        children: children,
+      },
+      validationErrors: errors.array(),
+    });
+  }
   const bookingData = {
     hotelId: hotelId,
     roomId: roomId,
@@ -887,6 +993,22 @@ const postRoomBooking = async (req, res, next) => {
     checkOut: checkOut,
     adults: adults,
     children: children,
+  }
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render("./pages/Hotels/roomBooking", {
+      loggedIn: req.session.userLoggedIn,
+      hotelId: hotel.id,
+      room: selectedRoom,
+      flashMessage: errors.errors[0].msg,
+      oldInput: {
+        checkIn: checkIn,
+        checkOut: checkOut,
+        adults: adults,
+        children: children,
+      },
+      validationErrors: errors.array(),
+    });
   }
   req.session.bookingData = bookingData;
   res.render("./pages/Payment/checkout", {
@@ -1394,8 +1516,8 @@ const safepayPayment = async (req, res) => {
         tracker: data.data.token,
         orderId: "1234",
         source: "custom",
-        cancelUrl: `${process.env.BASE_URL}/cancel`,
-        redirectUrl: `${process.env.BASE_URL}/paymentComplete`,
+        cancelUrl: `${process.env.BASE_URL}/payment/cancel`,
+        redirectUrl: `${process.env.BASE_URL}/payment/success`,
       });
     })
     .then((url) => {

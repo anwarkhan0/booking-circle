@@ -80,7 +80,7 @@ const {
   roomFilter
 } = require("../controllers/homeController");
 const router = express.Router();
-const { body } = require("express-validator");
+const { body, query } = require("express-validator");
 const UsersModel = require("../models/usersModel");
 const isAuth = require("../middleware/userAuth");
 
@@ -108,13 +108,32 @@ router.get("/Appartments/appartmentGallery", appartmentGallery);
 router.get("/Appartments/:location", searchAppartments);
 router.post("/Appartments/apartmentBooking", postAppartmentBooking);
 
-
+// Hotels
 router.get("/Hotels/roomFilter", roomFilter);
 router.get("/Hotels/availableHotels/", findHotels);
 router.get("/Hotels/list", hotels);
 router.get("/Hotels/hotelGallery/:id", hotelGallery);
 router.get("/Hotels/rooms/:id", hotelRooms);
-router.get("/hotels/roomBooking/payment", postRoomBooking);
+router.get(
+  "/hotels/roomBooking/payment",
+  [
+    query("checkIn", "Please enter Check In Date.").notEmpty(),
+    query("checkOut", "Please enter Check Out Date.").custom((val, {req, loc, path}) =>{
+      let checkout = new Date(val.replace(/\./g, "/"));
+      let checkin = new Date(req.query.checkIn.replace(/\./g, "/"));
+      console.log(checkin, checkout)
+      console.log(checkout <= checkin)
+      if(checkout <= checkin){
+        throw new Error("Please Select a valid checkout date.");
+      }else{
+        return true;
+      }
+    }),
+    query("adults", "Enter number of Adults").custom(val => val == 'false' ? false : true),
+    query("children", "Enter number of Children.").custom(val => val == 'false' ? false : true)
+  ],
+  postRoomBooking
+);
 router.get("/Hotels/roomBooking/:hotelId", roomBooking);
 router.get("/Hotels/:location", searchHotels);
 

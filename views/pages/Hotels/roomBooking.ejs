@@ -136,24 +136,25 @@
                 <div class="col-lg-4 order-first order-lg-last">
                     <div class="section background-dark p-4">
                         <div class="row">
+                            <p class="text-danger"><%= flashMessage %></p>
                             <div class="col-12">
                                 <div class="input-daterange input-group" id="flight-datepicker">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-item">
                                                 <span class="fontawesome-calendar"></span>
-                                                <input class="input-sm" type="text" autocomplete="off" id="start-date-1"
+                                                <input class="input-sm" type="text" value="<%= oldInput.checkIn %>" autocomplete="off" id="start-date-1"
                                                     name="start" placeholder="chech-in date"
-                                                    data-date-format="DD, MM d" />
+                                                    data-date-format="DD, MM d" required/>
                                                 <span class="date-text date-depart"></span>
                                             </div>
                                         </div>
                                         <div class="col-12 pt-4">
                                             <div class="form-item">
                                                 <span class="fontawesome-calendar"></span>
-                                                <input class="input-sm" type="text" autocomplete="off" id="end-date-1"
+                                                <input class="input-sm" type="text" value="<%= oldInput.checkOut %>" autocomplete="off" id="end-date-1"
                                                     name="end" placeholder="check-out date"
-                                                    data-date-format="DD, MM d" />
+                                                    data-date-format="DD, MM d" required/>
                                                 <span class="date-text date-return"></span>
                                             </div>
                                         </div>
@@ -163,24 +164,24 @@
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-12 pt-4">
-                                        <select name="adults" class="wide" id="adults">
-                                            <option data-display="adults" value="0">adults</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
+                                        <select name="adults" class="wide" id="adults" required>
+                                            <option data-display="adults" value="<%= oldInput.adults %>">adults</option>
+                                            <option value="1" <%= oldInput.adults == 1 ? 'selected' : '' %> >1</option>
+                                            <option value="2" <%= oldInput.adults == 2 ? 'selected' : '' %> >2</option>
+                                            <option value="3" <%= oldInput.adults == 3 ? 'selected' : '' %> >3</option>
+                                            <option value="4" <%= oldInput.adults == 4 ? 'selected' : '' %> >4</option>
+                                            <option value="5" <%= oldInput.adults == 5 ? 'selected' : '' %> >5</option>
                                         </select>
                                     </div>
                                     <div class="col-12 pt-4">
-                                        <select name="children" class="wide" id="childs">
-                                            <option data-display="children" value="0">children</option>
-                                            <option value="0">0</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
+                                        <select name="children" class="wide" id="childs" required>
+                                            <option data-display="children" value="<%= oldInput.children %>" >children</option>
+                                            <option value="0" <%= oldInput.children == 0 ? 'selected' : '' %> >0</option>
+                                            <option value="1" <%= oldInput.children == 1 ? 'selected' : '' %> >1</option>
+                                            <option value="2" <%= oldInput.children == 2 ? 'selected' : '' %> >2</option>
+                                            <option value="3" <%= oldInput.children == 3 ? 'selected' : '' %> >3</option>
+                                            <option value="4" <%= oldInput.children == 4 ? 'selected' : '' %> >4</option>
+                                            <option value="5" <%= oldInput.children == 5 ? 'selected' : '' %> >5</option>
                                         </select>
                                     </div>
                                 </div>
