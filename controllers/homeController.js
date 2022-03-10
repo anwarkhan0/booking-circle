@@ -1572,8 +1572,8 @@ const paymentSuccess = async (req, res, next) => {
     if(room.id == req.session.bookingData.roomId){
       room.reservations.push({
         checkIn: req.session.bookingData.checkIn,
-        checkOut: req.session.checkOut,
-        adults: req.session.adults
+        checkOut: req.session.bookingData.checkOut,
+        adults: req.session.bookingData.adults
       })
       reservedRoom = room;
     }
