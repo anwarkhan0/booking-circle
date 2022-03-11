@@ -983,7 +983,7 @@ const postRoomBooking = async (req, res, next) => {
         adults: adults,
         children: children,
       },
-     // validationErrors: errors.array(),
+      validationErrors: errors.array(),
     });
   }
   const bookingData = {
@@ -994,7 +994,7 @@ const postRoomBooking = async (req, res, next) => {
     adults: adults,
     children: children,
   }
-  
+  const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).render("./pages/Hotels/roomBooking", {
       loggedIn: req.session.userLoggedIn,
@@ -1007,7 +1007,7 @@ const postRoomBooking = async (req, res, next) => {
         adults: adults,
         children: children,
       },
-      validationErrors: errors.array(),
+      // validationErrors: errors.array(),
     });
   }
   req.session.bookingData = bookingData;
