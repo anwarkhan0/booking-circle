@@ -956,21 +956,26 @@ const postRoomBooking = async (req, res, next) => {
   
   const hotel = await HotelsModel.findById(hotelId);
   let selectedRoom;
-  let available = false;
   const formatedCheckin = new Date(checkIn);
   const formatedCheckout = new Date(checkOut);
-  hotel.rooms.forEach( room =>{
+  const available = hotel.rooms.forEach( room =>{
     if(room.id == roomId){
       
       selectedRoom = room;
       if(room.reservations.length == 0){
-        available = true;
-        return;
+        return true;
       }
-      room.reservations.forEach(reservation =>{
+      
+      room.reservations.forEach((reservation , i)=>{
         if(formatedCheckin < reservation.checkIn && formatedCheckout < reservation.checkIn || formatedCheckin > reservation.checkOut && formatedCheckout > reservation.checkOut){
-          console.log('room available')
-          available = true;
+          if(typeof room.reservations[i + 1] === 'undefined'){
+            return true;
+          }else if(formatedCheckout < room.reservations[i + 1]){
+            return true;
+          }
+          
+        }else{
+          return false;
         }
       })
 
@@ -981,7 +986,7 @@ const postRoomBooking = async (req, res, next) => {
       loggedIn: req.session.userLoggedIn,
       hotelId: hotel.id,
       room: selectedRoom,
-      flashMessage: 'This room is booked within these dates.',
+      flashMessage: 'Sorry, this room is already reserved for given dates.',
       oldInput: {
         checkIn: checkIn,
         checkOut: checkOut,
