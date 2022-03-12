@@ -76,32 +76,9 @@
 							const checkOut = $('#end-date-1').val();
 							const adults = $('#adults').val();
 							const children = $('#childs').val();
+							const roomCharges = $('#roomCharges').val();
 							const routePath = '/Hotels/roomBooking/';
-							window.location.href = `/Hotels/roomBooking/payment?roomId=${roomId}&hotelId=${hotelId}&checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}&children=${children}&routePath=${routePath}`;
-							// const data = JSON.stringify({
-							// 	checkIn: checkIn,
-							// 	checkOut: checkOut,
-							// 	adults: adults,
-							// 	children: children,
-							// 	roomId: roomId,
-							// 	hotelId: htoelId,
-							// 	redirectUrl: window.location.href
-							// });
-							// fetch('/payment', {
-							// 	method: "POST",
-							// 	body: data,
-							// 	headers: {
-							// 		"Content-type": "application/json; charset=UTF-8"
-							// 	}
-							// })
-							// 	// Checking Status
-							// 	.then(response => {
-							// 		if (response.status === 200) {
-							// 			console.log('succes')
-							// 		} else {
-							// 			alert('oop\'s something went wrong, Please Try again')
-							// 		}
-							// 	})
+							window.location.href = `/Hotels/roomBooking/payment?roomId=${roomId}&hotelId=${hotelId}&checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}&children=${children}&routePath=${routePath}&charges=${roomCharges}`;
 						});
 
 						function roomFilter() {
