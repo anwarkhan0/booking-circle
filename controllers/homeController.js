@@ -1002,6 +1002,7 @@ const postRoomBooking = async (req, res, next) => {
     });
   }
   const bookingData = {
+    roomBooking: true,
     hotelId: hotelId,
     roomId: roomId,
     checkIn: checkIn,
@@ -1551,11 +1552,11 @@ const stripePayment = async (req, res) => {
   const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
   const charges = req.query.charges;
 
-  const product = await stripe.products.create({ name: "Service" });
+  const product = await stripe.products.create({ name: "bookingService" });
   const price = await stripe.prices.create({
     product: product.id,
     unit_amount: Number(charges),
-    currency: "pkr",
+    currency: "usd",
   });
 
   try {
@@ -1585,28 +1586,30 @@ const stripePayment = async (req, res) => {
 };
 
 const paymentSuccess = async (req, res, next) => {
-  const hotel = await HotelsModel.findById(req.session.bookingData.hotelId);
-  let reservedRoom;
-  hotel.rooms.forEach((room) => {
-    if (room.id == req.session.bookingData.roomId) {
-      room.reservations.push({
-        user: req.session.user,
-        checkIn: req.session.bookingData.checkIn,
-        checkOut: req.session.bookingData.checkOut,
-        adults: req.session.bookingData.adults,
-      });
-      reservedRoom = room;
-    }
-  });
-  hotel.save();
-  res.render("./pages/Payment/success", {
-    layout: false,
-    hotel: hotel,
-    room: reservedRoom,
-    checkIn: req.session.bookingData.checkIn,
-    checkOut: req.session.checkOut,
-    loggedIn: req.session.userLoggedIn,
-  });
+  if (req.session.bookingData.roomBooking) {
+    const hotel = await HotelsModel.findById(req.session.bookingData.hotelId);
+    let reservedRoom;
+    hotel.rooms.forEach((room) => {
+      if (room.id == req.session.bookingData.roomId) {
+        room.reservations.push({
+          user: req.session.user,
+          checkIn: req.session.bookingData.checkIn,
+          checkOut: req.session.bookingData.checkOut,
+          adults: req.session.bookingData.adults,
+        });
+        reservedRoom = room;
+      }
+    });
+    hotel.save();
+    res.render("./pages/Payment/success", {
+      layout: false,
+      hotel: hotel,
+      room: reservedRoom,
+      checkIn: req.session.bookingData.checkIn,
+      checkOut: req.session.checkOut,
+      loggedIn: req.session.userLoggedIn,
+    });
+  }
 };
 
 const paymentCancel = (req, res, next) => {
