@@ -957,18 +957,23 @@ const postRoomBooking = async (req, res, next) => {
   const hotel = await HotelsModel.findById(hotelId);
   let selectedRoom;
   let available = false;
+  const formatedCheckin = new Date(checkIn);
+  const formatedCheckout = new Date(checkOut);
   hotel.rooms.forEach( room =>{
     if(room.id == roomId){
+      
       selectedRoom = room;
       if(room.reservations.length == 0){
         available = true;
         return;
       }
       room.reservations.forEach(reservation =>{
-        if(checkIn < reservation.checkIn && checkOut < reservation.checkIn || checkIn > reservation.checkOut && checkOut > reservation.checkIn){
+        if(formatedCheckin < reservation.checkIn && formatedCheckout < reservation.checkIn || formatedCheckin > reservation.checkOut && formatedCheckout > reservation.checkOut){
+          console.log('room available')
           available = true;
         }
       })
+
     }
   });
   if (!available) {
@@ -983,7 +988,7 @@ const postRoomBooking = async (req, res, next) => {
         adults: adults,
         children: children,
       },
-      validationErrors: errors.array(),
+      // validationErrors: errors.array(),
     });
   }
   const bookingData = {
@@ -1571,6 +1576,7 @@ const paymentSuccess = async (req, res, next) => {
   hotel.rooms.forEach( room =>{
     if(room.id == req.session.bookingData.roomId){
       room.reservations.push({
+        user: req.session.user,
         checkIn: req.session.bookingData.checkIn,
         checkOut: req.session.bookingData.checkOut,
         adults: req.session.bookingData.adults
