@@ -106,7 +106,22 @@ router.get("/Appartments/allappartments", allappartments);
 router.get("/Appartments/apartmentBooking/:id", apartmentBooking);
 router.get("/Appartments/appartmentGallery", appartmentGallery);
 router.get("/Appartments/:location", searchAppartments);
-router.post("/Appartments/apartmentBooking", postAppartmentBooking);
+router.get("/Appartments/booking/payment",
+[
+  query("checkIn", "Please enter Check In Date.").notEmpty(),
+  query("checkOut", "Please enter Check Out Date.").custom((val, {req, loc, path}) =>{
+    let checkout = new Date(val.replace(/\./g, "/"));
+    let checkin = new Date(req.query.checkIn.replace(/\./g, "/"));
+    if(checkout <= checkin){
+      throw new Error("Please Select a valid checkout date.");
+    }else{
+      return true;
+    }
+  }),
+  query("adults", "Enter number of Adults").custom(val => val == 'false' ? false : true),
+  query("children", "Enter number of Children.").custom(val => val == 'false' ? false : true)
+],
+postAppartmentBooking);
 
 // Hotels
 router.get("/Hotels/roomFilter", roomFilter);
@@ -121,8 +136,6 @@ router.get(
     query("checkOut", "Please enter Check Out Date.").custom((val, {req, loc, path}) =>{
       let checkout = new Date(val.replace(/\./g, "/"));
       let checkin = new Date(req.query.checkIn.replace(/\./g, "/"));
-      console.log(checkin, checkout)
-      console.log(checkout <= checkin)
       if(checkout <= checkin){
         throw new Error("Please Select a valid checkout date.");
       }else{
