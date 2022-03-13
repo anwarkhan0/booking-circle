@@ -95,7 +95,13 @@ const apartmentBooking = async (req, res, next) => {
   res.render("./pages/Appartments/apartmentBooking", {
     loggedIn: req.session.userLoggedIn,
     appartment: appartment,
-    flashMessage: ''
+    flashMessage: '',
+    oldInput: {
+      checkIn: '',
+      checkOut: '',
+      adults: false,
+      children: false,
+    },
   });
 };
 
@@ -167,6 +173,8 @@ const postAppartmentBooking = async (req, res, next) => {
   const checkOut = req.query.checkOut.replace(/\./g, "/");
   const adults = req.query.adults;
   const children = req.query.children;
+  const routePath = req.query.routePath;
+  const redirectUrl = routePath + appartmentId;
 
   if (!req.session.userLoggedIn) {
     req.session.redirectUrl = redirectUrl;
@@ -193,7 +201,7 @@ const postAppartmentBooking = async (req, res, next) => {
       if (typeof appartment.reservations[i + 1] === "undefined") {
         available = true;
         return;
-      } else if (formatedCheckout < room.reservations[i + 1]) {
+      } else if (formatedCheckout < appartment.reservations[i + 1]) {
         available = true;
         return;
       }
@@ -219,6 +227,7 @@ const postAppartmentBooking = async (req, res, next) => {
     });
   }
   const bookingData = {
+    user: req.session.user,
     appartmentBooking: true,
     appartmentId: appartmentId,
     checkIn: checkIn,
@@ -1652,44 +1661,39 @@ const paymentSuccess = async (req, res, next) => {
   if (req.session.bookingData.roomBooking) {
     const hotel = await HotelsModel.findById(req.session.bookingData.hotelId);
     let reservedRoom;
+    console.log(new Date())
     hotel.rooms.forEach((room) => {
       if (room.id == req.session.bookingData.roomId) {
         room.reservations.push({
           user: req.session.user,
           checkIn: req.session.bookingData.checkIn,
           checkOut: req.session.bookingData.checkOut,
-          adults: req.session.bookingData.adults,
-          date: new Date()
+          adults: Number(req.session.bookingData.adults),
+          date: req.session.bookingData.date
         });
         reservedRoom = room;
       }
     });
     hotel.save();
     res.render("./pages/Payment/success", {
-      layout: false,
-      hotel: hotel,
-      room: reservedRoom,
-      checkIn: req.session.bookingData.checkIn,
-      checkOut: req.session.checkOut,
       loggedIn: req.session.userLoggedIn,
-      date: req.session.bookingData.date
+      data: req.session.bookingData
     });
   }
+
   if (req.session.bookingData.appartmentBooking) {
     const appartment = await AppartmentModel.findById(req.session.bookingData.appartmentId);
     appartment.reservations.push({
       user: req.session.user,
       checkIn: req.session.bookingData.checkIn,
       checkOut: req.session.bookingData.checkOut,
-      adults: req.session.bookingData.adults,
-      date: new Date()
+      adults: Number(req.session.bookingData.adults),
+      date:  req.session.bookingData.date
     });
     appartment.save();
     res.render("./pages/Payment/success", {
-      checkIn: req.session.bookingData.checkIn,
-      checkOut: req.session.bookingData.checkOut,
       loggedIn: req.session.userLoggedIn,
-      date: req.session.bookingData.date
+      data: req.session.bookingData
     });
   }
 
