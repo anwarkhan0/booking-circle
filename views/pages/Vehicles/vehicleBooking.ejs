@@ -143,13 +143,14 @@
                 <div class="col-lg-4 order-first order-lg-last">
                     <div class="section background-dark p-4">
                         <div class="row">
+                            <p class="text-danger"><%= flashMessage %> </p>
                             <div class="col-12">
                                 <div class="input-daterange input-group" id="flight-datepicker">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-item">
                                                 <span class="fontawesome-calendar"></span>
-                                                <input class="input-sm" type="text" autocomplete="off" id="start-date-1"
+                                                <input value="<%= oldInput.checkIn %>" class="input-sm" type="text" autocomplete="off" id="start-date-1"
                                                     name="start" placeholder="Book-from Date"
                                                     data-date-format="DD, MM d" />
                                                 <span class="date-text date-depart"></span>
@@ -158,7 +159,7 @@
                                         <div class="col-12 pt-4">
                                             <div class="form-item">
                                                 <span class="fontawesome-calendar"></span>
-                                                <input class="input-sm" type="text" autocomplete="off" id="end-date-1"
+                                                <input value="<%= oldInput.checkOut %>" class="input-sm" type="text" autocomplete="off" id="end-date-1"
                                                     name="end" placeholder="Book-to Date" data-date-format="DD, MM d" />
                                                 <span class="date-text date-return"></span>
                                             </div>
@@ -171,37 +172,37 @@
                                     <div class="col-md-12 pt-4">
                                         <select class="wide nice-select" id="location">
                                             <option data-display="Location"></option>
-                                            <% for(let i= 0; i< areas.length; i++) { %>
-                                                <option value="<%= areas[i].name %>"><%= areas[i].name %></option>
-                                                <% } %>  
+                                            <% areas.forEach((area)=> { %>
+                                                <option value="<%= area.name %>" <%= area.name == oldInput.location ? 'selected' : '' %>  ><%= area.name %></option>
+                                                <% }) %>  
                                         </select>
                                     </div>
                                     <div class="col-12 pt-4">
                                         <select name="adults" class="wide" id="adults">
                                             <option data-display="adults">adults</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
+                                            <option value="1" <%= oldInput.adults == 1 ? 'selected' : '' %> >1</option>
+                                            <option value="2" <%= oldInput.adults == 2 ? 'selected' : '' %> >2</option>
+                                            <option value="3" <%= oldInput.adults == 3 ? 'selected' : '' %> >3</option>
+                                            <option value="4" <%= oldInput.adults == 4 ? 'selected' : '' %> >4</option>
+                                            <option value="5" <%= oldInput.adults == 5 ? 'selected' : '' %> >5</option>
                                         </select>
                                     </div>
                                     <div class="col-12 pt-4">
                                         <select name="children" class="wide" id="childs">
                                             <option data-display="children">children</option>
-                                            <option value="0">0</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
+                                            <option value="0" <%= oldInput.children == 0 ? 'selected' : '' %> >0</option>
+                                            <option value="1" <%= oldInput.children == 1 ? 'selected' : '' %> >1</option>
+                                            <option value="2" <%= oldInput.children == 2 ? 'selected' : '' %> >2</option>
+                                            <option value="3" <%= oldInput.children == 3 ? 'selected' : '' %> >3</option>
+                                            <option value="4" <%= oldInput.children == 4 ? 'selected' : '' %> >4</option>
+                                            <option value="5" <%= oldInput.children == 5 ? 'selected' : '' %> >5</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <input type="hidden" value="<%= vehicle.id %>" id="vehicleId">
                             <div class="col-12 pt-4">
-                                <a class="booking-button" href="/payment" id="------vehicleBooking">book now</a>
+                                <a class="booking-button" id="vehicleBooking">book now</a>
                             </div>
                         </div>
                     </div>

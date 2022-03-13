@@ -872,7 +872,7 @@ const vehicles = async (req, res, next) => {
   //areas
   const areas = await AreasModel.find();
   //vehicles
-  const vehicles = await VehiclesModel.find();
+  const vehicles = await VehiclesModel.find({availabilityStatus: true});
   res.render("./pages/Vehicles/vehicles", {
     loggedIn: req.session.userLoggedIn,
     areas: areas,
@@ -887,6 +887,14 @@ const vehicleBooking = async (req, res, next) => {
     loggedIn: req.session.userLoggedIn,
     areas: areas,
     vehicle: vehicle,
+    flashMessage:
+        "",
+      oldInput: {
+        checkIn: '',
+        checkOut: '',
+        adults: false,
+        children: false,
+      },
   });
 };
 
@@ -902,13 +910,18 @@ const searchVehicles = async (req, res, next) => {
 const findVehicles = async (req, res, next) => {
   const location = req.query.area;
   const adults = req.query.adults;
+  const children = req.query.children;
 
-  const queryParams = {};
-  if (location && adults != "false") {
-    queryParams.area = location;
-    queryParams.seats = adults;
+  let queryParams;
+  let people;
+  if (location && adults != "false" && children != 'false') {
+    people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
+    queryParams = {
+      location: location,
+      seats: { $gte: people }
+    }
   } else if (location) {
-    queryParams.area = location;
+    queryParams.ownerArea = location;
   } else if (adults != "false") {
     queryParams.seats = adults;
   }
@@ -926,28 +939,105 @@ const findVehicles = async (req, res, next) => {
 };
 
 const postVehicleBooking = async (req, res, next) => {
-  const vehicleId = req.body.vehicleId;
-  const checkIn = req.body.checkIn;
-  const checkOut = req.body.checkOut;
-  const location = req.body.location;
-  const adults = req.body.adults;
-  const children = req.body.children;
+  const vehicleId = req.query.vehicleId;
+  const checkIn = req.query.checkIn;
+  const checkOut = req.query.checkOut;
+  const location = req.query.location;
+  const adults = req.query.adults;
+  const children = req.query.children;
+  const routePath = req.query.routePath;
+  const redirectUrl = routePath + vehicleId;
 
-  try {
-    const vehicle = await VehiclesModel.findById(vehicleId);
-    vehicle.reservations.push({
-      checkIn: checkIn,
-      checkOut: checkOut,
-      location: location,
-      adults: adults,
-      children: children,
-    });
-    await vehicle.save();
-    console.log("vehicle booked");
-    res.sendStatus(200);
-  } catch (err) {
-    console.log(err);
+  if (!req.session.userLoggedIn) {
+    req.session.redirectUrl = redirectUrl;
+    res.redirect("/user/login");
+    return;
   }
+
+  const vehicle = await VehiclesModel.findById(vehicleId);
+  const areas = await AreasModel.find();
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render("./pages/Vehicles/vehicleBooking", {
+      loggedIn: req.session.userLoggedIn,
+      vehicleId: vehicleId,
+      vehicle: vehicle,
+      areas: areas,
+      flashMessage: errors.errors[0].msg,
+      oldInput: {
+        location: location,
+        checkIn: checkIn,
+        checkOut: checkOut,
+        adults: adults,
+        children: children,
+      },
+      // validationErrors: errors.array(),
+    });
+  }
+
+  const formatedCheckin = new Date(checkIn);
+  const formatedCheckout = new Date(checkOut);
+  let available = false;
+
+  if (vehicle.reservations.length == 0) {
+    available = true;
+  }
+
+  vehicle.reservations.forEach((reservation, i) => {
+    if (
+      (formatedCheckin < reservation.checkIn &&
+        formatedCheckout < reservation.checkIn) ||
+      (formatedCheckin > reservation.checkOut &&
+        formatedCheckout > reservation.checkOut)
+    ) {
+      if (typeof vehicle.reservations[i + 1] === "undefined") {
+        available = true;
+        return;
+      } else if (formatedCheckout < vehicle.reservations[i + 1]) {
+        available = true;
+        return;
+      }
+    } else {
+      available = false;
+    }
+  });
+
+  if (!available) {
+    return res.status(422).render("./pages/Vehicles/vehicleBooking", {
+      loggedIn: req.session.userLoggedIn,
+      vehicleId: vehicleId,
+      vehicle: vehicle,
+      areas: areas,
+      flashMessage:
+        "Sorry, this vehicle is already booked for given dates.",
+      oldInput: {
+        location: location,
+        checkIn: checkIn,
+        checkOut: checkOut,
+        adults: adults,
+        children: children,
+      },
+      // validationErrors: errors.array(),
+    });
+  }
+  const bookingData = {
+    user: req.session.user,
+    vehicleBooking: true,
+    vehicleId: vehicleId,
+    checkIn: checkIn,
+    checkOut: checkOut,
+    adults: adults,
+    children: children,
+    date: new Date()
+  };
+  
+  req.session.bookingData = bookingData;
+  res.render("./pages/Payment/checkout", {
+    layout: false,
+    loggedIn: req.session.userLoggedIn,
+    charges: 2000,
+  });
 };
 
 const galleryAppRoom = async (req, res, next) => {
@@ -1108,16 +1198,8 @@ const postRoomBooking = async (req, res, next) => {
 // Tours
 const tours = async (req, res, next) => {
   const areas = await AreasModel.find();
-  const data = await ToursModel.find();
-  let tours = [];
-  let hikes = [];
-  for (let i = 0; i < data.length; i++) {
-    if (data[i].tourType === "tour") {
-      tours.push(data[i]);
-    } else {
-      hikes.push(data[i]);
-    }
-  }
+  const tours = await ToursModel.find({ tourType: 'tour' });
+  const hikes = await ToursModel.find({ tourType: 'hike' });
   res.render("./pages/Tours/tours", {
     loggedIn: req.session.userLoggedIn,
     areas: areas,
@@ -1128,10 +1210,14 @@ const tours = async (req, res, next) => {
 
 const searchTour = async (req, res, next) => {
   const location = req.params.location;
-  const tours = await ToursModel.find({ toPlace: location });
-  res.render("./pages/Tours/searchResult", {
+  const areas = await AreasModel.find();
+  const tours = await ToursModel.find({ toPlace: location, tourType: 'tour' });
+  const hikes = await ToursModel.find({ toPlace: location, tourType: 'hike' });
+  res.render("./pages/Tours/tours", {
     loggedIn: req.session.userLoggedIn,
+    areas: areas,
     tours: tours,
+    hikes: hikes,
   });
 };
 
@@ -1146,22 +1232,74 @@ const booking = async (req, res, next) => {
 };
 
 const postTourEnrolling = async (req, res, next) => {
-  const tourId = req.body.tourId;
-  const seats = req.body.seats;
+  const tourId = req.query.tourId;
+  const seats = req.query.seats;
+  const routePath = req.query.routePath;
+  const redirectUrl = routePath + tourId;
 
-  try {
-    const tour = await ToursModel.findById(tourId);
-    tour.availableSeats = tour.availableSeats - seats;
-    tour.reservations.push({
-      name: "john doe",
-      seats: seats,
-    });
-    await tour.save();
-    console.log("enrolled in tour");
-    res.sendStatus(200);
-  } catch (err) {
-    console.log(err);
+  if (!req.session.userLoggedIn) {
+    req.session.redirectUrl = redirectUrl;
+    res.redirect("/user/login");
+    return;
   }
+
+  // const tour = await ToursModel.findById(tourId);
+  // let available = false;
+
+  // if (appartment.reservations.length == 0) {
+  //   available = true;
+  // }
+
+  
+
+  // if (!available) {
+  //   return res.status(422).render("./pages/Appartments/apartmentBooking", {
+  //     loggedIn: req.session.userLoggedIn,
+  //     appartmentId: appartment.id,
+  //     appartment: appartment,
+  //     flashMessage:
+  //       "Sorry, this appartment/house is already reserved for given dates.",
+  //     oldInput: {
+  //       checkIn: checkIn,
+  //       checkOut: checkOut,
+  //       adults: adults,
+  //       children: children,
+  //     },
+  //     // validationErrors: errors.array(),
+  //   });
+  // }
+  // const bookingData = {
+  //   user: req.session.user,
+  //   appartmentBooking: true,
+  //   appartmentId: appartmentId,
+  //   checkIn: checkIn,
+  //   checkOut: checkOut,
+  //   adults: adults,
+  //   children: children,
+  //   date: new Date()
+  // };
+  // const errors = validationResult(req);
+  // if (!errors.isEmpty()) {
+  //   return res.status(422).render("./pages/Appartments/apartmentBooking", {
+  //     loggedIn: req.session.userLoggedIn,
+  //     appartmentId: appartmentId,
+  //     appartment: appartment,
+  //     flashMessage: errors.errors[0].msg,
+  //     oldInput: {
+  //       checkIn: checkIn,
+  //       checkOut: checkOut,
+  //       adults: adults,
+  //       children: children,
+  //     },
+  //     // validationErrors: errors.array(),
+  //   });
+  // }
+  // req.session.bookingData = bookingData;
+  // res.render("./pages/Payment/checkout", {
+  //   layout: false,
+  //   loggedIn: req.session.userLoggedIn,
+  //   charges: appartment.price,
+  // });
 };
 
 const gallerytandh = (req, res, next) =>
@@ -1691,6 +1829,22 @@ const paymentSuccess = async (req, res, next) => {
       date:  req.session.bookingData.date
     });
     appartment.save();
+    res.render("./pages/Payment/success", {
+      loggedIn: req.session.userLoggedIn,
+      data: req.session.bookingData
+    });
+  }
+
+  if (req.session.bookingData.vehicleBooking) {
+    const vehicle = await VehiclesModel.findById(req.session.bookingData.vehicleId);
+    vehicle.reservations.push({
+      user: req.session.user,
+      checkIn: req.session.bookingData.checkIn,
+      checkOut: req.session.bookingData.checkOut,
+      adults: Number(req.session.bookingData.adults),
+      date:  req.session.bookingData.date
+    });
+    vehicle.save();
     res.render("./pages/Payment/success", {
       loggedIn: req.session.userLoggedIn,
       data: req.session.bookingData

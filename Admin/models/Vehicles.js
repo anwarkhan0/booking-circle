@@ -40,6 +40,10 @@ const VehiclesSchema = new Schema({
         type: String,
         required: true
     },
+    ownerArea: {
+        type: String,
+        required: true
+    },
     ownerAddress: {
         type: String,
         required: true

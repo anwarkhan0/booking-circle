@@ -63,9 +63,10 @@
 
 						$("#searchVehicles").click(function () {
 							const area = $('#area').val();
-							const adults = $('#adults').val();
+							const adults = $('#adultsForVehicle').val();
+							const children = $('#childrenForVehicle').val();
 
-							window.location.href = `/Vehicles/availableVehicles/?area=${area}&adults=${adults}`;
+							window.location.href = `/Vehicles/availableVehicles?area=${area}&adults=${adults}&children=${children}`;
 
 						});
 
@@ -157,53 +158,15 @@
 							const location = $('#location').val();
 							const adults = $('#adults').val();
 							const children = $('#childs').val();
-							const data = JSON.stringify({
-								checkIn: checkIn,
-								checkOut: checkOut,
-								adults: adults,
-								location: location,
-								children: children,
-								vehicleId: vehicleId
-							});
-							fetch('/Vehicles/booking', {
-								method: "POST",
-								body: data,
-								headers: {
-									"Content-type": "application/json; charset=UTF-8"
-								}
-							})
-								// Checking Status
-								.then(response => {
-									if (response.status === 200) {
-										console.log('succes')
-									} else {
-										alert('oop\'s something went wrong, Please Try again')
-									}
-								})
+							window.location.href = `/Vehicles/booking?vehicleId=${vehicleId}&checkIn=${checkIn}&checkOut=${checkOut}&location=${location}&adults=${adults}&children=${children}&routePath=/Vehicles/vehicleBooking/`;
 						});
 
 						$("#tourEnrolling").click(function () {
 							const tourId = $('#tourId').val();
 							const seats = $('#seats').val();
-							const data = JSON.stringify({
-								tourId: tourId,
-								seats: seats
-							});
-							fetch('/Tours/enrolling', {
-								method: "POST",
-								body: data,
-								headers: {
-									"Content-type": "application/json; charset=UTF-8"
-								}
-							})
-								// Checking Status
-								.then(response => {
-									if (response.status === 200) {
-										console.log('success')
-									} else {
-										alert('oop\'s something went wrong, Please Try again')
-									}
-								})
+							
+							window.location.href = `/Tours/enrolling?tourId=${tourId}&seats=${seats}&routePath=/Tours/booking/`;
+							
 						});
 
 						$("#send").click(function () {

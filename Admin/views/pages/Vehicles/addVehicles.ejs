@@ -142,6 +142,16 @@
                     <input type="text" value="<%= oldInput.ownerAddress %>" name="ownerAddress" placeholder="Example: Mingora, Landikas" class="form-control"
                       required>
                   </div>
+
+                  <div class="form-group col-md-4">
+                    <label>City</label>
+                    <select class="form-control" name="ownerArea" required>
+                      <% areas.forEach((area)=>{ %> 
+                      <option value="<%= area.name %>" <%= oldInput.area == area ? 'selected' : '' %> ><%= area.name %> </option>
+                      <% }) %> 
+                    </select>
+                  </div>
+
                 </div>
 
                 <hr>

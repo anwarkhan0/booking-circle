@@ -150,19 +150,36 @@ router.get(
 router.get("/Hotels/roomBooking/:hotelId", roomBooking);
 router.get("/Hotels/:location", searchHotels);
 
-router.get("/Vehicles/availableVehicles/", findVehicles);
+router.get("/Vehicles/booking",
+[
+  query("checkIn", "Please enter Check In Date.").notEmpty(),
+  query("checkOut", "Please enter Check Out Date.").custom((val, {req, loc, path}) =>{
+    let checkout = new Date(val.replace(/\./g, "/"));
+    let checkin = new Date(req.query.checkIn.replace(/\./g, "/"));
+    if(checkout <= checkin){
+      throw new Error("Please Select a valid checkout date.");
+    }else{
+      return true;
+    }
+  }),
+  query("adults", "Enter number of Adults").custom(val => val == 'false' ? false : true),
+  query("children", "Enter number of Children.").custom(val => val == 'false' ? false : true)
+],
+postVehicleBooking);
+router.get("/Vehicles/availableVehicles", findVehicles);
 router.get("/Vehicles/list", vehicles);
 router.get("/Vehicles/vehicleBooking/:id", vehicleBooking);
 router.get("/Vehicles/:location", searchVehicles);
-router.post("/Vehicles/booking", postVehicleBooking);
+
 
 // Tours
 router.get("/Tours/tours", tours);
 router.get("/Tours/hike", hike);
+router.get("/Tours/enrolling", postTourEnrolling);
 router.get("/Tours/booking/:id", booking);
 router.get("/Tours/gallerytandh", gallerytandh);
 router.get("/Tours/:location", searchTour);
-router.post("/Tours/enrolling", postTourEnrolling);
+
 
 // News
 router.get("/News/news", news);

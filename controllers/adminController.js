@@ -1477,38 +1477,41 @@ const postEditVehicleCategory = (req, res) => {
 };
 
 // Vehicle
-const addVehicle = (req, res, next) => {
-  vehicleCategory
-    .find()
-    .then((cats) => {
-      if (!cats) {
-        console.log("could't find categories");
-        res.redirect("/VehiclesCategory/addCategory");
-      } else {
-        res.render("../Admin/views/pages/Vehicles/addVehicles", {
-          cats: cats,
-          pageTitle: "list category",
-          path: "/VehiclesCategory/category-list",
-          oldInput: {
-            categoryId: "",
-            categoryName: "",
-            vehicleNo: "",
-            model: "",
-            seats: "",
-            availabilityStatus: "",
-            ownerName: "",
-            ownerCNIC: "",
-            ownerContact: "",
-            ownerAddress: "",
-            description: "",
-            features: "",
-            videoUrl: "",
-          },
-          flashMessage: req.flash("message"),
-        });
-      }
-    })
-    .catch((err) => console.log(err));
+const addVehicle = async (req, res, next) => {
+  try {
+    const areas = await Areas.find();
+    const cats = await vehicleCategory.find();
+    if (!cats) {
+      console.log("could't find categories");
+      res.redirect("/VehiclesCategory/addCategory");
+    } else {
+      res.render("../Admin/views/pages/Vehicles/addVehicles", {
+        areas: areas,
+        cats: cats,
+        pageTitle: "list category",
+        path: "/VehiclesCategory/category-list",
+        oldInput: {
+          categoryId: "",
+          categoryName: "",
+          vehicleNo: "",
+          model: "",
+          seats: "",
+          availabilityStatus: "",
+          ownerName: "",
+          ownerCNIC: "",
+          ownerContact: "",
+          ownerAddress: "",
+          ownerArea: "",
+          description: "",
+          features: "",
+          videoUrl: "",
+        },
+        flashMessage: req.flash("message"),
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const vehicleList = (req, res, next) => {
@@ -1529,6 +1532,7 @@ const editVehicle = async (req, res, next) => {
 
   try {
     const vehicle = await Vehicles.findById(id);
+    const areas = await Areas.find();
     if (!vehicle) {
       console.log("no vehicle found");
       req.flash("message", "Vehicle Not Found");
@@ -1538,6 +1542,7 @@ const editVehicle = async (req, res, next) => {
     const cats = await vehicleCategory.find();
     res.render("../Admin/views/pages/Vehicles/editVehicle", {
       cats: cats,
+      areas: areas,
       vehicle: vehicle,
       flashMessage: req.flash("message"),
     });
@@ -1581,6 +1586,7 @@ const postAddVehicle = async (req, res) => {
   const ownerCNIC = req.body.ownerCNIC;
   const ownerContact = req.body.ownerContact;
   const ownerAddress = req.body.ownerAddress;
+  const ownerArea = req.body.ownerArea;
   const description = req.body.description;
   const features = req.body.features;
   const videoUrl = req.body.videoUrl;
@@ -1604,6 +1610,7 @@ const postAddVehicle = async (req, res) => {
         ownerCNIC: ownerCNIC,
         ownerContact: ownerContact,
         ownerAddress: ownerAddress,
+        ownerArea: ownerArea,
         description: description,
         features: features,
         videoUrl: videoUrl,
@@ -1622,6 +1629,7 @@ const postAddVehicle = async (req, res) => {
     ownerName: ownerName,
     ownerCNIC: ownerCNIC,
     ownerContact: ownerContact,
+    ownerArea: ownerArea,
     ownerAddress: ownerAddress,
     description: description,
     features: features,
@@ -1649,6 +1657,7 @@ const postEditVehicle = async (req, res) => {
   const ownerCNIC = req.body.ownerCNIC;
   const ownerContact = req.body.ownerContact;
   const ownerAddress = req.body.ownerAddress;
+  const ownerArea = req.body.ownerArea;
   const description = req.body.description;
   const features = req.body.features;
   const videoUrl = req.body.videoUrl;
@@ -1656,12 +1665,14 @@ const postEditVehicle = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const cats = await vehicleCategory.find();
+    const areas = await Areas.find();
 
     return res.status(422).render("../Admin/views/pages/Vehicles/editVehicle", {
       path: "/Vehicles/addVehicle",
       pageTitle: "Vehicles",
       flashMessage: errors.array()[0].msg,
       cats: cats,
+      areas: areas,
       vehicle: {
         id: id,
         categoryId: category.id,
@@ -1673,6 +1684,7 @@ const postEditVehicle = async (req, res) => {
         ownerName: ownerName,
         ownerCNIC: ownerCNIC,
         ownerContact: ownerContact,
+        ownerArea: ownerArea,
         ownerAddress: ownerAddress,
         description: description,
         features: features,
@@ -1693,6 +1705,7 @@ const postEditVehicle = async (req, res) => {
     vehicle.ownerName = ownerName;
     vehicle.ownerCNIC = ownerCNIC;
     vehicle.ownerContact = ownerContact;
+    vehicle.ownerArea = ownerArea;
     vehicle.ownerAddress = ownerAddress;
     vehicle.description = description;
     vehicle.features = features;
