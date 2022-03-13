@@ -1,10 +1,95 @@
-<div class="container" style="margin-top: 20%;">
-  <div class="card" style="width: 18rem;">
-    <div class="card-header bg-dark text-white">
-      booking Details
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+body {
+    background-color: #ffe8d2;
+    font-family: 'Montserrat', sans-serif
+}
+
+.card {
+    border: none
+}
+
+.logo {
+    background-color: #eeeeeea8
+}
+
+.totals tr td {
+    font-size: 13px
+}
+
+.footer {
+    background-color: #eeeeeea8
+}
+
+.footer span {
+    font-size: 12px
+}
+
+.product-qty span {
+    font-size: 12px;
+    color: #dedbdb
+}
+#bookingData::before {
+  content: "";
+  height: 500px;
+}
+  </style>
+</head>
+<body>
+  <div class="container mt-5 mb-5">
+    <div id="bookingData">
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="text-left logo p-2 px-5"> <img src="https://i.imgur.com/2zDU056.png" width="50"> </div>
+                <div class="invoice p-5">
+                    <h5>Your booking Confirmed!</h5> <span class="font-weight-bold d-block mt-4">Hello, Chris</span> <span>You booking has been confirmed!</span>
+                    <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="py-2"> <span class="d-block text-muted">Booking Date</span> <span>12 Jan,2018</span> </div>
+                                    </td>
+                                    <!-- <td>
+                                        <div class="py-2"> <span class="d-block text-muted">Order No</span> <span>MT12332345</span> </div>
+                                    </td> -->
+                                    <td>
+                                        <div class="py-2"> <span class="d-block text-muted">Payment</span> <span><img src="https://img.icons8.com/color/48/000000/mastercard.png" width="20" /></span> </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="product border-bottom table-responsive">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td width="60%"> <span class="font-weight-bold">room No</span>
+                                    </td>
+                                    <td width="20%">
+                                        <div class="text-right"> <span class="font-weight-bold">2000 Rs.</span> </div>
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    
+            </div>
+        </div>
     </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Cras justo odio</li>
-    </ul>
+    </div>
+    
   </div>
-</div>
+</body>
+</html>

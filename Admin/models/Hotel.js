@@ -77,7 +77,8 @@ const HotelsSchema = new Schema({
           checkIn: Date,
           checkOut: Date,
           adults: Number,
-          children: Number
+          children: Number,
+          bookingDate: Date
         }]
       },
     ],

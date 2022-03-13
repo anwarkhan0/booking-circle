@@ -72,7 +72,14 @@ const AppartmentsSchema = new Schema({
         required: false
     },
     reservations: {
-        type: [Object],
+        type: [{
+            user: Object,
+            checkIn: Date,
+            checkOut: Date,
+            adults: Number,
+            children: Number,
+            bookingDate: Date
+          }],
         required: false
     }
 });

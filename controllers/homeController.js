@@ -225,6 +225,7 @@ const postAppartmentBooking = async (req, res, next) => {
     checkOut: checkOut,
     adults: adults,
     children: children,
+    date: new Date()
   };
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -1069,6 +1070,7 @@ const postRoomBooking = async (req, res, next) => {
     checkOut: checkOut,
     adults: adults,
     children: children,
+    date: new Date()
   };
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -1657,6 +1659,7 @@ const paymentSuccess = async (req, res, next) => {
           checkIn: req.session.bookingData.checkIn,
           checkOut: req.session.bookingData.checkOut,
           adults: req.session.bookingData.adults,
+          date: new Date()
         });
         reservedRoom = room;
       }
@@ -1669,6 +1672,7 @@ const paymentSuccess = async (req, res, next) => {
       checkIn: req.session.bookingData.checkIn,
       checkOut: req.session.checkOut,
       loggedIn: req.session.userLoggedIn,
+      date: req.session.bookingData.date
     });
   }
   if (req.session.bookingData.appartmentBooking) {
@@ -1678,14 +1682,17 @@ const paymentSuccess = async (req, res, next) => {
       checkIn: req.session.bookingData.checkIn,
       checkOut: req.session.bookingData.checkOut,
       adults: req.session.bookingData.adults,
+      date: new Date()
     });
     appartment.save();
     res.render("./pages/Payment/success", {
       checkIn: req.session.bookingData.checkIn,
-      checkOut: req.session.checkOut,
+      checkOut: req.session.bookingData.checkOut,
       loggedIn: req.session.userLoggedIn,
+      date: req.session.bookingData.date
     });
   }
+
 };
 
 const paymentCancel = (req, res, next) => {
