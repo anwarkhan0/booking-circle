@@ -8,11 +8,11 @@ const ToursSchema = new Schema({
         required: true
     },
     startDate: {
-        type: String,
+        type: Date,
         required: true
     },
     endDate: {
-        type: String,
+        type: Date,
         required: true
     },
     fromPlace: {
@@ -44,7 +44,7 @@ const ToursSchema = new Schema({
         required: true
     },
     availableSeats: {
-        type: String,
+        type: Number,
         required: true
     },
     chargesPerHead: {

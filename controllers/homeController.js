@@ -1227,13 +1227,14 @@ const booking = async (req, res, next) => {
   const tour = await ToursModel.findById(id);
   res.render("./pages/Tours/booking", {
     loggedIn: req.session.userLoggedIn,
+    flashMessage: '',
     tour: tour,
   });
 };
 
 const postTourEnrolling = async (req, res, next) => {
   const tourId = req.query.tourId;
-  const seats = req.query.seats;
+  const seats = Number(req.query.seats);
   const routePath = req.query.routePath;
   const redirectUrl = routePath + tourId;
 
@@ -1242,64 +1243,33 @@ const postTourEnrolling = async (req, res, next) => {
     res.redirect("/user/login");
     return;
   }
-
-  // const tour = await ToursModel.findById(tourId);
-  // let available = false;
-
-  // if (appartment.reservations.length == 0) {
-  //   available = true;
-  // }
-
-  
-
-  // if (!available) {
-  //   return res.status(422).render("./pages/Appartments/apartmentBooking", {
-  //     loggedIn: req.session.userLoggedIn,
-  //     appartmentId: appartment.id,
-  //     appartment: appartment,
-  //     flashMessage:
-  //       "Sorry, this appartment/house is already reserved for given dates.",
-  //     oldInput: {
-  //       checkIn: checkIn,
-  //       checkOut: checkOut,
-  //       adults: adults,
-  //       children: children,
-  //     },
-  //     // validationErrors: errors.array(),
-  //   });
-  // }
-  // const bookingData = {
-  //   user: req.session.user,
-  //   appartmentBooking: true,
-  //   appartmentId: appartmentId,
-  //   checkIn: checkIn,
-  //   checkOut: checkOut,
-  //   adults: adults,
-  //   children: children,
-  //   date: new Date()
-  // };
-  // const errors = validationResult(req);
-  // if (!errors.isEmpty()) {
-  //   return res.status(422).render("./pages/Appartments/apartmentBooking", {
-  //     loggedIn: req.session.userLoggedIn,
-  //     appartmentId: appartmentId,
-  //     appartment: appartment,
-  //     flashMessage: errors.errors[0].msg,
-  //     oldInput: {
-  //       checkIn: checkIn,
-  //       checkOut: checkOut,
-  //       adults: adults,
-  //       children: children,
-  //     },
-  //     // validationErrors: errors.array(),
-  //   });
-  // }
-  // req.session.bookingData = bookingData;
-  // res.render("./pages/Payment/checkout", {
-  //   layout: false,
-  //   loggedIn: req.session.userLoggedIn,
-  //   charges: appartment.price,
-  // });
+  const bookingData = {
+    user: req.session.user,
+    tourEnrolling: true,
+    tourId: tourId,
+    seats: seats,
+    date: new Date()
+  };
+  const tour = await ToursModel.findById(tourId);
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render("./pages/Tours/booking", {
+      loggedIn: req.session.userLoggedIn,
+      tourId: tourId,
+      tour: tour,
+      flashMessage: errors.errors[0].msg,
+      oldInput: {
+        seats: seats
+      },
+      // validationErrors: errors.array(),
+    });
+  }
+  req.session.bookingData = bookingData;
+  res.render("./pages/Payment/checkout", {
+    layout: false,
+    loggedIn: req.session.userLoggedIn,
+    charges: 2000,
+  });
 };
 
 const gallerytandh = (req, res, next) =>
@@ -1845,6 +1815,21 @@ const paymentSuccess = async (req, res, next) => {
       date:  req.session.bookingData.date
     });
     vehicle.save();
+    res.render("./pages/Payment/success", {
+      loggedIn: req.session.userLoggedIn,
+      data: req.session.bookingData
+    });
+  }
+
+  if(req.session.bookingData.tourEnrolling){
+    const tour = await ToursModel.findById(req.session.bookingData.tourId);
+    tour.availableSeats -= req.session.bookingData.seats;
+    tour.reservations.push({
+      user: req.session.user,
+      seats: req.session.bookingData.seats,
+      date:  req.session.bookingData.date
+    });
+    tour.save();
     res.render("./pages/Payment/success", {
       loggedIn: req.session.userLoggedIn,
       data: req.session.bookingData

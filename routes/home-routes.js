@@ -175,7 +175,11 @@ router.get("/Vehicles/:location", searchVehicles);
 // Tours
 router.get("/Tours/tours", tours);
 router.get("/Tours/hike", hike);
-router.get("/Tours/enrolling", postTourEnrolling);
+router.get("/Tours/enrolling",
+[
+  query("seats", "Enter number of Seats.").notEmpty().custom(val => val == 'undefined' ? false : true)
+],
+postTourEnrolling);
 router.get("/Tours/booking/:id", booking);
 router.get("/Tours/gallerytandh", gallerytandh);
 router.get("/Tours/:location", searchTour);

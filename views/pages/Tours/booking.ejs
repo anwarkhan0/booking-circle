@@ -135,15 +135,18 @@
                             </div> -->
                             <div class="col-12">
                                 <div class="row">
+                                    <p class="text-danger"><%= flashMessage %> </p>
                                     <div class="col-12 pt-4">
-                                        <select name="adults" class="wide" id="seats">
-                                            <option data-display="Number of persons">Number of persons</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                        </select>
+                                        <% if(tour.availableSeats > 0){ %> 
+                                            <select name="adults" class="wide" id="seats">
+                                                <option data-display="Number of persons">Number of persons</option>
+                                                <% for(let i= 1; i<= tour.availableSeats; i++){ %>
+                                                    <option value="<%= i %>"><%= i %></option>
+                                                j<% } %> 
+                                            </select>
+                                            <% }else{ %>
+                                                <p class="text-danger">All Seats are taken.</p>
+                                                <% } %> 
                                     </div>
                                 </div>
                             </div>
