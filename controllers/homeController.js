@@ -228,7 +228,7 @@ const postAppartmentBooking = async (req, res, next) => {
   }
   const bookingData = {
     user: req.session.user,
-    appartmentBooking: true,
+    bookingMode: 'appartment',
     appartmentId: appartmentId,
     checkIn: checkIn,
     checkOut: checkOut,
@@ -912,7 +912,7 @@ const findVehicles = async (req, res, next) => {
   const adults = req.query.adults;
   const children = req.query.children;
 
-  let queryParams;
+  let queryParams = {};
   let people;
   if (location && adults != "false" && children != 'false') {
     people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
@@ -1023,7 +1023,7 @@ const postVehicleBooking = async (req, res, next) => {
   }
   const bookingData = {
     user: req.session.user,
-    vehicleBooking: true,
+    bookingMode: 'vehicle',
     vehicleId: vehicleId,
     checkIn: checkIn,
     checkOut: checkOut,
@@ -1162,7 +1162,7 @@ const postRoomBooking = async (req, res, next) => {
     });
   }
   const bookingData = {
-    roomBooking: true,
+    bookingMode: 'room',
     hotelId: hotelId,
     roomId: roomId,
     checkIn: checkIn,
@@ -1245,7 +1245,7 @@ const postTourEnrolling = async (req, res, next) => {
   }
   const bookingData = {
     user: req.session.user,
-    tourEnrolling: true,
+    bookingMode: 'tour',
     tourId: tourId,
     seats: seats,
     date: new Date()
@@ -1288,6 +1288,7 @@ const news = (req, res, next) => {
     .then((newsLength) => {
       totalItems = newsLength;
       return NewsModel.find()
+        .sort({ date : -1})
         .skip((page - 1) * ITEMS_PER_PAGE)
         .limit(ITEMS_PER_PAGE);
     })
@@ -1766,7 +1767,7 @@ const stripePayment = async (req, res) => {
 
 const paymentSuccess = async (req, res, next) => {
 
-  if (req.session.bookingData.roomBooking) {
+  if (req.session.bookingData.bookingMode == 'room') {
     const hotel = await HotelsModel.findById(req.session.bookingData.hotelId);
     let reservedRoom;
     console.log(new Date())
@@ -1789,7 +1790,7 @@ const paymentSuccess = async (req, res, next) => {
     });
   }
 
-  if (req.session.bookingData.appartmentBooking) {
+  if (req.session.bookingData.bookingMode == 'appartment') {
     const appartment = await AppartmentModel.findById(req.session.bookingData.appartmentId);
     appartment.reservations.push({
       user: req.session.user,
@@ -1805,7 +1806,7 @@ const paymentSuccess = async (req, res, next) => {
     });
   }
 
-  if (req.session.bookingData.vehicleBooking) {
+  if (req.session.bookingData.bookingMode == 'vehicle') {
     const vehicle = await VehiclesModel.findById(req.session.bookingData.vehicleId);
     vehicle.reservations.push({
       user: req.session.user,
@@ -1821,7 +1822,7 @@ const paymentSuccess = async (req, res, next) => {
     });
   }
 
-  if(req.session.bookingData.tourEnrolling){
+  if(req.session.bookingData.bookingMode == 'tour'){
     const tour = await ToursModel.findById(req.session.bookingData.tourId);
     tour.availableSeats -= req.session.bookingData.seats;
     tour.reservations.push({
