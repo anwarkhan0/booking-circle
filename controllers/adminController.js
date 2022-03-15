@@ -745,6 +745,17 @@ const housesList = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
+const appartmentBookingsList = (req, res, next) => {
+  Appartments.find()
+    .then((appartments) => {
+      res.render("../Admin/views/pages/Appartments/bookingsList", {
+        appartments: appartments,
+        flashMessage: req.flash("message"),
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
 const addGalleryHouses = (req, res, next) => {
   res.render("../Admin/views/pages/Appartments/addGalleryHouses");
 };
@@ -2546,6 +2557,7 @@ module.exports = {
   editAppartmentHouse,
   appartmentList,
   editGalleryAppartments,
+  appartmentBookingsList,
   housesList,
   addGallery,
   addGalleryHouses,

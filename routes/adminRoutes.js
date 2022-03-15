@@ -50,6 +50,7 @@ const {
   appartmentList,
   editGalleryAppartments,
   housesList,
+  appartmentBookingsList,
   addGallery,
   addGalleryHouses,
   editGalleryHouses,
@@ -403,6 +404,7 @@ router.get("/admin/Appartments/editAppartmentHouse/:id", isAuth, editAppartmentH
 router.get("/admin/Appartments/addGallery/:id", isAuth, addGallery);
 router.get("/admin/Appartments/editGallery/:id", isAuth, editGalleryAppartments);
 router.get("/admin/Appartments/appartmentList", isAuth, appartmentList);
+router.get("/admin/Appartments/bookings", isAuth, appartmentBookingsList);
 router.get("/admin/Appartments/housesList", isAuth, housesList);
 router.get("/admin/Appartments/addGalleryHouses", isAuth, addGalleryHouses);
 router.get("/admin/Appartments/editGalleryHouses", isAuth, editGalleryHouses);
