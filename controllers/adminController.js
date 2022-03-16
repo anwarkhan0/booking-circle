@@ -1204,7 +1204,7 @@ const postAddRoom = async (req, res) => {
 
 const postEditRoom = async (req, res) => {
   //hotel and room id info
-  const roomIndex = req.body.roomIndex;
+  const roomId = req.body.roomId;
   const hotelId = req.body.hotel;
 
   //room data
@@ -1265,23 +1265,24 @@ const postEditRoom = async (req, res) => {
 
   try {
     const hotel = await Hotels.findById(hotelId);
-    const room = {
-      roomNo: roomNo,
-      beds: beds,
-      hotWater: hotWater,
-      balcony: balcony,
-      status: status,
-      location: location,
-      charges: charges,
-      size: size,
-      occupency: occupency,
-      bedSize: bedSize,
-      description: description,
-      features: features,
-      videoUrl: videoUrl,
-    };
-    hotel.rooms.splice(roomIndex, 1);
-    hotel.rooms.push(room);
+    hotel.rooms.forEach((room, i)=>{
+      if(room.id == roomId){
+        hotel.rooms[i].roomNo = roomNo;
+        hotel.rooms[i].beds = beds;
+        hotel.rooms[i].hotWater = hotWater;
+        hotel.rooms[i].balcony = balcony;
+        hotel.rooms[i].status = status;
+        hotel.rooms[i].location = location;
+        hotel.rooms[i].charges = charges;
+        hotel.rooms[i].size = size;
+        hotel.rooms[i].occupency = occupency;
+        hotel.rooms[i].bedSize = bedSize;
+        hotel.rooms[i].description = description;
+        hotel.rooms[i].features = features;
+        hotel.rooms[i].videoUrl = videoUrl;
+      }
+    })
+
     await hotel.save();
 
     console.log("room updated");
