@@ -51,20 +51,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                      <% for(let i = 0; i < tours.length; i++) { %>
-                        <tr id="<%= tours[i].id %>">
+                      <% tours.forEach((tour, i)=> { %>
+                        <tr id="<%= tour.id %>">
                             <td><%= i + 1 %></td>
-                            <td><span class="badge <%= tours[i].tourType === 'tour' ? 'badge-primary' : 'badge-secondary' %>" style="font-size: 14px;"><%= tours[i].tourType %></span></td>
-                            <td><%= tours[i].startDate %></td>
-                            <td><%= tours[i].endDate %></td>
-                            <td><%= tours[i].fromPlace %> to <%= tours[i].toPlace %></td>
+                            <td><span class="badge <%= tour.tourType === 'tour' ? 'badge-primary' : 'badge-secondary' %>" style="font-size: 14px;"><%= tour.tourType %></span></td>
+                            <td><%= tour.startDate %></td>
+                            <td><%= tour.endDate %></td>
+                            <td><%= tour.fromPlace %> to <%= tour.toPlace %></td>
                             <td>
-                              <a href=<%='/admin/Tours/viewTour/' + tours[i].id %> class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                              <a href=<%='/admin/Tours/editTour/' + tours[i].id %> class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></a>
-                                <button class="btn btn-danger btn-sm" onclick="<%= `deleteHandler('/Tours/deleteTour', ${tours[i].id.toString()}` %>"><i class="fa fa-trash"></i></button>
+                              <a href=<%='/admin/Tours/viewTour/' + tour.id %> class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+                              <a href=<%='/admin/Tours/editTour/' + tour.id %> class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></a>
+                                <button class="btn btn-danger btn-sm" onclick="<%= `deleteHandler('/admin/Tours/deleteTour/', '${tour.id.toString()}')` %>"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>
-                      <% } %>
+                      <% }) %>
                     </tbody>
                     <tfoot>
                         <tr>

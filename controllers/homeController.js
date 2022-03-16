@@ -21,7 +21,8 @@ const checkout = require("safepay/dist/resources/checkout");
 // HomePage
 const home = async (req, res, next) => {
   const areas = await HomeModel.fetchAreas();
-  const sliderGall = await sliderGallery.findOne();
+  let sliderGall = [];
+  sliderGall = await sliderGallery.findOne() || [];
 
   const hotels = await HotelsModel.find({ approvedStatus: true });
   const appartments = await AppartmentModel.find();
@@ -65,7 +66,7 @@ const home = async (req, res, next) => {
 
   res.render("./pages/HomePage/home", {
     loggedIn: req.session.userLoggedIn,
-    sliderGallery: sliderGall.images,
+    sliderGallery: sliderGall,
     areas: areas,
     hotels: ourHotelsIn,
     appartments: ourtAppartmentsIn,

@@ -80,7 +80,7 @@
                           <i class="fa fa-picture-o"></i></a>
                         <a href="<%= '/admin/Vehicles/editVehicleGallery/' + vehicles[i].id %>"
                           class="btn btn-success btn-sm">Edit <i class="fa fa-picture-o"></i></a>
-                        <button class="btn btn-danger btn-sm" onclick="<%= `deleteHandler('/admin/Vehicles/deleteVehicle', ${vehicles[i].id.toString()})` %>"><i
+                        <button class="btn btn-danger btn-sm" onclick="<%= `deleteHandler('/admin/Vehicles/deleteVehicle', '${vehicles[i].id.toString()}')` %>"><i
                             class="fa fa-trash"></i></button>
 
                       </td>
