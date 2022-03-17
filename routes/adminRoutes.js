@@ -64,6 +64,7 @@ const {
   addRoom,
   roomList,
   editRoom,
+  roomBookings,
   addRoomGallery,
   editRoomGallery,
   postAddRoom,
@@ -665,6 +666,7 @@ router.post("/admin/Appartments/deleteAppartment", isAuth, postDeleteAppartment)
 // Rooms
 router.get("/admin/Rooms/addRoom", isAuth, addRoom);
 router.get("/admin/Rooms/roomList", isAuth, roomList);
+router.get('/admin/Rooms/bookings', roomBookings);
 router.get("/admin/Rooms/editRoom/:id", isAuth, editRoom);
 router.get("/admin/Rooms/addGallery/:id", isAuth, addRoomGallery);
 router.get("/admin/Rooms/editGallery/:id", isAuth, editRoomGallery);

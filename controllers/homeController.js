@@ -1097,6 +1097,7 @@ const roomBooking = async (req, res, next) => {
 };
 
 const postRoomBooking = async (req, res, next) => {
+  console.log('room func')
   const hotelId = req.query.hotelId;
   const roomId = req.query.roomId;
   const checkIn = req.query.checkIn.replace(/\./g, "/");
@@ -1118,36 +1119,33 @@ const postRoomBooking = async (req, res, next) => {
   const formatedCheckin = new Date(checkIn);
   const formatedCheckout = new Date(checkOut);
   let available = false;
+  let flag;
   hotel.rooms.forEach((room) => {
     if (room.id == roomId) {
       selectedRoom = room;
       if (room.reservations.length == 0) {
-        available = true;
+        flag = true;
         return;
       }
-
+      
       room.reservations.forEach((reservation, i) => {
-        if (
-          (formatedCheckin < reservation.checkIn &&
-            formatedCheckout < reservation.checkIn) ||
-          (formatedCheckin > reservation.checkOut &&
-            formatedCheckout > reservation.checkOut)
-        ) {
-          if (typeof room.reservations[i + 1] === "undefined") {
-            available = true;
-            return;
-          } else if (formatedCheckout < room.reservations[i + 1]) {
-            available = true;
-            return;
-          }
-        } else {
-          available = false;
+        flag = false;
+        console.log(formatedCheckin >= reservation.checkIn)
+        if(formatedCheckin >= reservation.checkIn && formatedCheckin <= reservation.checkOut){
+          console.log('this room is not available')
+          return;
         }
+        if(formatedCheckout >= reservation.checkIn && formatedCheckout <= reservation.checkOut){
+          console.log('this room is not available')
+          return;
+        }
+        flag = true;
       });
+      console.log(flag)
     }
   });
 
-  if (!available) {
+  if (!flag) {
     return res.status(422).render("./pages/Hotels/roomBooking", {
       loggedIn: req.session.userLoggedIn,
       hotelId: hotel.id,
@@ -1768,10 +1766,10 @@ const stripePayment = async (req, res) => {
 
 const paymentSuccess = async (req, res, next) => {
 
-  if (req.session.bookingData.bookingMode == 'room') {
+  if (req.session.bookingData.bookingMode == "room") {
     const hotel = await HotelsModel.findById(req.session.bookingData.hotelId);
     let reservedRoom;
-    console.log(new Date())
+    console.log(new Date());
     hotel.rooms.forEach((room) => {
       if (room.id == req.session.bookingData.roomId) {
         room.reservations.push({
@@ -1779,7 +1777,7 @@ const paymentSuccess = async (req, res, next) => {
           checkIn: req.session.bookingData.checkIn,
           checkOut: req.session.bookingData.checkOut,
           adults: Number(req.session.bookingData.adults),
-          date: req.session.bookingData.date
+          date: req.session.bookingData.date,
         });
         reservedRoom = room;
       }
@@ -1787,54 +1785,53 @@ const paymentSuccess = async (req, res, next) => {
     hotel.save();
     res.render("./pages/Payment/success", {
       loggedIn: req.session.userLoggedIn,
-      data: req.session.bookingData
+      data: req.session.bookingData,
     });
-  }
-
-  if (req.session.bookingData.bookingMode == 'appartment') {
-    const appartment = await AppartmentModel.findById(req.session.bookingData.appartmentId);
+    
+  } else if (req.session.bookingData.bookingMode == "appartment") {
+    const appartment = await AppartmentModel.findById(
+      req.session.bookingData.appartmentId
+    );
     appartment.reservations.push({
       user: req.session.user,
       checkIn: req.session.bookingData.checkIn,
       checkOut: req.session.bookingData.checkOut,
       adults: Number(req.session.bookingData.adults),
-      date:  req.session.bookingData.date
+      date: req.session.bookingData.date,
     });
     appartment.save();
     res.render("./pages/Payment/success", {
       loggedIn: req.session.userLoggedIn,
-      data: req.session.bookingData
+      data: req.session.bookingData,
     });
-  }
-
-  if (req.session.bookingData.bookingMode == 'vehicle') {
-    const vehicle = await VehiclesModel.findById(req.session.bookingData.vehicleId);
+  } else if (req.session.bookingData.bookingMode == "vehicle") {
+    const vehicle = await VehiclesModel.findById(
+      req.session.bookingData.vehicleId
+    );
     vehicle.reservations.push({
       user: req.session.user,
       checkIn: req.session.bookingData.checkIn,
       checkOut: req.session.bookingData.checkOut,
       adults: Number(req.session.bookingData.adults),
-      date:  req.session.bookingData.date
+      date: req.session.bookingData.date,
     });
     vehicle.save();
     res.render("./pages/Payment/success", {
       loggedIn: req.session.userLoggedIn,
-      data: req.session.bookingData
+      data: req.session.bookingData,
     });
-  }
-
-  if(req.session.bookingData.bookingMode == 'tour'){
+  } else if (req.session.bookingData.bookingMode == "tour") {
     const tour = await ToursModel.findById(req.session.bookingData.tourId);
     tour.availableSeats -= req.session.bookingData.seats;
     tour.reservations.push({
       user: req.session.user,
       seats: req.session.bookingData.seats,
-      date:  req.session.bookingData.date
+      date: req.session.bookingData.date,
     });
     tour.save();
     res.render("./pages/Payment/success", {
       loggedIn: req.session.userLoggedIn,
-      data: req.session.bookingData
+      data: req.session.bookingData,
     });
   }
 

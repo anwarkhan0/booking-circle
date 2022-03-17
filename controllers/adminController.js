@@ -1071,6 +1071,22 @@ const roomList = async (req, res, next) => {
   
 };
 
+const roomBookings = async (req, res, next) => {
+  
+  try {
+    const hotels = await Hotels.find();
+    res.render("../Admin/views/pages/Rooms/bookingsList", {
+      hotels: hotels,
+      flashMessage: req.flash("message"),
+    });
+  } catch (err) {
+    console.log(err);
+    req.flash("message", "Something went wrong.");
+    res.redirect("/");
+  }
+  
+};
+
 const editRoom = async (req, res, next) => {
   const id = req.params.id;
   const index = req.query.i;
@@ -2573,6 +2589,7 @@ module.exports = {
   addRoom,
   roomList,
   editRoom,
+  roomBookings,
   addRoomGallery,
   editRoomGallery,
   postAddRoom,

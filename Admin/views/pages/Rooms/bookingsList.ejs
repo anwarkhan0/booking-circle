@@ -38,43 +38,46 @@
                                             <tr>
                                                 <th>S#</th>
                                                 <th>User Name</th>
-                                                <th>Appartment Name</th>
+                                                <th>Hotel Name</th>
+                                                <th>Room No</th>
                                                 <th>User Contact</th>
-                                                <th>A | H</th>
                                                 <th>Check In</th>
                                                 <th>Check Out</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
-                                            <% appartments.forEach( (appartment, i)=> { %>
-                                                <% appartment.reservations.forEach(reservation=> { %>
-                                                    <tr id="<%= appartment.id %>">
-                                                        <td>
-                                                            <%= i + 1 %>
-                                                        </td>
-                                                        <td>
-                                                            <%= reservation.user.name %>
-                                                        </td>
-                                                        <td>
-                                                            <%= appartment.name %> 
-                                                        </td>
-                                                        <td>
-                                                            <%= reservation.user.phoneNo %>
-                                                        </td>
-                                                        <td><span class="badge badge-info">
-                                                                <%= appartment.appartmentType %>
-                                                            </span></td>
-                                                        <td>
-                                                            <%= reservation.checkIn %> 
-                                                        </td>
-                                                        <td>
-                                                            <%= reservation.checkOut %> 
-                                                        </td>
-                                                        
-                                                    </tr>
-                                                    <% }) %>
+                                            <% hotels.forEach( (hotel, i)=> { %>
+                                                <% hotel.rooms.forEach( room=> { %>
+                                                    <% room.reservations.forEach(reservation=> { %>
+                                                        <tr id="<%= room.id %>">
+                                                            <td>
+                                                                <%= i + 1 %>
+                                                            </td>
+                                                            <td>
+                                                                <%= reservation.user.name %>
+                                                            </td>
+                                                            <td>
+                                                                <%= hotel.name %>
+                                                            </td>
+                                                            <td>
+                                                                <%= room.roomNo %> 
+                                                            </td>
+                                                            <td>
+                                                                <%= reservation.user.phoneNo %>
+                                                            </td>
+                                                            
+                                                            <td>
+                                                                <%= reservation.checkIn %>
+                                                            </td>
+                                                            <td>
+                                                                <%= reservation.checkOut %>
+                                                            </td>
+                                            
+                                                        </tr>
                                                         <% }) %>
+                                                            <% }) %>
+                                                                <% }) %>
                                         </tbody>
                                         <tfoot>
                                             <tr>
