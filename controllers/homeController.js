@@ -1097,7 +1097,6 @@ const roomBooking = async (req, res, next) => {
 };
 
 const postRoomBooking = async (req, res, next) => {
-  console.log('room func')
   const hotelId = req.query.hotelId;
   const roomId = req.query.roomId;
   const checkIn = req.query.checkIn.replace(/\./g, "/");
@@ -1130,7 +1129,6 @@ const postRoomBooking = async (req, res, next) => {
       
       room.reservations.forEach((reservation, i) => {
         flag = false;
-        console.log(formatedCheckin >= reservation.checkIn)
         if(formatedCheckin >= reservation.checkIn && formatedCheckin <= reservation.checkOut){
           console.log('this room is not available')
           return;
@@ -1139,7 +1137,6 @@ const postRoomBooking = async (req, res, next) => {
           console.log('this room is not available')
           return;
         }
-        flag = true;
       });
       console.log(flag)
     }
