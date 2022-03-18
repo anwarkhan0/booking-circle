@@ -186,32 +186,32 @@ const postAppartmentBooking = async (req, res, next) => {
   const appartment = await AppartmentModel.findById(appartmentId);
   const formatedCheckin = new Date(checkIn);
   const formatedCheckout = new Date(checkOut);
-  let available = false;
+  let flag;
 
   if (appartment.reservations.length == 0) {
-    available = true;
+    flag = true;
   }
 
-  appartment.reservations.forEach((reservation, i) => {
+  for (let i = 0; i < appartment.reservations.length; i++) {
+    flag = false;
     if (
-      (formatedCheckin < reservation.checkIn &&
-        formatedCheckout < reservation.checkIn) ||
-      (formatedCheckin > reservation.checkOut &&
-        formatedCheckout > reservation.checkOut)
+      formatedCheckin >= appartment.reservations[i].checkIn &&
+      formatedCheckin <= appartment.reservations[i].checkOut
     ) {
-      if (typeof appartment.reservations[i + 1] === "undefined") {
-        available = true;
-        return;
-      } else if (formatedCheckout < appartment.reservations[i + 1]) {
-        available = true;
-        return;
-      }
-    } else {
-      available = false;
+      console.log("this room is not available");
+      break;
     }
-  });
+    if (
+      formatedCheckout >= appartment.reservations[i].checkIn &&
+      formatedCheckout <= appartment.reservations[i].checkOut
+    ) {
+      console.log("this room is not available");
+      break;
+    }
+    flag = true;
+  }
 
-  if (!available) {
+  if (!flag) {
     return res.status(422).render("./pages/Appartments/apartmentBooking", {
       loggedIn: req.session.userLoggedIn,
       appartmentId: appartment.id,
@@ -979,32 +979,32 @@ const postVehicleBooking = async (req, res, next) => {
 
   const formatedCheckin = new Date(checkIn);
   const formatedCheckout = new Date(checkOut);
-  let available = false;
+  let flag = false;
 
   if (vehicle.reservations.length == 0) {
-    available = true;
+    flag = true;
   }
 
-  vehicle.reservations.forEach((reservation, i) => {
+  for (let i = 0; i < vehicle.reservations.length; i++) {
+    flag = false;
     if (
-      (formatedCheckin < reservation.checkIn &&
-        formatedCheckout < reservation.checkIn) ||
-      (formatedCheckin > reservation.checkOut &&
-        formatedCheckout > reservation.checkOut)
+      formatedCheckin >= vehicle.reservations[i].checkIn &&
+      formatedCheckin <= vehicle.reservations[i].checkOut
     ) {
-      if (typeof vehicle.reservations[i + 1] === "undefined") {
-        available = true;
-        return;
-      } else if (formatedCheckout < vehicle.reservations[i + 1]) {
-        available = true;
-        return;
-      }
-    } else {
-      available = false;
+      console.log("this vehicle is not available");
+      break;
     }
-  });
+    if (
+      formatedCheckout >= vehicle.reservations[i].checkIn &&
+      formatedCheckout <= vehicle.reservations[i].checkOut
+    ) {
+      console.log("this vehicle is not available");
+      break;
+    }
+    flag = true;
+  }
 
-  if (!available) {
+  if (!flag) {
     return res.status(422).render("./pages/Vehicles/vehicleBooking", {
       loggedIn: req.session.userLoggedIn,
       vehicleId: vehicleId,
@@ -1114,40 +1114,43 @@ const postRoomBooking = async (req, res, next) => {
   }
 
   const hotel = await HotelsModel.findById(hotelId);
+  const room = hotel.rooms.find( room => room.id == roomId);
   let selectedRoom;
   const formatedCheckin = new Date(checkIn);
   const formatedCheckout = new Date(checkOut);
-  let available = false;
   let flag;
-  hotel.rooms.forEach((room) => {
-    if (room.id == roomId) {
-      selectedRoom = room;
-      if (room.reservations.length == 0) {
-        flag = true;
-        return;
-      }
-      
-      room.reservations.forEach((reservation, i) => {
-        flag = false;
-        if(formatedCheckin >= reservation.checkIn && formatedCheckin <= reservation.checkOut){
-          console.log('this room is not available')
-          return;
-        }
-        if(formatedCheckout >= reservation.checkIn && formatedCheckout <= reservation.checkOut){
-          console.log('this room is not available')
-          return;
-        }
-      });
-      console.log(flag)
+  selectedRoom = room;
+  if (room.reservations.length == 0) {
+    flag = true;
+    return;
+  }
+
+  for (let i = 0; i < room.reservations.length; i++) {
+    flag = false;
+    if (
+      formatedCheckin >= room.reservations[i].checkIn &&
+      formatedCheckin <= room.reservations[i].checkOut
+    ) {
+      console.log("this room is not available");
+      break;
     }
-  });
+    if (
+      formatedCheckout >= room.reservations[i].checkIn &&
+      formatedCheckout <= room.reservations[i].checkOut
+    ) {
+      console.log("this room is not available");
+      break;
+    }
+    flag = true;
+  }
 
   if (!flag) {
     return res.status(422).render("./pages/Hotels/roomBooking", {
       loggedIn: req.session.userLoggedIn,
       hotelId: hotel.id,
       room: selectedRoom,
-      flashMessage: "Sorry, this room is already reserved for given dates or room is insufficient for you.",
+      flashMessage:
+        "Sorry, this room is already reserved for given dates or room is insufficient for you.",
       oldInput: {
         checkIn: checkIn,
         checkOut: checkOut,
@@ -1158,14 +1161,14 @@ const postRoomBooking = async (req, res, next) => {
     });
   }
   const bookingData = {
-    bookingMode: 'room',
+    bookingMode: "room",
     hotelId: hotelId,
     roomId: roomId,
     checkIn: checkIn,
     checkOut: checkOut,
     adults: adults,
     children: children,
-    date: new Date()
+    date: new Date(),
   };
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -1187,9 +1190,9 @@ const postRoomBooking = async (req, res, next) => {
   res.render("./pages/Payment/checkout", {
     layout: false,
     loggedIn: req.session.userLoggedIn,
-    charges: charges
+    charges: charges,
   });
-};
+};;
 
 // Tours
 const tours = async (req, res, next) => {
