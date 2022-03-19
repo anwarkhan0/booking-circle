@@ -190,25 +190,32 @@ const postAppartmentBooking = async (req, res, next) => {
 
   if (appartment.reservations.length == 0) {
     flag = true;
-  }
-
-  for (let i = 0; i < appartment.reservations.length; i++) {
-    flag = false;
-    if (
-      formatedCheckin >= appartment.reservations[i].checkIn &&
-      formatedCheckin <= appartment.reservations[i].checkOut
-    ) {
-      console.log("this room is not available");
-      break;
+  } else {
+    for (let i = 0; i < appartment.reservations.length; i++) {
+      flag = false;
+      if (
+        formatedCheckin >= appartment.reservations[i].checkIn &&
+        formatedCheckin <= appartment.reservations[i].checkOut
+      ) {
+        console.log("this appartment is not available");
+        break;
+      }
+      if (
+        formatedCheckout >= appartment.reservations[i].checkIn &&
+        formatedCheckout <= appartment.reservations[i].checkOut
+      ) {
+        console.log("this appartment is not available");
+        break;
+      }
+      if (
+        formatedCheckin < appartment.reservations[i].checkIn &&
+        formatedCheckout > appartment.reservations[i].checkOut
+      ) {
+        console.log("this appartment is not available");
+        break;
+      }
+      flag = true;
     }
-    if (
-      formatedCheckout >= appartment.reservations[i].checkIn &&
-      formatedCheckout <= appartment.reservations[i].checkOut
-    ) {
-      console.log("this room is not available");
-      break;
-    }
-    flag = true;
   }
 
   if (!flag) {
@@ -983,25 +990,32 @@ const postVehicleBooking = async (req, res, next) => {
 
   if (vehicle.reservations.length == 0) {
     flag = true;
-  }
-
-  for (let i = 0; i < vehicle.reservations.length; i++) {
-    flag = false;
-    if (
-      formatedCheckin >= vehicle.reservations[i].checkIn &&
-      formatedCheckin <= vehicle.reservations[i].checkOut
-    ) {
-      console.log("this vehicle is not available");
-      break;
+  } else {
+    for (let i = 0; i < vehicle.reservations.length; i++) {
+      flag = false;
+      if (
+        formatedCheckin >= vehicle.reservations[i].checkIn &&
+        formatedCheckin <= vehicle.reservations[i].checkOut
+      ) {
+        console.log("this vehicle is not available");
+        break;
+      }
+      if (
+        formatedCheckout >= vehicle.reservations[i].checkIn &&
+        formatedCheckout <= vehicle.reservations[i].checkOut
+      ) {
+        console.log("this vehicle is not available");
+        break;
+      }
+      if (
+        formatedCheckin < vehicle.reservations[i].checkIn &&
+        formatedCheckout > vehicle.reservations[i].checkOut
+      ) {
+        console.log("this vehicle is not available");
+        break;
+      }
+      flag = true;
     }
-    if (
-      formatedCheckout >= vehicle.reservations[i].checkIn &&
-      formatedCheckout <= vehicle.reservations[i].checkOut
-    ) {
-      console.log("this vehicle is not available");
-      break;
-    }
-    flag = true;
   }
 
   if (!flag) {
@@ -1112,43 +1126,47 @@ const postRoomBooking = async (req, res, next) => {
     res.redirect("/user/login");
     return;
   }
-
+  
   const hotel = await HotelsModel.findById(hotelId);
   const room = hotel.rooms.find( room => room.id == roomId);
-  let selectedRoom;
   const formatedCheckin = new Date(checkIn);
   const formatedCheckout = new Date(checkOut);
   let flag;
-  selectedRoom = room;
   if (room.reservations.length == 0) {
     flag = true;
-    return;
-  }
-
-  for (let i = 0; i < room.reservations.length; i++) {
-    flag = false;
-    if (
-      formatedCheckin >= room.reservations[i].checkIn &&
-      formatedCheckin <= room.reservations[i].checkOut
-    ) {
-      console.log("this room is not available");
-      break;
+  } else {
+    for (let i = 0; i < room.reservations.length; i++) {
+      flag = false;
+      if (
+        formatedCheckin >= room.reservations[i].checkIn &&
+        formatedCheckin <= room.reservations[i].checkOut
+      ) {
+        console.log("this room is not available");
+        break;
+      }
+      if (
+        formatedCheckout >= room.reservations[i].checkIn &&
+        formatedCheckout <= room.reservations[i].checkOut
+      ) {
+        console.log("this room is not available");
+        break;
+      }
+      if (
+        formatedCheckin < room.reservations[i].checkIn &&
+        formatedCheckout > room.reservations[i].checkOut
+      ) {
+        console.log("this room is not available");
+        break;
+      }
+      flag = true;
     }
-    if (
-      formatedCheckout >= room.reservations[i].checkIn &&
-      formatedCheckout <= room.reservations[i].checkOut
-    ) {
-      console.log("this room is not available");
-      break;
-    }
-    flag = true;
   }
 
   if (!flag) {
     return res.status(422).render("./pages/Hotels/roomBooking", {
       loggedIn: req.session.userLoggedIn,
       hotelId: hotel.id,
-      room: selectedRoom,
+      room: room,
       flashMessage:
         "Sorry, this room is already reserved for given dates or room is insufficient for you.",
       oldInput: {
@@ -1175,7 +1193,7 @@ const postRoomBooking = async (req, res, next) => {
     return res.status(422).render("./pages/Hotels/roomBooking", {
       loggedIn: req.session.userLoggedIn,
       hotelId: hotel.id,
-      room: selectedRoom,
+      room: room,
       flashMessage: errors.errors[0].msg,
       oldInput: {
         checkIn: checkIn,

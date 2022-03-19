@@ -93,3 +93,15 @@ mongoose
   .catch(err => {
     console.log(err);
   });
+  
+  // LOCALHOST:DATABASE/////////////
+  // mongoose
+  // .connect(
+  //   `mongodb://127.0.0.1:27017/bookingring?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.2.3`
+  // )
+  // .then(result => {
+  //   app.listen(port, () => console.log(`App listening on Port: ${port}`));
+  // })
+  // .catch(err => {
+  //   console.log(err);
+  // });
