@@ -21,8 +21,7 @@ const checkout = require("safepay/dist/resources/checkout");
 // HomePage
 const home = async (req, res, next) => {
   const areas = await HomeModel.fetchAreas();
-  let sliderGall = [];
-  sliderGall = await sliderGallery.findOne() || [];
+  const sliderGall = await sliderGallery.find();
 
   const hotels = await HotelsModel.find({ approvedStatus: true });
   const appartments = await AppartmentModel.find();
@@ -66,7 +65,7 @@ const home = async (req, res, next) => {
 
   res.render("./pages/HomePage/home", {
     loggedIn: req.session.userLoggedIn,
-    sliderGallery: sliderGall,
+    sliderGallery: sliderGall[0].images,
     areas: areas,
     hotels: ourHotelsIn,
     appartments: ourtAppartmentsIn,
@@ -908,9 +907,11 @@ const vehicleBooking = async (req, res, next) => {
 
 const searchVehicles = async (req, res, next) => {
   const location = req.params.location;
-  const vehicles = await VehiclesModel.find();
-  res.render("./pages/Vehicles/searchResult", {
+  const areas = await AreasModel.find();
+  const vehicles = await VehiclesModel.find({ownerArea: location});
+  res.render("./pages/Vehicles/vehicles", {
     loggedIn: req.session.userLoggedIn,
+    areas: areas,
     vehicles: vehicles,
   });
 };
@@ -925,7 +926,7 @@ const findVehicles = async (req, res, next) => {
   if (location && adults != "false" && children != 'false') {
     people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
     queryParams = {
-      location: location,
+      ownerArea: location,
       seats: { $gte: people }
     }
   } else if (location) {

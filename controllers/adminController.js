@@ -843,7 +843,7 @@ const postAddAppartment = async (req, res, next) => {
     // console.log(result);
     console.log("appartment added");
     req.flash("message", "Appartment Added Successfully");
-    res.redirect("/Appartments/appartmentHouseList");
+    res.redirect("/admin/Appartments/appartmentHouseList");
   } catch (err) {
     console.log(err);
   }

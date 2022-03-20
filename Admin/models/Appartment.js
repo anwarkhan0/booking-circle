@@ -71,10 +71,14 @@ const AppartmentsSchema = new Schema({
     type: [String],
     required: false,
   },
-  reservations:{
-    type: [Object],
-    required: false
-  } 
+  reservations: [{
+    user: Object,
+    checkIn: Date,
+    checkOut: Date,
+    adults: Number,
+    children: Number,
+    date: Date
+  }]
 });
 
 module.exports = mongoose.model('Appartments', AppartmentsSchema);
