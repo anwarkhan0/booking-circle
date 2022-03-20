@@ -1803,6 +1803,7 @@ const paymentSuccess = async (req, res, next) => {
     });
     hotel.save();
     res.render("./pages/Payment/success", {
+      layout: false,
       loggedIn: req.session.userLoggedIn,
       data: req.session.bookingData,
     });
