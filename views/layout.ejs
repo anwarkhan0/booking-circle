@@ -188,7 +188,10 @@
 								// Checking Status
 								.then(response => {
 									if (response.status === 200) {
-										console.log('success')
+										$('#name').val('');
+										$('#email').val('');
+										$('#message').val('');
+										alert('your message sent successfully.')
 									} else {
 										alert('oop\'s something went wrong, Please Try again')
 									}
@@ -211,7 +214,7 @@
 								.then(response => {
 									if (response.status === 200) {
 										$('#subscriptionEmail').val('');
-										console.log('success')
+										alert('Thanks for your Subscription')
 									} else {
 										alert('oop\'s something went wrong, Please Try again')
 									}

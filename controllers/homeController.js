@@ -14,7 +14,7 @@ const MessageModel = require("../Admin/models/Message");
 const sliderGallery = require("../Admin/models/SliderGallery");
 const subscribeModel = require("../models/subscribeModel");
 const queryModel = require("../Admin/models/Query");
-const { json } = require("express");
+const { json, query } = require("express");
 const Hotel = require("../Admin/models/Hotel");
 const checkout = require("safepay/dist/resources/checkout");
 
@@ -1657,7 +1657,68 @@ const termsAndCondition = (req, res, next) =>
 
 // FAQ's
 const faqs = async (req, res, next) => {
-  const faqs = await queryModel.find();
+  const queries = await queryModel.find();
+  const faqs = [];
+
+  const similarity = (s1, s2)=> {
+    let longer = s1;
+    let shorter = s2;
+    if (s1.length < s2.length) {
+      longer = s2;
+      shorter = s1;
+    }
+    const longerLength = longer.length;
+    if (longerLength === 0) {
+      return 1.0;
+    }
+    return (
+      (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength)
+    );
+  }
+
+  const editDistance = (s1, s2) => {
+    s1 = s1.toLowerCase();
+    s2 = s2.toLowerCase();
+
+    const costs = new Array();
+    for (var i = 0; i <= s1.length; i++) {
+      var lastValue = i;
+      for (var j = 0; j <= s2.length; j++) {
+        if (i == 0) costs[j] = j;
+        else {
+          if (j > 0) {
+            var newValue = costs[j - 1];
+            if (s1.charAt(i - 1) != s2.charAt(j - 1))
+              newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+            costs[j - 1] = lastValue;
+            lastValue = newValue;
+          }
+        }
+      }
+      if (i > 0) costs[s2.length] = lastValue;
+    }
+    return costs[s2.length];
+  }
+
+  queries.forEach((query1, i) => {
+    let matches = 0;
+    queries.forEach((query2, j)=>{
+      
+      if(i == j) return;
+      let perc = Math.round(similarity(query1.query, query2.query) * 10000) / 100;
+      if(perc >= 75){
+        ++matches;
+        queries.pop(query2)
+      }
+      
+    })
+    console.log(matches)
+    if(matches >= 1){
+      faqs.push(query1);
+    }
+    
+  });
+
   res.render("./pages/FAQs/faqs", {
     loggedIn: req.session.userLoggedIn,
     faqs: faqs,
