@@ -1700,24 +1700,18 @@ const faqs = async (req, res, next) => {
     return costs[s2.length];
   }
 
-  queries.forEach((query1, i) => {
+  for(let i = 0; i< queries.length; i++){
     let matches = 0;
-    queries.forEach((query2, j)=>{
-      
-      if(i == j) return;
-      let perc = Math.round(similarity(query1.query, query2.query) * 10000) / 100;
-      if(perc >= 75){
-        ++matches;
-        queries.pop(query2)
+    for(let k = i + 1; k< queries.length; k++){
+      let perc = Math.round(similarity(queries[i].query, queries[k].query) * 10000) / 100;
+      if(perc >= 60){
+        ++matches
       }
-      
-    })
-    console.log(matches)
-    if(matches >= 1){
-      faqs.push(query1);
     }
-    
-  });
+    if(matches >=2 ){
+      faqs.push(queries[i])
+    }
+  }
 
   res.render("./pages/FAQs/faqs", {
     loggedIn: req.session.userLoggedIn,
