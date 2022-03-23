@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Appartments | Houses</h1>
+                    <h1>Rental Vehicles</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -38,18 +38,18 @@
                                             <tr>
                                                 <th>S#</th>
                                                 <th>User Name</th>
-                                                <th>Appartment Name</th>
+                                                <th>Vehicle Type</th>
                                                 <th>User Contact</th>
-                                                <th>A | H</th>
+                                                <th>Model</th>
                                                 <th>Check In</th>
                                                 <th>Check Out</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
-                                            <% appartments.forEach( (appartment, i)=> { %>
-                                                <% appartment.reservations.forEach(reservation=> { %>
-                                                    <tr id="<%= appartment.id %>">
+                                            <% vehicles.forEach( (vehicle, i)=> { %>
+                                                <% vehicle.reservations.forEach(reservation=> { %>
+                                                    <tr id="<%= vehicle.id %>">
                                                         <td>
                                                             <%= i + 1 %>
                                                         </td>
@@ -57,13 +57,13 @@
                                                             <%= reservation.user.name %>
                                                         </td>
                                                         <td>
-                                                            <%= appartment.name %> 
+                                                            <%= vehicle.categoryName %> 
                                                         </td>
                                                         <td>
                                                             <%= reservation.user.phoneNo %>
                                                         </td>
                                                         <td><span class="badge badge-info">
-                                                                <%= appartment.appartmentType %>
+                                                                <%= vehicle.model %>
                                                             </span></td>
                                                         <td>
                                                             <%= reservation.checkIn %> 
@@ -80,9 +80,9 @@
                                             <tr>
                                                 <th>S#</th>
                                                 <th>User Name</th>
-                                                <th>Appartment Name</th>
+                                                <th>Vehicle Type</th>
                                                 <th>User Contact</th>
-                                                <th>A | H</th>
+                                                <th>Model</th>
                                                 <th>Check In</th>
                                                 <th>Check Out</th>
                                             </tr>

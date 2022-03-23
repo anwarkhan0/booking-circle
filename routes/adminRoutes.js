@@ -83,6 +83,7 @@ const {
   // Vehicle
   addVehicle,
   vehicleList,
+  vehiclesBookinglist,
   editVehicle,
   addVehicleGallery,
   editVehicleGallery,
@@ -884,6 +885,7 @@ router.post(
 // Vehicle
 router.get("/admin/Vehicles/addVehicles", isAuth, addVehicle);
 router.get("/admin/Vehicles/vehicleList", isAuth, vehicleList);
+router.get("/admin/Vehicles/bookings", vehiclesBookinglist);
 router.get("/admin/Vehicles/editVehicle/:id", isAuth, editVehicle);
 router.get("/admin/Vehicles/addVehicleGallery/:id", isAuth, addVehicleGallery);
 router.get("/admin/Vehicles/editVehicleGallery/:id", isAuth, editVehicleGallery);

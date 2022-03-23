@@ -1555,6 +1555,19 @@ const vehicleList = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
+const vehiclesBookinglist = (req, res, next) => {
+  Vehicles.find()
+    .then((vehicles) => {
+      res.render("../Admin/views/pages/Vehicles/bookingsList", {
+        vehicles: vehicles,
+        pageTitle: "Vehicle List",
+        path: "/Vehicles/vehicles-list",
+        flashMessage: req.flash("message"),
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
 const editVehicle = async (req, res, next) => {
   const id = req.params.id;
 
@@ -2608,6 +2621,7 @@ module.exports = {
   // Vehicle
   addVehicle,
   vehicleList,
+  vehiclesBookinglist,
   editVehicle,
   addVehicleGallery,
   editVehicleGallery,
