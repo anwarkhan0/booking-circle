@@ -401,7 +401,7 @@ const postAddHotel = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const areas = await Areas.find();
-    return res.status(422).render("../views/pages/Hotels/addHotel", {
+    return res.status(422).render("../Admin/views/pages/Hotels/addHotel", {
       path: "/Hotesl/addHotel",
       pageTitle: "Hotel",
       areas: areas,
@@ -427,6 +427,32 @@ const postAddHotel = async (req, res, next) => {
   const salt = await bcrypt.genSalt(16);
   // now we set user password to hashed password
   const hashedPassword = await bcrypt.hash(loginPassword, salt);
+
+  // let areas = await Areas.find();
+  // areas.forEach((area , i) =>{
+  //   const hotel = new Hotels({
+  //     name: name + ' ' + area.name,
+  //     contact: contact,
+  //     parking: parking,
+  //     area: area.name,
+  //     roomService: roomService,
+  //     address: address,
+  //     ownerName: ownerName,
+  //     ownerCNIC: ownerCNIC,
+  //     ownerContact: ownerContact,
+  //     loginEmail: 'test' + i + '@test.com',
+  //     loginPassword: hashedPassword,
+  //     approvedStatus: false,
+  //   });
+  
+  //   try {
+  //     hotel.save();
+  //     // console.log(result);
+  //     console.log("Added Hotel");
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // })
 
   const hotel = new Hotels({
     name: name,
@@ -816,7 +842,38 @@ const postAddAppartment = async (req, res, next) => {
   // now we set user password to hashed password
   const hashedPassword = await bcrypt.hash(loginPassword, salt);
 
-  const approvedStatus = req.body.status;
+  // const approvedStatus = req.body.status;
+
+  // const areas = await Areas.find();
+  // areas.forEach((area, i) =>{
+  //   const appartment = new Appartments({
+  //     name: name + area.name,
+  //     contact: contact,
+  //     price: price,
+  //     contact: contact,
+  //     parking: parking,
+  //     area: area.name,
+  //     appartmentType: i%2 == 0 ? 'house' : 'appartment',
+  //     address: address,
+  //     ownerName: ownerName,
+  //     ownerCNIC: ownerCNIC,
+  //     ownerContact: ownerContact,
+  //     loginEmail: 'test' + i + '@test.com',
+  //     loginPassword: hashedPassword,
+  //     availibilityStatus: false,
+  //     description: description,
+  //     features: features,
+  //     videoUrl: videoUrl,
+  //   });
+  
+  //   try {
+  //     appartment.save();
+  //     // console.log(result);
+  //     console.log("appartment added");
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // })
   
   const appartment = new Appartments({
     name: name,
@@ -1461,7 +1518,7 @@ const postAddVehicleCategory = (req, res) => {
       // console.log(result);
       console.log("Added category");
       req.flash("message", "Vehicle Category Added Successfully");
-      res.redirect("/admin");
+      res.redirect("/admin/Vehicles/addVehicles");
     })
     .catch((err) => {
       console.log(err);

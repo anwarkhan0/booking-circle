@@ -95,10 +95,10 @@ const apartmentBooking = async (req, res, next) => {
   res.render("./pages/Appartments/apartmentBooking", {
     loggedIn: req.session.userLoggedIn,
     appartment: appartment,
-    flashMessage: '',
+    flashMessage: "",
     oldInput: {
-      checkIn: '',
-      checkOut: '',
+      checkIn: "",
+      checkOut: "",
       adults: false,
       children: false,
     },
@@ -133,26 +133,38 @@ const findAppartments = async (req, res, next) => {
   if (checkIn != "" && checkOut != "") {
     let formatedCheckin = new Date(checkIn);
     let formatedCheckout = new Date(checkOut);
-    appartments.forEach( (appartment)=> {
-      if(appartment.reservations.length == 0){
+
+    appartments.forEach((appartment) => {
+      if (appartment.reservations.length == 0) {
         filteredAppartments.push(appartment);
-        return;
-      }
-      appartment.reservations.forEach((reservation, i) => {
-        if (
-          (formatedCheckin < reservation.checkIn &&
-            formatedCheckout < reservation.checkIn) ||
-          (formatedCheckin > reservation.checkOut &&
-            formatedCheckout > reservation.checkOut)
-        ) {
-          if (typeof appartment.reservations[i + 1] === "undefined") {
-            filteredAppartments.push(appartment);
-          } else if (formatedCheckout < appartment.reservations[i + 1]) {
-            filteredAppartments.push(appartment);
+      } else {
+        for (let i = 0; i < appartment.reservations.length; i++) {
+          flag = false;
+          if (
+            formatedCheckin >= appartment.reservations[i].checkIn &&
+            formatedCheckin <= appartment.reservations[i].checkOut
+          ) {
+            console.log("this appartment is not available");
+            break;
           }
+          if (
+            formatedCheckout >= appartment.reservations[i].checkIn &&
+            formatedCheckout <= appartment.reservations[i].checkOut
+          ) {
+            console.log("this appartment is not available");
+            break;
+          }
+          if (
+            formatedCheckin < appartment.reservations[i].checkIn &&
+            formatedCheckout > appartment.reservations[i].checkOut
+          ) {
+            console.log("this appartment is not available");
+            break;
+          }
+          filteredAppartments.push(appartment);
         }
-      })
-    })
+      }
+    });
     res.render("./pages/Appartments/allappartments", {
       loggedIn: req.session.userLoggedIn,
       areas: areas,
@@ -235,13 +247,13 @@ const postAppartmentBooking = async (req, res, next) => {
   }
   const bookingData = {
     user: req.session.user,
-    bookingMode: 'appartment',
+    bookingMode: "appartment",
     appartmentId: appartmentId,
     checkIn: checkIn,
     checkOut: checkOut,
     adults: adults,
     children: children,
-    date: new Date()
+    date: new Date(),
   };
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -285,6 +297,7 @@ const hotels = async (req, res, next) => {
   });
 };
 
+// search for hotels with just location
 const searchHotels = async (req, res, next) => {
   const location = req.params.location;
   const hotels = await HotelsModel.find({ area: location });
@@ -296,6 +309,7 @@ const searchHotels = async (req, res, next) => {
   });
 };
 
+//search for rooms in all hotels
 const findHotels = async (req, res, next) => {
   let checkIn = req.query.checkIn.replace(/\./g, "/");
   let checkOut = req.query.checkOut.replace(/\./g, "/");
@@ -308,7 +322,7 @@ const findHotels = async (req, res, next) => {
   }
 
   //areas
-  const areas = await AreasModel.find();
+  // const areas = await AreasModel.find();
   //hotels
   const hotels = await HotelsModel.find(queryParams);
   const filteredRooms = [];
@@ -319,9 +333,7 @@ const findHotels = async (req, res, next) => {
     case checkIn != "" && checkOut != "" && adults != "false":
       people = Number(adults);
       hotels.forEach((hotel) => {
-        
         hotel.rooms.forEach((room) => {
-
           const newRoom = {
             hotelName: hotel.name,
             hotelId: hotel.id,
@@ -330,16 +342,11 @@ const findHotels = async (req, res, next) => {
           let formatedCheckin = new Date(checkIn);
           let formatedCheckout = new Date(checkOut);
           if (room.occupency >= people) {
-            if(room.reservations.length == 0){
-              filteredRooms.push(newRoom);
-              return;
-            }
             if (room.reservations.length == 0) {
               filteredRooms.push(newRoom);
               return;
             } else {
               for (let i = 0; i < room.reservations.length; i++) {
-
                 if (
                   formatedCheckin >= room.reservations[i].checkIn &&
                   formatedCheckin <= room.reservations[i].checkOut
@@ -361,28 +368,58 @@ const findHotels = async (req, res, next) => {
                   console.log("this room is not available");
                   return;
                 }
-                
-                filteredRooms.push(newRoom);
+              }
+              filteredRooms.push(newRoom);
+            }
+          }
+        });
+      });
 
+      res.render("./pages/Hotels/filteredRooms", {
+        loggedIn: req.session.userLoggedIn,
+        rooms: filteredRooms,
+      });
+      return;
+    // search based on checkin and checkout
+    case checkIn != "" && checkOut != "":
+      hotels.forEach((hotel) => {
+        hotel.rooms.forEach((room) => {
+          const newRoom = {
+            hotelName: hotel.name,
+            hotelId: hotel.id,
+            details: room,
+          };
+          let formatedCheckin = new Date(checkIn);
+          let formatedCheckout = new Date(checkOut);
+
+          if (room.reservations.length == 0) {
+            filteredRooms.push(newRoom);
+            return;
+          } else {
+            for (let i = 0; i < room.reservations.length; i++) {
+              if (
+                formatedCheckin >= room.reservations[i].checkIn &&
+                formatedCheckin <= room.reservations[i].checkOut
+              ) {
+                console.log("this room is not available");
+                return;
+              }
+              if (
+                formatedCheckout >= room.reservations[i].checkIn &&
+                formatedCheckout <= room.reservations[i].checkOut
+              ) {
+                console.log("this room is not available");
+                return;
+              }
+              if (
+                formatedCheckin < room.reservations[i].checkIn &&
+                formatedCheckout > room.reservations[i].checkOut
+              ) {
+                console.log("this room is not available");
+                return;
               }
             }
-            // room.reservations.forEach((reservation, i) => {
-            //   if (
-            //     (formatedCheckin < reservation.checkIn &&
-            //       formatedCheckout < reservation.checkIn) ||
-            //     (formatedCheckin > reservation.checkOut &&
-            //       formatedCheckout > reservation.checkOut)
-            //   ){
-            //     if (typeof room.reservations[i + 1] === "undefined") {
-            //       filteredRooms.push(newRoom);
-            //       return;
-            //     } else if (formatedCheckout < room.reservations[i + 1]) {
-            //       filteredRooms.push(newRoom);
-            //       return;
-            //     }
-                
-            //   }
-            // });
+            filteredRooms.push(newRoom);
           }
         });
       });
@@ -416,10 +453,20 @@ const findHotels = async (req, res, next) => {
       return;
     // default case return hotels with location if selected
     default:
-      res.render("./pages/Hotels/hotels", {
+      hotels.forEach((hotel) => {
+        hotel.rooms.forEach((room) => {
+          const newRoom = {
+            hotelName: hotel.name,
+            hotelId: hotel.id,
+            details: room,
+          };
+          filteredRooms.push(newRoom);
+          return;
+        });
+      });
+      res.render("./pages/Hotels/filteredRooms", {
         loggedIn: req.session.userLoggedIn,
-        hotels: hotels,
-        areas: areas,
+        rooms: filteredRooms,
       });
       return;
   }
@@ -502,7 +549,6 @@ const roomFilter = async (req, res, next) => {
             } else if (formatedCheckOut < room.reservations[i + 1]) {
               reservationFlag = true;
             }
-            
           }
         });
         // check for other options
@@ -526,9 +572,13 @@ const roomFilter = async (req, res, next) => {
             ? (conditionsFlag = true)
             : "";
         } else if (hotWater == "true") {
-          room.occupency == people && room.hotWater ? (conditionsFlag = true) : "";
+          room.occupency == people && room.hotWater
+            ? (conditionsFlag = true)
+            : "";
         } else if (balcony == "true") {
-          room.occupency == people && room.balcony ? (conditionsFlag = true) : "";
+          room.occupency == people && room.balcony
+            ? (conditionsFlag = true)
+            : "";
         } else if (kingBeds == "true") {
           room.occupency == people && room.bedSize == "king"
             ? (conditionsFlag = true)
@@ -585,9 +635,13 @@ const roomFilter = async (req, res, next) => {
             ? (conditionsFlag = true)
             : "";
         } else if (hotWater == "true") {
-          room.occupency == people && room.hotWater ? (conditionsFlag = true) : "";
+          room.occupency == people && room.hotWater
+            ? (conditionsFlag = true)
+            : "";
         } else if (balcony == "true") {
-          room.occupency == people && room.balcony ? (conditionsFlag = true) : "";
+          room.occupency == people && room.balcony
+            ? (conditionsFlag = true)
+            : "";
         } else if (kingBeds == "true") {
           room.occupency == people && room.bedSize == "king"
             ? (conditionsFlag = true)
@@ -644,9 +698,13 @@ const roomFilter = async (req, res, next) => {
             ? (conditionsFlag = true)
             : "";
         } else if (hotWater == "true") {
-          room.occupency == people && room.hotWater ? (conditionsFlag = true) : "";
+          room.occupency == people && room.hotWater
+            ? (conditionsFlag = true)
+            : "";
         } else if (balcony == "true") {
-          room.occupency == people && room.balcony ? (conditionsFlag = true) : "";
+          room.occupency == people && room.balcony
+            ? (conditionsFlag = true)
+            : "";
         } else if (kingBeds == "true") {
           room.occupency == people && room.bedSize == "king"
             ? (conditionsFlag = true)
@@ -703,9 +761,13 @@ const roomFilter = async (req, res, next) => {
             ? (conditionsFlag = true)
             : "";
         } else if (hotWater == "true") {
-          room.occupency == people && room.hotWater ? (conditionsFlag = true) : "";
+          room.occupency == people && room.hotWater
+            ? (conditionsFlag = true)
+            : "";
         } else if (balcony == "true") {
-          room.occupency == people && room.balcony ? (conditionsFlag = true) : "";
+          room.occupency == people && room.balcony
+            ? (conditionsFlag = true)
+            : "";
         } else if (kingBeds == "true") {
           room.occupency == people && room.bedSize == "king"
             ? (conditionsFlag = true)
@@ -750,9 +812,13 @@ const roomFilter = async (req, res, next) => {
             ? filteredRooms.push(room)
             : "";
         } else if (hotWater == "true") {
-          room.occupency == people && room.hotWater ? filteredRooms.push(room) : "";
+          room.occupency == people && room.hotWater
+            ? filteredRooms.push(room)
+            : "";
         } else if (balcony == "true") {
-          room.occupency == people && room.balcony ? filteredRooms.push(room) : "";
+          room.occupency == people && room.balcony
+            ? filteredRooms.push(room)
+            : "";
         } else if (kingBeds == "true") {
           room.occupency == people && room.bedSize == "king"
             ? filteredRooms.push(room)
@@ -839,9 +905,13 @@ const roomFilter = async (req, res, next) => {
             ? filteredRooms.push(room)
             : "";
         } else if (hotWater == "true") {
-          room.occupency == people && room.hotWater ? filteredRooms.push(room) : "";
+          room.occupency == people && room.hotWater
+            ? filteredRooms.push(room)
+            : "";
         } else if (balcony == "true") {
-          room.occupency == people && room.balcony ? filteredRooms.push(room) : "";
+          room.occupency == people && room.balcony
+            ? filteredRooms.push(room)
+            : "";
         } else if (kingBeds == "true") {
           room.occupency == people && room.bedSize == "king"
             ? filteredRooms.push(room)
@@ -912,7 +982,7 @@ const vehicles = async (req, res, next) => {
   //areas
   const areas = await AreasModel.find();
   //vehicles
-  const vehicles = await VehiclesModel.find({availabilityStatus: true});
+  const vehicles = await VehiclesModel.find({ availabilityStatus: true });
   res.render("./pages/Vehicles/vehicles", {
     loggedIn: req.session.userLoggedIn,
     areas: areas,
@@ -927,21 +997,20 @@ const vehicleBooking = async (req, res, next) => {
     loggedIn: req.session.userLoggedIn,
     areas: areas,
     vehicle: vehicle,
-    flashMessage:
-        "",
-      oldInput: {
-        checkIn: '',
-        checkOut: '',
-        adults: false,
-        children: false,
-      },
+    flashMessage: "",
+    oldInput: {
+      checkIn: "",
+      checkOut: "",
+      adults: false,
+      children: false,
+    },
   });
 };
 
 const searchVehicles = async (req, res, next) => {
   const location = req.params.location;
   const areas = await AreasModel.find();
-  const vehicles = await VehiclesModel.find({ownerArea: location});
+  const vehicles = await VehiclesModel.find({ ownerArea: location });
   res.render("./pages/Vehicles/vehicles", {
     loggedIn: req.session.userLoggedIn,
     areas: areas,
@@ -956,12 +1025,12 @@ const findVehicles = async (req, res, next) => {
 
   let queryParams = {};
   let people;
-  if (location && adults != "false" && children != 'false') {
+  if (location && adults != "false" && children != "false") {
     people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
     queryParams = {
       ownerArea: location,
-      seats: { $gte: people }
-    }
+      seats: { $gte: people },
+    };
   } else if (location) {
     queryParams.ownerArea = location;
   } else if (adults != "false") {
@@ -1058,8 +1127,7 @@ const postVehicleBooking = async (req, res, next) => {
       vehicleId: vehicleId,
       vehicle: vehicle,
       areas: areas,
-      flashMessage:
-        "Sorry, this vehicle is already booked for given dates.",
+      flashMessage: "Sorry, this vehicle is already booked for given dates.",
       oldInput: {
         location: location,
         checkIn: checkIn,
@@ -1072,15 +1140,15 @@ const postVehicleBooking = async (req, res, next) => {
   }
   const bookingData = {
     user: req.session.user,
-    bookingMode: 'vehicle',
+    bookingMode: "vehicle",
     vehicleId: vehicleId,
     checkIn: checkIn,
     checkOut: checkOut,
     adults: adults,
     children: children,
-    date: new Date()
+    date: new Date(),
   };
-  
+
   req.session.bookingData = bookingData;
   res.render("./pages/Payment/checkout", {
     layout: false,
@@ -1160,9 +1228,9 @@ const postRoomBooking = async (req, res, next) => {
     res.redirect("/user/login");
     return;
   }
-  
+
   const hotel = await HotelsModel.findById(hotelId);
-  const room = hotel.rooms.find( room => room.id == roomId);
+  const room = hotel.rooms.find((room) => room.id == roomId);
   const formatedCheckin = new Date(checkIn);
   const formatedCheckout = new Date(checkOut);
   let flag;
@@ -1244,13 +1312,13 @@ const postRoomBooking = async (req, res, next) => {
     loggedIn: req.session.userLoggedIn,
     charges: charges,
   });
-};;
+};
 
 // Tours
 const tours = async (req, res, next) => {
   const areas = await AreasModel.find();
-  const tours = await ToursModel.find({ tourType: 'tour' });
-  const hikes = await ToursModel.find({ tourType: 'hike' });
+  const tours = await ToursModel.find({ tourType: "tour" });
+  const hikes = await ToursModel.find({ tourType: "hike" });
   res.render("./pages/Tours/tours", {
     loggedIn: req.session.userLoggedIn,
     areas: areas,
@@ -1262,8 +1330,8 @@ const tours = async (req, res, next) => {
 const searchTour = async (req, res, next) => {
   const location = req.params.location;
   const areas = await AreasModel.find();
-  const tours = await ToursModel.find({ toPlace: location, tourType: 'tour' });
-  const hikes = await ToursModel.find({ toPlace: location, tourType: 'hike' });
+  const tours = await ToursModel.find({ toPlace: location, tourType: "tour" });
+  const hikes = await ToursModel.find({ toPlace: location, tourType: "hike" });
   res.render("./pages/Tours/tours", {
     loggedIn: req.session.userLoggedIn,
     areas: areas,
@@ -1278,7 +1346,7 @@ const booking = async (req, res, next) => {
   const tour = await ToursModel.findById(id);
   res.render("./pages/Tours/booking", {
     loggedIn: req.session.userLoggedIn,
-    flashMessage: '',
+    flashMessage: "",
     tour: tour,
   });
 };
@@ -1296,10 +1364,10 @@ const postTourEnrolling = async (req, res, next) => {
   }
   const bookingData = {
     user: req.session.user,
-    bookingMode: 'tour',
+    bookingMode: "tour",
     tourId: tourId,
     seats: seats,
-    date: new Date()
+    date: new Date(),
   };
   const tour = await ToursModel.findById(tourId);
   const errors = validationResult(req);
@@ -1310,7 +1378,7 @@ const postTourEnrolling = async (req, res, next) => {
       tour: tour,
       flashMessage: errors.errors[0].msg,
       oldInput: {
-        seats: seats
+        seats: seats,
       },
       // validationErrors: errors.array(),
     });
@@ -1339,7 +1407,7 @@ const news = (req, res, next) => {
     .then((newsLength) => {
       totalItems = newsLength;
       return NewsModel.find()
-        .sort({ date : -1})
+        .sort({ date: -1 })
         .skip((page - 1) * ITEMS_PER_PAGE)
         .limit(ITEMS_PER_PAGE);
     })
@@ -1693,7 +1761,7 @@ const faqs = async (req, res, next) => {
   const queries = await queryModel.find();
   const faqs = [];
 
-  const similarity = (s1, s2)=> {
+  const similarity = (s1, s2) => {
     let longer = s1;
     let shorter = s2;
     if (s1.length < s2.length) {
@@ -1707,7 +1775,7 @@ const faqs = async (req, res, next) => {
     return (
       (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength)
     );
-  }
+  };
 
   const editDistance = (s1, s2) => {
     s1 = s1.toLowerCase();
@@ -1731,18 +1799,20 @@ const faqs = async (req, res, next) => {
       if (i > 0) costs[s2.length] = lastValue;
     }
     return costs[s2.length];
-  }
+  };
 
-  for(let i = 0; i< queries.length; i++){
+  for (let i = 0; i < queries.length; i++) {
     let matches = 0;
-    for(let k = i + 1; k< queries.length; k++){
-      let perc = Math.round(similarity(queries[i].query, queries[k].query) * 10000) / 100;
-      if(perc >= 60){
-        ++matches
+    for (let k = i + 1; k < queries.length; k++) {
+      let perc =
+        Math.round(similarity(queries[i].query, queries[k].query) * 10000) /
+        100;
+      if (perc >= 60) {
+        ++matches;
       }
     }
-    if(matches >=2 ){
-      faqs.push(queries[i])
+    if (matches >= 2) {
+      faqs.push(queries[i]);
     }
   }
 
@@ -1872,7 +1942,6 @@ const stripePayment = async (req, res) => {
 };
 
 const paymentSuccess = async (req, res, next) => {
-
   if (req.session.bookingData.bookingMode == "room") {
     const hotel = await HotelsModel.findById(req.session.bookingData.hotelId);
     let reservedRoom;
@@ -1895,7 +1964,6 @@ const paymentSuccess = async (req, res, next) => {
       loggedIn: req.session.userLoggedIn,
       data: req.session.bookingData,
     });
-    
   } else if (req.session.bookingData.bookingMode == "appartment") {
     const appartment = await AppartmentModel.findById(
       req.session.bookingData.appartmentId
@@ -1942,7 +2010,6 @@ const paymentSuccess = async (req, res, next) => {
       data: req.session.bookingData,
     });
   }
-
 };
 
 const paymentCancel = (req, res, next) => {
