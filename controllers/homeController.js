@@ -65,7 +65,7 @@ const home = async (req, res, next) => {
 
   res.render("./pages/HomePage/home", {
     loggedIn: req.session.userLoggedIn,
-    sliderGallery: sliderGall[0].images,
+    sliderGallery: sliderGall,
     areas: areas,
     hotels: ourHotelsIn,
     appartments: ourtAppartmentsIn,
@@ -321,6 +321,7 @@ const findHotels = async (req, res, next) => {
       hotels.forEach((hotel) => {
         
         hotel.rooms.forEach((room) => {
+
           const newRoom = {
             hotelName: hotel.name,
             hotelId: hotel.id,
@@ -333,23 +334,55 @@ const findHotels = async (req, res, next) => {
               filteredRooms.push(newRoom);
               return;
             }
-            room.reservations.forEach((reservation, i) => {
-              if (
-                (formatedCheckin < reservation.checkIn &&
-                  formatedCheckout < reservation.checkIn) ||
-                (formatedCheckin > reservation.checkOut &&
-                  formatedCheckout > reservation.checkOut)
-              ){
-                if (typeof room.reservations[i + 1] === "undefined") {
-                  filteredRooms.push(newRoom);
+            if (room.reservations.length == 0) {
+              filteredRooms.push(newRoom);
+              return;
+            } else {
+              for (let i = 0; i < room.reservations.length; i++) {
+
+                if (
+                  formatedCheckin >= room.reservations[i].checkIn &&
+                  formatedCheckin <= room.reservations[i].checkOut
+                ) {
+                  console.log("this room is not available");
                   return;
-                } else if (formatedCheckout < room.reservations[i + 1]) {
-                  filteredRooms.push(newRoom);
+                }
+                if (
+                  formatedCheckout >= room.reservations[i].checkIn &&
+                  formatedCheckout <= room.reservations[i].checkOut
+                ) {
+                  console.log("this room is not available");
+                  return;
+                }
+                if (
+                  formatedCheckin < room.reservations[i].checkIn &&
+                  formatedCheckout > room.reservations[i].checkOut
+                ) {
+                  console.log("this room is not available");
                   return;
                 }
                 
+                filteredRooms.push(newRoom);
+
               }
-            });
+            }
+            // room.reservations.forEach((reservation, i) => {
+            //   if (
+            //     (formatedCheckin < reservation.checkIn &&
+            //       formatedCheckout < reservation.checkIn) ||
+            //     (formatedCheckin > reservation.checkOut &&
+            //       formatedCheckout > reservation.checkOut)
+            //   ){
+            //     if (typeof room.reservations[i + 1] === "undefined") {
+            //       filteredRooms.push(newRoom);
+            //       return;
+            //     } else if (formatedCheckout < room.reservations[i + 1]) {
+            //       filteredRooms.push(newRoom);
+            //       return;
+            //     }
+                
+            //   }
+            // });
           }
         });
       });

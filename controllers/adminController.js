@@ -55,7 +55,7 @@ const postLogin = (req, res, next) => {
         .then((doMatch) => {
           if (doMatch) {
             req.session.adminLoggedIn = true;
-            req.session.user = user;
+            req.session.admin = user;
             req.flash("message", "Welcome " + user.name);
             return req.session.save((err) => {
               console.log(err);
