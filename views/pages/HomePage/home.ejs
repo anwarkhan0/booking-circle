@@ -214,16 +214,16 @@
 		<h3 class="text-center  text-white subtitle with-line mb-5">OUR HOTELS IN</h3>
 		<div class="row">
 
-			<% for(let i= 0; i< hotels.length; i++){ %>
+			<% hotels.forEach(hotel => { %>
 			<div class="col-sm-6 col-lg-4 mb-3">
-				<a href="/Hotels/<%= hotels[i].area %>">
+				<a href="/Hotels/<%= hotel.area %>">
 					<div class="img-wrap services-wrap h-300">
-						<img src="uploads/<%= hotels[i].gallery[i]%>" alt="" class="image-cover">
-						<div class="services-text-over btn btn-primary fit-content"><%= hotels[i].area %></div>
+						<img src="uploads/<%= hotel.gallery[0]%>" alt="" class="image-cover">
+						<div class="services-text-over btn btn-primary fit-content"><%= hotel.area %></div>
 					</div>
 				</a>
 			</div>
-			<% } %>
+			<% }) %>
 			
 		</div>
 		<a class="booking-button mt-5" href="/Hotels/list">Explore Hotels in all Cities</a>

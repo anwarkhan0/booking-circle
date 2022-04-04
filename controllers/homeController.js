@@ -46,6 +46,9 @@ const home = async (req, res, next) => {
       if (typeof data[i] === undefined) {
         break;
       }
+      if(randomData.length == 6){
+        break;
+      }
       randomData.push(data[i]);
     }
     return randomData;
