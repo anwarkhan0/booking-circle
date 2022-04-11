@@ -84,21 +84,9 @@ app.use(adminRoutes.routes);
 const port = process.env.PORT || 3000;
 
 //Cloud Database
-// mongoose
-//   .connect(
-//     `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xjk47.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
-//   )
-//   .then(result => {
-//     app.listen(port, () => console.log(`App listening on Port: ${port}`));
-//   })
-//   .catch(err => {
-//     console.log(err);
-//   });
-  
-  // LOCALHOST:DATABASE/////////////
-  mongoose
+mongoose
   .connect(
-    `mongodb://127.0.0.1:27017/bookingring?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.2.3`
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xjk47.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
   )
   .then(result => {
     app.listen(port, () => console.log(`App listening on Port: ${port}`));
@@ -106,3 +94,15 @@ const port = process.env.PORT || 3000;
   .catch(err => {
     console.log(err);
   });
+  
+  // LOCALHOST:DATABASE/////////////
+  // mongoose
+  // .connect(
+  //   `mongodb://127.0.0.1:27017/bookingring?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.2.3`
+  // )
+  // .then(result => {
+  //   app.listen(port, () => console.log(`App listening on Port: ${port}`));
+  // })
+  // .catch(err => {
+  //   console.log(err);
+  // });

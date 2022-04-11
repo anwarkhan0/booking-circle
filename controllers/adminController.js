@@ -1717,6 +1717,34 @@ const postAddVehicle = async (req, res) => {
     });
   }
 
+  // const cats = await vehicleCategory.find();
+  // cats.forEach((cat)=>{
+  //   const vehicle = new Vehicles({
+  //     categoryId: cat.id,
+  //     categoryName: cat.name,
+  //     vehicleNo: vehicleNo,
+  //     model: model,
+  //     seats: seats,
+  //     availabilityStatus: status,
+  //     ownerName: ownerName,
+  //     ownerCNIC: ownerCNIC,
+  //     ownerContact: ownerContact,
+  //     ownerArea: ownerArea,
+  //     ownerAddress: ownerAddress,
+  //     description: description,
+  //     features: features,
+  //     videoUrl: videoUrl,
+  //   });
+  
+  //   try {
+  //     vehicle.save();
+  //     console.log("Added vehicle");
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  
+  // })
+  
   const vehicle = new Vehicles({
     categoryId: category.id,
     categoryName: category.name,

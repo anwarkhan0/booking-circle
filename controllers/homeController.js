@@ -307,6 +307,7 @@ const searchHotels = async (req, res, next) => {
   const areas = await AreasModel.find();
   res.render("./pages/Hotels/hotels", {
     loggedIn: req.session.userLoggedIn,
+    location: location,
     areas: areas,
     hotels: hotels,
   });
