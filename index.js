@@ -12,10 +12,11 @@ const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const mongoose = require('mongoose');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const compression = require('compression');
 
 const app = express();
 app.use(cors());
-
+app.use(compression());
 const store = new MongoDBStore({
   uri: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xjk47.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
   collection: 'sessions'
