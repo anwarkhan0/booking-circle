@@ -59,6 +59,10 @@ const ToursSchema = new Schema({
         type: String,
         required: true
     },
+    gallery: {
+        type: [String],
+        required: false
+    },
     reservations: {
         type: [Object],
         required: false

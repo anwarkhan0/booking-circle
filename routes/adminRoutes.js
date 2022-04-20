@@ -107,6 +107,10 @@ const {
   tourList,
   viewTour,
   editTour,
+  tourGallery,
+  addTourGallery,
+  postAddTourGallery,
+  postDeleteTourGalleryImage,
   postAddTour,
   postEditTour,
   postDeleteTour,
@@ -1159,9 +1163,13 @@ router.post("/admin/Updates/deleteUpdate", isAuth, postDeleteUpdate);
 // Tours Plans & Hiking
 router.get("/admin/Tours/addTours", isAuth, addTour);
 router.get("/admin/Tours/toursList", isAuth, tourList);
+router.get("/admin/Tours/addGallery/:id",isAuth, addTourGallery);
 router.get("/admin/Tours/viewTour/:id", isAuth, viewTour);
 router.get("/admin/Tours/editTour/:id", isAuth, editTour);
+router.get("/admin/Tours/gallery/:id",isAuth, tourGallery);
+router.post("/admin/Tours/addTourGallery", postAddTourGallery);
 router.post("/admin/Tours/deleteTour", isAuth, postDeleteTour);
+router.post("/admin/Tours/deleteImage",isAuth, postDeleteTourGalleryImage);
 
 router.post("/admin/Tours/addTours",
 [

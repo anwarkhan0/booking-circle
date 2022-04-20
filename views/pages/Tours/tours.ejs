@@ -25,9 +25,9 @@
                     <div class="col-10">
                         <!-- <select class="wide nice-select select2"> -->
                         <select class="wide nice-select" id="tourArea">
-                            <% for(let i= 0; i< areas.length; i++){ %> 
-                            <option value="<%= areas[i].name %>"><%= areas[i].name %></option>
-                            <% } %> 
+                            <% areas.forEach(area => { %> 
+                            <option value="<%= area.name %>"><%= area.name %></option>
+                            <% }) %> 
                         </select>
                     </div>
 
@@ -55,24 +55,24 @@
 <div class="section background-grey over-hide">
     <div class="container-fluid px-0">
 
-        <% for(let i= 0; i< tours.length; i++){ %> 
+        <% tours.forEach( (tour, i) => { %> 
             <!-- this condition just to mantain the styling behaviour as expected -->
             <% if(i%2===0){ %> 
         <div class="row mx-0">
             <div class="col-xl-6 px-0">
                 <div class="img-wrap" id="rev-1">
-                    <img src="../img/gallery/kalam.jpg" alt="">
-                    <div class="text-element-over">Tour to <%= tours[i].toPlace %></div>
+                    <img src="/uploads/<%= tour.gallery[0] %>" alt="">
+                    <div class="text-element-over">Tour to <%= tour.toPlace %></div>
                 </div>
             </div>
             <div class="col-xl-6 px-0 mt-4 mt-xl-0 align-self-center">
                 <div class="row justify-content-center">
                     <div class="col-10 col-xl-8 text-center">
-                        <h3 class="text-center"><%= tours[i].toPlace %> Tour</h3>
-                        <p class="text-center mt-4"><b>Tour: </b> <%= tours[i].fromPlace %> to <%= tours[i].toPlace %></p>
-                        <p class="text-center mt-4"><b>Date: </b> <%= tours[i].startDate %></p>
-                        <p class="text-center mt-4"><b>Duration: </b> <%= tours[i].days %> Days <%= tours[i].nights %> Nights</p>
-                        <a class="mt-5 btn btn-primary" href="/Tours/booking/<%= tours[i].id %>">Reserve Seat!</a>
+                        <h3 class="text-center"><%= tour.toPlace %> Tour</h3>
+                        <p class="text-center mt-4"><b>Tour: </b> <%= tour.fromPlace %> to <%= tour.toPlace %></p>
+                        <p class="text-center mt-4"><b>Date: </b> <%= tour.startDate %></p>
+                        <p class="text-center mt-4"><b>Duration: </b> <%= tour.days %> Days <%= tour.nights %> Nights</p>
+                        <a class="mt-5 btn btn-primary" href="/Tours/booking/<%= tour.id %>">Reserve Seat!</a>
                         <a class="mt-5 btn btn-info" href="#">Wishlist!</a>
                     </div>
                 </div>
@@ -83,10 +83,10 @@
             <div class="col-xl-6 px-0 mt-4 mt-xl-0 pb-5 pb-xl-0 align-self-center">
                 <div class="row justify-content-center">
                     <div class="col-10 col-xl-8 text-center">
-                        <h3 class="text-center"><%= tours[i].toPlace %> Tour</h3>
-                        <p class="text-center mt-4"><b>Tour: </b> <%= tours[i].fromPlace %> to <%= tours[i].toPlace %></p>
-                        <p class="text-center mt-4"><b>Date: </b> <%= tours[i].startDate %></p>
-                        <p class="text-center mt-4"><b>Duration: </b> <%= tours[i].days %> Days <%= tours[i].nights %> Nights</p>
+                        <h3 class="text-center"><%= tour.toPlace %> Tour</h3>
+                        <p class="text-center mt-4"><b>Tour: </b> <%= tour.fromPlace %> to <%= tour.toPlace %></p>
+                        <p class="text-center mt-4"><b>Date: </b> <%= tour.startDate %></p>
+                        <p class="text-center mt-4"><b>Duration: </b> <%= tour.days %> Days <%= tour.nights %> Nights</p>
                         <a class="mt-5 btn btn-primary" href="/Tours/booking">Reserve Seat!</a>
                         <a class="mt-5 btn btn-info" href="#">Wishlist!</a>
                     </div>
@@ -94,13 +94,13 @@
             </div>
             <div class="col-xl-6 px-0 order-first order-xl-last mt-5 mt-xl-0">
                 <div class="img-wrap" id="rev-2">
-                    <img src="../img/gallery/bahrain.jpg" alt="">
-                    <div class="text-element-over">Tour to <%= tours[i].toPlace %></div>
+                    <img src="/uploads/<%= tour.gallery[0] %>" alt="" />
+                    <div class="text-element-over">Tour to <%= tour.toPlace %></div>
                 </div>
             </div>
         </div>
         <% } %> 
-        <% } %> 
+        <% }) %> 
 
     </div>
 </div>
@@ -119,23 +119,23 @@
 
 <div class="section background-grey over-hide">
     <div class="container-fluid px-0">
-        <% for(let i= 0; i< hikes.length; i++){ %> 
+        <% hikes.forEach( (hike, i) =>{ %> 
              <!-- this condition just to mantain the styling behaviour as expected nothing else -->
             <% if(i%2===0){ %> 
         <div class="row mx-0">
             <div class="col-xl-6 px-0">
                 <div class="img-wrap" id="rev-1">
-                    <img src="../img/gallery/kalam.jpg" alt="">
-                    <div class="text-element-over">Hike to <%= hikes[i].toPlace %></div>
+                    <img src="/uploads/<%= hike.gallery[0] %>" alt="">
+                    <div class="text-element-over">Hike to <%= hike.toPlace %></div>
                 </div>
             </div>
             <div class="col-xl-6 px-0 mt-4 mt-xl-0 align-self-center">
                 <div class="row justify-content-center">
                     <div class="col-10 col-xl-8 text-center">
-                        <h3 class="text-center"><%= hikes[i].toPlace %> Hike</h3>
-                        <p class="text-center mt-4"><b>Tour: </b> <%= hikes[i].fromPlace %> to <%= hikes[i].toPlace %></p>
-                        <p class="text-center mt-4"><b>Date: </b> <%= hikes[i].startDate %></p>
-                        <p class="text-center mt-4"><b>Duration: </b> <%= hikes[i].days %> Days <%= hikes[i].nights %> Nights</p>
+                        <h3 class="text-center"><%= hike.toPlace %> Hike</h3>
+                        <p class="text-center mt-4"><b>Tour: </b> <%= hike.fromPlace %> to <%= hike.toPlace %></p>
+                        <p class="text-center mt-4"><b>Date: </b> <%= hike.startDate %></p>
+                        <p class="text-center mt-4"><b>Duration: </b> <%= hike.days %> Days <%= hike.nights %> Nights</p>
                         <a class="mt-5 btn btn-primary" href="/Tours/booking">Confirm Hike!</a>
                         <a class="mt-5 btn btn-info" href="#">Wishlist!</a>
                     </div>
@@ -147,10 +147,10 @@
             <div class="col-xl-6 px-0 mt-4 mt-xl-0 pb-5 pb-xl-0 align-self-center">
                 <div class="row justify-content-center">
                     <div class="col-10 col-xl-8 text-center">
-                        <h3 class="text-center"><%= hikes[i].toPlace %> Hike</h3>
-                        <p class="text-center mt-4"><b>Tour: </b> <%= hikes[i].fromPlace %> to <%= hikes[i].toPlace %></p>
-                        <p class="text-center mt-4"><b>Date: </b> <%= hikes[i].startDate %></p>
-                        <p class="text-center mt-4"><b>Duration: </b> <%= hikes[i].days %> Days <%= hikes[i].nights %> Nights</p>
+                        <h3 class="text-center"><%= hike.toPlace %> Hike</h3>
+                        <p class="text-center mt-4"><b>Tour: </b> <%= hike.fromPlace %> to <%= hike.toPlace %></p>
+                        <p class="text-center mt-4"><b>Date: </b> <%= hike.startDate %></p>
+                        <p class="text-center mt-4"><b>Duration: </b> <%= hike.days %> Days <%= hike.nights %> Nights</p>
                         <a class="mt-5 btn btn-primary" href="/Tours/booking">Confirm Hike!</a>
                         <a class="mt-5 btn btn-info" href="#">Wishlist!</a>
                     </div>
@@ -158,12 +158,12 @@
             </div>
             <div class="col-xl-6 px-0 order-first order-xl-last mt-5 mt-xl-0">
                 <div class="img-wrap" id="rev-2">
-                    <img src="../img/blog/7.jpg" alt="">
-                    <div class="text-element-over">Hike to <%= hikes[i].toPlace %></div>
+                    <img src="/uploads/<%= hike.gallery[0] %>" alt="">
+                    <div class="text-element-over">Hike to <%= hike.toPlace %></div>
                 </div>
             </div>
         </div>
-        <% } } %> 
+        <% } }) %> 
     </div>
 </div>
 

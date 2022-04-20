@@ -2177,6 +2177,91 @@ const viewTour = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
+const addTourGallery = (req, res, next)=>{
+  const tourId = req.params.id;
+  res.render("../Admin/views/pages/Tours/addGallery", { tourId: tourId });
+}
+
+const tourGallery = (req, res, next) => {
+  const tourId = req.params.id;
+  Tours.findById(tourId)
+    .then((tour) => {
+      if (tour.gallery.length == 0) {
+        res.redirect("/admin/Tours/addGallery/" + tourId);
+      } else {
+        res.render("../Admin/views/pages/Tours/gallery", {
+          gallery: tour.gallery,
+          tourId: tour.id,
+          pageTitle: "Gallery List",
+          path: "/Vehicle/gallery-list",
+          flashMessage: req.flash("message"),
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      req.flash('message', 'Something went wrong.');
+      res.redirect('/admin')
+    });
+};
+
+const postAddTourGallery = async (req, res) => {
+  const uploads = req.files;
+  const tourId = req.body.tourId;
+  const gallery = [];
+
+  for (let i = 0; i < uploads.length; i++) {
+    gallery.push(uploads[i].filename);
+  }
+
+  try {
+    const tour = await Tours.findById(tourId);
+    if (tour.gallery.length === 0) {
+      tour.gallery = gallery;
+      tour.save();
+      console.log("added gallery to tour");
+      req.flash("message", "tour Gallery Added Successfully");
+      res.redirect("/admin/Tours/gallery/" + tourId);
+    } else {
+      updatedGallery = tour.gallery.concat(gallery);
+      tour.gallery = updatedGallery;
+      tour.save();
+      console.log("gallery updated");
+      req.flash("message", "tour Gallery Updated Successfully");
+      res.redirect("/admin/Tours/gallery/" + tourId);
+    }
+  } catch (err) {
+    req.flash('message', 'Something went wrong.')
+    console.log(err);
+    res.redirect('/admin');
+  }
+};
+
+const postDeleteTourGalleryImage = async (req, res) => {
+  const image = req.body.image;
+  const tourId = req.body.id;
+
+  try {
+    const tour = await Tours.findById(tourId);
+    gallery = tour.gallery;
+    if (delImg(image)) {
+      //removing the selected image from array
+      gallery.splice(gallery.indexOf(image), 1);
+      tour.gallery = gallery;
+      await tour.save();
+      console.log("UPDATED Gallery!");
+      res.sendStatus(200);
+    } else {
+      throw "Something went wrong while deleting file.";
+    }
+    
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(204);
+  }
+};
+
+
 const editTour = async (req, res, next) => {
   try {
     const areas = await Areas.find();
@@ -2730,6 +2815,10 @@ module.exports = {
   tourList,
   viewTour,
   editTour,
+  addTourGallery,
+  tourGallery,
+  postAddTourGallery,
+  postDeleteTourGalleryImage,
   postAddTour,
   postEditTour,
   postDeleteTour,

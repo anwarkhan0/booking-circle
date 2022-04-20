@@ -263,16 +263,16 @@
 		<h3 class="text-center  text-white subtitle with-line mb-5">Our Tours to</h3>
 
 		<div class="row">
-			<% for(let i= 0; i< tours.length; i++){ %> 
+			<% tours.forEach((tour) =>{ %> 
 			<div class="col-sm-6 col-lg-4 mb-3">
-				<a href="/Tours/<%= tours[i].toPlace %>">
+				<a href="/Tours/<%= tour.toPlace %>">
 					<div class="img-wrap services-wrap h-300">
-						<img src="img/Mahodand-lake-kalam.jpg" alt="" class="image-cover">
-						<div class="services-text-over booking-button fit-content"><%= tours[i].toPlace %></div>
+						<img src="uploads/<%= tour.gallery[0] %>" alt="" class="image-cover">
+						<div class="services-text-over booking-button fit-content"><%= tour.toPlace %></div>
 					</div>
 				</a>
 			</div>
-			<% } %> 
+			<% }) %> 
 		</div>
 		<a class="booking-button mt-5" href="/Tours/tours">Tours in all Cities</a>
 	</div>
