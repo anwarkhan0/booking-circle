@@ -1,4 +1,4 @@
-<div class="section over-hide" style="height:40vh; background-color: black;">
+<div class="section over-hide" id="bannerSection">
     <div class="dark-over-pages"></div>
 
     <div class="hero-center-section pages">
@@ -33,7 +33,7 @@
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Hotel Name</th>
+                  <th scope="col">Hotel</th>
                   <th scope="col">Room No.</th>
                   <th scope="col">Check In</th>
                   <th scope="col">Check Out</th>
@@ -42,15 +42,35 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Hotel one</td>
-                  <td>12</td>
-                  <td>23/2/22</td>
-                  <td>25/2/22</td>
-                  <td>20/2/22</td>
-                  <td>2000 Rs</td>
-                </tr>
+                <% if(filteredHotels.length==0){ %>
+                  <tr>
+                    <td colspan="8" class="font-weight-bold text-info">You have No Reservations.</td>
+                  </tr>
+                  <% }else{ %>
+                    <% filteredHotels.forEach( hotel=> { %>
+                      <% hotel.rooms.forEach( room=> { %>
+                        <% room.reservations.forEach( reservation=> { %>
+                          <tr>
+                            <th scope="row">1</th>
+                            <td>
+                              <%= hotel.name %>
+                            </td>
+                            <td>
+                              <%= room.roomNo %>
+                            </td>
+                            <td>
+                              <%= reservation.checkIn %>
+                            </td>
+                            <td>
+                              <%= reservation.checkOut %>
+                            </td>
+                            <td>
+                              <%= reservation.date %>
+                            </td>
+                            <td>2000 Rs</td>
+                          </tr>
+                          <% }) }) }) %>
+                            <% } %>
               </tbody>
             </table>
           </div>
@@ -70,7 +90,7 @@
               <tbody>
                 <% if(filteredAppartments.length==0) { %>
                   <tr>
-                    <td colspan="6">You have No Reservations.</td>
+                    <td colspan="6" class="font-weight-bold text-info">You have No Reservations.</td>
                   </tr>
                   <% } else { %>
                     <% filteredAppartments.forEach(appartment=> { %>
@@ -115,7 +135,7 @@
               <tbody>
                 <% if(filteredVehicles.length==0){ %>
                   <tr>
-                    <td colspan="7" class="font-weight-bold">
+                    <td colspan="7" class="font-weight-bold text-info">
                       You have No Reservations.
                     </td>
                   </tr>
@@ -160,7 +180,7 @@
               <tbody>
                 <% if(filteredTours.length==0){ %>
                   <tr>
-                    <td colspan="8" class="font-weight-bold">
+                    <td colspan="8" class="font-weight-bold text-info">
                       You have No Reservations.
                     </td>
                   </tr>

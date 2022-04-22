@@ -1789,11 +1789,22 @@ const userProfile = async (req, res, next)=>{
 
 const userBookings = async(req, res, next) =>{
 
+  const hotels = await HotelsModel.find();
+  const filteredHotels = hotels.filter( hotel => {
+    let flag = false;
+    hotel.rooms.forEach( room => {
+      room.reservations.forEach(reservation => {
+        String(reservation.user._id)===String(req.session.user._id) ? flag = true : '';
+      })
+    })
+    return flag;
+  })
+
   const appartments = await AppartmentModel.find();
   const filteredAppartments = appartments.filter( appartment => {
     let flag = false;
     appartment.reservations.forEach(reservation => {
-      reservation.user.id == req.session.user.id ? flag = true : '';
+      String(reservation.user._id)===String(req.session.user._id) ? flag = true : '';
     })
     return flag;
   })
@@ -1802,7 +1813,7 @@ const userBookings = async(req, res, next) =>{
   const filteredVehicles = vehicles.filter( vehicle => {
     let flag = false;
     vehicle.reservations.forEach(reservation => {
-      reservation.user.id == req.session.user.id ? flag = true : '';
+      String(reservation.user._id)===String(req.session.user._id) ? flag = true : '';
     })
     return flag;
   })
@@ -1811,7 +1822,7 @@ const userBookings = async(req, res, next) =>{
   const filteredTours = tours.filter( tour => {
     let flag = false;
     tour.reservations.forEach(reservation => {
-      reservation.user.id == req.session.user.id ? flag = true : '';
+      String(reservation.user._id)===String(req.session.user._id) ? flag = true : '';
     })
     return flag;
   })
@@ -1819,6 +1830,7 @@ const userBookings = async(req, res, next) =>{
   res.render('./pages/User/bookings', {
     loggedIn: true,
     user: req.session.user,
+    filteredHotels: filteredHotels,
     filteredAppartments: filteredAppartments,
     filteredVehicles: filteredVehicles,
     filteredTours: filteredTours
