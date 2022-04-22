@@ -98,7 +98,19 @@
                 <% if(!loggedIn){ %> 
                 <a href="/User/login"><span>Register / Login</span></a>
                 <% }else{ %>
-                    <a href="/User/logout"><span>Logout</span></a>
+                    <div class="btn-group p-4">
+                        <button type="button" class="btn rounded-circle btn-success dropdown-toggle font-weight-bold p-3" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <%= user.name %>
+                        </button>
+                        <div class="dropdown-menu p-0 bg-dark">
+                            <a class="dropdown-item p-2"  href="/User/profile">Profile</a>
+                            <a class="dropdown-item p-2"  href="/User/bookings">Bookings</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="/User/logout" class="p-2 font-weight-bold"><span>Logout</span></a>
+                        </div>
+                    </div>
+                    
                     <% } %>  
             </li>
     

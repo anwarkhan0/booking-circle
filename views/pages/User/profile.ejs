@@ -1,0 +1,85 @@
+<div class="section over-hide" id="bannerSection">
+    <div class="dark-over-pages"></div>
+
+    <div class="hero-center-section pages">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 parallax-fade-top">
+                    <div class="hero-text"> Your Profile </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container p-3">
+        <div class="row">
+            <div class="col-sm-12 col-md-3">
+                <div class="text-center ">
+                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="avatar img-circle img-thumbnail" alt="avatar">
+                  </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="d-flex justify-content-between">
+                    <h5 class="font-weight-bold">
+                        <%= user.name %>
+                    </h5>
+                    <h6></h6>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                aria-controls="home" aria-selected="true">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <a href="/User/edit" class="btn btn-success btn-lg">Edit Profile</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 p-3">
+                <div class="profile-work">
+                    <a href="/User/bookings" class="btn bg-success btn-lg text-white">Your Bookings wiht Us</a>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <!-- <div class="row">
+                            <div class="col-md-6">
+                                <label>User Id</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>Kshiti123</p>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Name</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="font-weight-bold"><%= user.name %></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Email</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="font-weight-bold"><%= user.email %></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold">Phone</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="font-weight-bold"><%= user.phoneNo %></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+</div>

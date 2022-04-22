@@ -54,6 +54,10 @@ const {
   signup,
   verification,
   forgotPassword,
+  userProfile,
+  editUserProfile,
+  postEditUserProfile,
+  userBookings,
   passwordReset,
   postSignUp,
   postLogin,
@@ -202,6 +206,48 @@ router.get("/User/logout", logout);
 router.get("/User/signup", signup);
 router.get("/User/verification", verification);
 router.get("/User/forgotPassword", forgotPassword);
+router.get("/User/profile", userProfile);
+router.get("/User/edit", editUserProfile);
+router.get("/User/bookings", userBookings)
+router.post(
+  "/User/edit",
+  body("name", "please enter valid name.")
+    .notEmpty()
+    .custom((value) => {
+      if(value.trim().length == 0){
+        return false;
+      }else{
+        return true;
+      }
+    })
+    .trim(),
+  body("email", "please enter valid email.")
+    .isEmail()
+    .custom((value, { req }) => {
+      return UsersModel.findOne({ email: value }).then((user) => {
+        if (!user) {
+          return Promise.reject(
+            "E-Mail does not exist Please enter a valid one."
+          );
+        }
+      });
+    })
+    .normalizeEmail()
+    .trim(),
+  body("phoneNo", "please enter valid number.")
+  .notEmpty()
+  .custom((value) => {
+    if(value.trim().length == 0){
+      return false;
+    }else{
+      return true;
+    }
+  })
+  .isNumeric()
+  .isLength({min: 11, max: 11})
+  .trim(),
+  postEditUserProfile
+);
 router.post('/User/subscribe', subscribe);
 router.post(
   "/User/forgotPassword",

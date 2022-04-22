@@ -68,6 +68,7 @@ const home = async (req, res, next) => {
 
   res.render("./pages/HomePage/home", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     sliderGallery: sliderGall,
     areas: areas,
     hotels: ourHotelsIn,
@@ -87,6 +88,7 @@ const allappartments = async (req, res, next) => {
   const appartments = await AppartmentModel.find();
   res.render("./pages/Appartments/allappartments", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     areas: areas,
     appartments: appartments,
   });
@@ -97,6 +99,7 @@ const apartmentBooking = async (req, res, next) => {
 
   res.render("./pages/Appartments/apartmentBooking", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     appartment: appartment,
     flashMessage: "",
     oldInput: {
@@ -113,6 +116,7 @@ const searchAppartments = async (req, res, next) => {
   const appartments = await AppartmentModel.find({ area: location });
   res.render("./pages/Appartments/searchResult", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     appartments: appartments,
   });
 };
@@ -170,12 +174,14 @@ const findAppartments = async (req, res, next) => {
     });
     res.render("./pages/Appartments/allappartments", {
       loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
       areas: areas,
       appartments: filteredAppartments,
     });
   } else {
     res.render("./pages/Appartments/allappartments", {
       loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
       areas: areas,
       appartments: appartments,
     });
@@ -262,6 +268,7 @@ const postAppartmentBooking = async (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(422).render("./pages/Appartments/apartmentBooking", {
       loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
       appartmentId: appartmentId,
       appartment: appartment,
       flashMessage: errors.errors[0].msg,
@@ -278,6 +285,7 @@ const postAppartmentBooking = async (req, res, next) => {
   res.render("./pages/Payment/checkout", {
     layout: false,
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     charges: appartment.price,
   });
 };
@@ -285,6 +293,7 @@ const postAppartmentBooking = async (req, res, next) => {
 const appartmentGallery = (req, res, next) =>
   res.render("./pages/Appartments/appartmentGallery", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
   });
 
 // hotels
@@ -295,6 +304,7 @@ const hotels = async (req, res, next) => {
   const hotels = await HotelsModel.find({ approvedStatus: true });
   res.render("./pages/Hotels/hotels", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     hotels: hotels,
     areas: areas,
   });
@@ -307,6 +317,7 @@ const searchHotels = async (req, res, next) => {
   const areas = await AreasModel.find();
   res.render("./pages/Hotels/hotels", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     location: location,
     areas: areas,
     hotels: hotels,
@@ -381,6 +392,7 @@ const findHotels = async (req, res, next) => {
 
       res.render("./pages/Hotels/filteredRooms", {
         loggedIn: req.session.userLoggedIn,
+        user: req.session.user,
         rooms: filteredRooms,
       });
       return;
@@ -430,6 +442,7 @@ const findHotels = async (req, res, next) => {
 
       res.render("./pages/Hotels/filteredRooms", {
         loggedIn: req.session.userLoggedIn,
+        user: req.session.user,
         rooms: filteredRooms,
       });
       return;
@@ -452,6 +465,7 @@ const findHotels = async (req, res, next) => {
 
       res.render("./pages/Hotels/filteredRooms", {
         loggedIn: req.session.userLoggedIn,
+        user: req.session.user,
         rooms: filteredRooms,
       });
       return;
@@ -470,6 +484,7 @@ const findHotels = async (req, res, next) => {
       });
       res.render("./pages/Hotels/filteredRooms", {
         loggedIn: req.session.userLoggedIn,
+        user: req.session.user,
         rooms: filteredRooms,
       });
       return;
@@ -481,6 +496,7 @@ const hotelGallery = async (req, res, next) => {
   const hotel = await HotelsModel.findById(hotelId);
   res.render("./pages/Hotels/hotelGallery", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     hotel: hotel,
   });
 };
@@ -491,6 +507,7 @@ const hotelRooms = async (req, res, next) => {
 
   res.render("./pages/Hotels/hotelRooms", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     oldInput: {
       hotelId: "",
       checkIn: "",
@@ -961,6 +978,7 @@ const roomFilter = async (req, res, next) => {
 
   res.render("./pages/Hotels/hotelRooms", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     oldInput: {
       hotelId: hotelId,
       checkIn: checkIn,
@@ -989,6 +1007,7 @@ const vehicles = async (req, res, next) => {
   const vehicles = await VehiclesModel.find({ availabilityStatus: true });
   res.render("./pages/Vehicles/vehicles", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     areas: areas,
     vehicles: vehicles,
   });
@@ -999,6 +1018,7 @@ const vehicleBooking = async (req, res, next) => {
   const vehicle = await VehiclesModel.findById(id);
   res.render("./pages/Vehicles/vehicleBooking", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     areas: areas,
     vehicle: vehicle,
     flashMessage: "",
@@ -1017,6 +1037,7 @@ const searchVehicles = async (req, res, next) => {
   const vehicles = await VehiclesModel.find({ ownerArea: location });
   res.render("./pages/Vehicles/vehicles", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     areas: areas,
     vehicles: vehicles,
   });
@@ -1048,6 +1069,7 @@ const findVehicles = async (req, res, next) => {
 
   res.render("./pages/Vehicles/vehicles", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     areas: areas,
     vehicles: vehicles,
   });
@@ -1076,6 +1098,7 @@ const postVehicleBooking = async (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(422).render("./pages/Vehicles/vehicleBooking", {
       loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
       vehicleId: vehicleId,
       vehicle: vehicle,
       areas: areas,
@@ -1157,6 +1180,7 @@ const postVehicleBooking = async (req, res, next) => {
   res.render("./pages/Payment/checkout", {
     layout: false,
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     charges: 2000,
   });
 };
@@ -1169,11 +1193,9 @@ const galleryAppRoom = async (req, res, next) => {
   const appartmentsGallery = [];
   const vehiclesGallery = [];
   hotels.forEach((hotel) => {
-    hotel.rooms.forEach((room) => {
-      room.gallery.forEach((image) => {
-        hotelGallery.push(image);
-      });
-    });
+    hotel.gallery.forEach( image => {
+      hotelGallery.push(image);
+    })
   });
   appartments.forEach((appartment) => {
     appartment.gallery.forEach((image) => {
@@ -1187,6 +1209,7 @@ const galleryAppRoom = async (req, res, next) => {
   });
   res.render("./Gallery/galleries", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     hGallery: hotelGallery,
     aGallery: appartmentsGallery,
     vGallery: vehiclesGallery,
@@ -1204,6 +1227,7 @@ const roomBooking = async (req, res, next) => {
   );
   res.render("./pages/Hotels/roomBooking", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     hotelId: hotel.id,
     room: selectedRoom,
     oldInput: {
@@ -1271,6 +1295,7 @@ const postRoomBooking = async (req, res, next) => {
   if (!flag) {
     return res.status(422).render("./pages/Hotels/roomBooking", {
       loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
       hotelId: hotel.id,
       room: room,
       flashMessage:
@@ -1298,6 +1323,7 @@ const postRoomBooking = async (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(422).render("./pages/Hotels/roomBooking", {
       loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
       hotelId: hotel.id,
       room: room,
       flashMessage: errors.errors[0].msg,
@@ -1314,6 +1340,7 @@ const postRoomBooking = async (req, res, next) => {
   res.render("./pages/Payment/checkout", {
     layout: false,
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     charges: charges,
   });
 };
@@ -1325,6 +1352,7 @@ const tours = async (req, res, next) => {
   const hikes = await ToursModel.find({ tourType: "hike" });
   res.render("./pages/Tours/tours", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     areas: areas,
     tours: tours,
     hikes: hikes,
@@ -1338,6 +1366,7 @@ const searchTour = async (req, res, next) => {
   const hikes = await ToursModel.find({ toPlace: location, tourType: "hike" });
   res.render("./pages/Tours/tours", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     areas: areas,
     tours: tours,
     hikes: hikes,
@@ -1350,6 +1379,7 @@ const booking = async (req, res, next) => {
   const tour = await ToursModel.findById(id);
   res.render("./pages/Tours/booking", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     flashMessage: "",
     tour: tour,
   });
@@ -1378,6 +1408,7 @@ const postTourEnrolling = async (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(422).render("./pages/Tours/booking", {
       loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
       tourId: tourId,
       tour: tour,
       flashMessage: errors.errors[0].msg,
@@ -1391,6 +1422,7 @@ const postTourEnrolling = async (req, res, next) => {
   res.render("./pages/Payment/checkout", {
     layout: false,
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     charges: 2000,
   });
 };
@@ -1398,6 +1430,7 @@ const postTourEnrolling = async (req, res, next) => {
 const gallerytandh = (req, res, next) =>
   res.render("./pages/Tours/gallerytandh", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
   });
 
 // News
@@ -1418,6 +1451,7 @@ const news = (req, res, next) => {
     .then((news) => {
       res.render("./pages/News/news", {
         loggedIn: req.session.userLoggedIn,
+        user: req.session.user,
         news: news,
         totalProducts: totalItems,
         hasNextPage: ITEMS_PER_PAGE * page < totalItems,
@@ -1440,6 +1474,7 @@ const exploreNews = async (req, res, next) => {
     const post = await NewsModel.findById(id);
     res.render("./pages/News/exploreNews", {
       loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
       post: post,
     });
   } catch (err) {
@@ -1450,11 +1485,11 @@ const exploreNews = async (req, res, next) => {
 
 // About Us
 const about = (req, res, next) =>
-  res.render("./pages/About/about", { loggedIn: req.session.userLoggedIn });
+  res.render("./pages/About/about", { loggedIn: req.session.userLoggedIn, user: req.session.user, });
 
 // Contact
 const contact = (req, res, next) => {
-  res.render("./pages/Contact/contact", { loggedIn: req.session.userLoggedIn });
+  res.render("./pages/Contact/contact", { loggedIn: req.session.userLoggedIn, user: req.session.user, });
 };
 
 const postMessage = async (req, res, next) => {
@@ -1482,6 +1517,7 @@ const login = (req, res, next) => {
   const message = req.flash("message");
   res.render("./pages/User/login", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     flashMessage: message,
     oldInput: {
       email: "",
@@ -1500,6 +1536,7 @@ const logout = (req, res, next) => {
 const signup = (req, res, next) => {
   res.render("./pages/User/signup", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     flashMessage: "",
     oldInput: {
       name: "",
@@ -1512,10 +1549,12 @@ const signup = (req, res, next) => {
 const verification = (req, res, next) =>
   res.render("./pages/User/verification", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
   });
 const forgotPassword = (req, res, next) =>
   res.render("./pages/User/forgotPassword", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     flashMessage: "",
     email: "",
   });
@@ -1528,6 +1567,7 @@ const sendMail = async (req, res, next) => {
   if (!errors.isEmpty()) {
     res.render("./pages/User/forgotPassword", {
       loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
       flashMessage: errors.errors[0].msg,
       email: userEmail,
     });
@@ -1602,6 +1642,7 @@ const passwordReset = async (req, res, next) => {
     res.render("./pages/User/passwordReset", {
       userId: id,
       loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
     });
   } catch (err) {
     console.log(err);
@@ -1641,6 +1682,7 @@ const postLogin = (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(422).render("../views/pages/User/login", {
       loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
       flashMessage: errors.errors[0].msg,
       oldInput: {
         email: email,
@@ -1687,6 +1729,7 @@ const postLogin = (req, res, next) => {
 
       res.status(422).render("../views/pages/User/login", {
         loggedIn: req.session.userLoggedIn,
+        user: req.session.user,
         flashMessage: "invalid Email.",
         oldInput: {
           email: email,
@@ -1707,6 +1750,7 @@ const postSignUp = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(422).render("../views/pages/User/signup", {
       loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
       flashMessage: errors.errors[0].msg,
       oldInput: {
         name: name,
@@ -1739,6 +1783,95 @@ const postSignUp = async (req, res) => {
   }
 };
 
+const userProfile = async (req, res, next)=>{
+  res.render('./pages/User/profile', {loggedIn: true, user: req.session.user});
+}
+
+const userBookings = async(req, res, next) =>{
+
+  const appartments = await AppartmentModel.find();
+  const filteredAppartments = appartments.filter( appartment => {
+    let flag = false;
+    appartment.reservations.forEach(reservation => {
+      reservation.user.id == req.session.user.id ? flag = true : '';
+    })
+    return flag;
+  })
+
+  const vehicles = await VehiclesModel.find();
+  const filteredVehicles = vehicles.filter( vehicle => {
+    let flag = false;
+    vehicle.reservations.forEach(reservation => {
+      reservation.user.id == req.session.user.id ? flag = true : '';
+    })
+    return flag;
+  })
+
+  const tours = await ToursModel.find();
+  const filteredTours = tours.filter( tour => {
+    let flag = false;
+    tour.reservations.forEach(reservation => {
+      reservation.user.id == req.session.user.id ? flag = true : '';
+    })
+    return flag;
+  })
+  
+  res.render('./pages/User/bookings', {
+    loggedIn: true,
+    user: req.session.user,
+    filteredAppartments: filteredAppartments,
+    filteredVehicles: filteredVehicles,
+    filteredTours: filteredTours
+  });
+}
+
+const editUserProfile = async (req, res)=>{
+  res.render('./pages/User/editProfile', {
+    loggedIn: true, 
+    user: req.session.user,
+    flashMessage: ''
+  });
+}
+
+const postEditUserProfile = async (req, res)=>{
+  const userId = req.body.id;
+  const name = req.body.name;
+  const email = req.body.email;
+  const phoneNo = req.body.phoneNo;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render("../views/pages/User/editProfile", {
+      loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
+      flashMessage: errors.errors[0].msg,
+      oldInput: {
+        name: name,
+        phoneNo: phoneNo,
+        email: email,
+        // password: password,
+      },
+      validationErrors: errors.array(),
+    });
+  }
+  
+  try {
+    const user = await UsersModel.findById(userId);
+    user.name = name;
+    user.email = email;
+    user.phoneNo = phoneNo;
+    user.save();
+    req.session.user = user;
+    console.log('updated succesfully');
+    res.redirect('/User/profile/' + userId);
+  
+  } catch (error) {
+    console.log(error);
+    req.flash('message', 'Something went wrong');
+    res.redirect('/User/edit');
+  }
+}
+
 const subscribe = (req, res) => {
   const email = req.body.email;
   const subscription = new subscribeModel({
@@ -1758,6 +1891,7 @@ const subscribe = (req, res) => {
 const termsAndCondition = (req, res, next) =>
   res.render("./pages/TermsConditions/termsAndCondition", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
   });
 
 // FAQ's
@@ -1822,6 +1956,7 @@ const faqs = async (req, res, next) => {
 
   res.render("./pages/FAQs/faqs", {
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
     faqs: faqs,
   });
 };
@@ -1946,6 +2081,7 @@ const stripePayment = async (req, res) => {
 };
 
 const paymentSuccess = async (req, res, next) => {
+  // Room Booking data saving //////////////
   if (req.session.bookingData.bookingMode == "room") {
     const hotel = await HotelsModel.findById(req.session.bookingData.hotelId);
     let reservedRoom;
@@ -1968,6 +2104,7 @@ const paymentSuccess = async (req, res, next) => {
       loggedIn: req.session.userLoggedIn,
       data: req.session.bookingData,
     });
+    // Appartment booking data save ///////////////
   } else if (req.session.bookingData.bookingMode == "appartment") {
     const appartment = await AppartmentModel.findById(
       req.session.bookingData.appartmentId
@@ -1982,8 +2119,11 @@ const paymentSuccess = async (req, res, next) => {
     appartment.save();
     res.render("./pages/Payment/success", {
       loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
       data: req.session.bookingData,
+      user: req.session.user,
     });
+    // Vehicle Booking data save //////////////////
   } else if (req.session.bookingData.bookingMode == "vehicle") {
     const vehicle = await VehiclesModel.findById(
       req.session.bookingData.vehicleId
@@ -1998,8 +2138,10 @@ const paymentSuccess = async (req, res, next) => {
     vehicle.save();
     res.render("./pages/Payment/success", {
       loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
       data: req.session.bookingData,
     });
+    // Tour/Hikes Booking Save ////////////////////
   } else if (req.session.bookingData.bookingMode == "tour") {
     const tour = await ToursModel.findById(req.session.bookingData.tourId);
     tour.availableSeats -= req.session.bookingData.seats;
@@ -2011,6 +2153,7 @@ const paymentSuccess = async (req, res, next) => {
     tour.save();
     res.render("./pages/Payment/success", {
       loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
       data: req.session.bookingData,
     });
   }
@@ -2020,6 +2163,7 @@ const paymentCancel = (req, res, next) => {
   res.render("./pages/Payment/cancel", {
     layout: false,
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user
   });
 };
 
@@ -2027,6 +2171,7 @@ const paymentError = (req, res, next) => {
   res.render("./pages/Payment/error", {
     layout: false,
     loggedIn: req.session.userLoggedIn,
+    user: req.session.user
   });
 };
 
@@ -2088,6 +2233,10 @@ module.exports = {
   // User
   login,
   signup,
+  userProfile,
+  editUserProfile,
+  postEditUserProfile,
+  userBookings,
   verification,
   forgotPassword,
   passwordReset,

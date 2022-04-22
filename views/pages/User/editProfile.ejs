@@ -1,0 +1,61 @@
+<div class="section over-hide" style="height:40vh; background-color: black;">
+    <div class="dark-over-pages"></div>
+
+    <div class="hero-center-section pages">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 parallax-fade-top">
+                    <div class="hero-text"> Edit Profile </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container p-3">
+    <div class="container bootstrap snippets bootdey">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-sm-12 col-md-3">
+            <div class="text-center">
+              <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="avatar img-circle img-thumbnail" alt="avatar">
+              <!-- <h6>Upload a different photo...</h6>
+              
+              <input type="file" class="form-control"> -->
+            </div>
+          </div>
+          
+          <!-- edit form column -->
+          <div class="col-md-9 personal-info">
+            <% if(flashMessage.length > 0){ %>
+                <div class="alert alert-danger m-3 mt-2" style="z-index: 1000001;" role="alert" id="flashMessage">
+                  <%= flashMessage %>
+                </div>
+                <% } %>
+            <h3>Personal info</h3>
+            
+            <form action="/User/edit" method="post" class="form-horizontal" role="form">
+              <div class="form-group">
+                <label class="col-lg-3 control-label">Name:</label>
+                <div class="col-lg-8">
+                  <input class="form-control" name="name" value="<%= user.name %>" type="text" value="dey-dey">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">Email:</label>
+                <div class="col-lg-8">
+                  <input class="form-control" name="email" type="text" value="<%= user.email %>">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">PhoneNo:</label>
+                <div class="col-lg-8">
+                  <input class="form-control" name="phoneNo" type="text" value="<%= user.phoneNo %>">
+                </div>
+              </div>
+              <input type="hidden" name="id" value="<%= String(user._id) %>">
+              <button class="btn btn-primary ">Save</button>
+            </form>
+          </div>
+      </div>
+    </div>
+</div>
