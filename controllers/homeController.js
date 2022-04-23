@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const { validationResult, check } = require("express-validator");
 const Safepay = require("safepay");
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 const HomeModel = require("../models/homeModel");
 const AreasModel = require("../Admin/models/Location");
@@ -1762,26 +1763,93 @@ const postSignUp = async (req, res) => {
     });
   }
 
-  // generate salt to hash password
-  const salt = await bcrypt.genSalt(16);
-  // now we set user password to hashed password
-  const hashedPassword = await bcrypt.hash(password, salt);
+  // Number verification
+  const phoneNumber = "92" + contact.replace(/\s/g, "").substring(1);
+  const otp = (() => {
+    const digits = "0123456789";
+    let OTP = "";
+    for (let i = 0; i < 6; i++) {
+      OTP += digits[Math.floor(Math.random() * 10)];
+    }
+    return OTP;
+  })();
+  const msg = 'Your OTP is: ' + otp;
+  console.log(msg)
+  let isMsgSent = true;
+  // try {
+  //   await fetch(`https://outreach.pk/api/sendsms.php/sendsms/url?id=rchbookingring&pass=booking1122&mask=bookingring&to=${phoneNumber}&lang=English&msg=${msg}&type=json`);
+  //   isMsgSent = true;
+  // } catch (error) {
+  //   console.log(error);
+  //   isMsgSent = false;
+  // }
 
+  if(isMsgSent){
+      // generate salt to hash password
+    const salt = await bcrypt.genSalt(16);
+    // now we set user password to hashed password
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    req.session.userRegistration = {
+      name: name,
+      phoneNo: contact,
+      email: email,
+      password: hashedPassword,
+      otp: otp
+    };
+    res.render('./pages/User/otp', {
+      loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
+      num: phoneNumber,
+      oldInput: {
+        name: name,
+        phoneNo: contact,
+        email: email,
+        password: password,
+      }
+    })
+  }else{
+    return res.status(422).render("../views/pages/User/signup", {
+      loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
+      flashMessage: 'Oops! Something went wrong try again.',
+      oldInput: {
+        name: name,
+        phoneNo: contact,
+        email: email,
+        password: password,
+      },
+      validationErrors: errors.array(),
+    });
+  }
+
+};
+
+const completeUsrReg = async (req, res)=>{
+
+  const enteredOtp = req.body.otp;
+  if(!enteredOtp == req.session.userRegistration.otp){
+    return res.status(422).render("../views/pages/User/otp", {
+      loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
+      flashMessage: 'Verification Failed.'
+    });
+  }
   const user = new UsersModel({
-    name: name,
-    phoneNo: contact,
-    email: email,
-    password: hashedPassword,
+    name: req.session.userRegistration.name,
+    phoneNo: req.session.userRegistration.phoneNo,
+    email: req.session.userRegistration.email,
+    password: req.session.userRegistration.password,
   });
-
   try {
     await user.save();
     console.log("Added user");
     res.redirect("/User/login");
   } catch (err) {
+    res.redirect("/User/signup")
     console.log(err);
   }
-};
+}
 
 const userProfile = async (req, res, next)=>{
   res.render('./pages/User/profile', {loggedIn: true, user: req.session.user});
@@ -2245,6 +2313,7 @@ module.exports = {
   // User
   login,
   signup,
+  completeUsrReg,
   userProfile,
   editUserProfile,
   postEditUserProfile,

@@ -1,0 +1,86 @@
+<div class="section over-hide" id="bannerSection">
+    <div class="dark-over-pages"></div>
+
+    <div class="hero-center-section pages">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 parallax-fade-top">
+                    <div class="hero-text"> Mobile phone verification </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container p-3">
+    <div class="d-flex justify-content-center align-items-center continer" id="otpComponent">
+        <div class="card py-5 px-3">
+            <h5 class="m-0"></h5>
+            <span class="mobile-text"><b>Enter the code we just sent on your phone</b>
+                <b class="text-color">+<%= num %></b>
+            </span>
+            <form action="/User/registeration" method="post">
+                <div class="d-flex flex-row mt-5">
+                        <input type="text" maxlength="6" name="otp" class="form-control align-middle font-weight-bolder" style="font-size: 5vh;" autofocus="" required/>
+                </div>
+                <div class="text-center mt-5">
+                    <span class="d-block mobile-text" id="countdown"></span>
+                    <span class="d-block mobile-text" id="resend"></span><button type="submit" class="btn btn-primary">Verify</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="name" value="<%= oldInput.name %>">
+<input type="hidden" id="email" value="<%= oldInput.email %>">
+<input type="hidden" id="phoneNo" value="<%= oldInput.phoneNo %>">
+<input type="hidden" id="password" value="<%= oldInput.password %>">
+
+<script>
+    let timerOn = true;
+    function timer(remaining) {
+        let m = Math.floor(remaining / 60);
+        let s = remaining % 60;
+        m = m < 10 ? "0" + m : m;
+        s = s < 10 ? "0" + s : s;
+        document.getElementById("countdown").innerHTML = `Time left: ${m} : ${s}`;
+        remaining -= 1;
+        if (remaining >= 0 && timerOn) {
+            setTimeout(function () {
+                timer(remaining);
+            }, 100);
+            document.getElementById("resend").innerHTML = ``;
+            return;
+        }
+        if (!timerOn) {
+            return;
+        }
+        document.getElementById("resend").innerHTML = `Did't receive the code? <span class="font-weight-bold text-color cursor" onclick="resend()">Resend</span>`;
+    }
+    timer(60);
+    function resend(){
+        const name = $('#name').val();
+        const email = $('#email').val();
+        const phoneNo = $('#phoneNo').val();
+        const password = $('#password').val();
+        const data = JSON.stringify({
+            name: name,
+            email: email,
+            phoneNo: phoneNo,
+            password: password
+        })
+        fetch("/signUp", {
+            method: "POST",
+            body: data,
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+            },
+        })
+            // Checking Status
+            .then((response) => {
+                $('input').val('');
+                timer(60);
+            });
+    }
+
+</script>

@@ -52,6 +52,7 @@ const {
   // User
   login,
   signup,
+  completeUsrReg,
   verification,
   forgotPassword,
   userProfile,
@@ -204,6 +205,7 @@ router.post("/Contact/feedback", postMessage);
 router.get("/User/login", login);
 router.get("/User/logout", logout);
 router.get("/User/signup", signup);
+router.post("/User/registeration", completeUsrReg);
 router.get("/User/verification", verification);
 router.get("/User/forgotPassword", forgotPassword);
 router.get("/User/profile", userProfile);
@@ -305,6 +307,15 @@ router.post(
       .isLength({ min: 8 })
       .isAlphanumeric()
       .trim(),
+    body(
+      "cnfmPassword", "Password does't match."
+    ).custom((val, {req})=>{
+      if(val==req.body.password){
+        return true;
+      }else{
+        return false;
+      }
+    })
   ],
   postSignUp
 );
