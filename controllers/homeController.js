@@ -242,6 +242,7 @@ const postAppartmentBooking = async (req, res, next) => {
   if (!flag) {
     return res.status(422).render("./pages/Appartments/apartmentBooking", {
       loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
       appartmentId: appartment.id,
       appartment: appartment,
       flashMessage:
@@ -1152,6 +1153,7 @@ const postVehicleBooking = async (req, res, next) => {
   if (!flag) {
     return res.status(422).render("./pages/Vehicles/vehicleBooking", {
       loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
       vehicleId: vehicleId,
       vehicle: vehicle,
       areas: areas,
@@ -1516,10 +1518,12 @@ const postMessage = async (req, res, next) => {
 // User
 const login = (req, res, next) => {
   const message = req.flash("message");
+  const registrationMsg = req.flash("successReg");
   res.render("./pages/User/login", {
     loggedIn: req.session.userLoggedIn,
     user: req.session.user,
     flashMessage: message,
+    successReg: registrationMsg,
     oldInput: {
       email: "",
       password: "",
@@ -1538,12 +1542,13 @@ const signup = (req, res, next) => {
   res.render("./pages/User/signup", {
     loggedIn: req.session.userLoggedIn,
     user: req.session.user,
-    flashMessage: "",
+    flashMessage: req.flash('message'),
     oldInput: {
       name: "",
       phoneNo: "",
       email: "",
       password: "",
+      cnfmPassword: ""
     },
   });
 };
@@ -1746,6 +1751,7 @@ const postSignUp = async (req, res) => {
   const contact = req.body.phoneNo;
   const email = req.body.email;
   const password = req.body.password;
+  const cnfmPassword = req.body.cnfmPassword;
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -1775,14 +1781,14 @@ const postSignUp = async (req, res) => {
   })();
   const msg = 'Your OTP is: ' + otp;
   console.log(msg)
-  let isMsgSent = true;
-  // try {
-  //   await fetch(`https://outreach.pk/api/sendsms.php/sendsms/url?id=rchbookingring&pass=booking1122&mask=bookingring&to=${phoneNumber}&lang=English&msg=${msg}&type=json`);
-  //   isMsgSent = true;
-  // } catch (error) {
-  //   console.log(error);
-  //   isMsgSent = false;
-  // }
+  let isMsgSent;
+  try {
+    await fetch(`https://outreach.pk/api/sendsms.php/sendsms/url?id=rchbookingring&pass=booking1122&mask=bookingring&to=${phoneNumber}&lang=English&msg=${msg}&type=json`);
+    isMsgSent = true;
+  } catch (error) {
+    console.log(error);
+    isMsgSent = false;
+  }
 
   if(isMsgSent){
       // generate salt to hash password
@@ -1792,7 +1798,7 @@ const postSignUp = async (req, res) => {
 
     req.session.userRegistration = {
       name: name,
-      phoneNo: contact,
+      phoneNo: phoneNumber,
       email: email,
       password: hashedPassword,
       otp: otp
@@ -1800,13 +1806,7 @@ const postSignUp = async (req, res) => {
     res.render('./pages/User/otp', {
       loggedIn: req.session.userLoggedIn,
       user: req.session.user,
-      num: phoneNumber,
-      oldInput: {
-        name: name,
-        phoneNo: contact,
-        email: email,
-        password: password,
-      }
+      num: phoneNumber
     })
   }else{
     return res.status(422).render("../views/pages/User/signup", {
@@ -1818,6 +1818,7 @@ const postSignUp = async (req, res) => {
         phoneNo: contact,
         email: email,
         password: password,
+        cnfmPassword: cnfmPassword
       },
       validationErrors: errors.array(),
     });
@@ -1825,30 +1826,32 @@ const postSignUp = async (req, res) => {
 
 };
 
+//Finish Registration after number verification
 const completeUsrReg = async (req, res)=>{
 
   const enteredOtp = req.body.otp;
-  if(!enteredOtp == req.session.userRegistration.otp){
-    return res.status(422).render("../views/pages/User/otp", {
-      loggedIn: req.session.userLoggedIn,
-      user: req.session.user,
-      flashMessage: 'Verification Failed.'
+  if(enteredOtp == req.session.userRegistration.otp){
+    const user = new UsersModel({
+      name: req.session.userRegistration.name,
+      phoneNo: req.session.userRegistration.phoneNo,
+      email: req.session.userRegistration.email,
+      password: req.session.userRegistration.password,
     });
+    try {
+      await user.save();
+      console.log("Added user");
+      req.flash('successReg', 'Registration Succesfull. you can login now.')
+      res.redirect("/User/login");
+    } catch (err) {
+      req.flash('message', 'Try again. Something went wrong.');
+      console.log(err);
+      res.redirect('/User/signUp');
+    }
+  }else{
+    req.flash('message', 'Verification failed, check Your Number.');
+    res.redirect('/User/signUp');
   }
-  const user = new UsersModel({
-    name: req.session.userRegistration.name,
-    phoneNo: req.session.userRegistration.phoneNo,
-    email: req.session.userRegistration.email,
-    password: req.session.userRegistration.password,
-  });
-  try {
-    await user.save();
-    console.log("Added user");
-    res.redirect("/User/login");
-  } catch (err) {
-    res.redirect("/User/signup")
-    console.log(err);
-  }
+  
 }
 
 const userProfile = async (req, res, next)=>{
@@ -1940,10 +1943,10 @@ const postEditUserProfile = async (req, res)=>{
     user.name = name;
     user.email = email;
     user.phoneNo = phoneNo;
-    user.save();
+    await user.save();
     req.session.user = user;
     console.log('updated succesfully');
-    res.redirect('/User/profile/' + userId);
+    res.redirect('/User/profile/');
   
   } catch (error) {
     console.log(error);
@@ -2161,7 +2164,9 @@ const stripePayment = async (req, res) => {
 };
 
 const paymentSuccess = async (req, res, next) => {
-  // Room Booking data saving //////////////
+  
+  try {
+    // Room Booking data saving //////////////
   if (req.session.bookingData.bookingMode == "room") {
     const hotel = await HotelsModel.findById(req.session.bookingData.hotelId);
     let reservedRoom;
@@ -2178,49 +2183,38 @@ const paymentSuccess = async (req, res, next) => {
         reservedRoom = room;
       }
     });
-    hotel.save();
-    res.render("./pages/Payment/success", {
-      layout: false,
-      loggedIn: req.session.userLoggedIn,
-      data: req.session.bookingData,
-    });
+    await hotel.save();
+    res.redirect('/Booking/confirmed');
     // Appartment booking data save ///////////////
   } else if (req.session.bookingData.bookingMode == "appartment") {
     const appartment = await AppartmentModel.findById(
       req.session.bookingData.appartmentId
     );
     appartment.reservations.push({
+      loggedIn: req.session.userLoggedIn,
       user: req.session.user,
       checkIn: req.session.bookingData.checkIn,
       checkOut: req.session.bookingData.checkOut,
       adults: Number(req.session.bookingData.adults),
       date: req.session.bookingData.date,
     });
-    appartment.save();
-    res.render("./pages/Payment/success", {
-      loggedIn: req.session.userLoggedIn,
-      user: req.session.user,
-      data: req.session.bookingData,
-      user: req.session.user,
-    });
+    await appartment.save();
+    res.redirect('/Booking/confirmed');
     // Vehicle Booking data save //////////////////
   } else if (req.session.bookingData.bookingMode == "vehicle") {
     const vehicle = await VehiclesModel.findById(
       req.session.bookingData.vehicleId
     );
     vehicle.reservations.push({
+      loggedIn: req.session.userLoggedIn,
       user: req.session.user,
       checkIn: req.session.bookingData.checkIn,
       checkOut: req.session.bookingData.checkOut,
       adults: Number(req.session.bookingData.adults),
       date: req.session.bookingData.date,
     });
-    vehicle.save();
-    res.render("./pages/Payment/success", {
-      loggedIn: req.session.userLoggedIn,
-      user: req.session.user,
-      data: req.session.bookingData,
-    });
+    await vehicle.save();
+    res.redirect('/Booking/confirmed');
     // Tour/Hikes Booking Save ////////////////////
   } else if (req.session.bookingData.bookingMode == "tour") {
     const tour = await ToursModel.findById(req.session.bookingData.tourId);
@@ -2230,12 +2224,12 @@ const paymentSuccess = async (req, res, next) => {
       seats: req.session.bookingData.seats,
       date: req.session.bookingData.date,
     });
-    tour.save();
-    res.render("./pages/Payment/success", {
-      loggedIn: req.session.userLoggedIn,
-      user: req.session.user,
-      data: req.session.bookingData,
-    });
+    await tour.save();
+    res.redirect('/Booking/confirmed');
+  }
+  } catch (err) {
+    console.log(err);
+    res.redirect('/');
   }
 };
 
@@ -2259,6 +2253,15 @@ const jazzCashResponse = (req, res) => {
   console.log(req.data);
   res.send("jazz response arrived");
 };
+
+const bookingConfirmation = (req, res, next)=>{
+  console.log(req.session.bookingData)
+  res.render("./pages/Payment/success", {
+    loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
+    data: req.session.bookingData
+  });
+}
 
 module.exports = {
   // HomePage
@@ -2342,4 +2345,7 @@ module.exports = {
   paymentCancel,
   paymentError,
   jazzCashResponse,
+
+  //booking
+  bookingConfirmation
 };

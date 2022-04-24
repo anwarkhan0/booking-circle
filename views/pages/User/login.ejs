@@ -18,6 +18,11 @@
                       <%= flashMessage %>
                     </div>
                     <% } %>
+                <% if(successReg.length > 0){ %>
+                    <div class="alert alert-success m-3 mt-2" style="z-index: 1000001;" role="alert" id="flashMessage">
+                        <%= successReg %>
+                    </div>
+                    <% } %>
                 <div class="login-wrap p-0">
                     <h3 class="mb-4 text-center">Login!</h3>
                     <form class="signin-form" action="/user/postlogin" method="POST">

@@ -82,7 +82,10 @@ const {
   paymentCancel,
   paymentError,
   jazzCashResponse,
-  roomFilter
+  roomFilter,
+
+  //booking 
+  bookingConfirmation
 } = require("../controllers/homeController");
 const router = express.Router();
 const { body, query } = require("express-validator");
@@ -342,7 +345,9 @@ router.get("/TermsConditions/termsAndCondition", termsAndCondition);
 
 // FAQ's
 router.get("/FAQs/faqs", faqs);
-router.post("/query", postQuery)
+router.post("/query", postQuery);
+
+router.get("/Booking/confirmed", bookingConfirmation);
 
 module.exports = {
   routes: router,
