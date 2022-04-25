@@ -1,5 +1,5 @@
-const AreasModel = require('../Admin/models/Location');
-const HotelsModel = require('../Admin/models/Hotel');
+const AreasModel = require('./Location');
+const HotelsModel = require('./Hotel');
 // const AppartmentsModel = require('./appartmentsModel');
 // const VehiclesModel = require('./vehiclesModel');
 module.exports = {

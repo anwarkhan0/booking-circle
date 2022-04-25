@@ -4,19 +4,19 @@ const Safepay = require("safepay");
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 const HomeModel = require("../models/homeModel");
-const AreasModel = require("../Admin/models/Location");
-const AppartmentModel = require("../Admin/models/Appartment");
-const HotelsModel = require("../Admin/models/Hotel");
-const VehiclesModel = require("../Admin/models/Vehicles");
-const ToursModel = require("../Admin/models/Tour");
-const NewsModel = require("../Admin/models/Updates");
+const AreasModel = require("../models/Location");
+const AppartmentModel = require("../models/Appartment");
+const HotelsModel = require("../models/Hotel");
+const VehiclesModel = require("../models/Vehicles");
+const ToursModel = require("../models/Tour");
+const NewsModel = require("../models/Updates");
 const UsersModel = require("../models/usersModel");
-const MessageModel = require("../Admin/models/Message");
-const sliderGallery = require("../Admin/models/SliderGallery");
+const MessageModel = require("../models/Message");
+const sliderGallery = require("../models/SliderGallery");
 const subscribeModel = require("../models/subscribeModel");
-const queryModel = require("../Admin/models/Query");
+const queryModel = require("../models/Query");
 const { json, query } = require("express");
-const Hotel = require("../Admin/models/Hotel");
+const Hotel = require("../models/Hotel");
 const checkout = require("safepay/dist/resources/checkout");
 
 // HomePage
@@ -1690,6 +1690,7 @@ const postLogin = (req, res, next) => {
       loggedIn: req.session.userLoggedIn,
       user: req.session.user,
       flashMessage: errors.errors[0].msg,
+      successReg: '',
       oldInput: {
         email: email,
         password: password,
@@ -1718,7 +1719,9 @@ const postLogin = (req, res, next) => {
 
           res.status(422).render("../views/pages/User/login", {
             loggedIn: req.session.userLoggedIn,
+            user: req.session.user,
             flashMessage: "invalid Password.",
+            successReg: '',
             oldInput: {
               email: email,
               password: password,
@@ -1737,6 +1740,7 @@ const postLogin = (req, res, next) => {
         loggedIn: req.session.userLoggedIn,
         user: req.session.user,
         flashMessage: "invalid Email.",
+        successReg: '',
         oldInput: {
           email: email,
           password: password,

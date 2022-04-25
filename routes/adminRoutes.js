@@ -1,8 +1,8 @@
 const { render } = require("ejs");
 const express = require("express");
-const Hotels = require("../Admin/models/Hotel");
-const Appartments = require("../Admin/models/Appartment");
-const Users = require("../Admin/models/SystemUsers");
+const Hotels = require("../models/Hotel");
+const Appartments = require("../models/Appartment");
+const Users = require("../models/SystemUsers");
 
 const {
   // Login
@@ -25,6 +25,7 @@ const {
   customersList,
   viewCustomer,
   editMembership,
+  delCustomer,
 
   // Hotels Clients
   hotelClients,
@@ -140,7 +141,7 @@ const {
 const router = express.Router();
 const isAuth = require("../middleware/isAuth");
 const { body } = require("express-validator");
-const Appartment = require("../Admin/models/Appartment");
+const Appartment = require("../models/Appartment");
 
 // Login
 router.get("/admin/login", login);
@@ -205,8 +206,9 @@ router.post("/admin/Areas/deleteArea", isAuth, postDeleteArea);
 
 // Customers
 router.get("/admin/Customers/customer", isAuth, customersList);
-router.get("/admin/Customers/viewCustomer", isAuth, viewCustomer);
+router.get("/admin/Customers/viewCustomer/:id", isAuth, viewCustomer);
 router.get("/admin/Customers/editMembership", isAuth, editMembership);
+router.post("/admin/Customers/deleteCustomer", isAuth, delCustomer);
 
 // Hotels Clients
 router.get("/admin/Hotels/addHotel", isAuth, hotelClients);

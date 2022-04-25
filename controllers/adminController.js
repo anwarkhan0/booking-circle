@@ -3,16 +3,17 @@ const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
 
 //models
-const Areas = require("../Admin/models/Location");
-const Tours = require("../Admin/models/Tour");
-const Hotels = require("../Admin/models/Hotel");
-const Appartments = require("../Admin/models/Appartment");
-const Vehicles = require("../Admin/models/Vehicles");
-const sliderGallery = require("../Admin/models/SliderGallery");
-const Users = require("../Admin/models/SystemUsers");
-const Updates = require("../Admin/models/Updates");
-const vehicleCategory = require("../Admin/models/vehicleCategory");
-const Feedbacks = require('../Admin/models/Feedback');
+const Areas = require("../models/Location");
+const Tours = require("../models/Tour");
+const Hotels = require("../models/Hotel");
+const Appartments = require("../models/Appartment");
+const Vehicles = require("../models/Vehicles");
+const sliderGallery = require("../models/SliderGallery");
+const Users = require("../models/SystemUsers");
+const Updates = require("../models/Updates");
+const vehicleCategory = require("../models/vehicleCategory");
+const Feedbacks = require('../models/Feedback');
+const UsersModel = require('../models/usersModel');
 
 // Login
 const login = (req, res, next) => {
@@ -213,16 +214,34 @@ const postDeleteArea = (req, res) => {
 };
 
 // Customers
-const customersList = (req, res, next) => {
-  res.render("../Admin/views/pages/Customers/customer", {layout: '../Admin/views/layout'});
+const customersList = async (req, res, next) => {
+  const customers = await UsersModel.find();
+  res.render("../Admin/views/pages/Customers/customer", {layout: '../Admin/views/layout', customers: customers});
 };
 
 const editMembership = (req, res, next) => {
   res.render("../Admin/views/pages/Customers/editMembership");
 };
 
-const viewCustomer = (req, res, next) => {
-  res.render("../Admin/views/pages/Customers/viewCustomer");
+const viewCustomer = async (req, res, next) => {
+  const id = req.params.id;
+  const user = await UsersModel.findById(id);
+  res.render("../Admin/views/pages/Customers/viewCustomer", {customer: user});
+};
+
+const delCustomer = async (req, res, next) => {
+  const id = req.body.id;
+  
+  try {
+    const users = await UsersModel.find()
+    await UsersModel.findByIdAndDelete(id);
+    console.log('deleted Successfully');
+    res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(204);
+  }
+  
 };
 
 // Hotels Clients
@@ -2733,6 +2752,7 @@ module.exports = {
   customersList,
   viewCustomer,
   editMembership,
+  delCustomer,
 
   // Hotels Clients
   hotelClients,
