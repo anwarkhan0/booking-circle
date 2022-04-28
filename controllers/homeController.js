@@ -2155,7 +2155,7 @@ const stripePayment = async (req, res) => {
 
       mode: "payment",
 
-      success_url: `${process.env.BASE_URL}/payment/success`,
+      success_url: `${process.env.BASE_URL}/Booking/confirmed`,
 
       cancel_url: `${process.env.BASE_URL}/payment/cancel`,
     });
@@ -2239,7 +2239,6 @@ const paymentSuccess = async (req, res, next) => {
 
 const paymentCancel = (req, res, next) => {
   res.render("./pages/Payment/cancel", {
-    layout: false,
     loggedIn: req.session.userLoggedIn,
     user: req.session.user
   });
