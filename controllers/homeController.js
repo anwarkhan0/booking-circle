@@ -2155,7 +2155,7 @@ const stripePayment = async (req, res) => {
 
       mode: "payment",
 
-      success_url: `${process.env.BASE_URL}/Booking/confirmed`,
+      success_url: `${process.env.BASE_URL}/payment/success`,
 
       cancel_url: `${process.env.BASE_URL}/payment/cancel`,
     });
