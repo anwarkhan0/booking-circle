@@ -63,10 +63,11 @@ const ToursSchema = new Schema({
         type: [String],
         required: false
     },
-    reservations: {
-        type: [Object],
-        required: false
-    }
+    reservations: [{
+        user: Object,
+        seats: Number,
+        date: Date
+      }]
 });
 
 module.exports = mongoose.model('Tours', ToursSchema);
