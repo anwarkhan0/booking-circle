@@ -136,7 +136,7 @@
                         <p class="text-center mt-4"><b>Tour: </b> <%= hike.fromPlace %> to <%= hike.toPlace %></p>
                         <p class="text-center mt-4"><b>Date: </b> <%= hike.startDate %></p>
                         <p class="text-center mt-4"><b>Duration: </b> <%= hike.days %> Days <%= hike.nights %> Nights</p>
-                        <a class="mt-5 btn btn-primary" href="/Tours/booking">Confirm Hike!</a>
+                        <a class="mt-5 btn btn-primary" href="/Tours/booking/<%= hike.id %> ">Confirm Hike!</a>
                         <a class="mt-5 btn btn-info" href="#">Wishlist!</a>
                     </div>
                 </div>

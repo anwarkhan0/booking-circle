@@ -1399,13 +1399,6 @@ const postTourEnrolling = async (req, res, next) => {
     res.redirect("/user/login");
     return;
   }
-  const bookingData = {
-    user: req.session.user,
-    bookingMode: "tour",
-    tourId: tourId,
-    seats: seats,
-    date: new Date(),
-  };
   const tour = await ToursModel.findById(tourId);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -1421,12 +1414,20 @@ const postTourEnrolling = async (req, res, next) => {
       // validationErrors: errors.array(),
     });
   }
+  const bookingData = {
+    user: req.session.user,
+    bookingMode: "tour",
+    tourId: tourId,
+    seats: seats,
+    charges: Number(seats) * tour.chargesPerHead,
+    date: new Date(),
+  };
   req.session.bookingData = bookingData;
   res.render("./pages/Payment/checkout", {
     layout: false,
     loggedIn: req.session.userLoggedIn,
     user: req.session.user,
-    charges: 2000,
+    charges: Number(seats) * tour.chargesPerHead,
   });
 };
 
@@ -1533,7 +1534,8 @@ const login = (req, res, next) => {
 
 const logout = (req, res, next) => {
   req.session.destroy((err) => {
-    console.log(err);
+    if(err) console.log(err);
+    console.log('user loggout')
     res.redirect("/");
   });
 };
@@ -1864,52 +1866,66 @@ const userProfile = async (req, res, next)=>{
 
 const userBookings = async(req, res, next) =>{
 
-  const hotels = await HotelsModel.find();
-  const filteredHotels = hotels.filter( hotel => {
-    let flag = false;
-    hotel.rooms.forEach( room => {
-      room.reservations.forEach(reservation => {
-        String(reservation.user._id)===String(req.session.user._id) ? flag = true : '';
-      })
-    })
-    return flag;
-  })
+  try {
+    const hotels = await HotelsModel.find();
+    const filteredHotels = hotels.filter((hotel) => {
+      let flag = false;
+      hotel.rooms.forEach((room) => {
+        room.reservations.forEach((reservation) => {
+          String(reservation.user._id) === String(req.session.user._id)
+            ? (flag = true)
+            : "";
+        });
+      });
+      return flag;
+    });
 
-  const appartments = await AppartmentModel.find();
-  const filteredAppartments = appartments.filter( appartment => {
-    let flag = false;
-    appartment.reservations.forEach(reservation => {
-      String(reservation.user._id)===String(req.session.user._id) ? flag = true : '';
-    })
-    return flag;
-  })
+    const appartments = await AppartmentModel.find();
+    const filteredAppartments = appartments.filter((appartment) => {
+      let flag = false;
+      appartment.reservations.forEach((reservation) => {
+        String(reservation.user._id) === String(req.session.user._id)
+          ? (flag = true)
+          : "";
+      });
+      return flag;
+    });
 
-  const vehicles = await VehiclesModel.find();
-  const filteredVehicles = vehicles.filter( vehicle => {
-    let flag = false;
-    vehicle.reservations.forEach(reservation => {
-      String(reservation.user._id)===String(req.session.user._id) ? flag = true : '';
-    })
-    return flag;
-  })
+    const vehicles = await VehiclesModel.find();
+    const filteredVehicles = vehicles.filter((vehicle) => {
+      let flag = false;
+      vehicle.reservations.forEach((reservation) => {
+        String(reservation.user._id) === String(req.session.user._id)
+          ? (flag = true)
+          : "";
+      });
+      return flag;
+    });
 
-  const tours = await ToursModel.find();
-  const filteredTours = tours.filter( tour => {
-    let flag = false;
-    tour.reservations.forEach(reservation => {
-      String(reservation.user._id)===String(req.session.user._id) ? flag = true : '';
-    })
-    return flag;
-  })
+    const tours = await ToursModel.find();
+    const filteredTours = tours.filter((tour) => {
+      let flag = false;
+      tour.reservations.forEach((reservation) => {
+        String(reservation.user._id) === String(req.session.user._id)
+          ? (flag = true)
+          : "";
+      });
+      return flag;
+    });
+
+    res.render("./pages/User/bookings", {
+      loggedIn: true,
+      user: req.session.user,
+      filteredHotels: filteredHotels,
+      filteredAppartments: filteredAppartments,
+      filteredVehicles: filteredVehicles,
+      filteredTours: filteredTours,
+    });
+  } catch (error) {
+    console.log(error);
+    res.redirect('/');
+  }
   
-  res.render('./pages/User/bookings', {
-    loggedIn: true,
-    user: req.session.user,
-    filteredHotels: filteredHotels,
-    filteredAppartments: filteredAppartments,
-    filteredVehicles: filteredVehicles,
-    filteredTours: filteredTours
-  });
 }
 
 const editUserProfile = async (req, res)=>{
@@ -2226,6 +2242,7 @@ const paymentSuccess = async (req, res, next) => {
     tour.reservations.push({
       user: req.session.user,
       seats: req.session.bookingData.seats,
+      charges: req.session.bookingData.charges,
       date: req.session.bookingData.date,
     });
     await tour.save();

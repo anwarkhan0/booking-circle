@@ -32,7 +32,7 @@
             <% filteredHotels.forEach( hotel=> { %>
               <% hotel.rooms.forEach( room=> { %>
                 <% room.reservations.forEach( reservation=> { %>
-                  <% if(reservation.checkIn < new Date()) return; %>
+                  <% if(reservation.checkIn < new Date() || String(user._id) != String(reservation.user._id)) return; %>
             <div class="row border shadow-lg">
               <div class="col-sm-12 col-md-4">
                 <img src="/uploads/<%= hotel.gallery[0] %>" class="img-responsive w-100 h-100" alt="">
@@ -53,7 +53,7 @@
           <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
             <% filteredAppartments.forEach(appartment=> { %>
               <% appartment.reservations.forEach(reservation=> { %>
-                <% if(reservation.checkIn < new Date()) return; %>
+                <% if(reservation.checkIn < new Date() || String(user._id) != String(reservation.user._id)) return; %>
                 <div class="row border p-1 mb-4">
                   <div class="col-sm-12 col-md-4">
                     <img src="/uploads/<%= appartment.gallery[0] %>" class="img-responsive w-100 h-100" alt="">
@@ -74,7 +74,7 @@
           <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
             <% filteredVehicles.forEach( vehicle=> { %>
               <% vehicle.reservations.forEach( reservation=> { %>
-                <% if(reservation.checkIn < new Date()) return; %>
+                <% if(reservation.checkIn < new Date() || String(user._id) != String(reservation.user._id)) return; %>
                 <div class="row border p-1 mb-4">
                   <div class="col-sm-12 col-md-4">
                     <img src="/uploads/<%= vehicle.gallery[0] %>" class="img-responsive w-100 h-100" alt="">
@@ -94,7 +94,7 @@
           <div class="row tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
             <% filteredTours.forEach( tour=> { %>
               <% tour.reservations.forEach( reservation=> { %>
-                <% if(tour.startDate < new Date()) return; %>
+                <% if(tour.startDate < new Date() || String(user._id) != String(reservation.user._id)) return; %>
                 <div class="row border p-1 mb-4">
                   <div class="col-sm-12 col-md-4">
                     <img src="/uploads/<%= tour.gallery[0] %>" class="img-responsive w-100 h-100" alt="">
@@ -102,12 +102,10 @@
                   <div class="col-sm-12 col-md-8">
                     <h4 class="font-weight-bold"> <%= tour.tourType %></h4>
                     <ul class="list-group list-group-flush">
-                      <li class="list-group-item"><span class="font-weight-bold">From: </span><%= tour.fromPlace %> </li>
-                      <li class="list-group-item"><span class="font-weight-bold">To: </span><%= tour.toPlace %> </li>
-                      <li class="list-group-item"><span class="font-weight-bold">Pick Up location: </span><%= tour.pickupLocation %> adults </li>
-                      <li class="list-group-item"><span class="font-weight-bold">Drop off location: </span><%= tour.dropoffLocation %> adults </li>
-                      <li class="list-group-item"><span class="font-weight-bold">You booked: </span><%= reservation.seats %> adults </li>
-                      <li class="list-group-item"><span class="font-weight-bold">Payment: </span><%= 1000 %> </li>
+                      <li class="list-group-item"><span class="font-weight-bold">From </span><%= tour.fromPlace %><span class="font-weight-bold"> To </span><%= tour.toPlace %> </li>
+                      <li class="list-group-item"><span class="font-weight-bold">Pick Up location: </span><%= tour.pickupLocation %>, <span class="font-weight-bold">Drop off location: </span><%= tour.dropoffLocation %></li>
+                      <li class="list-group-item"><span class="font-weight-bold">You booked: </span><%= reservation.seats %> seats </li>
+                      <li class="list-group-item"><span class="font-weight-bold">Payment: </span><%= reservation.charges %> </li>
                     </ul>
                   </div>
                 </div>

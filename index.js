@@ -52,10 +52,10 @@ app.use(
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
 
-app.use(cookieParser('SecretStringForCookies'));
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(session({
-  secret: 'SecretStringForCookies',
-  cookie: {maxAge: 86400000},
+  secret: process.env.COOKIE_SECRET,
+  cookie: {maxAge: 3600000},
   resave: false,
   saveUninitialized: false,
   store: store

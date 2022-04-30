@@ -48,7 +48,7 @@ const ToursSchema = new Schema({
         required: true
     },
     chargesPerHead: {
-        type: String,
+        type: Number,
         required: true
     },
     description: {
@@ -66,6 +66,7 @@ const ToursSchema = new Schema({
     reservations: [{
         user: Object,
         seats: Number,
+        charges: Number,
         date: Date
       }]
 });
