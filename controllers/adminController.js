@@ -2510,15 +2510,21 @@ const postDeleteSliderGalleryImage = (req, res) => {
       }
     })
     .then((result) => {
-      delImg(image);
-      console.log("UPDATED Slider Gallery!");
-      if (images.length === 0) {
-        res.redirect("/");
-      } else {
-        res.redirect("/admin/SliderImages/sliderImagesList");
+      if (delImg(image)) {
+        console.log("UPDATED Slider Gallery!");
+        if (images.length === 0) {
+          res.redirect("/");
+        } else {
+          res.redirect("/admin/SliderImages/sliderImagesList");
+        }
+      }else{
+        throw 'Something went wrong while deleting Image.'
       }
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      res.redirect("/admin/SliderImages/sliderImagesList");
+    });
 };
 
 // Customer Feedback

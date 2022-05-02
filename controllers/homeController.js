@@ -22,7 +22,12 @@ const checkout = require("safepay/dist/resources/checkout");
 // HomePage
 const home = async (req, res, next) => {
   const areas = await HomeModel.fetchAreas();
-  const sliderGall = await sliderGallery.find();
+  let sliderGall = await sliderGallery.findOne();
+  if(!sliderGall){
+    sliderGall = {
+      images: []
+    }
+  }
 
   const hotels = await HotelsModel.find({ approvedStatus: true });
   const appartments = await AppartmentModel.find();
@@ -1775,56 +1780,74 @@ const postSignUp = async (req, res) => {
     });
   }
 
-  // Number verification
-  const phoneNumber = "92" + contact.replace(/\s/g, "").substring(1);
-  const otp = (() => {
-    const digits = "0123456789";
-    let OTP = "";
-    for (let i = 0; i < 6; i++) {
-      OTP += digits[Math.floor(Math.random() * 10)];
-    }
-    return OTP;
-  })();
-  const msg = 'Your OTP is: ' + otp;
-  console.log(msg)
-  let isMsgSent;
   try {
-    await fetch(`https://outreach.pk/api/sendsms.php/sendsms/url?id=rchbookingring&pass=booking1122&mask=bookingring&to=${phoneNumber}&lang=English&msg=${msg}&type=json`);
-    isMsgSent = true;
-  } catch (error) {
-    console.log(error);
-    isMsgSent = false;
-  }
+    // Number verification
+    const phoneNumber = "92" + contact.replace(/\s/g, "").substring(1);
+    const otp = (() => {
+      const digits = "0123456789";
+      let OTP = "";
+      for (let i = 0; i < 6; i++) {
+        OTP += digits[Math.floor(Math.random() * 10)];
+      }
+      return OTP;
+    })();
+    const msg = "Your otp is: " + otp;
 
-  if(isMsgSent){
-      // generate salt to hash password
+    await fetch(
+      `https://outreach.pk/api/sendsms.php/sendsms/url?id=rchbookingring&pass=booking1122&mask=bookingring&to=${phoneNumber}&lang=English&msg=${msg}&type=json`
+    );
+
+    // generate salt to hash password
     const salt = await bcrypt.genSalt(16);
     // now we set user password to hashed password
     const hashedPassword = await bcrypt.hash(password, salt);
+
+    const nodemailer = require("nodemailer");
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "jacksparrow0340@gmail.com",
+        pass: "cin>>mygoogleid1234",
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL,
+      to: email,
+      subject: "Email Confirmation",
+      html: `<p><a href="https://fathomless-castle-70650.herokuapp.com/">click</a>here to verify your email account.</p>`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        throw 'Something went wrong sending mail.';
+      }
+    });
 
     req.session.userRegistration = {
       name: name,
       phoneNo: phoneNumber,
       email: email,
       password: hashedPassword,
-      otp: otp
+      otp: otp,
     };
-    res.render('./pages/User/otp', {
+    res.render("./pages/User/otp", {
       loggedIn: req.session.userLoggedIn,
       user: req.session.user,
-      num: phoneNumber
-    })
-  }else{
+      num: phoneNumber,
+    });
+  } catch (err) {
+    console.log(err);
     return res.status(422).render("../views/pages/User/signup", {
       loggedIn: req.session.userLoggedIn,
       user: req.session.user,
-      flashMessage: 'Oops! Something went wrong try again.',
+      flashMessage: "Oops! Something went wrong try again.",
       oldInput: {
         name: name,
         phoneNo: contact,
         email: email,
         password: password,
-        cnfmPassword: cnfmPassword
+        cnfmPassword: cnfmPassword,
       },
       validationErrors: errors.array(),
     });

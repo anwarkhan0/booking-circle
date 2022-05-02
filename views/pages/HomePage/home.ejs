@@ -15,11 +15,11 @@
 	</div>
 
 	<div class="slideshow">
-		<% sliderGallery.forEach( image =>{ %> 
+		<% sliderGallery.images.forEach( image =>{ %> 
 		<div class="slide slide--current parallax-top">
 			<figure class="slide__figure">
 				<div class="slide__figure-inner">
-					<div class="slide__figure-img" style="<%= 'background-image: url(uploads/' + image + ')' %>"></div>
+					<div class="slide__figure-img" style="<%= 'background-image: url(/uploads/' + image + ')' %>"></div>
 					<div class="slide__figure-reveal"></div>
 				</div>
 			</figure>
