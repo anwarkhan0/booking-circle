@@ -337,7 +337,7 @@ router.post(
 );
 
 router.get("/user/mailSent", (req, res, next) =>
-  res.render("./pages/User/emailSent", { layout: false })
+  res.render("./pages/User/emailSent", {loggedIn: req.session.userLoggedIn, user: req.session.user})
 );
 
 // Terms And Conditions
