@@ -46,26 +46,26 @@
                       required>
                   </div>
                   <div class="form-group col-md-10">
-                    <label>Blog Heading</label>
+                    <label>Heading</label>
                     <input type="text" value="<%= oldInput.heading %>" name="heading" placeholder="Example: Next Month 50% Off" class="form-control"
                       required>
                   </div>
 
                   <div class="form-group col-md-6">
-                    <label>Blog Author</label>
+                    <label>Author</label>
                     <input type="text" name="author" value="Admin" placeholder="Example: C.E.O Rumman"
                       class="form-control" required>
                   </div>
 
                   <div class="form-group  col-md-6">
-                    <label>Blog Image/Video</label>
-                    <input type="file" name="images" class="form-control" >
+                    <label>Thumbnail</label>
+                    <input type="file" name="images" class="form-control">
                   </div>
 
                   <div class="form-group col-md-12">
-                    <label>Blog Description</label>
-                    <textarea name="desc" cols="30" rows="5" class="form-control" required
-                      placeholder="Enter Update/Blog Description Here!"><%= oldInput.description %> </textarea>
+                    <label>Description</label>
+                    <textarea id="mytextarea" name="desc" cols="30" rows="5" class="form-control" required
+                      placeholder="Start Writing here."><%= oldInput.description %> </textarea>
                   </div>
                 </div>
 

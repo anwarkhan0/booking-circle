@@ -580,6 +580,42 @@
     <script src="/admin/plugins/dropzone/min/dropzone.min.js"></script>
     <!-- AdminLTE App -->
     <script src="/admin/dist/js/adminlte.min.js"></script>
+      <!-- Script element sourcing TinyMCE -->
+   <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>
+  <script>
+    tinymce.init({
+  selector: 'textarea',  // change this value according to your HTML
+  plugins: 'image',
+  menubar: 'false',
+  toolbar: 'h1 h2 h3 h4 h5 h6 bold italic alignleft aligncenter alignright alignjustify outdent indent image fullpage',
+  image_uploadtab: true,
+  image_list: [
+    {title: 'My image 1', value: 'https://www.example.com/my1.gif'},
+    {title: 'My image 2', value: 'http://www.moxiecode.com/my2.gif'}
+  ],
+  /* without images_upload_url set, Upload tab won't show up*/
+  images_upload_url: 'postAcceptor.php',
+
+  /* we override default upload handler to simulate successful upload*/
+  images_upload_handler: function (blobInfo, success, failure) {
+        setTimeout(function () {
+          /* no matter what you upload, we will turn it into TinyMCE logo :)*/
+          success('http://moxiecode.cachefly.net/tinymce/v9/images/logo.png');
+        }, 2000);
+      },
+  // setup: (editor) => {
+
+  // /* adding a group toolbar button */
+  // editor.ui.registry.addGroupToolbarButton('h1', {
+  //   icon: 'heading',
+  //   tooltip: 'Headings',
+  //   items: 'h1 h2 h3 h4 h5 h6'
+  // });
+
+  // },
+});
+
+  </script>
 
     <!-- Datatables -->
     <script src="/admin/plugins/datatables/jquery.dataTables.min.js"></script>

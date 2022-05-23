@@ -2564,7 +2564,7 @@ const addUser = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-const userList = (req, res, next) => {
+const userList = async (req, res, next) => {
   Users.find()
     .then((users) => {
       res.render("../Admin/views/pages/Users/usersList", {

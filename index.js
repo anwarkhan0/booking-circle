@@ -76,6 +76,7 @@ app.use((req, res, next)=>{
 });
 app.use(homeRoutes.routes);
 app.use('/admin/*', (req, res, next)=>{
+  app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
   app.set('layout', path.join(__dirname, './Admin/views/layout'));
   next();
 });
