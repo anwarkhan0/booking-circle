@@ -33,6 +33,16 @@ const fileStorage = multer.diskStorage({
   }
 });
 
+const blogImageStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, './files/uploads/blogImages/'));
+  },
+  filename: (req, file, cb) => {
+    let date = new Date().toISOString().replaceAll(":", "-");
+    cb(null, date + '-' + file.originalname);
+  }
+});
+
 const fileFilter = (req, file, cb) => {
   if (
     file.mimetype === 'image/png' ||
@@ -46,12 +56,21 @@ const fileFilter = (req, file, cb) => {
 };
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(
-  multer({ storage: fileStorage, fileFilter: fileFilter }).array('images', 12)
-);
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
 
+//file uploading
+app.use("/uploadBlogImage",multer({ storage: blogImageStorage, fileFilter: fileFilter }).single("image"), (req, res) => {
+  res.json({
+    location:
+      "/uploads/blogImages/" + req.file.filename,
+  });
+});
+app.use(
+  multer({ storage: fileStorage, fileFilter: fileFilter }).array('images', 12)
+);
+
+//cookie config
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(session({
   secret: process.env.COOKIE_SECRET,
