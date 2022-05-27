@@ -1987,23 +1987,54 @@ const deleteBlog = (req, res, next) => {
   res.render("../Admin/views/pages/Updates/deleteBlog");
 };
 
-const postAddUpdate = (req, res) => {
+const postAddUpdate = async (req, res) => {
   const blogNo = req.body.blogNo;
   const heading = req.body.heading;
   const author = req.body.author;
   const date = new Date();
   const desc = req.body.desc;
-
   const uploads = req.files;
-  const media = uploads[0].filename;
 
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
+  try {
+    const media = uploads[0].filename;
 
-    return res.status(422).render("../views/pages/Updates/addUpdates", {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).render("../views/pages/Updates/addUpdates", {
+        path: "/Updates/addUpdate",
+        pageTitle: "Updates",
+        flashMessage: errors.array()[0].msg,
+        oldInput: {
+          blogNo: blogNo,
+          heading: heading,
+          author: author,
+          date: date,
+          media: media,
+          description: desc,
+        },
+        validationErrors: errors.array(),
+      });
+    }
+
+    const update = new Updates({
+      blogNo: blogNo,
+      heading: heading,
+      author: author,
+      date: date,
+      media: media,
+      description: desc,
+    });
+
+    await update.save();
+    console.log("Added update");
+    req.flash("message", "News Update added successfully.");
+    res.redirect("/admin");
+  } catch (err) {
+    console.log(err);
+    res.render("../views/pages/Updates/addUpdates", {
       path: "/Updates/addUpdate",
       pageTitle: "Updates",
-      flashMessage: errors.array()[0].msg,
+      flashMessage: "Something went wrong, please try again.",
       oldInput: {
         blogNo: blogNo,
         heading: heading,
@@ -2015,41 +2046,6 @@ const postAddUpdate = (req, res) => {
       validationErrors: errors.array(),
     });
   }
-
-  const update = new Updates({
-    blogNo: blogNo,
-    heading: heading,
-    author: author,
-    date: date,
-    media: media,
-    description: desc,
-  });
-
-  update
-    .save()
-    .then((result) => {
-      // console.log(result);
-      console.log("Added update");
-      req.flash('message', 'News Update added successfully.')
-      res.redirect("/admin");
-    })
-    .catch((err) => {
-      console.log(err);
-      res.render("../views/pages/Updates/addUpdates", {
-        path: "/Updates/addUpdate",
-        pageTitle: "Updates",
-        flashMessage: 'Something went wrong, please try again.',
-        oldInput: {
-          blogNo: blogNo,
-          heading: heading,
-          author: author,
-          date: date,
-          media: media,
-          description: desc,
-        },
-        validationErrors: errors.array(),
-      });
-    });
 };
 
 const postEditUpdate = (req, res) => {

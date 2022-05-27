@@ -1478,13 +1478,18 @@ const news = (req, res, next) => {
 };
 
 const exploreNews = async (req, res, next) => {
+  // const unescape = require('unescape');
   const id = req.params.id;
   try {
     const post = await NewsModel.findById(id);
+    // const description = unescape(post.description);
     res.render("./pages/News/exploreNews", {
       loggedIn: req.session.userLoggedIn,
       user: req.session.user,
-      post: post,
+      title: post.heading,
+      author: post.author,
+      description: post.description,
+      thumbnail: post.media
     });
   } catch (err) {
     console.log(err);
@@ -1651,11 +1656,13 @@ const sendMail = async (req, res, next) => {
 
 const passwordReset = async (req, res, next) => {
   const id = req.query.u;
+  const ejs = require('ejs');
   try {
     res.render("./pages/User/passwordReset", {
       userId: id,
       loggedIn: req.session.userLoggedIn,
       user: req.session.user,
+      ejs: ejs
     });
   } catch (err) {
     console.log(err);

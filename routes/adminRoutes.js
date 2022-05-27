@@ -1115,8 +1115,6 @@ router.post(
       }
     })
     .isLength({min: 2})
-    .trim()
-    .escape(),
   ],
   isAuth,
   postAddUpdate
@@ -1156,8 +1154,7 @@ router.post("/admin/Updates/editUpdate",
     }
   })
   .isLength({min: 2})
-  .trim()
-  .escape(),
+  .trim(),
 ],
 isAuth, postEditUpdate);
 router.post("/admin/Updates/deleteUpdate", isAuth, postDeleteUpdate);

@@ -2,15 +2,15 @@
 
 <div class="section big-55-height over-hide z-bigger customClass">
 
-    <div class="parallax parallax-top" style="background-image: url('/img/blog/post.jpg')"></div>
+    <div class="parallax parallax-top" style="background-image: url(<%= '/uploads/' + thumbnail %>)"></div>
     <div class="dark-over-pages"></div>
 
     <div class="hero-center-section pages">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 parallax-fade-top">
-                    <div class="hero-text"><%= post.heading %></div>
-                    <div class="hero-small-text mt-2">news by <%= post.author %></div>
+                    <div class="hero-text"><%= title %></div>
+                    <div class="hero-small-text mt-2">news by <%= author %></div>
                 </div>
             </div>
         </div>
@@ -26,17 +26,16 @@
                     <div class="post-box background-white over-hide">
                         <div class="padding-in">
                             <blockquote class="blockquote">
-                                <p><%= post.heading %></p>
-                                <footer class="blockquote-footer"><%= post.author %></footer>
+                                <p><%= title %></p>
+                                <footer class="blockquote-footer"><%= author %></footer>
                             </blockquote>
                             <div class="separator-wrap pt-4 pb-4">
                                 <span class="separator"><span class="separator-line dashed"></span></span>
                             </div>
-                            <p class="mt-4"><%= post.description %></p>
-                            
-                            
+                            <div class="mt-4"> <%- description %>  </div>
                         </div>
-                        <img src="<%= '/uploads/' + post.media %>" alt="" style="padding: 10%;" class="blog-home-img" />
+                        
+                        <!-- <img src="" alt="" style="padding: 10%;" class="blog-home-img" /> -->
                     </div>
                 </div>
 
