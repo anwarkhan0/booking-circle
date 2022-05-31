@@ -78,9 +78,9 @@
                               <% } %>
                         </td>
                         <td>
-                          <a href="<%= '/admin/Appartments/addGallery/' + house.id %>" class="btn btn-info btn-sm">Add <i
-                              class="fa fa-picture-o"></i></a>
-                          <a href="<%= '/admin/Appartments/editGallery/' + house.id %>" class="btn btn-success btn-sm">Edit
+                          <a href="<%= '/admin/houses/edit/' + house.id %>" class="btn btn-success btn-sm">Edit
+                            <i class="fa fa-pencil"></i></a>
+                          <a href="<%= '/admin/houses/editGallery/' + house.id %>" class="btn btn-primary btn-sm">Gallery
                             <i class="fa fa-picture-o"></i></a>
                             <button class="btn btn-danger btn-sm" onClick="<%= `deleteHandler('/admin/Appartments/deleteAppartment', '${house.id}' )` %>"><i class="fa fa-trash"></i></button>
                         </td>

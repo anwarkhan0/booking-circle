@@ -61,7 +61,9 @@ const {
   postDeleteAppartmentGalleryImage,
   postDeleteAppartment,
   addHouse,
+  editHouse,
   postAddHouse,
+  postEditHouse,
 
   // Rooms
   addRoom,
@@ -407,7 +409,7 @@ router.post("/admin/Hotels/addHotelGallery", isAuth, postAddHotelGallery);
 router.post("/admin/Hotels/DeleteGalleryImage", postDeleteGalleryImage);
 router.post("/admin/Hotels/deleteHotel", isAuth, postDeleteHotel);
 
-// Appartments / Houses
+// Appartments 
 router.get("/admin/Appartments/addAppartment", isAuth, appartmentsHouses);
 router.get("/admin/Appartments/appartmentHouseList", isAuth, appartmentHouseList);
 router.get("/admin/Appartments/editAppartmentHouse/:id", isAuth, editAppartmentHouse);
@@ -672,7 +674,8 @@ router.post(
 router.post("/admin/Appartments/deleteAppartment", isAuth, postDeleteAppartment);
 
 // Houses
-router.get('/admin/Houses/addHouse', addHouse);
+router.get('/admin/Houses/addHouse',isAuth, addHouse);
+router.get('/admin/Houses/edit/:id', isAuth, editHouse);
 router.get("/admin/Houses/list", isAuth, housesList);
 router.post(
   "/admin/Houses/addHouse",
@@ -784,6 +787,110 @@ router.post(
   ],
   isAuth,
   postAddHouse
+);
+router.post(
+  "/admin/Houses/edit",
+  [
+    body("houseName", "Please enter valid Name.")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          throw new Error();
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 2, max: 200 })
+      .trim()
+      .escape(),
+    body("price", "Please enter valid price.").isNumeric().trim(),
+    body("contact", "Please enter valid Contact number.")
+      .isLength({ min: 10, max: 11 })
+      .isNumeric(),
+    body("parking", "Please enter valid parking value.").isBoolean(),
+    body("area", "Please enter valid location.")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          throw new Error();
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 2, max: 200 })
+      .escape(),
+    body("address", "Please enter valid address.")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          throw new Error();
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 2, max: 300 })
+      .trim()
+      .escape(),
+    body("videoUrl", "Please enter valid URL.")
+    .isURL(),
+    body("description", "Please enter valid description")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          throw new Error();
+        } else {
+          return true;
+        }
+      })
+      .trim()
+      .escape(),
+    body("features", "Please enter valid features")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          throw new Error();
+        } else {
+          return true;
+        }
+      })
+      .trim()
+      .escape(),
+    body("ownerName", "Please enter valid Owner Name.")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          throw new Error();
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 2, max: 200 })
+      .trim()
+      .escape(),
+    body("ownerCNIC", "Please enter valid 13-digit CNIC Number.")
+      .isLength({ min: 13, max: 13 })
+      .trim(),
+    body("ownerContact", "Please enter valid owner contact Number.")
+      .isLength({ min: 10, max: 11 })
+      .isNumeric()
+      .trim(),
+    body("loginEmail")
+      .isEmail()
+      .custom((value, { req }) => {
+        return Appartments.findOne({ loginEmail: value }).then((appartment) => {
+          if (appartment) {
+            return Promise.reject(
+              "Appartment associated with E-Mail exists already, please pick a different one."
+            );
+          }
+        });
+      })
+      .withMessage("Please enter a valid email.")
+      .normalizeEmail()
+      .toLowerCase()
+  ],
+  isAuth,
+  postEditHouse
 );
 
 // Rooms

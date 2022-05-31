@@ -1077,6 +1077,26 @@ const addHouse = (req, res, next) => {
     })
     .catch((err) => console.log(err));
 };
+
+const editHouse = async (req, res, next) => {
+
+  const id = req.params.id;
+  try {
+    const areas = await Areas.find();
+    const house = await Houses.findById(id);
+      res.render("../Admin/views/pages/Houses/edit", {
+        flashMessage: '',
+        areas: areas,
+        house: house
+      });
+  } catch (err) {
+    console.log(err);
+    req.flash('message', 'something went wrong.')
+    res.redirect('/admin');
+  }
+  
+};
+
 const housesList = (req, res, next) => {
   Houses.find()
     .then((houses) => {
@@ -1176,13 +1196,12 @@ const postAddHouse = async (req, res, next) => {
 
 const postEditHouse = async (req, res, next) => {
 
-  const appartId = req.body.appartId;
-  const name = req.body.appartName;
+  const houseId = req.body.houseId;
+  const name = req.body.houseName;
   const price = req.body.price;
   const contact = req.body.contact;
   const parking = req.body.parking;
   const area = req.body.area;
-  const appartType = req.body.appartType;
   const address = req.body.address;
   const ownerName = req.body.ownerName;
   const ownerCNIC = req.body.ownerCNIC;
@@ -1200,19 +1219,16 @@ const postEditHouse = async (req, res, next) => {
     const areas = await Areas.find();
     return res
       .status(422)
-      .render("../views/pages/Appartments/editAppartmentHouse", {
-        path: "/Appartments/addAppartment",
-        pageTitle: "Appartment",
+      .render("../Admin/views/pages/Houses/edit", {
         areas: areas,
         flashMessage: errors.array()[0].msg,
-        appart: {
-          id: appartId,
+        house: {
+          id: houseId,
           name: name,
           price: price,
           contact: contact,
           parking: parking,
           area: area,
-          appartmentType: appartType,
           address: address,
           ownerName: ownerName,
           ownerCNIC: ownerCNIC,
@@ -1241,29 +1257,30 @@ const postEditHouse = async (req, res, next) => {
   }
 
   try {
-    const appart = await Appartments.findById(appartId);
-    appart.name = name;
-    appart.price = price;
-    appart.contact = contact;
-    appart.parking = parking;
-    appart.area = area;
-    appart.appartmentType = appartType;
-    appart.address = address;
-    appart.ownerName = ownerName;
-    appart.ownerCNIC = ownerCNIC;
-    appart.ownerContact = ownerContact;
-    appart.loginEmail = loginEmail;
-    appart.loginPassword = hashedPassword;
-    appart.availibilityStatus = availibilityStatus;
-    appart.description = description;
-    appart.features = features;
-    appart.videoUrl = videoUrl;
-    await appart.save();
-    console.log("UPDATED appartment/house!");
-    req.flash("message", "Appartment Data Updated Successfully");
-    res.redirect("/admin/Appartments/appartmentHouseList");
+    const house = await Houses.findById(houseId);
+    house.name = name;
+    house.price = price;
+    house.contact = contact;
+    house.parking = parking;
+    house.area = area;
+    house.address = address;
+    house.ownerName = ownerName;
+    house.ownerCNIC = ownerCNIC;
+    house.ownerContact = ownerContact;
+    house.loginEmail = loginEmail;
+    house.loginPassword = hashedPassword;
+    house.availibilityStatus = availibilityStatus;
+    house.description = description;
+    house.features = features;
+    house.videoUrl = videoUrl;
+    await house.save();
+    console.log("UPDATED house!");
+    req.flash("message", "House Data Updated Successfully");
+    res.redirect("/admin/Houses/list");
   } catch (err) {
     console.log(err);
+    req.flash('message', 'Something went wrong.');
+    res.redirect('/admin')
   }
 };
 
@@ -3039,7 +3056,9 @@ module.exports = {
   postDeleteAppartmentGalleryImage,
   postDeleteAppartment,
   addHouse,
+  editHouse,
   postAddHouse,
+  postEditHouse,
 
   // Rooms
   addRoom,
