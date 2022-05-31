@@ -7,6 +7,7 @@ const Areas = require("../models/Location");
 const Tours = require("../models/Tour");
 const Hotels = require("../models/Hotel");
 const Appartments = require("../models/Appartment");
+const Houses = require("../models/House");
 const Vehicles = require("../models/Vehicles");
 const sliderGallery = require("../models/SliderGallery");
 const Users = require("../models/SystemUsers");
@@ -778,18 +779,6 @@ const appartmentList = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-const housesList = (req, res, next) => {
-  Appartments.find({ appartmentType: "house" })
-    .then((houses) => {
-      res.render("../Admin/views/pages/Appartments/housesList", {
-        houses: houses,
-        pageTitle: "Appartments List",
-        path: "/Appartments/appartment-list",
-      });
-    })
-    .catch((err) => console.log(err));
-};
-
 const appartmentBookingsList = (req, res, next) => {
   Appartments.find()
     .then((appartments) => {
@@ -861,39 +850,6 @@ const postAddAppartment = async (req, res, next) => {
   // now we set user password to hashed password
   const hashedPassword = await bcrypt.hash(loginPassword, salt);
 
-  // const approvedStatus = req.body.status;
-
-  // const areas = await Areas.find();
-  // areas.forEach((area, i) =>{
-  //   const appartment = new Appartments({
-  //     name: name + area.name,
-  //     contact: contact,
-  //     price: price,
-  //     contact: contact,
-  //     parking: parking,
-  //     area: area.name,
-  //     appartmentType: i%2 == 0 ? 'house' : 'appartment',
-  //     address: address,
-  //     ownerName: ownerName,
-  //     ownerCNIC: ownerCNIC,
-  //     ownerContact: ownerContact,
-  //     loginEmail: 'test' + i + '@test.com',
-  //     loginPassword: hashedPassword,
-  //     availibilityStatus: false,
-  //     description: description,
-  //     features: features,
-  //     videoUrl: videoUrl,
-  //   });
-  
-  //   try {
-  //     appartment.save();
-  //     // console.log(result);
-  //     console.log("appartment added");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // })
-  
   const appartment = new Appartments({
     name: name,
     contact: contact,
@@ -1068,6 +1024,299 @@ const postAddAppartmentGallery = async (req, res, next) => {
 };
 
 const postDeleteAppartmentGalleryImage = (req, res) => {
+  //recieve the gallery id and the image name
+  const image = req.body.image;
+  const appartId = req.body.id;
+
+  Appartments.findById(appartId)
+    .then((appartment) => {
+      gallery = appartment.gallery;
+      //removing the selected image from array
+      gallery.splice(gallery.indexOf(image), 1);
+      appartment.gallery = gallery;
+      return appartment.save();
+    })
+    .then((result) => {
+      if(delImg(image)){
+        console.log("UPDATED Gallery!");
+        res.redirect("/admin/Appartments/editGallery/" + appartId);
+      }else{
+        throw 'Something went wrong while deleting file.'
+      }
+      
+    })
+    .catch((err) => console.log(err));
+};
+//Houses
+const addHouse = (req, res, next) => {
+  Areas.find()
+    .then((areas) => {
+      res.render("../Admin/views/pages/Houses/addHouse", {
+        areas: areas,
+        pageTitle: "add House",
+        path: "/Houses/add-House",
+        oldInput: {
+          name: "",
+          price: "",
+          contact: "",
+          parking: "",
+          area: "",
+          appartmentType: "",
+          address: "",
+          ownerName: "",
+          ownerCNIC: "",
+          ownerContact: "",
+          loginEmail: "",
+          loginPassword: "",
+          description: "",
+          features: "",
+          videoUrl: "",
+        },
+        flashMessage: req.flash("message"),
+      });
+    })
+    .catch((err) => console.log(err));
+};
+const housesList = (req, res, next) => {
+  Houses.find()
+    .then((houses) => {
+      res.render("../Admin/views/pages/Houses/list", {
+        houses: houses
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.flash('message', 'something went wrong')
+      res.redirect('/admin')
+    })
+};
+// Post Houses
+const postAddHouse = async (req, res, next) => {
+  const name = req.body.HouseName;
+  const price = req.body.price;
+  const contact = req.body.contact;
+  const parking = req.body.parking;
+  const area = req.body.area;
+  const appartType = req.body.appartType;
+  const address = req.body.address;
+  const ownerName = req.body.ownerName;
+  const ownerCNIC = req.body.ownerCNIC;
+  const ownerContact = req.body.ownerContact;
+  const loginEmail = req.body.loginEmail;
+  const loginPassword = req.body.loginPassword;
+  const description = req.body.description;
+  const features = req.body.features;
+  const videoUrl = req.body.videoUrl;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const areas = await Areas.find();
+    return res.status(422).render("../views/pages/Appartments/addAppartment", {
+      path: "/Houses/addHouse",
+      pageTitle: "House",
+      areas: areas,
+      flashMessage: errors.array()[0].msg,
+      oldInput: {
+        name: name,
+        price: price,
+        contact: contact,
+        parking: parking,
+        area: area,
+        appartmentType: appartType,
+        address: address,
+        ownerName: ownerName,
+        ownerCNIC: ownerCNIC,
+        ownerContact: ownerContact,
+        loginEmail: loginEmail,
+        loginPassword: loginPassword,
+        description: description,
+        features: features,
+        videoUrl: videoUrl,
+      },
+      validationErrors: errors.array(),
+    });
+  }
+
+  // generate salt to hash password
+  const salt = await bcrypt.genSalt(16);
+  // now we set user password to hashed password
+  const hashedPassword = await bcrypt.hash(loginPassword, salt);
+  
+  const house = new Houses({
+    name: name,
+    contact: contact,
+    price: price,
+    contact: contact,
+    parking: parking,
+    area: area,
+    appartmentType: appartType,
+    address: address,
+    ownerName: ownerName,
+    ownerCNIC: ownerCNIC,
+    ownerContact: ownerContact,
+    loginEmail: loginEmail,
+    loginPassword: hashedPassword,
+    availibilityStatus: false,
+    description: description,
+    features: features,
+    videoUrl: videoUrl,
+  });
+
+  try {
+    await house.save();
+    // console.log(result);
+    console.log("House added");
+    req.flash("message", "House Added Successfully");
+    res.redirect("/admin/Appartments/appartmentHouseList");
+  } catch (err) {
+    console.log(err);
+    res.redirect('/admin')
+  }
+};
+
+const postEditHouse = async (req, res, next) => {
+
+  const appartId = req.body.appartId;
+  const name = req.body.appartName;
+  const price = req.body.price;
+  const contact = req.body.contact;
+  const parking = req.body.parking;
+  const area = req.body.area;
+  const appartType = req.body.appartType;
+  const address = req.body.address;
+  const ownerName = req.body.ownerName;
+  const ownerCNIC = req.body.ownerCNIC;
+  const ownerContact = req.body.ownerContact;
+  const loginEmail = req.body.loginEmail;
+  const loginPassword = req.body.loginPassword;
+  const oldLoginPassword = req.body.oldLoginPassword;
+  const availibilityStatus = req.body.status;
+  const description = req.body.description;
+  const features = req.body.features;
+  const videoUrl = req.body.videoUrl;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const areas = await Areas.find();
+    return res
+      .status(422)
+      .render("../views/pages/Appartments/editAppartmentHouse", {
+        path: "/Appartments/addAppartment",
+        pageTitle: "Appartment",
+        areas: areas,
+        flashMessage: errors.array()[0].msg,
+        appart: {
+          id: appartId,
+          name: name,
+          price: price,
+          contact: contact,
+          parking: parking,
+          area: area,
+          appartmentType: appartType,
+          address: address,
+          ownerName: ownerName,
+          ownerCNIC: ownerCNIC,
+          ownerContact: ownerContact,
+          loginEmail: loginEmail,
+          loginPassword: loginPassword,
+          description: description,
+          features: features,
+          videoUrl: videoUrl,
+        },
+        validationErrors: errors.array(),
+      });
+  }
+
+  let salt=null;
+  let hashedPassword=null;
+  if (loginPassword.length > 0) {
+
+    // generate salt to hash password
+    salt = await bcrypt.genSalt(16);
+    // now we set user password to hashed password
+    hashedPassword = await bcrypt.hash(loginPassword, salt);
+
+  } else {
+    hashedPassword = oldLoginPassword;
+  }
+
+  try {
+    const appart = await Appartments.findById(appartId);
+    appart.name = name;
+    appart.price = price;
+    appart.contact = contact;
+    appart.parking = parking;
+    appart.area = area;
+    appart.appartmentType = appartType;
+    appart.address = address;
+    appart.ownerName = ownerName;
+    appart.ownerCNIC = ownerCNIC;
+    appart.ownerContact = ownerContact;
+    appart.loginEmail = loginEmail;
+    appart.loginPassword = hashedPassword;
+    appart.availibilityStatus = availibilityStatus;
+    appart.description = description;
+    appart.features = features;
+    appart.videoUrl = videoUrl;
+    await appart.save();
+    console.log("UPDATED appartment/house!");
+    req.flash("message", "Appartment Data Updated Successfully");
+    res.redirect("/admin/Appartments/appartmentHouseList");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const postDeleteHouse = async (req, res) => {
+  const appartId = req.body.id;
+  try {
+    const appartment = await Appartments.findById(appartId);
+    const gallery = appartment.gallery;
+    if (delMultImages(gallery)) {
+      await Appartments.findByIdAndDelete(appartId);
+      res.sendStatus(200);
+      console.log("appartment deleted Successfully.");
+    }else{
+      throw 'Something went wrong while deleting file.'
+    }
+    
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(204);
+  }
+};
+
+const postAddHouseGallery = async (req, res, next) => {
+  const uploads = req.files;
+  const appartId = req.body.appartId;
+  const gallery = [];
+
+  for (let i = 0; i < uploads.length; i++) {
+    gallery.push(uploads[i].filename);
+  }
+
+  try {
+    const appartment = await Appartments.findById(appartId);
+    if (appartment.gallery.length === 0) {
+      appartment.gallery = gallery;
+      appartment.save();
+      console.log("added gallery to appartment");
+      req.flash("message", "Gallery added To Appartment Successfully");
+      res.redirect("/admin/Appartments/editGallery/" + appartId);
+    } else {
+      updatedGallery = appartment.gallery.concat(gallery);
+      appartment.gallery = updatedGallery;
+      appartment.save();
+      console.log("gallery updated");
+      req.flash("message", "Appartment Gallery Updated Successfully");
+      res.redirect("/admin/Appartments/editGallery/" + appartId);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const postDeleteHouseGalleryImage = (req, res) => {
   //recieve the gallery id and the image name
   const image = req.body.image;
   const appartId = req.body.id;
@@ -2789,6 +3038,8 @@ module.exports = {
   postAddAppartmentGallery,
   postDeleteAppartmentGalleryImage,
   postDeleteAppartment,
+  addHouse,
+  postAddHouse,
 
   // Rooms
   addRoom,

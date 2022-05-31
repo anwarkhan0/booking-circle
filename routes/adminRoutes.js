@@ -60,6 +60,8 @@ const {
   postAddAppartmentGallery,
   postDeleteAppartmentGalleryImage,
   postDeleteAppartment,
+  addHouse,
+  postAddHouse,
 
   // Rooms
   addRoom,
@@ -413,7 +415,6 @@ router.get("/admin/Appartments/addGallery/:id", isAuth, addGallery);
 router.get("/admin/Appartments/editGallery/:id", isAuth, editGalleryAppartments);
 router.get("/admin/Appartments/appartmentList", isAuth, appartmentList);
 router.get("/admin/Appartments/bookings", isAuth, appartmentBookingsList);
-router.get("/admin/Appartments/housesList", isAuth, housesList);
 router.get("/admin/Appartments/addGalleryHouses", isAuth, addGalleryHouses);
 router.get("/admin/Appartments/editGalleryHouses", isAuth, editGalleryHouses);
 // post requests routes for appartment
@@ -669,6 +670,121 @@ router.post(
   postDeleteAppartmentGalleryImage
 );
 router.post("/admin/Appartments/deleteAppartment", isAuth, postDeleteAppartment);
+
+// Houses
+router.get('/admin/Houses/addHouse', addHouse);
+router.get("/admin/Houses/list", isAuth, housesList);
+router.post(
+  "/admin/Houses/addHouse",
+  [
+    body("HouseName", "Please enter valid Name.")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          throw new Error();
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 2, max: 200 })
+      .trim()
+      .escape(),
+    body("price", "Please enter valid price.").isNumeric().trim(),
+    body("contact", "Please enter valid Contact number.")
+      .isLength({ min: 10, max: 11 })
+      .isNumeric(),
+    body("parking", "Please enter valid parking value.").isBoolean(),
+    body("area", "Please enter valid location.")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          throw new Error();
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 2, max: 200 })
+      .escape(),
+    body("address", "Please enter valid address.")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          throw new Error();
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 2, max: 300 })
+      .trim()
+      .escape(),
+    body("videoUrl", "Please enter valid URL.")
+    .isURL(),
+    body("description", "Please enter valid description")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          throw new Error();
+        } else {
+          return true;
+        }
+      })
+      .trim()
+      .escape(),
+    body("features", "Please enter valid features")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          throw new Error();
+        } else {
+          return true;
+        }
+      })
+      .trim()
+      .escape(),
+    body("ownerName", "Please enter valid Owner Name.")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          throw new Error();
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 2, max: 200 })
+      .trim()
+      .escape(),
+    body("ownerCNIC", "Please enter valid 13-digit CNIC Number.")
+      .isLength({ min: 13, max: 13 })
+      .trim(),
+    body("ownerContact", "Please enter valid owner contact Number.")
+      .isLength({ min: 10, max: 11 })
+      .isNumeric()
+      .trim(),
+    body("loginEmail")
+      .isEmail()
+      .custom((value, { req }) => {
+        return Appartments.findOne({ loginEmail: value }).then((appartment) => {
+          if (appartment) {
+            return Promise.reject(
+              "Appartment associated with E-Mail exists already, please pick a different one."
+            );
+          }
+        });
+      })
+      .withMessage("Please enter a valid email.")
+      .normalizeEmail()
+      .toLowerCase(),
+    body(
+      "loginPassword",
+      "Please enter a password with only numbers and text and at least 8 characters."
+    )
+    .isLength({ min: 8 })
+    .isAlphanumeric()
+    .trim(),
+  ],
+  isAuth,
+  postAddHouse
+);
 
 // Rooms
 router.get("/admin/Rooms/addRoom", isAuth, addRoom);

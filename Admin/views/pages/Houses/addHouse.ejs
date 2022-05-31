@@ -1,0 +1,167 @@
+<div id="spinner">
+    <div id="spinning-wheel" class="text-center ">
+      <div class="spinner-grow" style="width: 4rem; height: 4rem;" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </div>
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Houses</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item">Houses</li>
+              <li class="breadcrumb-item active">Add House</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+  
+    <!-- Main content -->
+    <section class="content">
+      <% if(flashMessage.length> 0){ %>
+        <div class="alert alert-danger m-3 mt-2" style="z-index: 10001;" role="alert" id="flashMessage">
+          <%= flashMessage %>
+        </div>
+        <% } %>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-success">
+              <div class="card-header">
+                <h3 class="card-title">House</h3>
+              </div>
+              <div class="card-body">
+                <form action="/admin/Houses/addHouse" method="POST">
+                  <h5><b>Details</b></h5>
+                  <hr>
+                  <div class="row">
+                    <div class="form-group col-md-3">
+                      <label>Name</label>
+                      <input type="text" name="HouseName" value="<%= oldInput.name %>" placeholder="Example: john House" class="form-control"
+                        required>
+                    </div>
+  
+                    <div class="form-group col-md-3">
+                      <label>Rent</label>
+                      <input type="number" value="<%= oldInput.price %>" name="price" placeholder="Example: 5000" class="form-control" required>
+                    </div>
+  
+                    <div class="form-group col-md-3">
+                      <label>Contact</label>
+                      <input type="number" value="<%= oldInput.contact %>" name="contact" placeholder="Example: 0946712215" class="form-control" required>
+                    </div>
+  
+                    <div class="form-group col-md-3">
+                      <label>Parking</label>
+                      <select class="form-control" name="parking">
+                        <option value="true" <%= oldInput.parking ? 'selected' : '' %> >Yes</option>
+                        <option value="false" <%= !oldInput.parking ? 'selected' : '' %> >No</option>
+                      </select>
+                    </div>
+  
+                    <div class="form-group col-md-3">
+                      <label>Area</label>
+                      <select class="form-control select2" style="width: 100%;" name="area">
+                        <% for(let i=0; i< areas.length; i++) { %>
+                          <option value="<%= areas[i].name %>" <%= areas[i].name === oldInput.area ? 'selected' : '' %> >
+                            <%= areas[i].name %>
+                          </option>
+                          <% } %>
+                      </select>
+                    </div>
+  
+                    <div class="form-group col-md-6">
+                      <label>Address</label>
+                      <input type="text" value="<%= oldInput.address %>" name="address" placeholder="Example: Near Shell Petrol Station, Madyan Bazar"
+                        class="form-control" required>
+                    </div>
+  
+                    <!-- New Data -->
+                    <div class="form-group col-md-6">
+                      <label>Description</label>
+                      <textarea name="description" id="" rows="5" class="form-control"
+                        placeholder="Apartment/House Description . . ." required><%= oldInput.description %></textarea>
+                    </div>
+  
+                    <div class="form-group col-md-6">
+                      <label>Features</label>
+                      <textarea name="features" id="" rows="5" class="form-control" placeholder="Apartment/House Features . . ."
+                        required><%= oldInput.features %></textarea>
+                    </div>
+  
+                    <div class="form-group col-md-6">
+                      <label>Video Link</label>
+                      <input type="url" value="<%= oldInput.videoUrl %>" name="videoUrl" placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0"
+                        class="form-control" required>
+                    </div>
+                    <!-- /New Data -->
+  
+                    <!-- <div class="form-group col-md-6">
+                      <label>Appartment | House Classification</label>
+                      <select class="form-control" style="width: 100%;" name="">
+                        <option value="">Luxury</option>
+                        <option value="">Economic</option>
+                      </select>
+                    </div> -->
+                  </div>
+  
+                  <hr>
+  
+                  <h5><b>Owner Info &amp; Login Details</b></h5>
+                  <hr>
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label>Name</label>
+                      <input type="text" value="<%= oldInput.ownerName %>" name="ownerName" placeholder="Example: Asif Khan" class="form-control" required>
+                    </div>
+  
+                    <div class="form-group col-md-3">
+                      <label>CNIC #</label>
+                      <input type="number" value="<%= oldInput.ownerCNIC %>" name="ownerCNIC" placeholder="Example: xxxxx-xxxxxxx-x" class="form-control"
+                        required>
+                    </div>
+  
+                    <div class="form-group col-md-3">
+                      <label>Contact</label>
+                      <input type="number" value="<%= oldInput.ownerContact %>" name="ownerContact" placeholder="Example: 03xxxxxxxxx" class="form-control"
+                        required>
+                    </div>
+  
+  
+                    <div class="form-group col-md-6">
+                      <label>Login Email</label>
+                      <input type="email" value="<%= oldInput.loginEmail %>" name="loginEmail" placeholder="Example: example@gmail.com" class="form-control"
+                        required>
+                    </div>
+  
+                    <div class="form-group col-md-6">
+                      <label>Password</label>
+                      <input type="password" value="<%= oldInput.loginPassword %>" name="loginPassword" placeholder="Example: example@gmail.com"
+                        class="form-control" required>
+                    </div>
+                  </div>
+  
+  
+                  <hr>
+                  <div class="form-group">
+                    <a class="btn btn-secondary btn-sm" name="cancel" type="submit" onclick="history.back(-1)">Cancel</a>
+                    <button class="btn btn-success btn-sm" type="submit" name="">Add Appartment | House</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
