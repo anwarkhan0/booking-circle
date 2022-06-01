@@ -15,6 +15,7 @@ const Updates = require("../models/Updates");
 const vehicleCategory = require("../models/vehicleCategory");
 const Feedbacks = require('../models/Feedback');
 const UsersModel = require('../models/usersModel');
+const House = require("../models/House");
 
 // Login
 const login = (req, res, next) => {
@@ -705,19 +706,6 @@ const appartmentsHouses = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-const appartmentHouseList = (req, res, next) => {
-  Appartments.find()
-    .then((appartments) => {
-      res.render("../Admin/views/pages/Appartments/appartmentHouseList", {
-        appartments: appartments,
-        pageTitle: "Appartments List",
-        path: "/Appartments/appartment-list",
-        flashMessage: req.flash("message"),
-      });
-    })
-    .catch((err) => console.log(err));
-};
-
 const editAppartmentHouse = async (req, res, next) => {
   const appartId = req.params.id;
 
@@ -768,7 +756,7 @@ const editGalleryAppartments = (req, res, next) => {
 };
 
 const appartmentList = (req, res, next) => {
-  Appartments.find({ appartmentType: "appartment" })
+  Appartments.find()
     .then((appartments) => {
       res.render("../Admin/views/pages/Appartments/appartmentList", {
         aparts: appartments,
@@ -907,9 +895,7 @@ const postEditAppartment = async (req, res, next) => {
     const areas = await Areas.find();
     return res
       .status(422)
-      .render("../views/pages/Appartments/editAppartmentHouse", {
-        path: "/Appartments/addAppartment",
-        pageTitle: "Appartment",
+      .render("../Admin/views/pages/Appartments/editAppartmentHouse", {
         areas: areas,
         flashMessage: errors.array()[0].msg,
         appart: {
@@ -968,7 +954,7 @@ const postEditAppartment = async (req, res, next) => {
     await appart.save();
     console.log("UPDATED appartment/house!");
     req.flash("message", "Appartment Data Updated Successfully");
-    res.redirect("/admin/Appartments/appartmentHouseList");
+    res.redirect("/admin/Appartments/appartmentList");
   } catch (err) {
     console.log(err);
   }
@@ -1109,6 +1095,28 @@ const housesList = (req, res, next) => {
       res.flash('message', 'something went wrong')
       res.redirect('/admin')
     })
+};
+
+const addHouseGallery = (req, res, next)=>{
+  const id = req.params.id;
+  res.render("../Admin/views/pages/Houses/addGallery", { houseId: id});
+}
+
+const housesGallery = (req, res, next) => {
+  const houseId = req.params.id;
+  Houses.findById(houseId)
+    .then((appartment) => {
+      if (!appartment) {
+        res.redirect("/Appartments/addGallery/" + houseId);
+      } else {
+        res.render("../Admin/views/pages/Houses/gallery", {
+          gallery: appartment.gallery,
+          houseId: appartment.id,
+          flashMessage: req.flash("message"),
+        });
+      }
+    })
+    .catch((err) => console.log(err));
 };
 // Post Houses
 const postAddHouse = async (req, res, next) => {
@@ -1287,10 +1295,10 @@ const postEditHouse = async (req, res, next) => {
 const postDeleteHouse = async (req, res) => {
   const appartId = req.body.id;
   try {
-    const appartment = await Appartments.findById(appartId);
+    const appartment = await Houses.findById(appartId);
     const gallery = appartment.gallery;
     if (delMultImages(gallery)) {
-      await Appartments.findByIdAndDelete(appartId);
+      await Houses.findByIdAndDelete(appartId);
       res.sendStatus(200);
       console.log("appartment deleted Successfully.");
     }else{
@@ -1305,7 +1313,7 @@ const postDeleteHouse = async (req, res) => {
 
 const postAddHouseGallery = async (req, res, next) => {
   const uploads = req.files;
-  const appartId = req.body.appartId;
+  const appartId = req.body.houseId;
   const gallery = [];
 
   for (let i = 0; i < uploads.length; i++) {
@@ -1313,23 +1321,25 @@ const postAddHouseGallery = async (req, res, next) => {
   }
 
   try {
-    const appartment = await Appartments.findById(appartId);
+    const appartment = await Houses.findById(appartId);
     if (appartment.gallery.length === 0) {
       appartment.gallery = gallery;
       appartment.save();
-      console.log("added gallery to appartment");
-      req.flash("message", "Gallery added To Appartment Successfully");
-      res.redirect("/admin/Appartments/editGallery/" + appartId);
+      console.log("added gallery to House");
+      req.flash("message", "Gallery added To House Successfully");
+      res.redirect("/admin/Houses/Gallery/" + appartId);
     } else {
       updatedGallery = appartment.gallery.concat(gallery);
       appartment.gallery = updatedGallery;
       appartment.save();
       console.log("gallery updated");
-      req.flash("message", "Appartment Gallery Updated Successfully");
-      res.redirect("/admin/Appartments/editGallery/" + appartId);
+      req.flash("message", "House Gallery Updated Successfully");
+      res.redirect("/admin/Houses/Gallery/" + appartId);
     }
   } catch (err) {
     console.log(err);
+    req.flash('message', 'Something went wrong.');
+    res.redirect('/admin');
   }
 };
 
@@ -1338,7 +1348,7 @@ const postDeleteHouseGalleryImage = (req, res) => {
   const image = req.body.image;
   const appartId = req.body.id;
 
-  Appartments.findById(appartId)
+  Houses.findById(appartId)
     .then((appartment) => {
       gallery = appartment.gallery;
       //removing the selected image from array
@@ -1349,13 +1359,17 @@ const postDeleteHouseGalleryImage = (req, res) => {
     .then((result) => {
       if(delImg(image)){
         console.log("UPDATED Gallery!");
-        res.redirect("/admin/Appartments/editGallery/" + appartId);
+        res.redirect("/admin/Houses/Gallery/" + appartId);
       }else{
         throw 'Something went wrong while deleting file.'
       }
       
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      req.flash('message', err);
+      res.redirect('/admin')
+    });
 };
 
 // Rooms
@@ -3041,7 +3055,6 @@ module.exports = {
 
   // Appartments / Houses
   appartmentsHouses,
-  appartmentHouseList,
   editAppartmentHouse,
   appartmentList,
   editGalleryAppartments,
@@ -3057,8 +3070,13 @@ module.exports = {
   postDeleteAppartment,
   addHouse,
   editHouse,
+  housesGallery,
+  addHouseGallery,
   postAddHouse,
   postEditHouse,
+  postAddHouseGallery,
+  postDeleteHouse,
+  postDeleteHouseGalleryImage,
 
   // Rooms
   addRoom,

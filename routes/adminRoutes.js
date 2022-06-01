@@ -46,7 +46,6 @@ const {
 
   // Appartments / Houses
   appartmentsHouses,
-  appartmentHouseList,
   editAppartmentHouse,
   appartmentList,
   editGalleryAppartments,
@@ -62,8 +61,13 @@ const {
   postDeleteAppartment,
   addHouse,
   editHouse,
+  addHouseGallery,
+  housesGallery,
   postAddHouse,
   postEditHouse,
+  postAddHouseGallery,
+  postDeleteHouse,
+  postDeleteHouseGalleryImage,
 
   // Rooms
   addRoom,
@@ -411,7 +415,6 @@ router.post("/admin/Hotels/deleteHotel", isAuth, postDeleteHotel);
 
 // Appartments 
 router.get("/admin/Appartments/addAppartment", isAuth, appartmentsHouses);
-router.get("/admin/Appartments/appartmentHouseList", isAuth, appartmentHouseList);
 router.get("/admin/Appartments/editAppartmentHouse/:id", isAuth, editAppartmentHouse);
 router.get("/admin/Appartments/addGallery/:id", isAuth, addGallery);
 router.get("/admin/Appartments/editGallery/:id", isAuth, editGalleryAppartments);
@@ -575,18 +578,6 @@ router.post(
       })
       .isLength({ min: 2, max: 200 })
       .escape(),
-    body("appartType", "Please enter valid appartment type.")
-      .notEmpty()
-      .custom((val) => {
-        if (val.trim().length === 0) {
-          throw new Error();
-        } else {
-          return true;
-        }
-      })
-      .isLength({ min: 3, max: 50 })
-      .trim()
-      .escape(),
     body("address", "Please enter valid address.")
       .notEmpty()
       .custom((val) => {
@@ -646,21 +637,7 @@ router.post(
       .isEmail()
       .withMessage("Please enter a valid email.")
       .normalizeEmail()
-      .toLowerCase(),
-    body(
-      "loginPassword",
-      "Please enter a password with only numbers and text and at least 8 characters."
-    )
-    .custom(val =>{
-      if(val.length> 0){
-        return body("loginPassword")
-          .isLength({ min: 8 })
-          .isAlphanumeric()
-          .trim();
-      }else{
-        return true;
-      }
-    }),
+      .toLowerCase()
   ],
   isAuth,
   postEditAppartment
@@ -674,9 +651,11 @@ router.post(
 router.post("/admin/Appartments/deleteAppartment", isAuth, postDeleteAppartment);
 
 // Houses
-router.get('/admin/Houses/addHouse',isAuth, addHouse);
-router.get('/admin/Houses/edit/:id', isAuth, editHouse);
+router.get("/admin/Houses/addHouse",isAuth, addHouse);
+router.get("/admin/Houses/edit/:id", isAuth, editHouse);
+router.get("/admin/Houses/addGallery/:id", isAuth, addHouseGallery);
 router.get("/admin/Houses/list", isAuth, housesList);
+router.get("/admin/houses/gallery/:id", isAuth, housesGallery);
 router.post(
   "/admin/Houses/addHouse",
   [
@@ -892,6 +871,9 @@ router.post(
   isAuth,
   postEditHouse
 );
+router.post("/admin/Houses/addGallery", isAuth, postAddHouseGallery);
+router.post("/admin/houses/deleteHouse", isAuth, postDeleteHouse);
+router.post("/admin/houses/DeleteGalleryImage", isAuth, postDeleteHouseGalleryImage);
 
 // Rooms
 router.get("/admin/Rooms/addRoom", isAuth, addRoom);

@@ -11,12 +11,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Appartments | Houses</h1>
+          <h1>Appartments</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item">Appartments</li>
-            <li class="breadcrumb-item active">Edit Appartment | House</li>
+            <li class="breadcrumb-item active">Edit Appartment</li>
           </ol>
         </div>
       </div>
@@ -35,15 +35,15 @@
         <div class="col-md-12">
           <div class="card card-success">
             <div class="card-header">
-              <h3 class="card-title">Edit Appartment | House</h3>
+              <h3 class="card-title">Edit Appartment</h3>
             </div>
             <div class="card-body">
               <form action="/admin/Appartments/editAppartmentHouse" method="POST">
-                <h5><b>Appartment | House Details</b></h5>
+                <h5><b>Appartment</b></h5>
                 <hr>
                 <div class="row">
                   <div class="form-group col-md-3">
-                    <label>Appartment | House Name</label>
+                    <label>Name</label>
                     <input type="text" value="<%= appart.name %>" name="appartName"
                       placeholder="Example: Appartment No. 3" class="form-control" required>
                   </div>
@@ -55,13 +55,13 @@
                   </div>
 
                   <div class="form-group col-md-3">
-                    <label>Appartment | House Contact</label>
+                    <label>Contact</label>
                     <input type="number" name="contact" value="<%= appart.contact %>"
                       placeholder="Example: 0946712215" class="form-control" required>
                   </div>
 
                   <div class="form-group col-md-3">
-                    <label>Appartment | House Parking</label>
+                    <label>Parking</label>
                     <select class="form-control" name="parking">
                       <option value="true" <%=appart.parking ? 'selected' : '' %>>Yes</option>
                       <option value="false" <%=!appart.parking ? 'selected' : '' %>>No</option>
@@ -69,7 +69,7 @@
                   </div>
 
                   <div class="form-group col-md-3">
-                    <label>Appartment | House Area</label>
+                    <label>Location</label>
                     <select class="form-control" style="width: 100%;" name="area">
                       <% for(let i=0; i< areas.length; i++) { %>
                         <option value="<%= areas[i].name %>" <% appart.area===areas[i].name ? 'selected'
@@ -79,18 +79,9 @@
                     </select>
                   </div>
 
-                  <div class="form-group col-md-3">
-                    <label>Select Option</label>
-                    <select class="form-control" style="width: 100%;" name="appartType">
-                      <option value="<%= appart.appartmentType %>" <% appart.appartmentType==='appartment'
-                        ? 'selected' : '' %>>Appartment</option>
-                      <option value="<%= appart.appartmentType %>" <% appart.appartmentType==='appartment'
-                        ? 'selected' : '' %>>Hosue</option>
-                    </select>
-                  </div>
 
                   <div class="form-group col-md-6">
-                    <label>Appartment | House Address</label>
+                    <label>Address</label>
                     <input type="text" name="address" value="<%= appart.address %>"
                       placeholder="Example: Near Shell Ptrol Station, Madyan Bazar" class="form-control" required>
                   </div>
@@ -107,19 +98,19 @@
                   <div class="form-group col-md-3"></div>
                   <!-- New Data -->
                   <div class="form-group col-md-6">
-                    <label>Appartment | House Description</label>
+                    <label>Description</label>
                     <textarea name="description" id="" rows="5" class="form-control"
                       placeholder="Apartment/House Description . . ." required><%= appart.description %></textarea>
                   </div>
 
                   <div class="form-group col-md-6">
-                    <label>Appartment | House Features</label>
+                    <label>Features</label>
                     <textarea name="features" id="" rows="5" class="form-control" placeholder="Apartment/House Features . . ."
                       required><%= appart.features %></textarea>
                   </div>
 
                   <div class="form-group col-md-6">
-                    <label>Appartment | House Video</label>
+                    <label>Video Link</label>
                     <input type="url" value="<%= appart.videoUrl %>" name="videoUrl" placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0"
                       class="form-control" required>
                   </div>
@@ -140,19 +131,19 @@
                 <hr>
                 <div class="row">
                   <div class="form-group col-md-6">
-                    <label>Owner Name</label>
+                    <label>Name</label>
                     <input type="text" name="ownerName" value="<%= appart.ownerName %>"
                       placeholder="Example: Asif Khan" class="form-control" required>
                   </div>
 
                   <div class="form-group col-md-3">
-                    <label>Owner CNIC #</label>
+                    <label>CNIC #</label>
                     <input type="number" name="ownerCNIC" value="<%= appart.ownerCNIC %>"
                       placeholder="Example: xxxxx-xxxxxxx-x" class="form-control" required>
                   </div>
 
                   <div class="form-group col-md-3">
-                    <label>Owner Contact</label>
+                    <label>Contact</label>
                     <input type="number" name="ownerContact" value="<%= appart.ownerContact %>"
                       placeholder="Example: 03xxxxxxxxx" class="form-control" required>
                   </div>
