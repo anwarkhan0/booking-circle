@@ -2845,6 +2845,7 @@ const userList = async (req, res, next) => {
     .then((users) => {
       res.render("../Admin/views/pages/Users/usersList", {
         users: users,
+        activeUser: req.session,
         pageTitle: "Users List",
         path: "/Users/users-list",
       });

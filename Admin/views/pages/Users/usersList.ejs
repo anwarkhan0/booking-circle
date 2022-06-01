@@ -40,21 +40,27 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <% for(let i= 0; i< users.length; i++) { %> 
-                        <tr id="<%= users[i].id %>">
-                            <td><%= i + 1 %> .</td>
-                            <td><%= users[i].name %> </td>
-                            <td><%= users[i].contact %> </td>
-                            <td><%= users[i].CNIC %> </td>
-                            <td><%= users[i].gender %> </td>
-                            <td><%= users[i].location %> </td>
-                            <td><span class="badge badge-secondary">Inactive</span></td>
+                        <% users.forEach((user, i) => { %> 
+                        <tr id="<%= user.id %>">
+                            <td><%= i + 1 %> </td>
+                            <td><%= user.name %> </td>
+                            <td><%= user.contact %> </td>
+                            <td><%= user.CNIC %> </td>
+                            <td><%= user.gender %> </td>
+                            <td><%= user.location %> </td>
                             <td>
-                                <a href="<%= '/admin/Users/editUser/' + users[i].id %>" class="btn btn-success btn-sm">Edit &nbsp;<i class="fa fa-pencil"></i></a>
-                                <button class="btn btn-danger btn-sm" onClick="<%= `deleteHandler('/admin/Users/deleteUser', ${users[i].id.toString()}` %>"><i class="fa fa-trash"></i></button>
+                              <% if (activeUser.admin._id == user.id) { %>
+                                <span class="badge badge-success">active</span>
+                                <% }else {%> 
+                                  <span class="badge badge-secondary">Inactive</span>
+                                  <% } %> 
+                            </td>
+                            <td>
+                                <a href="<%= '/admin/Users/editUser/' + user.id %>" class="btn btn-success btn-sm">Edit &nbsp;<i class="fa fa-pencil"></i></a>
+                                <button class="btn btn-danger btn-sm" onClick="<%= `deleteHandler('/admin/Users/deleteUser', ${user.id.toString()}` %>"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>
-                        <% } %> 
+                        <% }) %> 
                       </tbody>
                       <tfoot>
                         <tr>

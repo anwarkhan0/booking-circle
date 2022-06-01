@@ -101,7 +101,6 @@ app.use('/admin/*', (req, res, next)=>{
 });
 app.use(adminRoutes.routes);
 
-
 const port = process.env.PORT || 4000;
 
 //Cloud Database
