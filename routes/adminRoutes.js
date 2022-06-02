@@ -138,6 +138,10 @@ const {
   feedback,
   viewFeedbackQuery,
 
+  //Messages
+  msgList,
+  viewMessage,
+
   // Users
   addUser,
   userList,
@@ -1440,6 +1444,24 @@ router.post("/admin/SliderGallery/deleteImage", isAuth, postDeleteSliderGalleryI
 // Feedback
 router.get("/admin/Feedback/customerFeedback", isAuth, feedback);
 router.get("/admin/Feedback/viewFeedbackQuery/:id", isAuth, viewFeedbackQuery);
+router.post("/admin/Feedback/publish", async (req, res) => {
+  const Feedbacks = require('../models/Feedback')
+  
+  const feedback = await Feedbacks.findById(req.body.feedbackId);
+  if(req.body.publish == 'on'){
+    feedback.publish = true;
+  }else{
+    feedback.publish = false;
+  }
+  feedback.save();
+  res.render("../Admin/views/pages/Feedback/viewFeedbackQuery",{
+    feedback: feedback
+  });
+})
+
+//Messages
+router.get("/admin/Messages", isAuth, msgList);
+router.get("/admin/Messages/viewMessage/:id", isAuth, viewMessage);
 
 // Users
 router.get("/admin/Users/addUser", isAuth, addUser);

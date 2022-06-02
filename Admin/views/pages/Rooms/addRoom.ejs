@@ -13,7 +13,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Rooms23432</h1>
+          <h1>Rooms</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -41,7 +41,7 @@
             </div>
             <div class="card-body">
               <form action="/admin/Rooms/addRoom" method="POST">
-                <h5><b>Hotel Details</b></h5>
+                <h5><b>Details</b></h5>
                 <hr>
                 <div class="row">
                   <div class="form-group col-md-6 offset-md-3">
@@ -57,9 +57,7 @@
                   </div>
                 </div>
 
-                <hr>
-                <h5><b>Room Details</b></h5>
-                <hr>
+                
                 <div class="row">
                   <div class="form-group col-md-4">
                     <label>Select Beds</label>
@@ -97,7 +95,7 @@
                   </div>
 
                   <div class="form-group col-md-4">
-                    <label>Room Status</label>
+                    <label>Status</label>
                     <select class="form-control" name="status">
                       <option value="true" <%= oldInput.status ? 'selected' : '' %>>Available</option>
                       <option value="false" <%= oldInput.status ? '' : 'selected' %>>Not Available</option>
@@ -110,7 +108,7 @@
                   </div>
 
                   <div class="form-group col-md-4">
-                    <label>Room Charges</label>
+                    <label>Charges</label>
                     <input type="number" value="<%= oldInput.charges %>" name="charges" placeholder="i.e: 5000" class="form-control" required>
                   </div>
 
@@ -120,18 +118,18 @@
                   </div>
 
                   <div class="form-group col-md-4">
-                    <label>Room Size</label>
+                    <label>Size</label>
                     <input type="text" value="<%= oldInput.size %>" name="size" placeholder="i.e: 47-52 sqft" class="form-control" required>
                   </div>
 
                   <div class="form-group col-md-4">
-                    <label>Room Occupency</label>
+                    <label>Occupency</label>
                     <input type="text" value="<%= oldInput.occupency %>" name="occupency" placeholder="i.e: Upto 4 childrens" class="form-control"
                       required>
                   </div>
 
                   <div class="form-group col-md-4">
-                    <label>Room Bed Size</label>
+                    <label>Bed Size</label>
                     <select class="form-control select2" style="width: 100%;" name="bedSize">
                       <option value="king" <%= oldInput.bedSize==='king' ? 'selected' : '' %> >King Bed Only</option>
                       <option value="regular" <%= oldInput.bedSize==='regular' ? 'selected' : '' %> >Regular Beds Only</option>
@@ -141,19 +139,19 @@
 
                   <!-- New Data -->
                   <div class="form-group col-md-4">
-                    <label>Room Video</label>
+                    <label>Video Link</label>
                     <input type="url" value="<%= oldInput.videoUrl %>" name="videoUrl" placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0"
                       class="form-control" required>
                   </div>
 
                   <div class="form-group col-md-6">
-                    <label>Room Description</label>
+                    <label>Description</label>
                     <textarea name="description" id="" rows="5" class="form-control" placeholder="Room Description . . ."
                       required><%= oldInput.description %></textarea>
                   </div>
 
                   <div class="form-group col-md-6">
-                    <label>Room Features</label>
+                    <label>Features</label>
                     <textarea name="features" id="" rows="5" class="form-control" placeholder="Room Features . . ."
                       required><%= oldInput.features %> </textarea>
                   </div>

@@ -11,6 +11,10 @@ const FeedbacksSchema = new Schema({
         type: String,
         required: true
     },
+    publish: {
+        type: Boolean,
+        required: true
+    },
     message: {
         type: String,
         required: true

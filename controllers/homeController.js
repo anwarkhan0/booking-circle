@@ -15,9 +15,7 @@ const MessageModel = require("../models/Message");
 const sliderGallery = require("../models/SliderGallery");
 const subscribeModel = require("../models/subscribeModel");
 const queryModel = require("../models/Query");
-const { json, query } = require("express");
-const Hotel = require("../models/Hotel");
-const checkout = require("safepay/dist/resources/checkout");
+const Feedbacks = require("../models/Feedback");
 
 // HomePage
 const home = async (req, res, next) => {
@@ -72,6 +70,8 @@ const home = async (req, res, next) => {
   const ourToursIn = getRandomData(toursRandom, tours);
   const ourVehiclesIn = getRandomData(vehiclesRandom, vehicles);
 
+  const feedbacks = await Feedbacks.find({publish: true});
+
   res.render("./pages/HomePage/home", {
     loggedIn: req.session.userLoggedIn,
     user: req.session.user,
@@ -81,6 +81,7 @@ const home = async (req, res, next) => {
     appartments: ourtAppartmentsIn,
     tours: ourToursIn,
     vehicles: ourVehiclesIn,
+    feedbacks: feedbacks
   });
 };
 

@@ -14,6 +14,7 @@ const Users = require("../models/SystemUsers");
 const Updates = require("../models/Updates");
 const vehicleCategory = require("../models/vehicleCategory");
 const Feedbacks = require('../models/Feedback');
+const Messages = require('../models/Message');
 const UsersModel = require('../models/usersModel');
 const House = require("../models/House");
 
@@ -449,32 +450,6 @@ const postAddHotel = async (req, res, next) => {
   // now we set user password to hashed password
   const hashedPassword = await bcrypt.hash(loginPassword, salt);
 
-  // let areas = await Areas.find();
-  // areas.forEach((area , i) =>{
-  //   const hotel = new Hotels({
-  //     name: name + ' ' + area.name,
-  //     contact: contact,
-  //     parking: parking,
-  //     area: area.name,
-  //     roomService: roomService,
-  //     address: address,
-  //     ownerName: ownerName,
-  //     ownerCNIC: ownerCNIC,
-  //     ownerContact: ownerContact,
-  //     loginEmail: 'test' + i + '@test.com',
-  //     loginPassword: hashedPassword,
-  //     approvedStatus: false,
-  //   });
-  
-  //   try {
-  //     hotel.save();
-  //     // console.log(result);
-  //     console.log("Added Hotel");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // })
-
   const hotel = new Hotels({
     name: name,
     contact: contact,
@@ -495,7 +470,7 @@ const postAddHotel = async (req, res, next) => {
     // console.log(result);
     console.log("Added Hotel");
     req.flash("message", "Hotel Data Added Successfully.");
-    res.redirect("/admin/Hotels/hotelsList");
+    res.redirect("/admin/Hotels/addHotelGallery");
   } catch (err) {
     console.log(err);
     const areas = await Areas.find();
@@ -2817,6 +2792,23 @@ const viewFeedbackQuery = async (req, res, next) => {
   });
 };
 
+//Messages
+const msgList = async (req, res)=>{
+  const msgs = await Messages.find();
+  res.render("../Admin/views/pages/Messages/messagesList",{
+    messages: msgs
+  });
+}
+
+const viewMessage = async (req, res, next) => {
+  const id = req.params.id;
+  const message = await Messages.findById(id);
+  res.render("../Admin/views/pages/Messages/viewMessage",{
+    message: message
+  });
+};
+
+
 // Users
 const addUser = (req, res, next) => {
   Areas.find()
@@ -3147,6 +3139,10 @@ module.exports = {
   // Customer Feedback
   feedback,
   viewFeedbackQuery,
+
+  //Messages
+  msgList,
+  viewMessage,
 
   // Users
   addUser,
