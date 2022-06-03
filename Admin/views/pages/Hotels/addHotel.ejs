@@ -44,7 +44,7 @@
                 <div class="row">
                   <div class="form-group col-md-6">
                     <label>Name</label>
-                    <input type="text" name="hotelName" value="<%= oldInput.name %>" placeholder="Example: Continental" class="form-control"
+                    <input type="text" name="name" value="<%= oldInput.name %>" placeholder="Example: Continental" class="form-control"
                       required>
                   </div>
 
@@ -55,7 +55,7 @@
 
                   <div class="form-group col-md-3">
                     <label>Location</label>
-                    <select class="form-control select1" style="width: 100%; height: 100%;" name="area">
+                    <select class="form-control select2" style="width: 100%; height: 100%;" name="area">
                       <% for( let i=0; i< areas.length; i++) { %>
                         <option value="<%= areas[i].name %>" <%= oldInput.area === areas[i].name ? 'selected' : '' %> >
                           <%= areas[i].name %>
@@ -93,11 +93,11 @@
                           <label class="form-check-label" for="inlineCheckbox3">Wifi</label>
                         </div>
                         <div class="form-check form-check-inline">
-                          <input name="wifi" class="form-check-input" type="checkbox" id="inlineCheckbox3" value="true">
+                          <input name="roomService" class="form-check-input" type="checkbox" id="inlineCheckbox3" value="true">
                           <label class="form-check-label" for="inlineCheckbox3">Room Service</label>
                         </div>
                         <div class="form-check form-check-inline">
-                          <input name="wifi" class="form-check-input" type="checkbox" id="inlineCheckbox3" value="true">
+                          <input name="parking" class="form-check-input" type="checkbox" id="inlineCheckbox3" value="true">
                           <label class="form-check-label" for="inlineCheckbox3">Parking Area</label>
                         </div>
                       </div>
@@ -129,16 +129,6 @@
                             </div>
                         
                             <div class="form-group col-md-3">
-                              <label>Bed Size</label>
-                              <select class="form-control select2" style="width: 100%;" name="singleRmBedSize">
-                                <option value="king" <%=oldInput.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
-                                <option value="regular" <%=oldInput.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
-                                <option value="king&regular" <%=oldInput.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
-                                </option>
-                              </select>
-                            </div>
-                        
-                            <div class="form-group col-md-3">
                               <label>Video Link</label>
                               <input type="url" value="<%= oldInput.videoUrl %>" name="singleRmVideoUrl"
                                 placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0" class="form-control" required>
@@ -161,11 +151,15 @@
                               <input type="number" value="<%= oldInput.view %>" name="singleRmView" placeholder="Enter Number of Rooms with View"
                                 class="form-control" required>
                             </div>
-                        
+
                             <div class="form-group col-md-3">
-                              <label>No View</label>
-                              <input type="number" value="<%= oldInput.view %>" name="singleRmNoView" placeholder="Enter Number of Rooms with No View"
-                                class="form-control" required>
+                              <label>Bed Size</label>
+                              <select class="form-control select2" style="width: 100%;" name="singleRmBedSize">
+                                <option value="king" <%=oldInput.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="regular" <%=oldInput.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="king&regular" <%=oldInput.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
                             </div>
                         
                             <div class="form-group col-md-6">
@@ -188,7 +182,7 @@
 
                     <!-- Twin Beds -->
                     <div class="form-group col-md-12" id="twinElem">
-                      
+                      <input type="hidden" name="twinBeds" value="true">
                       <div class="card card-info">
                         <div class="card-header">
 
@@ -210,16 +204,6 @@
                               <label>Charges</label>
                               <input type="number" value="<%= oldInput.charges %>" name="twinRmCharges" placeholder="i.e: 5000" class="form-control"
                                 required>
-                            </div>
-                        
-                            <div class="form-group col-md-3">
-                              <label>Bed Size</label>
-                              <select class="form-control select2" style="width: 100%;" name="twinRmBedSize">
-                                <option value="king" <%=oldInput.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
-                                <option value="regular" <%=oldInput.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
-                                <option value="king&regular" <%=oldInput.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
-                                </option>
-                              </select>
                             </div>
                         
                             <div class="form-group col-md-3">
@@ -247,9 +231,13 @@
                             </div>
                         
                             <div class="form-group col-md-3">
-                              <label>No View</label>
-                              <input type="number" value="<%= oldInput.view %>" name="twinRmNoView" placeholder="Enter Number of Rooms with No View"
-                                class="form-control" required>
+                              <label>Bed Size</label>
+                              <select class="form-control select2" style="width: 100%;" name="twinRmBedSize">
+                                <option value="king" <%=oldInput.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="regular" <%=oldInput.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="king&regular" <%=oldInput.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
                             </div>
                         
                             <div class="form-group col-md-6">
@@ -271,7 +259,7 @@
 
                     <!-- Triple Beds -->
                     <div class="form-group col-md-12" id="tripleElem">
-                      
+                      <input type="hidden" name="tripleBeds" value="true">
                       <div class="card card-info">
                         <div class="card-header">
                           <div class="row">
@@ -291,16 +279,6 @@
                               <label>Charges</label>
                               <input type="number" value="<%= oldInput.charges %>" name="tripleRmCharges" placeholder="i.e: 5000" class="form-control"
                                 required>
-                            </div>
-                        
-                            <div class="form-group col-md-3">
-                              <label>Bed Size</label>
-                              <select class="form-control select2" style="width: 100%;" name="tripleRmBedSize">
-                                <option value="king" <%=oldInput.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
-                                <option value="regular" <%=oldInput.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
-                                <option value="king&regular" <%=oldInput.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
-                                </option>
-                              </select>
                             </div>
                         
                             <div class="form-group col-md-3">
@@ -328,9 +306,13 @@
                             </div>
                         
                             <div class="form-group col-md-3">
-                              <label>No View</label>
-                              <input type="number" value="<%= oldInput.view %>" name="tripleRmNoView" placeholder="Enter Number of Rooms with No View"
-                                class="form-control" required>
+                              <label>Bed Size</label>
+                              <select class="form-control select2" style="width: 100%;" name="tripleRmBedSize">
+                                <option value="king" <%=oldInput.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="regular" <%=oldInput.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="king&regular" <%=oldInput.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
                             </div>
                         
                             <div class="form-group col-md-6">
@@ -353,7 +335,7 @@
 
                     <!-- quadruple beds -->
                     <div class="form-group col-md-12" id="quadElem">
-                      
+                      <input type="hidden" name="quadBeds" value="true">
                       <div class="card card-info">
                         <div class="card-header">
                           <div class="row">
@@ -373,16 +355,6 @@
                               <label>Charges</label>
                               <input type="number" value="<%= oldInput.charges %>" name="quadRmCharges" placeholder="i.e: 5000" class="form-control"
                                 required>
-                            </div>
-                        
-                            <div class="form-group col-md-3">
-                              <label>Bed Size</label>
-                              <select class="form-control select2" style="width: 100%;" name="quadRmBedSize">
-                                <option value="king" <%=oldInput.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
-                                <option value="regular" <%=oldInput.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
-                                <option value="king&regular" <%=oldInput.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
-                                </option>
-                              </select>
                             </div>
                         
                             <div class="form-group col-md-3">
@@ -410,9 +382,13 @@
                             </div>
                         
                             <div class="form-group col-md-3">
-                              <label>No View</label>
-                              <input type="number" value="<%= oldInput.view %>" name="quadRmNoView" placeholder="Enter Number of Rooms with No View"
-                                class="form-control" required>
+                              <label>Bed Size</label>
+                              <select class="form-control select2" style="width: 100%;" name="quadRmBedSize">
+                                <option value="king" <%=oldInput.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="regular" <%=oldInput.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="king&regular" <%=oldInput.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
                             </div>
                         
                             <div class="form-group col-md-6">

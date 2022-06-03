@@ -407,50 +407,63 @@ const viewHotelImages = (req, res, next) => {
 
 //Hotel post Requests
 const postAddHotel = async (req, res, next) => {
-  const name = req.body.hotelName;
+  //Hotel Details
+  const name = req.body.hotelame;
   const contact = req.body.contact;
-  const parking = req.body.parking;
-  const area = req.body.area;
-  const roomService = req.body.roomService;
   const address = req.body.address;
+  const location = req.body.area;
+  const hotWater = (req.body.hotWater ? true : false);
+  const heater = (req.body.heater ? true : false);
+  const wifi = (req.body.wifi ? true : false);
+  const roomService = (req.body.roomService ? true : false);
+  const parking = (req.body.parking ? true : false);
+
+  // Rooms Details
+  const singleRooms = req.body.singleRooms;
+  const singleRmCharges = req.body.singleRmCharges;
+  const singleRmVideoUrl = req.body.singleRmVideoUrl;
+  const singleRmSize = req.body.singleRmSize;
+  const singleRmView = req.body.singleRmView;
+  const singleRmOccupancy = req.body.singleRmOccupancy;
+  const singleRmBedSize = req.body.singleRmBedSize;
+  const singleRmDescription = req.body.singleRmDescription;
+  const singleRmFeatures = req.body.singleRmFeatures;
+
   const ownerName = req.body.ownerName;
   const ownerCNIC = req.body.ownerCNIC;
   const ownerContact = req.body.ownerContact;
   const loginEmail = req.body.loginEmail;
   const loginPassword = req.body.loginPassword;
-  console.log(req.body)
-  res.redirect('/admin/Hotels/addHotel')
-  // const approvedStatus = req.body.status;
 
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const areas = await Areas.find();
-    return res.status(422).render("../Admin/views/pages/Hotels/addHotel", {
-      path: "/Hotesl/addHotel",
-      pageTitle: "Hotel",
-      areas: areas,
-      flashMessage: errors.array()[0].msg,
-      oldInput: {
-        name: name,
-        contact: contact,
-        parking: parking,
-        area: area,
-        roomService: roomService,
-        address: address,
-        ownerName: ownerName,
-        ownerCNIC: ownerCNIC,
-        ownerContact: ownerContact,
-        loginEmail: loginEmail,
-        loginPassword: loginPassword,
-      },
-      validationErrors: errors.array(),
-    });
-  }
+  // const errors = validationResult(req);
+  // if (!errors.isEmpty()) {
+  //   const areas = await Areas.find();
+  //   return res.status(422).render("../Admin/views/pages/Hotels/addHotel", {
+  //     path: "/Hotesl/addHotel",
+  //     pageTitle: "Hotel",
+  //     areas: areas,
+  //     flashMessage: errors.array()[0].msg,
+  //     oldInput: {
+  //       name: name,
+  //       contact: contact,
+  //       parking: parking,
+  //       area: area,
+  //       roomService: roomService,
+  //       address: address,
+  //       ownerName: ownerName,
+  //       ownerCNIC: ownerCNIC,
+  //       ownerContact: ownerContact,
+  //       loginEmail: loginEmail,
+  //       loginPassword: loginPassword,
+  //     },
+  //     validationErrors: errors.array(),
+  //   });
+  // }
 
   // generate salt to hash password
-  const salt = await bcrypt.genSalt(16);
-  // now we set user password to hashed password
-  const hashedPassword = await bcrypt.hash(loginPassword, salt);
+  // const salt = await bcrypt.genSalt(16);
+  // // now we set user password to hashed password
+  // const hashedPassword = await bcrypt.hash(loginPassword, salt);
 
   // const hotel = new Hotels({
   //   name: name,
