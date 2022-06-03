@@ -54,16 +54,8 @@
                   </div>
 
                   <div class="form-group col-md-3">
-                    <label>Parking</label>
-                    <select class="form-control" name="parking">
-                      <option value="true" <%= oldInput.parking ? 'selected' : '' %> >Yes</option>
-                      <option value="false" <%= !oldInput.parking ? 'selected' : '' %> >No</option>
-                    </select>
-                  </div>
-
-                  <div class="form-group col-md-3">
                     <label>Location</label>
-                    <select class="form-control select2" style="width: 100%; height: 100%;" name="area">
+                    <select class="form-control select1" style="width: 100%; height: 100%;" name="area">
                       <% for( let i=0; i< areas.length; i++) { %>
                         <option value="<%= areas[i].name %>" <%= oldInput.area === areas[i].name ? 'selected' : '' %> >
                           <%= areas[i].name %>
@@ -72,22 +64,377 @@
                     </select>
                   </div>
 
-                  <!-- New Data -->
-                  <div class="form-group col-md-3">
-                    <label>Service</label>
-                    <select class="form-control select2" name="roomService">
-                      <option value="true" <%= oldInput.roomService ? 'selected' : '' %> >Yes</option>
-                      <option value="false" <%= !oldInput.roomService ? 'selected' : '' %> >No</option>
-                    </select>
-                  </div>
-                  <!-- /New Data -->
-
                   <div class="form-group col-md-6">
                     <label>Address</label>
                     <input type="text" name="address" value="<%= oldInput.address %>" placeholder="Example: Near Shell Ptrol Station, Madyan Bazar"
                       class="form-control" required>
                   </div>
                 </div>
+
+                <div class="row">
+                  <div class="form-group col-sm-12">
+                    <div class="card card-primary">
+                      <div class="card-header">
+                        <div class="card-title">
+                          Facilities
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="form-check form-check-inline">
+                          <input name="hotWater" class="form-check-input" type="checkbox" id="inlineCheckbox1" value="true">
+                          <label class="form-check-label" for="inlineCheckbox1">Hot Water</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input name="heater" class="form-check-input" type="checkbox" id="inlineCheckbox2" value="true">
+                          <label class="form-check-label" for="inlineCheckbox2">AC/Heater</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input name="wifi" class="form-check-input" type="checkbox" id="inlineCheckbox3" value="true">
+                          <label class="form-check-label" for="inlineCheckbox3">Wifi</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input name="wifi" class="form-check-input" type="checkbox" id="inlineCheckbox3" value="true">
+                          <label class="form-check-label" for="inlineCheckbox3">Room Service</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input name="wifi" class="form-check-input" type="checkbox" id="inlineCheckbox3" value="true">
+                          <label class="form-check-label" for="inlineCheckbox3">Parking Area</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                  <h5><b>Rooms info</b></h5>
+                  <hr>
+                  <div class="row">
+                    <div class="form-group col-md-12">
+                      
+                      <div class="card card-info">
+                        <div class="card-header">
+                          <h3 class="card-title">Single Bed</h3>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="form-group col-md-3">
+                              <label>Number of Rooms</label>
+                              <input type="number" name="singleRooms" value="" placeholder="Total Number of Single Bed Rooms" class="form-control"
+                                required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Charges</label>
+                              <input type="number" value="<%= oldInput.charges %>" name="singleRmCharges" placeholder="i.e: 5000" class="form-control"
+                                required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Bed Size</label>
+                              <select class="form-control select2" style="width: 100%;" name="singleRmBedSize">
+                                <option value="king" <%=oldInput.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="regular" <%=oldInput.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="king&regular" <%=oldInput.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Video Link</label>
+                              <input type="url" value="<%= oldInput.videoUrl %>" name="singleRmVideoUrl"
+                                placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0" class="form-control" required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Size</label>
+                              <input type="text" value="<%= oldInput.size %>" name="singleRmSize" placeholder="i.e: 47-52 sqft" class="form-control"
+                                required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Occupency</label>
+                              <input type="text" value="<%= oldInput.occupency %>" name="singleRmOccupency" placeholder="i.e: Upto 4 childrens"
+                                class="form-control" required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>View</label>
+                              <input type="number" value="<%= oldInput.view %>" name="singleRmView" placeholder="Enter Number of Rooms with View"
+                                class="form-control" required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>No View</label>
+                              <input type="number" value="<%= oldInput.view %>" name="singleRmNoView" placeholder="Enter Number of Rooms with No View"
+                                class="form-control" required>
+                            </div>
+                        
+                            <div class="form-group col-md-6">
+                              <label>Description</label>
+                              <textarea name="singleRmDescription" id="" rows="5" class="form-control" placeholder="Room Description . . ."
+                                required><%= oldInput.description %></textarea>
+                            </div>
+                        
+                            <div class="form-group col-md-6">
+                              <label>Features</label>
+                              <textarea name="singleRmFeatures" id="" rows="5" class="form-control" placeholder="Room Features . . ."
+                                required><%= oldInput.features %> </textarea>
+                            </div>
+                          </div>
+                          
+                          
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Twin Beds -->
+                    <div class="form-group col-md-12" id="twinElem">
+                      
+                      <div class="card card-info">
+                        <div class="card-header">
+
+                          <div class="row">
+                            <h3 class="card-title col-md-11">Twin Beds</h3>
+                            <button class="col-md-1 btn bg-danger rounded-pill m-0 p-0" onclick="removeTwinElem()"><i class="fa fa-minus"></i></button>
+                          </div>
+                      
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="form-group col-md-3">
+                              <label>Number of Rooms</label>
+                              <input type="number" name="twinRmNo" value="" placeholder="Total Number of Single Bed Rooms" class="form-control"
+                                required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Charges</label>
+                              <input type="number" value="<%= oldInput.charges %>" name="twinRmCharges" placeholder="i.e: 5000" class="form-control"
+                                required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Bed Size</label>
+                              <select class="form-control select2" style="width: 100%;" name="twinRmBedSize">
+                                <option value="king" <%=oldInput.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="regular" <%=oldInput.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="king&regular" <%=oldInput.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Video Link</label>
+                              <input type="url" value="<%= oldInput.videoUrl %>" name="twinRmVideoUrl"
+                                placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0" class="form-control" required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Size</label>
+                              <input type="text" value="<%= oldInput.size %>" name="twinRmSize" placeholder="i.e: 47-52 sqft" class="form-control"
+                                required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Occupency</label>
+                              <input type="text" value="<%= oldInput.occupency %>" name="twinRmOccupency" placeholder="i.e: Upto 4 childrens"
+                                class="form-control" required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>View</label>
+                              <input type="number" value="<%= oldInput.view %>" name="twinRmView" placeholder="Enter Number of Rooms with View"
+                                class="form-control" required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>No View</label>
+                              <input type="number" value="<%= oldInput.view %>" name="twinRmNoView" placeholder="Enter Number of Rooms with No View"
+                                class="form-control" required>
+                            </div>
+                        
+                            <div class="form-group col-md-6">
+                              <label>Description</label>
+                              <textarea name="twinRmDescription" id="" rows="5" class="form-control" placeholder="Room Description . . ."
+                                required><%= oldInput.description %></textarea>
+                            </div>
+                        
+                            <div class="form-group col-md-6">
+                              <label>Features</label>
+                              <textarea name="twinRmFeatures" id="" rows="5" class="form-control" placeholder="Room Features . . ."
+                                required><%= oldInput.features %> </textarea>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Triple Beds -->
+                    <div class="form-group col-md-12" id="tripleElem">
+                      
+                      <div class="card card-info">
+                        <div class="card-header">
+                          <div class="row">
+                            <h3 class="card-title col-md-11">Triple Beds</h3>
+                            <button class="col-md-1 btn bg-danger rounded-pill m-0 p-0" onclick="removeTripleElem()"><i class="fa fa-minus"></i></button>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="form-group col-md-3">
+                              <label>Number of Rooms</label>
+                              <input type="number" name="tripleRmNo" value="" placeholder="Total Number of Single Bed Rooms" class="form-control"
+                                required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Charges</label>
+                              <input type="number" value="<%= oldInput.charges %>" name="tripleRmCharges" placeholder="i.e: 5000" class="form-control"
+                                required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Bed Size</label>
+                              <select class="form-control select2" style="width: 100%;" name="tripleRmBedSize">
+                                <option value="king" <%=oldInput.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="regular" <%=oldInput.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="king&regular" <%=oldInput.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Video Link</label>
+                              <input type="url" value="<%= oldInput.videoUrl %>" name="tripleRmVideoUrl"
+                                placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0" class="form-control" required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Size</label>
+                              <input type="text" value="<%= oldInput.size %>" name="size" placeholder="i.e: 47-52 sqft" class="form-control"
+                                required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Occupency</label>
+                              <input type="text" value="<%= oldInput.occupency %>" name="tripleRmOccupency" placeholder="i.e: Upto 4 childrens"
+                                class="form-control" required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>View</label>
+                              <input type="number" value="<%= oldInput.view %>" name="tripleRmView" placeholder="Enter Number of Rooms with View"
+                                class="form-control" required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>No View</label>
+                              <input type="number" value="<%= oldInput.view %>" name="tripleRmNoView" placeholder="Enter Number of Rooms with No View"
+                                class="form-control" required>
+                            </div>
+                        
+                            <div class="form-group col-md-6">
+                              <label>Description</label>
+                              <textarea name="tripleRmDescription" id="" rows="5" class="form-control" placeholder="Room Description . . ."
+                                required><%= oldInput.description %></textarea>
+                            </div>
+                        
+                            <div class="form-group col-md-6">
+                              <label>Features</label>
+                              <textarea name="tripleRmFeatures" id="" rows="5" class="form-control" placeholder="Room Features . . ."
+                                required><%= oldInput.features %> </textarea>
+                            </div>
+                          </div>
+                          
+                          
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- quadruple beds -->
+                    <div class="form-group col-md-12" id="quadElem">
+                      
+                      <div class="card card-info">
+                        <div class="card-header">
+                          <div class="row">
+                            <h3 class="card-title col-md-11">Quadruple Beds</h3>
+                            <button class="col-md-1 btn bg-danger rounded-pill m-0 p-0" onclick="removeQuadElem()"><i class="fa fa-minus"></i></button>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="form-group col-md-3">
+                              <label>Number of Rooms</label>
+                              <input type="number" name="quadRmNo" value="" placeholder="Total Number of Single Bed Rooms" class="form-control"
+                                required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Charges</label>
+                              <input type="number" value="<%= oldInput.charges %>" name="quadRmCharges" placeholder="i.e: 5000" class="form-control"
+                                required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Bed Size</label>
+                              <select class="form-control select2" style="width: 100%;" name="quadRmBedSize">
+                                <option value="king" <%=oldInput.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="regular" <%=oldInput.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="king&regular" <%=oldInput.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Video Link</label>
+                              <input type="url" value="<%= oldInput.videoUrl %>" name="quadRmVideoUrl"
+                                placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0" class="form-control" required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Size</label>
+                              <input type="text" value="<%= oldInput.size %>" name="quadRmSize" placeholder="i.e: 47-52 sqft" class="form-control"
+                                required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Occupency</label>
+                              <input type="text" value="<%= oldInput.occupency %>" name="quadRmOccupency" placeholder="i.e: Upto 4 childrens"
+                                class="form-control" required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>View</label>
+                              <input type="number" value="<%= oldInput.view %>" name="quadRmView" placeholder="Enter Number of Rooms with View"
+                                class="form-control" required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>No View</label>
+                              <input type="number" value="<%= oldInput.view %>" name="quadRmNoView" placeholder="Enter Number of Rooms with No View"
+                                class="form-control" required>
+                            </div>
+                        
+                            <div class="form-group col-md-6">
+                              <label>Description</label>
+                              <textarea name="quadRmDescription" id="" rows="5" class="form-control" placeholder="Room Description . . ."
+                                required><%= oldInput.description %></textarea>
+                            </div>
+                        
+                            <div class="form-group col-md-6">
+                              <label>Features</label>
+                              <textarea name="quadRmFeatures" id="" rows="5" class="form-control" placeholder="Room Features . . ."
+                                required><%= oldInput.features %> </textarea>
+                            </div>
+                          </div>
+                          
+                          
+                        </div>
+                      </div>
+                    </div>
+                   
+                  
+                  </div>
 
                 <hr>
                 <h5><b>Owner Info &amp; Login Details</b></h5>
@@ -141,3 +488,15 @@
   </section>
   <!-- /.content -->
 </div>
+
+<script>
+  function removeTwinElem(){
+    document.getElementById("twinElem").remove()
+  }
+  function removeTripleElem(){
+    document.getElementById("tripleElem").remove()
+  }
+  function removeQuadElem(){
+    document.getElementById("quadElem").remove()
+  }
+</script>

@@ -418,6 +418,8 @@ const postAddHotel = async (req, res, next) => {
   const ownerContact = req.body.ownerContact;
   const loginEmail = req.body.loginEmail;
   const loginPassword = req.body.loginPassword;
+  console.log(req.body)
+  res.redirect('/admin/Hotels/addHotel')
   // const approvedStatus = req.body.status;
 
   const errors = validationResult(req);
@@ -450,50 +452,50 @@ const postAddHotel = async (req, res, next) => {
   // now we set user password to hashed password
   const hashedPassword = await bcrypt.hash(loginPassword, salt);
 
-  const hotel = new Hotels({
-    name: name,
-    contact: contact,
-    parking: parking,
-    area: area,
-    roomService: roomService,
-    address: address,
-    ownerName: ownerName,
-    ownerCNIC: ownerCNIC,
-    ownerContact: ownerContact,
-    loginEmail: loginEmail,
-    loginPassword: hashedPassword,
-    approvedStatus: false,
-  });
+  // const hotel = new Hotels({
+  //   name: name,
+  //   contact: contact,
+  //   parking: parking,
+  //   area: area,
+  //   roomService: roomService,
+  //   address: address,
+  //   ownerName: ownerName,
+  //   ownerCNIC: ownerCNIC,
+  //   ownerContact: ownerContact,
+  //   loginEmail: loginEmail,
+  //   loginPassword: hashedPassword,
+  //   approvedStatus: false,
+  // });
 
-  try {
-    await hotel.save();
-    // console.log(result);
-    console.log("Added Hotel");
-    req.flash("message", "Hotel Data Added Successfully.");
-    res.redirect("/admin/Hotels/addHotelGallery");
-  } catch (err) {
-    console.log(err);
-    const areas = await Areas.find();
-    return res.status(422).render("../views/pages/Hotels/addHotel", {
-      path: "/admin/Hotesl/addHotel",
-      pageTitle: "Hotel",
-      areas: areas,
-      flashMessage: "Something went wrong please try again.",
-      oldInput: {
-        name: name,
-        contact: contact,
-        parking: parking,
-        area: area,
-        roomService: roomService,
-        address: address,
-        ownerName: ownerName,
-        ownerCNIC: ownerCNIC,
-        ownerContact: ownerContact,
-        loginEmail: loginEmail,
-        loginPassword: loginPassword,
-      },
-    });
-  }
+  // try {
+  //   await hotel.save();
+  //   // console.log(result);
+  //   console.log("Added Hotel");
+  //   req.flash("message", "Hotel Data Added Successfully.");
+  //   res.redirect("/admin/Hotels/addHotelGallery");
+  // } catch (err) {
+  //   console.log(err);
+  //   const areas = await Areas.find();
+  //   return res.status(422).render("../views/pages/Hotels/addHotel", {
+  //     path: "/admin/Hotesl/addHotel",
+  //     pageTitle: "Hotel",
+  //     areas: areas,
+  //     flashMessage: "Something went wrong please try again.",
+  //     oldInput: {
+  //       name: name,
+  //       contact: contact,
+  //       parking: parking,
+  //       area: area,
+  //       roomService: roomService,
+  //       address: address,
+  //       ownerName: ownerName,
+  //       ownerCNIC: ownerCNIC,
+  //       ownerContact: ownerContact,
+  //       loginEmail: loginEmail,
+  //       loginPassword: loginPassword,
+  //     },
+  //   });
+  // }
 };
 
 const postEditHotel = async (req, res, next) => {

@@ -6,6 +6,7 @@ const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch
 const HomeModel = require("../models/homeModel");
 const AreasModel = require("../models/Location");
 const AppartmentModel = require("../models/Appartment");
+const Houses = require("../models/House");
 const HotelsModel = require("../models/Hotel");
 const VehiclesModel = require("../models/Vehicles");
 const ToursModel = require("../models/Tour");
@@ -303,6 +304,37 @@ const appartmentGallery = (req, res, next) =>
     loggedIn: req.session.userLoggedIn,
     user: req.session.user,
   });
+
+// Houses
+const houses = async (req, res, next) => {
+  //areas
+  const areas = await AreasModel.find();
+  //fetch appartments
+  const houses = await Houses.find();
+  res.render("./pages/Houses/houseList", {
+    loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
+    areas: areas,
+    houses: houses,
+  });
+};
+
+const houseInfo = async (req, res)=>{
+  const id = req.params.id;
+  const house = await Houses.findById(id);
+  res.render("./pages/Houses/houseDetails", {
+    flashMessage: '',
+    oldInput: {
+      checkIn: "",
+      checkOut: "",
+      adults: false,
+      children: false,
+    },
+    loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
+    house: house,
+  });
+}
 
 // hotels
 const hotels = async (req, res, next) => {
@@ -2326,6 +2358,10 @@ module.exports = {
   postAppartmentBooking,
   searchAppartments,
   findAppartments,
+
+  // Houses
+  houses,
+  houseInfo,
 
   //hotels
   hotels,

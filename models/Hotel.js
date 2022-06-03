@@ -56,6 +56,18 @@ const HotelsSchema = new Schema({
     required: false,
   },
   rooms: {
+    single:{
+      
+    },
+    twin:{
+
+    },
+    triple:{
+
+    },
+    quad:{
+
+    },
     type: [
       {
         roomNo: String,

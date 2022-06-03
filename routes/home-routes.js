@@ -13,6 +13,10 @@ const {
   searchAppartments,
   findAppartments,
 
+  // Houses
+  houses,
+  houseInfo,
+
   //hotels
   hotels,
   hotelGallery,
@@ -75,7 +79,6 @@ const {
   postQuery,
 
   //payment
-  payment,
   safepayPayment,
   stripePayment,
   paymentSuccess,
@@ -130,6 +133,10 @@ router.get("/Appartments/booking/payment",
   query("children", "Enter number of Children.").custom(val => val == 'false' ? false : true)
 ],
 postAppartmentBooking);
+
+// Houses
+router.get("/Houses/list", houses);
+router.get("/Houses/houseInfo/:id", houseInfo);
 
 // Hotels
 router.get("/Hotels/roomFilter", roomFilter);

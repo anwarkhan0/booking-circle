@@ -1,0 +1,201 @@
+<!-- Primary Page Layout
+	================================================== -->
+
+    <div class="section big-55-height over-hide customClass">
+
+        <div class="parallax parallax-top" style="background-image: url('/img/Hotel3.jpg')"></div>
+        <div class="dark-over-pages"></div>
+    
+        <div class="hero-center-section pages">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 parallax-fade-top">
+                        <div class="hero-text">Apartment Booking</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section background-dark padding-top-bottom-smaller over-hide">
+        <div class="section z-bigger">
+            <div class="container">
+                <div class="row">
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center">
+                        <div class="amenities">
+                            <img src="/img/icons/HotWater.svg" alt="">
+                            <p>Hot Water</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center">
+                        <div class="amenities">
+                            <img src="/img/icons/2.svg" alt="">
+                            <p>King Bed</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center mt-4 mt-md-0">
+                        <div class="amenities">
+                            <img src="/img/icons/heater.png" alt="">
+                            <p>Heater / AC</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center mt-4 mt-lg-0">
+                        <div class="amenities">
+                            <img src="/img/icons/johnny_automatic_NPS_map_pictographs_part_52.svg" alt="">
+                            <p>Parking</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center mt-4 mt-lg-0">
+                        <div class="amenities">
+                            <img src="/img/icons/5.svg" alt="">
+                            <p>Balcony</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center mt-4 mt-lg-0">
+                        <div class="amenities">
+                            <img src="/img/icons/6.svg" alt="">
+                            <p>Room Service</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section padding-top-bottom z-bigger">
+        <div class="section z-bigger">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mt-4 mt-lg-0">
+                        <div class="section">
+                            <div class="customNavigation rooms-sinc-1-2">
+                                <a class="prev-rooms-sync-1"></a>
+                                <a class="next-rooms-sync-1"></a>
+                            </div>
+                            <div id="rooms-sync1" class="owl-carousel">
+    
+                                <% for(let i= 0; i< house.gallery.length; i++){ %> 
+                                <div class="item">
+                                    <img src="<%= '/uploads/' + house.gallery[i] %>" alt="">
+                                </div>
+                               <% } %> 
+                                
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div id="rooms-sync2" class="owl-carousel">
+    
+                                <% for(let i= 0; i< house.gallery.length; i++){ %> 
+                                <div class="item">
+                                    <img src="<%= '/uploads/' + house.gallery[i] %>" alt="">
+                                </div>
+                                <% } %> 
+                                
+                            </div>
+                        </div>
+    
+                        <!-- If No video, then don't execute below code -->
+                        <div class="section pt-5">
+                            <h5>Featured Video</h5><br>
+                        </div>
+                        <!-- Copy SRC from iframe tag and put it in src -->
+                        <div class="section big-55-height over-hide z-bigger">
+                            <iframe style="width: 100%; max-height: 100%; min-height: 100%;"
+                                src="https://www.youtube.com/embed/<%= house.videoUrl %>" title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                        </div>
+                        <!-- Till Here! -->
+    
+    
+                        <div class="section pt-5">
+                            <h5>discription</h5>
+                            <p class="mt-3"><%= house.description %> </p>
+                        </div>
+    
+    
+                        <div class="section pt-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h5 class="mb-3">Overview</h5>
+                                </div>
+                                <div class="col-lg-6">
+                                    <p><strong class="color-black">Parking:</strong> <%= house.parking ? 'Yes' : 'No' %> </p>
+                                </div>
+                                <!-- <div class="col-lg-6">
+                                    <p><strong class="color-black">Apartment size:</strong> 470 - 540 sqft</p>
+                                    <p><strong class="color-black">Occupancy:</strong> Up to 4 adulds</p>
+                                    <p><strong class="color-black">Bed size:</strong> King and regular</p>
+                                    <p><strong class="color-black">Rent:</strong> 5,000 Pkr</p>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="section pt-4">
+                            <h5>Features</h5>
+                            <p class="mt-3"><%= house.features %> </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 order-first order-lg-last">
+                        <div class="section background-dark p-4">
+                            <div class="row">
+                                <p class="text-danger"><%= flashMessage %></p>
+                                <div class="col-12">
+                                    <div class="input-daterange input-group" id="flight-datepicker">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-item">
+                                                    <span class="fontawesome-calendar"></span>
+                                                    <input value="<%= oldInput.checkIn %>" class="input-sm" type="text" autocomplete="off" id="start-date-1"
+                                                        name="start" placeholder="chech-in date"
+                                                        data-date-format="DD, MM d" />
+                                                    <span class="date-text date-depart"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 pt-4">
+                                                <div class="form-item">
+                                                    <span class="fontawesome-calendar"></span>
+                                                    <input value="<%= oldInput.checkOut %>" class="input-sm" type="text" autocomplete="off" id="end-date-1"
+                                                        name="end" placeholder="check-out date"
+                                                        data-date-format="DD, MM d" />
+                                                    <span class="date-text date-return"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-12 pt-4">
+                                            <select name="adults" class="wide"  id="adults">
+                                                <option data-display="adults" value="false">adults</option>
+                                                <option value="1" <%= oldInput.adults == 1 ? 'selected' : '' %> >1</option>
+                                                <option value="2" <%= oldInput.adults == 2 ? 'selected' : '' %> >2</option>
+                                                <option value="3" <%= oldInput.adults == 3 ? 'selected' : '' %> >3</option>
+                                                <option value="4" <%= oldInput.adults == 4 ? 'selected' : '' %> >4</option>
+                                                <option value="5" <%= oldInput.adults == 5 ? 'selected' : '' %> >5</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 pt-4">
+                                            <select name="children" class="wide"  id="childs">
+                                                <option data-display="children" value="false">children</option>
+                                                <option value="0" <%= oldInput.children == 1 ? 'selected' : '' %> >0</option>
+                                                <option value="1" <%= oldInput.children == 2 ? 'selected' : '' %> >1</option>
+                                                <option value="2" <%= oldInput.children == 3 ? 'selected' : '' %> >2</option>
+                                                <option value="3" <%= oldInput.children == 4 ? 'selected' : '' %> >3</option>
+                                                <option value="4" <%= oldInput.children == 5 ? 'selected' : '' %> >4</option>
+                                                <option value="5" <%= oldInput.children == 6 ? 'selected' : '' %> >5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="houseId" value="<%= house.id %>">
+                                <div class="col-12 pt-4">
+                                    <a class="booking-button" href="javascript: ;" id="houseBooking">book now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
