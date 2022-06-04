@@ -1490,9 +1490,6 @@ router.post(
     .notEmpty()
     .isLength({min: 13, max: 13})
     .trim(),
-    body("gender", "Invalid value for gender.")
-    .notEmpty()
-    .trim(),
     body("location", "Invalid value for location.")
     .notEmpty()
     .isJSON(),
@@ -1507,13 +1504,13 @@ router.post(
     })
     .isLength({min: 1, max: 300})
     .trim(),
-    body("type", "Invalid value for user type.")
+    body("access", "Invalid value for user type.")
     .notEmpty(),
     body("email")
       .isEmail()
       .withMessage("Please enter a valid email.")
       .custom((value, { req }) => {
-        return Users.findOne({ loginEmail: value }).then((user) => {
+        return Users.findOne({ email: value }).then((user) => {
           if (user) {
             return Promise.reject(
               "E-Mail exists already, please pick a different one."
@@ -1529,6 +1526,15 @@ router.post(
       .isLength({ min: 8 })
       .isAlphanumeric()
       .trim(),
+    body("cnfmPassword", "Passwords must match.")
+    .custom((val, {req})=>{
+      if(val == req.body.password){
+        return true;
+      }else{
+        return false;
+      }
+    }),
+    // matchedData(req, { locations: ['body'] })
     body("contact", "Please enter valid contact number.")
       .isLength({ min: 10, max: 11 })
       .trim(),
@@ -1562,9 +1568,6 @@ router.post(
     .notEmpty()
     .isLength({min: 13, max: 13})
     .trim(),
-    body("gender", "Invalid value for gender.")
-    .notEmpty()
-    .trim(),
     body("location", "Invalid value for location.")
     .notEmpty()
     .isJSON(),
@@ -1579,7 +1582,7 @@ router.post(
     })
     .isLength({min: 1, max: 300})
     .trim(),
-    body("type", "Invalid value for user type.")
+    body("access", "Invalid value for user type.")
     .notEmpty(),
     body("email")
       .isEmail()
@@ -1601,6 +1604,13 @@ router.post(
       .isLength({ min: 8 })
       .isAlphanumeric()
       .trim(),
+    body("cnfmPassword", "Passwords must match.").custom((val, {req})=> {
+      if(val == req.body.cnfmPassword){
+        return true;
+      }else{
+        return false;
+      }
+    }),
     body("contact", "Please enter valid contact number.")
       .isLength({ min: 10, max: 11 })
       .trim(),

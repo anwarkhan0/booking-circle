@@ -408,10 +408,11 @@ const viewHotelImages = (req, res, next) => {
 //Hotel post Requests
 const postAddHotel = async (req, res, next) => {
   //Hotel Details
-  const name = req.body.hotelame;
+  const name = req.body.name;
   const contact = req.body.contact;
   const address = req.body.address;
   const location = req.body.area;
+  const stars = Number(req.body.stars);
   const hotWater = (req.body.hotWater ? true : false);
   const heater = (req.body.heater ? true : false);
   const wifi = (req.body.wifi ? true : false);
@@ -429,11 +430,32 @@ const postAddHotel = async (req, res, next) => {
   const singleRmDescription = req.body.singleRmDescription;
   const singleRmFeatures = req.body.singleRmFeatures;
 
+  // owner info
   const ownerName = req.body.ownerName;
   const ownerCNIC = req.body.ownerCNIC;
   const ownerContact = req.body.ownerContact;
   const loginEmail = req.body.loginEmail;
   const loginPassword = req.body.loginPassword;
+
+  const hotelDetails = {
+    name: name,
+    contact: contact,
+    address: address,
+    location: location,
+    stars: stars,
+    hotWater: hotWater,
+    heater: heater,
+    wifi: wifi,
+    roomService: roomService,
+    parking: parking,
+    owner: {
+      name: ownerName,
+      cnic: ownerCNIC,
+      contact: ownerContact,
+      email: loginEmail,
+      password: loginPassword
+    }
+  }
 
   // const errors = validationResult(req);
   // if (!errors.isEmpty()) {
@@ -2834,10 +2856,9 @@ const addUser = (req, res, next) => {
           name: "",
           contact: "",
           CNIC: "",
-          gender: "",
           location: "",
           address: "",
-          type: "",
+          access: 0,
           email: "",
           password: "",
         },
@@ -2882,16 +2903,15 @@ const postAddUser = async (req, res) => {
   const name = req.body.name;
   const contact = req.body.contact;
   const cnic = req.body.cnic;
-  const gender = req.body.gender;
   const location = JSON.parse(req.body.location);
   const address = req.body.address;
-  const type = req.body.type;
+  const access = req.body.access;
   const email = req.body.email;
   const password = req.body.password;
 
+  const areas = await Areas.find();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const areas = await Areas.find();
     return res.status(422).render("../Admin/views/pages/Users/addUser", {
       path: "/Users/addUser",
       pageTitle: "Add User",
@@ -2901,10 +2921,9 @@ const postAddUser = async (req, res) => {
         name: name,
         contact: contact,
         CNIC: cnic,
-        gender: gender,
         location: location.name,
         address: address,
-        type: type,
+        access: access,
         email: email,
         password: password,
       },
@@ -2921,10 +2940,9 @@ const postAddUser = async (req, res) => {
     name: name,
     contact: contact,
     CNIC: cnic,
-    gender: gender,
     location: location.name,
     address: address,
-    type: type,
+    access: access,
     email: email,
     password: hashedPassword,
   });
@@ -2933,10 +2951,29 @@ const postAddUser = async (req, res) => {
     await user.save();
     console.log("Added user");
     req.flash("message", "User Added Successfully");
-    res.redirect("/");
+    res.redirect("/admin");
   } catch (err) {
+
     console.log(err);
+    res.status(422).render("../Admin/views/pages/Users/addUser", {
+      path: "/Users/addUser",
+      pageTitle: "Add User",
+      flashMessage: 'Something went wrong.',
+      areas: areas,
+      oldInput: {
+        name: name,
+        contact: contact,
+        CNIC: cnic,
+        location: location.name,
+        address: address,
+        access: access,
+        email: email,
+        password: password,
+      },
+      validationErrors: errors.array(),
+    });
   }
+
 };
 
 const postEditUser = async (req, res) => {
@@ -2944,18 +2981,17 @@ const postEditUser = async (req, res) => {
   const name = req.body.name;
   const contact = req.body.contact;
   const cnic = req.body.cnic;
-  const gender = req.body.gender;
   const location = JSON.parse(req.body.location);
   const address = req.body.address;
-  const type = req.body.type;
+  const access = Number(req.body.access);
   const email = req.body.email;
   const password = req.body.password;
   const oldPassword = req.body.oldPassword;
 
+  const areas = await Areas.find();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const areas = await Areas.find();
-    return res.status(422).render("../views/pages/Users/editUser", {
+    return res.status(422).render("../Admin/views/pages/Users/editUser", {
       path: "/Users/addUser",
       pageTitle: "Add User",
       flashMessage: errors.array()[0].msg,
@@ -2965,10 +3001,9 @@ const postEditUser = async (req, res) => {
         name: name,
         contact: contact,
         CNIC: cnic,
-        gender: gender,
         location: location.name,
         address: address,
-        type: type,
+        access: access,
         email: email,
         password: password,
       },
@@ -2996,18 +3031,33 @@ const postEditUser = async (req, res) => {
     user.name = name;
     user.contact = contact;
     user.CNIC = cnic;
-    user.gender = gender;
     user.location = location.areaName;
     user.address = address;
-    user.type = type;
+    user.access = access;
     user.email = email;
     user.password = hashedPassword;
     await user.save();
     console.log("UPDATED User!");
     req.flash("message", "User Updated Successfully");
-    res.redirect("/");
+    res.redirect("/admin");
   } catch (err) {
     console.log(err);
+    res.status(422).render("../Admin/views/pages/Users/editUser", {
+      flashMessage: 'Something went wrong.',
+      areas: areas,
+      user: {
+        id: userId,
+        name: name,
+        contact: contact,
+        CNIC: cnic,
+        location: location.name,
+        address: address,
+        access: access,
+        email: email,
+        password: password,
+      },
+      validationErrors: errors.array(),
+    });
   }
 };
 

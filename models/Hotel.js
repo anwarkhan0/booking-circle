@@ -7,11 +7,15 @@ const HotelsSchema = new Schema({
     type: String,
     required: true,
   },
-  contact: {
+  location: {
     type: String,
     required: true,
   },
-  location: {
+  stars: {
+    type: Number,
+    required: true
+  },
+  contact: {
     type: String,
     required: true,
   },
@@ -55,12 +59,20 @@ const HotelsSchema = new Schema({
     contact: {
       type: String,
       required: true,
+    },
+    email: {
+      type: String,
+      required: true
+    },
+    password: {
+      type: String,
+      required: true
     }
   },
   gallery:  [String],
   rooms: {
-    type: {
-      single:[{
+    single: {
+      type:[{
         total: Number,
         charges: Number,
         videoUrl: String,

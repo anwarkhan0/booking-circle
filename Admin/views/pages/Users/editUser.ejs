@@ -40,28 +40,19 @@
               <div class="card-body">
                 <form action="/admin/Users/editUser" method="POST">
                   <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-3">
                       <label>Name</label>
                       <input type="text" name="name" value="<%= user.name %>" placeholder="Example: Example" class="form-control" required>
                     </div>
                 
                     <div class="form-group col-md-3">
-                      <label>User Contact</label>
+                      <label>Contact</label>
                       <input type="number" value="<%= user.contact %>" name="contact" placeholder="Example: 03460973906" class="form-control" required>
                     </div>
                 
                     <div class="form-group col-md-3">
-                      <label>User CNIC</label>
+                      <label>CNIC</label>
                       <input type="number" name="cnic" value="<%= user.CNIC %>" placeholder="Example: xxxxx-xxxxxxx-x" class="form-control" required>
-                    </div>
-                
-                    <div class="form-group col-md-3">
-                      <label>User Gender</label>
-                      <select class="form-control" name="gender">
-                        <option value="male" <%= user.gender === 'male' ? 'selected' : '' %> >Male</option>
-                        <option value="female" <%= user.gender === 'female' ? 'selected' : '' %> >Female</option>
-                        <option value="other" <%= user.gender === 'other' ? 'selected' : '' %> >Other</option>
-                      </select>
                     </div>
                 
                     <div class="form-group col-md-3">
@@ -74,16 +65,16 @@
                     </div>
                 
                     <div class="form-group col-md-6">
-                      <label>User Address</label>
+                      <label>Address</label>
                       <input type="text" name="address" value="<%= user.address %>" placeholder="Example: House No, Street No, City, District." class="form-control"
                         required>
                     </div>
                 
                     <div class="form-group col-md-6">
-                      <label>User Type</label>
-                      <select class="form-control" style="width: 100%;" name="type">
-                        <option value="superAdmin" <%= user.type === 'admin' ? 'selected' : '' %> >Admin Dashbaord User</option>
-                        <option value="admin" <%= user.type === 'owner' ? 'selected' : '' %> >Owner</option>
+                      <label>Access</label>
+                      <select class="form-control" style="width: 100%;" name="access">
+                        <option value="0" <%= user.access == 0 ? 'selected' : '' %> >Full Access</option>
+                        <option value="1" <%= user.access == 1 ? 'selected' : '' %> >Only Read</option>
                       </select>
                     </div>
                   </div>
@@ -92,14 +83,20 @@
                 
                   <div class="row">
                     <div class="form-group col-md-6">
-                      <label>User Email</label>
+                      <label>Email</label>
                       <input type="text" name="email" value="<%= user.email %>" placeholder="example@gmail.com" class="form-control" required>
                     </div>
                 
-                    <div class="form-group col-md-6">
-                      <label>Enter New Password</label>
+                    <div class="form-group col-md-3">
+                      <label>New Password</label>
                       <input type="hidden" value="<%= user.password %>" name="oldPassword">
                       <input type="password" name="password" value="" placeholder="Change Password" class="form-control" />
+                    </div>
+
+                    <div class="form-group col-md-3">
+                      <label>Confirm Password</label>
+                      <input type="hidden" value="<%= user.password %>" name="oldPassword">
+                      <input type="password" name="cnfmPassword" value="" placeholder="Change Password" class="form-control" />
                     </div>
                   </div>
                 
@@ -109,7 +106,7 @@
                   <div class="form-group">
                 
                     <a class="btn btn-secondary btn-sm" name="cancel" type="submit" onclick="history.back(-1)">Cancel</a>
-                    <button class="btn btn-success btn-sm" type="submit" name="">Add User</button>
+                    <button class="btn btn-success btn-sm" type="submit" name="">Update User</button>
                   </div>
                 </form>
               </div>

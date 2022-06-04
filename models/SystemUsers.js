@@ -15,10 +15,6 @@ const UsersSchema = new Schema({
         type: String,
         required: true
     },
-    gender: {
-        type: String,
-        required: true
-    },
     location: {
         type: String,
         required: true
@@ -27,8 +23,8 @@ const UsersSchema = new Schema({
         type: String,
         required: true
     },
-    type: {
-        type: String,
+    access: {
+        type: Number,
         required: true
     },
     email: {
