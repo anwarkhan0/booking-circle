@@ -218,8 +218,8 @@ router.get("/admin/Hotels/viewHotel/:id", isAuth, viewHotel);
 router.get("/admin/Hotels/editHotel/:id", isAuth, editHotel);
 router.get("/admin/Hotels/approvedHotels", isAuth, hotelApproved);
 router.get("/admin/Hotels/unapprovedHotels", isAuth, hotelUnapproved);
-router.get("/admin/Hotels/addHotelImages", isAuth, addHotelImages);
-router.get("/admin/Hotels/addRoomImages", isAuth, addRoomImages);
+router.get("/admin/Hotels/addHotelGallery", isAuth, addHotelImages);
+router.get("/admin/Hotels/addRoomsGallery", isAuth, addRoomImages);
 router.get("/admin/Hotels/galleryList", isAuth, galleryList);
 router.get("/admin/Hotels/viewHotelImages/:id", isAuth, viewHotelImages);
 router.post(
@@ -290,10 +290,10 @@ router.post(
       .isEmail()
       .withMessage("Please enter a valid email.")
       .custom((value, { req }) => {
-        return Hotels.findOne({ loginEmail: value }).then((userHotel) => {
+        return Hotels.findOne({ owner: {email: value} }).then((userHotel) => {
           if (userHotel) {
             return Promise.reject(
-              "Hotel associated with E-Mail exists already, please pick a different one."
+              "Hotel associated with E-Mail already exists."
             );
           }
         });
@@ -398,7 +398,7 @@ router.post(
   postEditHotel
 );
 router.post("/admin/Hotels/addHotelGallery", isAuth, postAddHotelGallery);
-router.post("/admin/Hotels/addSingleRoomPics", isAuth, postAddRoomGallery);
+router.post("/admin/Hotels/addRoomImages", isAuth, postAddRoomGallery);
 router.post("/admin/Hotels/DeleteGalleryImage", postDeleteGalleryImage);
 router.post("/admin/Hotels/deleteHotel", isAuth, postDeleteHotel);
 

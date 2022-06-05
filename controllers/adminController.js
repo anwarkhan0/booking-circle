@@ -260,12 +260,25 @@ const hotelClients = (req, res, next) => {
           parking: "",
           area: "",
           roomService: "",
+          wifi: '',
+          hotWater: '',
           address: "",
           ownerName: "",
           ownerCNIC: "",
           ownerContact: "",
           loginEmail: "",
           loginPassword: "",
+          single: {
+            total: '',
+            charges: '',
+            videoUrl: '',
+            size: '',
+            view: '',
+            occupancy: '',
+            bedSize: '',
+            description: '',
+            features: '',
+          }
         },
         flashMessage: req.flash("message"),
       });
@@ -368,7 +381,7 @@ const addGalleryHotel = (req, res, next) => {
 
 const addHotelImages = (req, res, next) => {
   const hotelId = req.query.hotelId;
-  res.render("../Admin/views/pages/Hotels/addHotelImages", {
+  res.render("../Admin/views/pages/Hotels/addImages", {
     title: 'Selet Hotel Pictures',
     url: '/admin/Hotels/addHotelGallery',
     hotelId: hotelId
@@ -379,7 +392,7 @@ const addRoomImages = (req, res, next) => {
   const hotelId = req.query.hotelId;
   res.render("../Admin/views/pages/Hotels/addImages", {
     title: 'Selet Room Pictures',
-    url: '/admin/Hotels/addHotelGallery',
+    url: '/admin/Hotels/addRoomsGallery',
     hotelId: hotelId
     });
 };
@@ -507,6 +520,17 @@ const postAddHotel = async (req, res, next) => {
         ownerContact: ownerContact,
         loginEmail: loginEmail,
         loginPassword: loginPassword,
+        single: {
+          total: singleRooms,
+          charges: singleRmCharges,
+          videoUrl: singleRmVideoUrl,
+          size: singleRmSize,
+          view: singleRmView,
+          occupancy: singleRmOccupancy,
+          bedSize: singleRmBedSize,
+          description: singleRmDescription,
+          features: singleRmFeatures,
+        }
       },
       validationErrors: errors.array(),
     });
@@ -525,7 +549,7 @@ const postAddHotel = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     const areas = await Areas.find();
-    return res.status(422).render("../views/pages/Hotels/addHotel", {
+    return res.status(422).render("../Admin/views/pages/Hotels/addHotel", {
       path: "/admin/Hotesl/addHotel",
       pageTitle: "Hotel",
       areas: areas,
@@ -641,15 +665,15 @@ const postAddHotelGallery = async (req, res, next) => {
       hotel.gallery = gallery;
       hotel.save();
       console.log("added gallery to hotel");
-      req.flash("message", "Gallery Added To Hotel Successfully");
-      res.redirect("/admin/Hotels/addRoomImages?hotelId=" + hotelId);
+      req.flash("message", "Hotel pictures uploaded Successfully");
+      res.redirect("/admin/Hotels/addRoomsGallery?hotelId=" + hotelId);
     } else {
       updatedGallery = hotel.gallery.concat(gallery);
       hotel.gallery = updatedGallery;
       hotel.save();
       console.log("gallery updated");
       req.flash("message", "Hotel Gallery Updated Successfully");
-      res.redirect("/admin/Hotels/addRoomImages?hotelId=" + hotelId);
+      res.redirect("/admin/Hotels/addRoomsGallery?hotelId=" + hotelId);
     }
   } catch (err) {
     console.log(err);
@@ -671,23 +695,23 @@ const postAddRoomGallery = async (req, res, next) => {
   try {
     const hotel = await Hotels.findById(hotelId);
     if (hotel.rooms.single.gallery.length === 0) {
-      hotel.rooms.single.gallery = gallery;
+      hotel.rooms.gallery = gallery;
       hotel.save();
       console.log("added gallery to hotel");
-      req.flash("message", "Pictures uploaded Successfully");
-      res.redirect("/admin/Hotels/viewHotelImages/" + hotelId);
+      req.flash("message", "Hotel added Successfully");
+      res.redirect("/admin");
     } else {
       updatedGallery = hotel.gallery.concat(gallery);
-      hotel.rooms.single.gallery = updatedGallery;
+      hotel.rooms.gallery = updatedGallery;
       hotel.save();
       console.log("gallery updated");
       req.flash("message", "Gallery Updated Successfully");
-      res.redirect("/admin/Hotels/singleRomm?hotelId" + hotelId);
+      res.redirect("/admin");
     }
   } catch (err) {
     console.log(err);
     req.flash('message', 'Something went wrong.');
-    res.redirect("/admin/Hotels/addHotelImages?hotelId=" + hotelId);
+    res.redirect("/admin/Hotels/addRoomImages?hotelId=" + hotelId);
   }
 };
 
