@@ -13,7 +13,7 @@ const HotelsSchema = new Schema({
   },
   stars: {
     type: Number,
-    required: true
+    required: true,
   },
   contact: {
     type: String,
@@ -23,29 +23,29 @@ const HotelsSchema = new Schema({
     type: String,
     required: true,
   },
-  facilities: {
-    type: {
-      parking: {
-        type: Boolean,
-        required: true,
-      },
-      roomService: {
-        type: Boolean,
-        required: true,
-      },
-      wifi: {
-        type: Boolean,
-        required: true
-      },
-      hotWater: {
-        type: Boolean,
-        required: true
-      },
-      heater: {
-        type: Boolean,
-        required: true
-      }
-    }
+  parking: {
+    type: Boolean,
+    required: true,
+  },
+  roomService: {
+    type: Boolean,
+    required: true,
+  },
+  wifi: {
+    type: Boolean,
+    required: true,
+  },
+  hotWater: {
+    type: Boolean,
+    required: true,
+  },
+  heater: {
+    type: Boolean,
+    required: true,
+  },
+  roomkinds: {
+    type: Number,
+    required: true
   },
   owner: {
     name: {
@@ -62,62 +62,100 @@ const HotelsSchema = new Schema({
     },
     email: {
       type: String,
-      required: true
+      required: true,
     },
     password: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
-  gallery:  [String],
+  gallery: [String],
   rooms: {
     single: {
-      type:[{
-        total: Number,
-        charges: Number,
-        videoUrl: String,
-        size: String,
-        occupancy: Number,
-        View: Number,
-        bedSize: String,
-        description: String,
-        Features: String
-      }],
-      twin:[{
-        total: Number,
-        charges: Number,
-        videoUrl: String,
-        size: String,
-        occupancy: Number,
-        View: Number,
-        bedSize: String,
-        description: String,
-        Features: String
-      }],
-      triple:[{
-        total: Number,
-        charges: Number,
-        videoUrl: String,
-        size: String,
-        occupancy: Number,
-        View: Number,
-        bedSize: String,
-        description: String,
-        Features: String
-      }],
-      quad:[{
-        total: Number,
-        charges: Number,
-        videoUrl: String,
-        size: String,
-        occupancy: Number,
-        View: Number,
-        bedSize: String,
-        description: String,
-        Features: String
-      }]
-    }
-  }
+      total: Number,
+      charges: Number,
+      videoUrl: String,
+      size: String,
+      occupancy: Number,
+      view: Number,
+      bedSize: String,
+      description: String,
+      features: String,
+      gallery: [String],
+      reservations: [
+        {
+          user: Object,
+          date: Date,
+          checkIn: Date,
+          checkout: Date,
+          confirm: Boolean,
+        },
+      ],
+    },
+    twin: {
+      total: Number,
+      charges: Number,
+      videoUrl: String,
+      size: String,
+      occupancy: Number,
+      view: Number,
+      bedSize: String,
+      description: String,
+      features: String,
+      gallery: [String],
+      reservations: [
+        {
+          user: Object,
+          date: Date,
+          checkIn: Date,
+          checkout: Date,
+          confirm: Boolean,
+        },
+      ],
+    },
+    triple: {
+      total: Number,
+      charges: Number,
+      videoUrl: String,
+      size: String,
+      occupancy: Number,
+      view: Number,
+      bedSize: String,
+      description: String,
+      features: String,
+      gallery: [String],
+      reservations: [
+        {
+          user: Object,
+          date: Date,
+          checkIn: Date,
+          checkout: Date,
+          confirm: Boolean,
+        },
+      ],
+    },
+    quad: {
+      total: Number,
+      charges: Number,
+      videoUrl: String,
+      size: String,
+      occupancy: Number,
+      view: Number,
+      bedSize: String,
+      description: String,
+      features: String,
+      gallery: [String],
+      reservations: [
+        {
+          user: Object,
+          date: Date,
+          checkIn: Date,
+          checkout: Date,
+          confirm: Boolean,
+        },
+      ],
+    },
+  },
 });
 
 module.exports = mongoose.model("Hotels", HotelsSchema);

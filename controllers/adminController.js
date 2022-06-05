@@ -16,7 +16,6 @@ const vehicleCategory = require("../models/vehicleCategory");
 const Feedbacks = require('../models/Feedback');
 const Messages = require('../models/Message');
 const UsersModel = require('../models/usersModel');
-const House = require("../models/House");
 
 // Login
 const login = (req, res, next) => {
@@ -369,7 +368,20 @@ const addGalleryHotel = (req, res, next) => {
 
 const addHotelImages = (req, res, next) => {
   const hotelId = req.query.hotelId;
-  res.render("../Admin/views/pages/Hotels/addHotelImages", { hotelId: hotelId });
+  res.render("../Admin/views/pages/Hotels/addHotelImages", {
+    title: 'Selet Hotel Pictures',
+    url: '/admin/Hotels/addHotelGallery',
+    hotelId: hotelId
+    });
+};
+
+const addRoomImages = (req, res, next) => {
+  const hotelId = req.query.hotelId;
+  res.render("../Admin/views/pages/Hotels/addImages", {
+    title: 'Selet Room Pictures',
+    url: '/admin/Hotels/addHotelGallery',
+    hotelId: hotelId
+    });
 };
 
 const galleryList = (req, res, next) => {
@@ -421,11 +433,11 @@ const postAddHotel = async (req, res, next) => {
 
   // Rooms Details
   const singleRooms = req.body.singleRooms;
-  const singleRmCharges = req.body.singleRmCharges;
+  const singleRmCharges = Number(req.body.singleRmCharges);
   const singleRmVideoUrl = req.body.singleRmVideoUrl;
   const singleRmSize = req.body.singleRmSize;
-  const singleRmView = req.body.singleRmView;
-  const singleRmOccupancy = req.body.singleRmOccupancy;
+  const singleRmView = Number(req.body.singleRmView);
+  const singleRmOccupancy = Number(req.body.singleRmOccupancy);
   const singleRmBedSize = req.body.singleRmBedSize;
   const singleRmDescription = req.body.singleRmDescription;
   const singleRmFeatures = req.body.singleRmFeatures;
@@ -437,100 +449,102 @@ const postAddHotel = async (req, res, next) => {
   const loginEmail = req.body.loginEmail;
   const loginPassword = req.body.loginPassword;
 
+  // generate salt to hash password
+  const salt = await bcrypt.genSalt(16);
+  // now we set user password to hashed password
+  const hashedPassword = await bcrypt.hash(loginPassword, salt);
+
   const hotelDetails = {
     name: name,
     contact: contact,
     address: address,
     location: location,
     stars: stars,
+    parking: parking,
+    roomService: roomService,
+    wifi: wifi,
     hotWater: hotWater,
     heater: heater,
-    wifi: wifi,
-    roomService: roomService,
-    parking: parking,
     owner: {
       name: ownerName,
       cnic: ownerCNIC,
       contact: ownerContact,
       email: loginEmail,
-      password: loginPassword
-    }
+      password: hashedPassword,
+    },
+    rooms: {
+      single: {
+        total: singleRooms,
+        charges: singleRmCharges,
+        videoUrl: singleRmVideoUrl,
+        size: singleRmSize,
+        view: singleRmView,
+        occupancy: singleRmOccupancy,
+        bedSize: singleRmBedSize,
+        description: singleRmDescription,
+        features: singleRmFeatures,
+      },
+    },
+  };
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const areas = await Areas.find();
+    return res.status(422).render("../Admin/views/pages/Hotels/addHotel", {
+      path: "/Hotesl/addHotel",
+      pageTitle: "Hotel",
+      areas: areas,
+      flashMessage: errors.array()[0].msg,
+      oldInput: {
+        name: name,
+        contact: contact,
+        parking: parking,
+        location: location,
+        roomService: roomService,
+        address: address,
+        ownerName: ownerName,
+        ownerCNIC: ownerCNIC,
+        ownerContact: ownerContact,
+        loginEmail: loginEmail,
+        loginPassword: loginPassword,
+      },
+      validationErrors: errors.array(),
+    });
   }
 
-  // const errors = validationResult(req);
-  // if (!errors.isEmpty()) {
-  //   const areas = await Areas.find();
-  //   return res.status(422).render("../Admin/views/pages/Hotels/addHotel", {
-  //     path: "/Hotesl/addHotel",
-  //     pageTitle: "Hotel",
-  //     areas: areas,
-  //     flashMessage: errors.array()[0].msg,
-  //     oldInput: {
-  //       name: name,
-  //       contact: contact,
-  //       parking: parking,
-  //       area: area,
-  //       roomService: roomService,
-  //       address: address,
-  //       ownerName: ownerName,
-  //       ownerCNIC: ownerCNIC,
-  //       ownerContact: ownerContact,
-  //       loginEmail: loginEmail,
-  //       loginPassword: loginPassword,
-  //     },
-  //     validationErrors: errors.array(),
-  //   });
-  // }
+  
 
-  // generate salt to hash password
-  // const salt = await bcrypt.genSalt(16);
-  // // now we set user password to hashed password
-  // const hashedPassword = await bcrypt.hash(loginPassword, salt);
+  const hotel = new Hotels(hotelDetails);
 
-  // const hotel = new Hotels({
-  //   name: name,
-  //   contact: contact,
-  //   parking: parking,
-  //   area: area,
-  //   roomService: roomService,
-  //   address: address,
-  //   ownerName: ownerName,
-  //   ownerCNIC: ownerCNIC,
-  //   ownerContact: ownerContact,
-  //   loginEmail: loginEmail,
-  //   loginPassword: hashedPassword,
-  //   approvedStatus: false,
-  // });
-
-  // try {
-  //   await hotel.save();
-  //   // console.log(result);
-  //   console.log("Added Hotel");
-  //   req.flash("message", "Hotel Data Added Successfully.");
-  //   res.redirect("/admin/Hotels/addHotelGallery");
-  // } catch (err) {
-  //   console.log(err);
-  //   const areas = await Areas.find();
-  //   return res.status(422).render("../views/pages/Hotels/addHotel", {
-  //     path: "/admin/Hotesl/addHotel",
-  //     pageTitle: "Hotel",
-  //     areas: areas,
-  //     flashMessage: "Something went wrong please try again.",
-  //     oldInput: {
-  //       name: name,
-  //       contact: contact,
-  //       parking: parking,
-  //       area: area,
-  //       roomService: roomService,
-  //       address: address,
-  //       ownerName: ownerName,
-  //       ownerCNIC: ownerCNIC,
-  //       ownerContact: ownerContact,
-  //       loginEmail: loginEmail,
-  //       loginPassword: loginPassword,
-  //     },
-  //   });
-  // }
+  try {
+    await hotel.save();
+    // console.log(result);
+    console.log("Added Hotel");
+    req.flash("message", "Hotel Data Added Successfully.");
+    res.redirect("/admin/Hotels/addHotelGallery");
+  } catch (err) {
+    console.log(err);
+    const areas = await Areas.find();
+    return res.status(422).render("../views/pages/Hotels/addHotel", {
+      path: "/admin/Hotesl/addHotel",
+      pageTitle: "Hotel",
+      areas: areas,
+      flashMessage: "Something went wrong please try again.",
+      oldInput: {
+        name: name,
+        contact: contact,
+        parking: parking,
+        location: location,
+        roomService: roomService,
+        address: address,
+        ownerName: ownerName,
+        ownerCNIC: ownerCNIC,
+        ownerContact: ownerContact,
+        loginEmail: loginEmail,
+        loginPassword: loginPassword,
+      },
+    });
+  }
 };
 
 const postEditHotel = async (req, res, next) => {
@@ -628,17 +642,52 @@ const postAddHotelGallery = async (req, res, next) => {
       hotel.save();
       console.log("added gallery to hotel");
       req.flash("message", "Gallery Added To Hotel Successfully");
-      res.redirect("/admin/Hotels/viewHotelImages/" + hotelId);
+      res.redirect("/admin/Hotels/addRoomImages?hotelId=" + hotelId);
     } else {
       updatedGallery = hotel.gallery.concat(gallery);
       hotel.gallery = updatedGallery;
       hotel.save();
       console.log("gallery updated");
       req.flash("message", "Hotel Gallery Updated Successfully");
-      res.redirect("/admin/Hotels/viewHotelImages/" + hotelId);
+      res.redirect("/admin/Hotels/addRoomImages?hotelId=" + hotelId);
     }
   } catch (err) {
     console.log(err);
+    req.flash('message', 'Something went wrong.');
+    res.redirect("/admin/Hotels/addHotelImages?hotelId=" + hotelId);
+  }
+};
+
+
+const postAddRoomGallery = async (req, res, next) => {
+  const uploads = req.files;
+  const hotelId = req.body.hotelId;
+  const gallery = [];
+
+  for (let i = 0; i < uploads.length; i++) {
+    gallery.push(uploads[i].filename);
+  }
+
+  try {
+    const hotel = await Hotels.findById(hotelId);
+    if (hotel.rooms.single.gallery.length === 0) {
+      hotel.rooms.single.gallery = gallery;
+      hotel.save();
+      console.log("added gallery to hotel");
+      req.flash("message", "Pictures uploaded Successfully");
+      res.redirect("/admin/Hotels/viewHotelImages/" + hotelId);
+    } else {
+      updatedGallery = hotel.gallery.concat(gallery);
+      hotel.rooms.single.gallery = updatedGallery;
+      hotel.save();
+      console.log("gallery updated");
+      req.flash("message", "Gallery Updated Successfully");
+      res.redirect("/admin/Hotels/singleRomm?hotelId" + hotelId);
+    }
+  } catch (err) {
+    console.log(err);
+    req.flash('message', 'Something went wrong.');
+    res.redirect("/admin/Hotels/addHotelImages?hotelId=" + hotelId);
   }
 };
 
@@ -1384,380 +1433,6 @@ const postDeleteHouseGalleryImage = (req, res) => {
     });
 };
 
-// Rooms
-const addRoom = async (req, res, next) => {
-
-  try {
-    const areas = await Areas.find();
-    const hotels = await Hotels.find();
-
-    res.render("../Admin/views/pages/Rooms/addRoom", {
-      pageTitle: "Rooms",
-      path: "/Rooms/add-room",
-      areas: areas,
-      hotels: hotels,
-      hotelId: '',
-      areaId: '',
-      oldInput: {
-        roomNo: '',
-        areaName: '',
-        beds: '',
-        hotWater: '',
-        balcony: '',
-        status: '',
-        location: '',
-        charges: '',
-        size: '',
-        occupency: '',
-        bedSize: '',
-        description: '',
-        features: '',
-        videoUrl: ''
-      },
-      flashMessage: req.flash("message"),
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const roomList = async (req, res, next) => {
-  
-  try {
-    const hotels = await Hotels.find();
-    res.render("../Admin/views/pages/Rooms/roomList", {
-      hotels: hotels,
-      pageTitle: "Room List",
-      path: "/Rooms/room-list",
-      flashMessage: req.flash("message"),
-    });
-  } catch (err) {
-    console.log(err);
-    req.flash("message", "Something went wrong.");
-    res.redirect("/");
-  }
-  
-};
-
-const roomBookings = async (req, res, next) => {
-  
-  try {
-    const hotels = await Hotels.find();
-    res.render("../Admin/views/pages/Rooms/bookingsList", {
-      hotels: hotels,
-      flashMessage: req.flash("message"),
-    });
-  } catch (err) {
-    console.log(err);
-    req.flash("message", "Something went wrong.");
-    res.redirect("/");
-  }
-  
-};
-
-const editRoom = async (req, res, next) => {
-  const id = req.params.id;
-  const index = req.query.i;
-
-  try {
-    const hotel = await Hotels.findById(id);
-
-    res.render("../Admin/views/pages/Rooms/editRoom", {
-      room: hotel.rooms[index],
-      hotelId: hotel.id,
-      roomIndex: index,
-      flashMessage: req.flash('message')
-    });
-
-  } catch (err) {
-    console.log(err);
-    console.log("something went wrong");
-    req.flash("message", "Something went wrong.");
-    res.redirect("/");
-  }
-};
-
-const addRoomGallery = (req, res, next) => {
-  const hotelId = req.params.id;
-  const roomIndex = req.query.i;
-  res.render("../Admin/views/pages/Rooms/addRoomGallery", { hotelId: hotelId, roomIndex });
-};
-
-const editRoomGallery = (req, res, next) => {
-  const hotelId = req.params.id;
-  const roomIndex = req.query.i;
-
-  Hotels.findById(hotelId)
-    .then((hotel) => {
-      if (hotel.rooms[roomIndex].gallery.length === 0) {
-        res.redirect("/admin/Rooms/addGallery/" + hotelId + '?i=' + roomIndex);
-      } else {
-        res.render("../Admin/views/pages/Rooms/editRoomGallery", {
-          gallery: hotel.rooms[roomIndex].gallery,
-          hotelId: hotel.id,
-          roomIndex: roomIndex,
-          pageTitle: "Gallery List",
-          path: "/Rooms/gallery-list",
-          flashMessage: req.flash("message"),
-        });
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-      res.redirect('/admin');
-    })
-};
-
-// Room post requests
-const postAddRoom = async (req, res) => {
-
-  const roomNo = req.body.roomNo;
-  const hotelId = req.body.hotel;
-  const beds = req.body.beds;
-  const hotWater = req.body.hotWater;
-  const balcony = req.body.balcony;
-  const status = req.body.status;
-  const location = req.body.location;
-  const charges = req.body.charges;
-  const size = req.body.size;
-  const occupency = req.body.occupency;
-  const bedSize = req.body.bedSize;
-  const description = req.body.description;
-  const features = req.body.features;
-  const videoUrl = req.body.videoUrl;
-
-  const room = {
-    roomNo: roomNo,
-    beds: beds,
-    hotWater: hotWater,
-    balcony: balcony,
-    status: status,
-    location: location,
-    charges: charges,
-    size: size,
-    occupency: occupency,
-    bedSize: bedSize,
-    description: description,
-    features: features,
-    videoUrl: videoUrl,
-    gallery: []
-  };
-
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const hotels = await Hotels.find();
-    return res.status(422).render("../views/pages/Rooms/addRoom", {
-      path: "/Room/addRoom",
-      pageTitle: "Rooms",
-      hotels: hotels,
-      flashMessage: errors.array()[0].msg,
-      hotelId: hotelId,
-      oldInput: {
-        roomNo: roomNo,
-        beds: beds,
-        hotWater: hotWater,
-        balcony: balcony,
-        status: status,
-        location: location,
-        charges: charges,
-        size: size,
-        occupency: occupency,
-        bedSize: bedSize,
-        description: description,
-        features: features,
-        videoUrl: videoUrl,
-      },
-      validationErrors: errors.array(),
-    });
-  }
-
-  try {
-    const hotel = await Hotels.findById(hotelId);
-    hotel.rooms.push(room);
-    await hotel.save();
-    // console.log(result);
-    console.log("Added Room");
-    req.flash("message", "Room Added Successfully");
-    res.redirect("/admin");
-  } catch (err) {
-    console.log(err);
-    req.flash("message", "Something went wrong");
-    res.redirect("/admin");
-  }
-};
-
-const postEditRoom = async (req, res) => {
-  //hotel and room id info
-  const roomId = req.body.roomId;
-  const hotelId = req.body.hotel;
-
-  //room data
-  const roomNo = req.body.roomNo;
-  const beds = req.body.beds;
-  const hotWater = req.body.hotWater;
-  const balcony = req.body.balcony;
-  const status = req.body.status;
-  const location = req.body.location;
-  const charges = req.body.charges;
-  const size = req.body.size;
-  const occupency = req.body.occupency;
-  const bedSize = req.body.bedSize;
-  const description = req.body.description;
-  const features = req.body.features;
-  const videoUrl = req.body.videoUrl;
-
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    try {
-      const hotels = await Hotels.find();
-      return res.status(422).render("../views/pages/Rooms/editRoom", {
-        hotels: hotels,
-        path: "/Room/addRoom",
-        pageTitle: "Rooms",
-        areaId: area.id,
-        areaName: area.name,
-        hotelId: hotel.id,
-        hotelName: hotel.name,
-        flashMessage: errors.array()[0].msg,
-        hotelId: hotel,
-        areaId: area,
-        room: {
-          id: roomId,
-          roomNo: roomNo,
-          areaName: area.areaName,
-          beds: beds,
-          hotWater: hotWater,
-          balcony: balcony,
-          status: status,
-          location: location,
-          charges: charges,
-          size: size,
-          occupency: occupency,
-          bedSize: bedSize,
-          description: description,
-          features: features,
-          videoUrl: videoUrl,
-        },
-        validationErrors: errors.array(),
-      });
-    } catch (err) {
-      console.log(err);
-      req.flash("message", "Something went wrong.");
-      res.redirect('/admin')
-    }
-  }
-
-  try {
-    const hotel = await Hotels.findById(hotelId);
-    hotel.rooms.forEach((room, i)=>{
-      if(room.id == roomId){
-        hotel.rooms[i].roomNo = roomNo;
-        hotel.rooms[i].beds = beds;
-        hotel.rooms[i].hotWater = hotWater;
-        hotel.rooms[i].balcony = balcony;
-        hotel.rooms[i].status = status;
-        hotel.rooms[i].location = location;
-        hotel.rooms[i].charges = charges;
-        hotel.rooms[i].size = size;
-        hotel.rooms[i].occupency = occupency;
-        hotel.rooms[i].bedSize = bedSize;
-        hotel.rooms[i].description = description;
-        hotel.rooms[i].features = features;
-        hotel.rooms[i].videoUrl = videoUrl;
-      }
-    })
-
-    await hotel.save();
-
-    console.log("room updated");
-    req.flash("message", "Room Data Updated Successfully");
-    res.redirect("/admin/Rooms/roomList");
-  } catch (err) {
-    console.log(err);
-    req.flash("message", "Something went wrong.");
-    res.redirect("/admin");
-  }
-};
-
-const postDeleteRoom = async (req, res) => {
-  const hotelId = req.body.id;
-  const roomIndex = req.body.index;
-  try {
-    const hotel = await Hotels.findById(hotelId);
-    const gallery = hotel.rooms[roomIndex].gallery;
-    if (delMultImages(gallery)) {
-      hotel.rooms.splice(roomIndex, 1);
-      await hotel.save();
-      res.sendStatus(200);
-      console.log("room deleted");
-    } else {
-      throw "Something went wrong deleting file.";
-    }
-    
-  } catch (err) {
-    console.log(err);
-    res.sendStatus(204);
-  }
-};
-
-const postAddRoomGallery = async (req, res) => {
-
-  const uploads = req.files;
-  const hotelId = req.body.hotelId;
-  const roomIndex = req.body.roomIndex;
-  const gallery = [];
-
-  for (let i = 0; i < uploads.length; i++) {
-    gallery.push(uploads[i].filename);
-  }
-
-  try {
-    const hotel = await Hotels.findById(hotelId);
-    if (hotel.rooms[roomIndex].gallery.length === 0) {
-      hotel.rooms[roomIndex].gallery = gallery;
-      await hotel.save();
-      console.log("added gallery to room");
-      req.flash("message", "Gallery Added To Room");
-      res.redirect("/admin/Rooms/editGallery/" + hotel.id + '?i=' + roomIndex);
-    } else {
-      updatedGallery = hotel.rooms[roomIndex].gallery.concat(gallery);
-      hotel.rooms[roomIndex].gallery = updatedGallery;
-      await hotel.save();
-      console.log("gallery updated");
-      req.flash("message", "Room Gallery Updated");
-      res.redirect("/admin/Rooms/editGallery/" + hotel.id + '?i=' + roomIndex);
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const postDeleteRoomGalleryImage = async (req, res) => {
-  const hotelId = req.body.id;
-  const roomIndex = req.body.roomIndex;
-  const image = req.body.image;
-
-  try {
-    const hotel = await Hotels.findById(hotelId);
-    gallery = hotel.rooms[roomIndex].gallery;
-
-    // removing the selected image from array
-    gallery.splice(gallery.indexOf(image), 1);
-
-    if (delImg(image)) {
-      hotel.rooms[roomIndex].gallery = gallery;
-      await hotel.save();
-      console.log("UPDATED Gallery!");
-      res.sendStatus(200);
-    }else{
-      throw 'Something went wrong while deleting file.';
-    }
-    
-  } catch (err) {
-    console.log(err);
-    res.sendStatus(204);
-  }
-};
 
 // Vehicle Category (New Data)
 const addCategory = (req, res, next) => {
@@ -2903,7 +2578,7 @@ const postAddUser = async (req, res) => {
   const name = req.body.name;
   const contact = req.body.contact;
   const cnic = req.body.cnic;
-  const location = JSON.parse(req.body.location);
+  const city = req.body.city;
   const address = req.body.address;
   const access = req.body.access;
   const email = req.body.email;
@@ -2921,7 +2596,7 @@ const postAddUser = async (req, res) => {
         name: name,
         contact: contact,
         CNIC: cnic,
-        location: location.name,
+        location: city,
         address: address,
         access: access,
         email: email,
@@ -2940,7 +2615,7 @@ const postAddUser = async (req, res) => {
     name: name,
     contact: contact,
     CNIC: cnic,
-    location: location.name,
+    location: city,
     address: address,
     access: access,
     email: email,
@@ -2964,7 +2639,7 @@ const postAddUser = async (req, res) => {
         name: name,
         contact: contact,
         CNIC: cnic,
-        location: location.name,
+        location: city,
         address: address,
         access: access,
         email: email,
@@ -2981,7 +2656,7 @@ const postEditUser = async (req, res) => {
   const name = req.body.name;
   const contact = req.body.contact;
   const cnic = req.body.cnic;
-  const location = JSON.parse(req.body.location);
+  const city = req.body.city;
   const address = req.body.address;
   const access = Number(req.body.access);
   const email = req.body.email;
@@ -3001,7 +2676,7 @@ const postEditUser = async (req, res) => {
         name: name,
         contact: contact,
         CNIC: cnic,
-        location: location.name,
+        location: city,
         address: address,
         access: access,
         email: email,
@@ -3031,7 +2706,7 @@ const postEditUser = async (req, res) => {
     user.name = name;
     user.contact = contact;
     user.CNIC = cnic;
-    user.location = location.areaName;
+    user.location = city;
     user.address = address;
     user.access = access;
     user.email = email;
@@ -3050,7 +2725,7 @@ const postEditUser = async (req, res) => {
         name: name,
         contact: contact,
         CNIC: cnic,
-        location: location.name,
+        location: city,
         address: address,
         access: access,
         email: email,
@@ -3103,11 +2778,15 @@ module.exports = {
   hotelUnapproved,
   addGalleryHotel,
   addHotelImages,
+  addRoomImages,
   galleryList,
   viewHotelImages,
+
+  
   postAddHotel,
   postEditHotel,
   postAddHotelGallery,
+  postAddRoomGallery,
   postDeleteGalleryImage,
   postDeleteHotel,
 
@@ -3135,19 +2814,6 @@ module.exports = {
   postAddHouseGallery,
   postDeleteHouse,
   postDeleteHouseGalleryImage,
-
-  // Rooms
-  addRoom,
-  roomList,
-  editRoom,
-  roomBookings,
-  addRoomGallery,
-  editRoomGallery,
-  postAddRoom,
-  postEditRoom,
-  postAddRoomGallery,
-  postDeleteRoomGalleryImage,
-  postDeleteRoom,
 
   // Vehicle Category
   addCategory,

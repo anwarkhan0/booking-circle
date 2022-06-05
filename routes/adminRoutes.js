@@ -36,11 +36,13 @@ const {
   hotelUnapproved,
   addGalleryHotel,
   addHotelImages,
+  addRoomImages,
   galleryList,
   viewHotelImages,
   postAddHotel,
   postEditHotel,
   postAddHotelGallery,
+  postAddRoomGallery,
   postDeleteGalleryImage,
   postDeleteHotel,
 
@@ -68,19 +70,6 @@ const {
   postAddHouseGallery,
   postDeleteHouse,
   postDeleteHouseGalleryImage,
-
-  // Rooms
-  addRoom,
-  roomList,
-  editRoom,
-  roomBookings,
-  addRoomGallery,
-  editRoomGallery,
-  postAddRoom,
-  postEditRoom,
-  postAddRoomGallery,
-  postDeleteRoomGalleryImage,
-  postDeleteRoom,
 
   // Vehicle Category
   addCategory,
@@ -229,14 +218,14 @@ router.get("/admin/Hotels/viewHotel/:id", isAuth, viewHotel);
 router.get("/admin/Hotels/editHotel/:id", isAuth, editHotel);
 router.get("/admin/Hotels/approvedHotels", isAuth, hotelApproved);
 router.get("/admin/Hotels/unapprovedHotels", isAuth, hotelUnapproved);
-router.get("/admin/Hotels/addHotelGallery", isAuth, addGalleryHotel);
 router.get("/admin/Hotels/addHotelImages", isAuth, addHotelImages);
+router.get("/admin/Hotels/addRoomImages", isAuth, addRoomImages);
 router.get("/admin/Hotels/galleryList", isAuth, galleryList);
 router.get("/admin/Hotels/viewHotelImages/:id", isAuth, viewHotelImages);
 router.post(
   "/admin/Hotels/addHotel",
   [
-    body("hotelName", "Please enter valid Hotel Name.")
+    body("name", "Please enter valid Hotel Name.")
       .notEmpty()
       .custom((val) => {
         if (val.trim().length === 0) {
@@ -259,16 +248,11 @@ router.post(
       })
       .isLength({ min: 10, max: 11 })
       .trim(),
-    body("parking", "Please enter valid value for parking.").isBoolean(),
     body("area", "Please enter valid Hotel Location.")
       .notEmpty()
       .isLength({ min: 2, max: 200 })
       .trim()
       .escape(),
-    body(
-      "roomService",
-      "Please enter valid value for room Service."
-    ).isBoolean(),
     body("address", "Please enter valid Hotel Address.")
       .notEmpty()
       .isLength({ min: 2, max: 200 })
@@ -414,6 +398,7 @@ router.post(
   postEditHotel
 );
 router.post("/admin/Hotels/addHotelGallery", isAuth, postAddHotelGallery);
+router.post("/admin/Hotels/addSingleRoomPics", isAuth, postAddRoomGallery);
 router.post("/admin/Hotels/DeleteGalleryImage", postDeleteGalleryImage);
 router.post("/admin/Hotels/deleteHotel", isAuth, postDeleteHotel);
 
@@ -879,185 +864,6 @@ router.post("/admin/Houses/addGallery", isAuth, postAddHouseGallery);
 router.post("/admin/houses/deleteHouse", isAuth, postDeleteHouse);
 router.post("/admin/houses/DeleteGalleryImage", isAuth, postDeleteHouseGalleryImage);
 
-// Rooms
-router.get("/admin/Rooms/addRoom", isAuth, addRoom);
-router.get("/admin/Rooms/roomList", isAuth, roomList);
-router.get('/admin/Rooms/bookings', roomBookings);
-router.get("/admin/Rooms/editRoom/:id", isAuth, editRoom);
-router.get("/admin/Rooms/addGallery/:id", isAuth, addRoomGallery);
-router.get("/admin/Rooms/editGallery/:id", isAuth, editRoomGallery);
-//post requests for rooms
-router.post(
-  "/admin/Rooms/addRoom",
-  [
-    body("hotel", "invalid hotel input").notEmpty().trim(),
-    body("beds", "invalid beds input").isNumeric(),
-    body("hotWater", "invalid Hot water input").isBoolean(),
-    body("heater", "invalid heater input").isBoolean(),
-    body("balcony", "invalid balcony input").isBoolean(),
-    body("status", "invalid status input").isBoolean(),
-    body("location", "Please enter valid location")
-      .notEmpty()
-      .custom((val) => {
-        if (val.length === 0) {
-          return false;
-        } else {
-          return true;
-        }
-      })
-      .isLength({ min: 3, max: 200 })
-      .trim()
-      .escape(),
-    body("charges", "Please enter valid charges")
-      .notEmpty()
-      .isLength({ min: 1 })
-      .isNumeric()
-      .trim(),
-    body("roomNo", "Please valid Room No.")
-      .isNumeric()
-      .isLength({ min: 1 })
-      .trim(),
-    body("size", "Please enter valid size.")
-      .notEmpty()
-      .custom((val) => {
-        if (val.length === 0) {
-          return false;
-        } else {
-          return true;
-        }
-      })
-      .notEmpty()
-      .isLength({ min: 3 })
-      .trim()
-      .escape(),
-    body("occupency", "Please valid occupency.")
-      .notEmpty()
-      .custom((val) => {
-        if (val.length === 0) {
-          return false;
-        } else {
-          return true;
-        }
-      })
-      .isLength({ min: 1 })
-      .trim()
-      .escape(),
-    body("bedSize", "invalid bed Size.").notEmpty(),
-    body("videoUrl", "invalid video URL.").isURL(),
-    body("description", "Please enter valid description.")
-      .notEmpty()
-      .custom((val) => {
-        if (val.trim().length===0) {
-          return false;
-        } else {
-          return true;
-        }
-      })
-      .isLength({ min: 3 })
-      .trim()
-      .escape(),
-    body("features", "Please enter valid description.")
-      .notEmpty()
-      .custom((val) => {
-        if (val.trim().length===0) {
-          return false;
-        } else {
-          return true;
-        }
-      })
-      .isLength({ min: 3 })
-      .trim()
-      .escape(),
-  ],
-  isAuth,
-  postAddRoom
-);
-router.post("/admin/Rooms/editRoom",
-[
-  body("hotel", "invalid hotel input").notEmpty().trim(),
-  body("beds", "invalid beds input").isNumeric(),
-  body("hotWater", "invalid Hot water input").isBoolean(),
-  body("heater", "invalid heater input").isBoolean(),
-  body("balcony", "invalid balcony input").isBoolean(),
-  body("status", "invalid status input").isBoolean(),
-  body("location", "Please enter valid location")
-    .notEmpty()
-    .custom((val) => {
-      if (val.length === 0) {
-        return false;
-      } else {
-        return true;
-      }
-    })
-    .isLength({ min: 3, max: 200 })
-    .trim()
-    .escape(),
-  body("charges", "Please enter valid charges")
-    .notEmpty()
-    .isLength({ min: 1 })
-    .isNumeric()
-    .trim(),
-  body("roomNo", "Please valid Room No.")
-    .isNumeric()
-    .isLength({ min: 1 })
-    .trim(),
-  body("size", "Please enter valid size.")
-    .notEmpty()
-    .custom((val) => {
-      if (val.length === 0) {
-        return false;
-      } else {
-        return true;
-      }
-    })
-    .notEmpty()
-    .isLength({ min: 3 })
-    .trim()
-    .escape(),
-  body("occupency", "Please valid occupency.")
-    .notEmpty()
-    .custom((val) => {
-      if (val.length === 0) {
-        return false;
-      } else {
-        return true;
-      }
-    })
-    .isLength({ min: 1 })
-    .trim()
-    .escape(),
-  body("bedSize", "invalid bed Size.").notEmpty(),
-  body("videoUrl", "invalid video URL.").isURL(),
-  body("description", "Please enter valid description.")
-    .notEmpty()
-    .custom((val) => {
-      if (val.trim().length===0) {
-        return false;
-      } else {
-        return true;
-      }
-    })
-    .isLength({ min: 3 })
-    .trim()
-    .escape(),
-  body("features", "Please enter valid description.")
-    .notEmpty()
-    .custom((val) => {
-      if (val.trim().length===0) {
-        return false;
-      } else {
-        return true;
-      }
-    })
-    .isLength({ min: 3 })
-    .trim()
-    .escape(),
-],
-isAuth, postEditRoom);
-router.post("/admin/Rooms/deleteRoom", isAuth, postDeleteRoom);
-router.post("/admin/Rooms/addGallery", isAuth, postAddRoomGallery);
-router.post("/admin/Rooms/deleteImage/", isAuth, postDeleteRoomGalleryImage);
-
 // Vehicle Category
 router.get("/admin/VehiclesCategory/addCategory", isAuth, addCategory);
 router.get("/admin/VehiclesCategory/categoryList", isAuth, categoryList);
@@ -1490,9 +1296,17 @@ router.post(
     .notEmpty()
     .isLength({min: 13, max: 13})
     .trim(),
-    body("location", "Invalid value for location.")
+    body("city", "Invalid value for city.")
     .notEmpty()
-    .isJSON(),
+    .custom(val =>{
+      if(val.trim().length===0){
+        return false;
+      }else{
+        return true;
+      }
+    })
+    .isLength({min: 1, max: 300})
+    .trim(),
     body("address", "Please enter valid address.")
     .notEmpty()
     .custom(val =>{
@@ -1568,9 +1382,17 @@ router.post(
     .notEmpty()
     .isLength({min: 13, max: 13})
     .trim(),
-    body("location", "Invalid value for location.")
+    body("city", "Invalid value for city.")
     .notEmpty()
-    .isJSON(),
+    .custom(val =>{
+      if(val.trim().length===0){
+        return false;
+      }else{
+        return true;
+      }
+    })
+    .isLength({min: 1, max: 300})
+    .trim(),
     body("address", "Please enter valid address.")
     .notEmpty()
     .custom(val =>{

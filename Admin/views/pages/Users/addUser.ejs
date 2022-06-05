@@ -56,12 +56,8 @@
                         </div>
 
                         <div class="form-group col-md-3">
-                            <label>Location</label>
-                            <select class="form-control select2" name="location">
-                              <% for(let i= 0; i< areas.length; i++) { %> 
-                                <option value="<%= JSON.stringify( {id: areas[i].id, name: areas[i].name} ) %>" <%= oldInput.area===areas[i].name ? 'selected' : '' %> ><%= areas[i].name %> </option>
-                                <% } %> 
-                            </select>
+                            <label>City</label>
+                            <input type="text" value="<%= oldInput.city %>" name="city" placeholder="Swat" class="form-control" required>
                         </div>
 
                         <div class="form-group col-md-6">

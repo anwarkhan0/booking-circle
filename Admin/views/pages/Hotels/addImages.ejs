@@ -31,10 +31,10 @@
           <div class="col-md-6">
             <div class="card card-success">
               <div class="card-header">
-                <h3 class="card-title">Add Hotel Gallery</h3>
+                <h3 class="card-title"><%= title %></h3>
               </div>
               <div class="card-body">
-                <form action="/admin/Hotels/addHotelGallery" method="POST" enctype="multipart/form-data">
+                <form action="<%= url %>" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label>Select Images</label>
                         <input type="file" multiple name="images" placeholder="Example: Kalam" class="form-control" required>
@@ -43,7 +43,7 @@
                     <input type="hidden" name="hotelId" value="<%= hotelId %>">
                     <div class="form-group">
                         <a class="btn btn-secondary btn-sm" name="cancel" type="submit" onclick="history.back(-1)">Cancel</a>
-                        <button class="btn btn-success btn-sm" type="submit" name="">Add Gallery</button>
+                        <button class="btn btn-success btn-sm" type="submit" name="">Upload</button>
                     </div>
                 </form>
               </div>
