@@ -8,7 +8,7 @@ const Appartments = require("../../models/Appartment");
 const appartmentsHouses = (req, res, next) => {
   Areas.find()
     .then((areas) => {
-      res.render("../../Admin/views/pages/Appartments/addAppartment", {
+      res.render("../Admin/views/pages/Appartments/addAppartment", {
         areas: areas,
         pageTitle: "add appartment",
         path: "/Appartments/add-appartment",
@@ -46,7 +46,7 @@ const editAppartmentHouse = async (req, res, next) => {
     }
 
     const areas = await Areas.find();
-    res.render("../../Admin/views/pages/Appartments/editAppartmentHouse", {
+    res.render("../Admin/views/pages/Appartments/editAppartmentHouse", {
       pageTitle: "Edit Appartment/House",
       path: "/Appartment/edit-Appartment",
       areas: areas,
@@ -60,7 +60,7 @@ const editAppartmentHouse = async (req, res, next) => {
 
 const addGallery = (req, res, next) => {
   const appartId = req.params.id;
-  res.render("../../Admin/views/pages/Appartments/addGalleryAppartments", {
+  res.render("../Admin/views/pages/Appartments/addGalleryAppartments", {
     appartId: appartId,
   });
 };
@@ -72,7 +72,7 @@ const editGalleryAppartments = (req, res, next) => {
       if (!appartment) {
         res.redirect("/Appartments/addGallery/" + appartId);
       } else {
-        res.render("../../Admin/views/pages/Appartments/editGalleryAppartments", {
+        res.render("../Admin/views/pages/Appartments/editGalleryAppartments", {
           gallery: appartment.gallery,
           appartmentId: appartment.id,
           pageTitle: "Gallery List",
@@ -87,7 +87,7 @@ const editGalleryAppartments = (req, res, next) => {
 const appartmentList = (req, res, next) => {
   Appartments.find()
     .then((appartments) => {
-      res.render("../../Admin/views/pages/Appartments/appartmentList", {
+      res.render("../Admin/views/pages/Appartments/appartmentList", {
         aparts: appartments,
         pageTitle: "Appartments List",
         path: "/Appartments/appartment-list",
@@ -99,7 +99,7 @@ const appartmentList = (req, res, next) => {
 const appartmentBookingsList = (req, res, next) => {
   Appartments.find()
     .then((appartments) => {
-      res.render("../../Admin/views/pages/Appartments/bookingsList", {
+      res.render("../Admin/views/pages/Appartments/bookingsList", {
         appartments: appartments,
         flashMessage: req.flash("message"),
       });
@@ -108,11 +108,11 @@ const appartmentBookingsList = (req, res, next) => {
 };
 
 const addGalleryHouses = (req, res, next) => {
-  res.render("../../Admin/views/pages/Appartments/addGalleryHouses");
+  res.render("../Admin/views/pages/Appartments/addGalleryHouses");
 };
 
 const editGalleryHouses = (req, res, next) => {
-  res.render("../../Admin/views/pages/Appartments/editGalleryHouses");
+  res.render("../Admin/views/pages/Appartments/editGalleryHouses");
 };
 
 //Appartments post requests
@@ -223,7 +223,7 @@ const postEditAppartment = async (req, res, next) => {
     const areas = await Areas.find();
     return res
       .status(422)
-      .render("../../Admin/views/pages/Appartments/editAppartmentHouse", {
+      .render("../Admin/views/pages/Appartments/editAppartmentHouse", {
         areas: areas,
         flashMessage: errors.array()[0].msg,
         appart: {
