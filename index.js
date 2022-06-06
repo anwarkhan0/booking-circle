@@ -17,8 +17,16 @@ const compression = require('compression');
 const app = express();
 app.use(cors());
 app.use(compression());
+
+// cloud
+// const store = new MongoDBStore({
+//   uri: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xjk47.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+//   collection: 'sessions'
+// });
+
+// local db
 const store = new MongoDBStore({
-  uri: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xjk47.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+  uri: `mongodb://127.0.0.1:27017/bookingring?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.4.2`,
   collection: 'sessions'
 });
 

@@ -5,29 +5,15 @@ const Appartments = require("../models/Appartment");
 const Users = require("../models/SystemUsers");
 
 const {
-  // Login
-  login,
-  postLogin,
-  logout,
-
-  // Dashboard
-  indexView,
-
-  // Areas
   addArea,
   listAreas,
   editArea,
   postAddArea,
   postEditArea,
   postDeleteArea,
+} = require("../controllers/admin/Areas");
 
-  // Customers
-  customersList,
-  viewCustomer,
-  editMembership,
-  delCustomer,
-
-  // Hotels Clients
+const {
   hotelClients,
   hotelList,
   viewHotel,
@@ -45,13 +31,13 @@ const {
   postAddRoomGallery,
   postDeleteGalleryImage,
   postDeleteHotel,
+} = require("../controllers/admin/Hotels");
 
-  // Appartments / Houses
+const {
   appartmentsHouses,
   editAppartmentHouse,
   appartmentList,
   editGalleryAppartments,
-  housesList,
   appartmentBookingsList,
   addGallery,
   addGalleryHouses,
@@ -61,16 +47,22 @@ const {
   postAddAppartmentGallery,
   postDeleteAppartmentGalleryImage,
   postDeleteAppartment,
+} = require("../controllers/admin/Appartments");
+
+const {
   addHouse,
   editHouse,
-  addHouseGallery,
   housesGallery,
+  addHouseGallery,
   postAddHouse,
   postEditHouse,
   postAddHouseGallery,
   postDeleteHouse,
   postDeleteHouseGalleryImage,
+  housesList,
+} = require("../controllers/admin/Houses.js");
 
+const {
   // Vehicle Category
   addCategory,
   categoryList,
@@ -90,8 +82,9 @@ const {
   postAddVehicleGallery,
   postDeleteVehiclesGalleryImage,
   postDeleteVehicle,
+} = require("../controllers/admin/Vehicles");
 
-  // Updates / Blog
+const {
   addUpdates,
   updateList,
   editBlog,
@@ -99,8 +92,9 @@ const {
   postAddUpdate,
   postEditUpdate,
   postDeleteUpdate,
+} = require("../controllers/admin/Updates");
 
-  // Tours Plans & Hiking
+const {
   addTour,
   tourList,
   viewTour,
@@ -112,6 +106,22 @@ const {
   postAddTour,
   postEditTour,
   postDeleteTour,
+} = require("../controllers/admin/Tours");
+
+const {
+  // Login
+  login,
+  postLogin,
+  logout,
+
+  // Dashboard
+  indexView,
+
+  // Customers
+  customersList,
+  viewCustomer,
+  editMembership,
+  delCustomer,
 
   // Bundles and Offers
   addBundle,
@@ -138,7 +148,7 @@ const {
   postAddUser,
   postEditUser,
   postDeleteUser,
-} = require("../controllers/adminController");
+} = require("../controllers/admin/Users");
 const router = express.Router();
 const isAuth = require("../middleware/isAuth");
 const { body } = require("express-validator");
@@ -172,10 +182,10 @@ router.post(
   body("areaName", "Please enter valid Location.")
     .notEmpty()
     .custom((val) => {
-      console.log(val.trim().length)
+      console.log(val.trim().length);
       if (val.trim().length === 0) {
         throw new Error();
-      }else{
+      } else {
         return true;
       }
     })
@@ -190,10 +200,10 @@ router.post(
   body("areaName", "Please enter valid Location.")
     .notEmpty()
     .custom((val) => {
-      console.log(val.trim().length)
+      console.log(val.trim().length);
       if (val.trim().length === 0) {
         throw new Error();
-      }else{
+      } else {
         return true;
       }
     })
@@ -290,7 +300,7 @@ router.post(
       .isEmail()
       .withMessage("Please enter a valid email.")
       .custom((value, { req }) => {
-        return Hotels.findOne({ owner: {email: value} }).then((userHotel) => {
+        return Hotels.findOne({ owner: { email: value } }).then((userHotel) => {
           if (userHotel) {
             return Promise.reject(
               "Hotel associated with E-Mail already exists."
@@ -321,7 +331,7 @@ router.post(
       .custom((val) => {
         if (val.trim().length === 0) {
           throw new Error();
-        }else{
+        } else {
           return true;
         }
       })
@@ -347,7 +357,7 @@ router.post(
       .custom((val) => {
         if (val.trim().length === 0) {
           throw new Error();
-        }else{
+        } else {
           return true;
         }
       })
@@ -359,7 +369,7 @@ router.post(
       .custom((val) => {
         if (val.trim().length === 0) {
           throw new Error();
-        }else{
+        } else {
           return true;
         }
       })
@@ -381,32 +391,39 @@ router.post(
     body(
       "loginPassword",
       "Please enter a password with only numbers and text and at least 8 characters."
-    )
-    .custom(val =>{
-      if(val.length> 0){
+    ).custom((val) => {
+      if (val.length > 0) {
         return body("loginPassword")
           .notEmpty()
           .isLength({ min: 8 })
           .isAlphanumeric()
           .trim();
-      }else{
+      } else {
         return true;
       }
-    })
+    }),
   ],
   isAuth,
   postEditHotel
 );
 router.post("/admin/Hotels/addHotelGallery", isAuth, postAddHotelGallery);
-router.post("/admin/Hotels/addRoomImages", isAuth, postAddRoomGallery);
+router.post("/admin/Hotels/addRoomsGallery", isAuth, postAddRoomGallery);
 router.post("/admin/Hotels/DeleteGalleryImage", postDeleteGalleryImage);
 router.post("/admin/Hotels/deleteHotel", isAuth, postDeleteHotel);
 
-// Appartments 
+// Appartments
 router.get("/admin/Appartments/addAppartment", isAuth, appartmentsHouses);
-router.get("/admin/Appartments/editAppartmentHouse/:id", isAuth, editAppartmentHouse);
+router.get(
+  "/admin/Appartments/editAppartmentHouse/:id",
+  isAuth,
+  editAppartmentHouse
+);
 router.get("/admin/Appartments/addGallery/:id", isAuth, addGallery);
-router.get("/admin/Appartments/editGallery/:id", isAuth, editGalleryAppartments);
+router.get(
+  "/admin/Appartments/editGallery/:id",
+  isAuth,
+  editGalleryAppartments
+);
 router.get("/admin/Appartments/appartmentList", isAuth, appartmentList);
 router.get("/admin/Appartments/bookings", isAuth, appartmentBookingsList);
 router.get("/admin/Appartments/addGalleryHouses", isAuth, addGalleryHouses);
@@ -467,8 +484,7 @@ router.post(
       .isLength({ min: 2, max: 300 })
       .trim()
       .escape(),
-    body("videoUrl", "Please enter valid URL.")
-    .isURL(),
+    body("videoUrl", "Please enter valid URL.").isURL(),
     body("description", "Please enter valid description")
       .notEmpty()
       .custom((val) => {
@@ -528,9 +544,9 @@ router.post(
       "loginPassword",
       "Please enter a password with only numbers and text and at least 8 characters."
     )
-    .isLength({ min: 8 })
-    .isAlphanumeric()
-    .trim(),
+      .isLength({ min: 8 })
+      .isAlphanumeric()
+      .trim(),
   ],
   isAuth,
   postAddAppartment
@@ -579,8 +595,7 @@ router.post(
       .isLength({ min: 2, max: 300 })
       .trim()
       .escape(),
-    body("videoUrl", "Please enter valid URL.")
-    .isURL(),
+    body("videoUrl", "Please enter valid URL.").isURL(),
     body("description", "Please enter valid description")
       .notEmpty()
       .custom((val) => {
@@ -626,7 +641,7 @@ router.post(
       .isEmail()
       .withMessage("Please enter a valid email.")
       .normalizeEmail()
-      .toLowerCase()
+      .toLowerCase(),
   ],
   isAuth,
   postEditAppartment
@@ -637,10 +652,14 @@ router.post(
   isAuth,
   postDeleteAppartmentGalleryImage
 );
-router.post("/admin/Appartments/deleteAppartment", isAuth, postDeleteAppartment);
+router.post(
+  "/admin/Appartments/deleteAppartment",
+  isAuth,
+  postDeleteAppartment
+);
 
 // Houses
-router.get("/admin/Houses/addHouse",isAuth, addHouse);
+router.get("/admin/Houses/addHouse", isAuth, addHouse);
 router.get("/admin/Houses/edit/:id", isAuth, editHouse);
 router.get("/admin/Houses/addGallery/:id", isAuth, addHouseGallery);
 router.get("/admin/Houses/list", isAuth, housesList);
@@ -688,8 +707,7 @@ router.post(
       .isLength({ min: 2, max: 300 })
       .trim()
       .escape(),
-    body("videoUrl", "Please enter valid URL.")
-    .isURL(),
+    body("videoUrl", "Please enter valid URL.").isURL(),
     body("description", "Please enter valid description")
       .notEmpty()
       .custom((val) => {
@@ -749,9 +767,9 @@ router.post(
       "loginPassword",
       "Please enter a password with only numbers and text and at least 8 characters."
     )
-    .isLength({ min: 8 })
-    .isAlphanumeric()
-    .trim(),
+      .isLength({ min: 8 })
+      .isAlphanumeric()
+      .trim(),
   ],
   isAuth,
   postAddHouse
@@ -799,8 +817,7 @@ router.post(
       .isLength({ min: 2, max: 300 })
       .trim()
       .escape(),
-    body("videoUrl", "Please enter valid URL.")
-    .isURL(),
+    body("videoUrl", "Please enter valid URL.").isURL(),
     body("description", "Please enter valid description")
       .notEmpty()
       .custom((val) => {
@@ -855,14 +872,18 @@ router.post(
       })
       .withMessage("Please enter a valid email.")
       .normalizeEmail()
-      .toLowerCase()
+      .toLowerCase(),
   ],
   isAuth,
   postEditHouse
 );
 router.post("/admin/Houses/addGallery", isAuth, postAddHouseGallery);
 router.post("/admin/houses/deleteHouse", isAuth, postDeleteHouse);
-router.post("/admin/houses/DeleteGalleryImage", isAuth, postDeleteHouseGalleryImage);
+router.post(
+  "/admin/houses/DeleteGalleryImage",
+  isAuth,
+  postDeleteHouseGalleryImage
+);
 
 // Vehicle Category
 router.get("/admin/VehiclesCategory/addCategory", isAuth, addCategory);
@@ -909,176 +930,168 @@ router.get("/admin/Vehicles/vehicleList", isAuth, vehicleList);
 router.get("/admin/Vehicles/bookings", vehiclesBookinglist);
 router.get("/admin/Vehicles/editVehicle/:id", isAuth, editVehicle);
 router.get("/admin/Vehicles/addVehicleGallery/:id", isAuth, addVehicleGallery);
-router.get("/admin/Vehicles/editVehicleGallery/:id", isAuth, editVehicleGallery);
+router.get(
+  "/admin/Vehicles/editVehicleGallery/:id",
+  isAuth,
+  editVehicleGallery
+);
 // post request routes for vehicles
 router.post(
-"/admin/Vehicles/addVehicle",
-[
-  body("category", "invalid category")
-  .notEmpty()
-  .isJSON(),
-  body("vehicleNo", "Please enter valid vehicle Number.")
-  .notEmpty()
-  .isLength({min: 2})
-  .trim()
-  .escape(),
-  body("model", "Please enter valid model.")
-  .notEmpty()
-  .isLength({min: 2})
-  .trim()
-  .isNumeric()
-  .escape(),
-  body("status", "Invalid input status input.")
-  .notEmpty()
-  .isBoolean(),
-  body("seats", "Please enter valid seats value.")
-  .notEmpty()
-  .isLength({min: 1})
-  .trim()
-  .isNumeric()
-  .escape(),
-  body("videoUrl", "Invalid URL.")
-  .notEmpty()
-  .isURL(),
-  body("description", "Please enter valid description.")
-  .notEmpty()
-  .custom(val =>{
-    if(val.trim().length===0){
-      return false;
-    }else{
-      return true;
-    }
-  })
-  .isLength({min: 4})
-  .trim()
-  .escape(),
-  body("features", "Please enter valid features.")
-  .notEmpty()
-  .custom(val =>{
-    if(val.trim().length===0){
-      return false;
-    }else{
-      return true;
-    }
-  })
-  .isLength({min: 4})
-  .trim()
-  .escape(),
-  body("ownerName", "Please enter valid Owner Name.")
-  .notEmpty()
-  .custom(val =>{
-    if(val.trim().length===0){
-      return false;
-    }else{
-      return true;
-    }
-  })
-  .isLength({min: 4})
-  .trim()
-  .escape(),
-  body("ownerCNIC", "Please enter valid 13-digit CNIC Number without dashes.")
-    .isLength({ min: 13, max: 13 })
-    .trim(),
-  body("ownerContact", "Please enter valid owner contact Number.")
-    .isLength({ min: 10, max: 11 })
-    .trim(),
-    body("ownerAddress", "Please enter valid Owner Name.")
-    .notEmpty()
-    .custom(val =>{
-      if(val.trim().length===0){
-        return false;
-      }else{
-        return true;
-      }
-    })
-    .isLength({min: 4})
-    .trim()
-    .escape(),
-],
-  isAuth,
-  postAddVehicle
-);
-router.post(
-  "/admin/Vehicles/editVehicle",
+  "/admin/Vehicles/addVehicle",
   [
-    body("category", "invalid category")
-    .notEmpty()
-    .isJSON(),
+    body("category", "invalid category").notEmpty().isJSON(),
     body("vehicleNo", "Please enter valid vehicle Number.")
-    .notEmpty()
-    .isLength({min: 2})
-    .trim()
-    .escape(),
+      .notEmpty()
+      .isLength({ min: 2 })
+      .trim()
+      .escape(),
     body("model", "Please enter valid model.")
-    .notEmpty()
-    .isLength({min: 2})
-    .trim()
-    .isNumeric()
-    .escape(),
-    body("status", "Invalid input status input.")
-    .notEmpty()
-    .isBoolean(),
+      .notEmpty()
+      .isLength({ min: 2 })
+      .trim()
+      .isNumeric()
+      .escape(),
+    body("status", "Invalid input status input.").notEmpty().isBoolean(),
     body("seats", "Please enter valid seats value.")
-    .notEmpty()
-    .isLength({min: 1})
-    .trim()
-    .isNumeric()
-    .escape(),
-    body("videoUrl", "Invalid URL.")
-    .notEmpty()
-    .isURL(),
+      .notEmpty()
+      .isLength({ min: 1 })
+      .trim()
+      .isNumeric()
+      .escape(),
+    body("videoUrl", "Invalid URL.").notEmpty().isURL(),
     body("description", "Please enter valid description.")
-    .notEmpty()
-    .custom(val =>{
-      if(val.trim().length===0){
-        return false;
-      }else{
-        return true;
-      }
-    })
-    .isLength({min: 4})
-    .trim()
-    .escape(),
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 4 })
+      .trim()
+      .escape(),
     body("features", "Please enter valid features.")
-    .notEmpty()
-    .custom(val =>{
-      if(val.trim().length===0){
-        return false;
-      }else{
-        return true;
-      }
-    })
-    .isLength({min: 4})
-    .trim()
-    .escape(),
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 4 })
+      .trim()
+      .escape(),
     body("ownerName", "Please enter valid Owner Name.")
-    .notEmpty()
-    .custom(val =>{
-      if(val.trim().length===0){
-        return false;
-      }else{
-        return true;
-      }
-    })
-    .isLength({min: 4})
-    .trim()
-    .escape(),
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 4 })
+      .trim()
+      .escape(),
     body("ownerCNIC", "Please enter valid 13-digit CNIC Number without dashes.")
       .isLength({ min: 13, max: 13 })
       .trim(),
     body("ownerContact", "Please enter valid owner contact Number.")
       .isLength({ min: 10, max: 11 })
       .trim(),
-      body("ownerAddress", "Please enter valid Owner Name.")
+    body("ownerAddress", "Please enter valid Owner Name.")
       .notEmpty()
-      .custom(val =>{
-        if(val.trim().length===0){
+      .custom((val) => {
+        if (val.trim().length === 0) {
           return false;
-        }else{
+        } else {
           return true;
         }
       })
-      .isLength({min: 4})
+      .isLength({ min: 4 })
+      .trim()
+      .escape(),
+  ],
+  isAuth,
+  postAddVehicle
+);
+router.post(
+  "/admin/Vehicles/editVehicle",
+  [
+    body("category", "invalid category").notEmpty().isJSON(),
+    body("vehicleNo", "Please enter valid vehicle Number.")
+      .notEmpty()
+      .isLength({ min: 2 })
+      .trim()
+      .escape(),
+    body("model", "Please enter valid model.")
+      .notEmpty()
+      .isLength({ min: 2 })
+      .trim()
+      .isNumeric()
+      .escape(),
+    body("status", "Invalid input status input.").notEmpty().isBoolean(),
+    body("seats", "Please enter valid seats value.")
+      .notEmpty()
+      .isLength({ min: 1 })
+      .trim()
+      .isNumeric()
+      .escape(),
+    body("videoUrl", "Invalid URL.").notEmpty().isURL(),
+    body("description", "Please enter valid description.")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 4 })
+      .trim()
+      .escape(),
+    body("features", "Please enter valid features.")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 4 })
+      .trim()
+      .escape(),
+    body("ownerName", "Please enter valid Owner Name.")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 4 })
+      .trim()
+      .escape(),
+    body("ownerCNIC", "Please enter valid 13-digit CNIC Number without dashes.")
+      .isLength({ min: 13, max: 13 })
+      .trim(),
+    body("ownerContact", "Please enter valid owner contact Number.")
+      .isLength({ min: 10, max: 11 })
+      .trim(),
+    body("ownerAddress", "Please enter valid Owner Name.")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 4 })
       .trim()
       .escape(),
   ],
@@ -1086,7 +1099,11 @@ router.post(
   postEditVehicle
 );
 router.post("/admin/Vehicles/addGallery", isAuth, postAddVehicleGallery);
-router.post("/admin/Vehicles/deleteImage", isAuth, postDeleteVehiclesGalleryImage);
+router.post(
+  "/admin/Vehicles/deleteImage",
+  isAuth,
+  postDeleteVehiclesGalleryImage
+);
 router.post("/admin/Vehicles/deleteVehicle", isAuth, postDeleteVehicle);
 
 // Updates / Blog
@@ -1109,132 +1126,120 @@ router.post(
       .trim()
       .escape(),
     body("author", "invalid value for author.")
-    .notEmpty()
-    .custom(val =>{
-      if(val.trim().length===0){
-        return false;
-      }else{
-        return true;
-      }
-    })
-    .isLength({min: 2})
-    .trim()
-    .escape(),
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 2 })
+      .trim()
+      .escape(),
     body("desc", "Please enter description.")
-    .notEmpty()
-    .custom(val =>{
-      if(val.trim().length===0){
-        return false;
-      }else{
-        return true;
-      }
-    })
-    .isLength({min: 2})
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 2 }),
   ],
   isAuth,
   postAddUpdate
 );
-router.post("/admin/Updates/editUpdate",
-[
-  body("heading", "Please enter valid heading.")
-    .notEmpty()
-    .custom((val) => {
-      if (val.trim().length === 0) {
-        return false;
-      } else {
-        return true;
-      }
-    })
-    .trim()
-    .escape(),
-  body("author", "invalid value for author.")
-  .notEmpty()
-  .custom(val =>{
-    if(val.trim().length===0){
-      return false;
-    }else{
-      return true;
-    }
-  })
-  .isLength({min: 2})
-  .trim()
-  .escape(),
-  body("desc", "Please enter description.")
-  .notEmpty()
-  .custom(val =>{
-    if(val.trim().length===0){
-      return false;
-    }else{
-      return true;
-    }
-  })
-  .isLength({min: 2})
-  .trim(),
-],
-isAuth, postEditUpdate);
+router.post(
+  "/admin/Updates/editUpdate",
+  [
+    body("heading", "Please enter valid heading.")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .trim()
+      .escape(),
+    body("author", "invalid value for author.")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 2 })
+      .trim()
+      .escape(),
+    body("desc", "Please enter description.")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 2 })
+      .trim(),
+  ],
+  isAuth,
+  postEditUpdate
+);
 router.post("/admin/Updates/deleteUpdate", isAuth, postDeleteUpdate);
 
 // Tours Plans & Hiking
 router.get("/admin/Tours/addTours", isAuth, addTour);
 router.get("/admin/Tours/toursList", isAuth, tourList);
-router.get("/admin/Tours/addGallery/:id",isAuth, addTourGallery);
+router.get("/admin/Tours/addGallery/:id", isAuth, addTourGallery);
 router.get("/admin/Tours/viewTour/:id", isAuth, viewTour);
 router.get("/admin/Tours/editTour/:id", isAuth, editTour);
-router.get("/admin/Tours/gallery/:id",isAuth, tourGallery);
+router.get("/admin/Tours/gallery/:id", isAuth, tourGallery);
 router.post("/admin/Tours/addTourGallery", postAddTourGallery);
 router.post("/admin/Tours/deleteTour", isAuth, postDeleteTour);
-router.post("/admin/Tours/deleteImage",isAuth, postDeleteTourGalleryImage);
+router.post("/admin/Tours/deleteImage", isAuth, postDeleteTourGalleryImage);
 
-router.post("/admin/Tours/addTours",
-[
-  body("tourType", "Invalid value for tour/hike.")
-  .notEmpty(),
-  body("startDate", "invalid start date value.")
-  .isDate(),
-  body("endDate", "Invalid end date value.")
-  .isDate(),
-  body("fromPlace", "Invalid entry for from place.")
-  .notEmpty()
-  .isJSON(),
-  body("toPlace", "Invalid entry to place.")
-  .notEmpty()
-  .isJSON(),
-  body("pickupLoc", "Invalid entry for pick up location.")
-  .notEmpty()
-  .isJSON(),
-  body("dropoffLoc", "Invalid entry for drop off location.")
-  .notEmpty()
-  .isJSON(),
-  body("stayHotel", "Invalid entry for stay hotel.")
-  .notEmpty()
-  .isJSON(),
-  body("videoUrl", "Invalid URL.")
-  .isURL(),
-  body("days", "Invalid entry for days")
-  .notEmpty()
-  .isNumeric(),
-  body("nights", "Invalid entry for nights.")
-  .notEmpty()
-  .isNumeric(),
-  body("seats", "Invalid entry for seats.")
-  .notEmpty()
-  .isNumeric(),
-  body("charges", "Invalid entry for charges.")
-  .notEmpty()
-  .isNumeric(),
-  body("desc", "Please Provide valid description.")
-  .notEmpty()
-  .custom(val =>{
-    if(val.trim().length===0){
-      return false;
-    }else{
-      return true;
-    }
-  })
-  .trim()
-  .escape()
-],
-isAuth, postAddTour);
+router.post(
+  "/admin/Tours/addTours",
+  [
+    body("tourType", "Invalid value for tour/hike.").notEmpty(),
+    body("startDate", "invalid start date value.").isDate(),
+    body("endDate", "Invalid end date value.").isDate(),
+    body("fromPlace", "Invalid entry for from place.").notEmpty().isJSON(),
+    body("toPlace", "Invalid entry to place.").notEmpty().isJSON(),
+    body("pickupLoc", "Invalid entry for pick up location.")
+      .notEmpty()
+      .isJSON(),
+    body("dropoffLoc", "Invalid entry for drop off location.")
+      .notEmpty()
+      .isJSON(),
+    body("stayHotel", "Invalid entry for stay hotel.").notEmpty().isJSON(),
+    body("videoUrl", "Invalid URL.").isURL(),
+    body("days", "Invalid entry for days").notEmpty().isNumeric(),
+    body("nights", "Invalid entry for nights.").notEmpty().isNumeric(),
+    body("seats", "Invalid entry for seats.").notEmpty().isNumeric(),
+    body("charges", "Invalid entry for charges.").notEmpty().isNumeric(),
+    body("desc", "Please Provide valid description.")
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .trim()
+      .escape(),
+  ],
+  isAuth,
+  postAddTour
+);
 router.post("/admin/Tours/editTour/", isAuth, postEditTour);
 
 // Bundles and Offers
@@ -1245,25 +1250,29 @@ router.get("/admin/BundleOffers/bundlesList", isAuth, bundleList);
 router.get("/admin/SliderImages/addSliderImages/:id", isAuth, addImagesSlider);
 router.get("/admin/SliderImages/sliderImagesList", isAuth, sliderImages);
 router.post("/admin/SliderImages/addImages", isAuth, postAddSliderImages);
-router.post("/admin/SliderGallery/deleteImage", isAuth, postDeleteSliderGalleryImage);
+router.post(
+  "/admin/SliderGallery/deleteImage",
+  isAuth,
+  postDeleteSliderGalleryImage
+);
 
 // Feedback
 router.get("/admin/Feedback/customerFeedback", isAuth, feedback);
 router.get("/admin/Feedback/viewFeedbackQuery/:id", isAuth, viewFeedbackQuery);
 router.post("/admin/Feedback/publish", async (req, res) => {
-  const Feedbacks = require('../models/Feedback')
-  
+  const Feedbacks = require("../models/Feedback");
+
   const feedback = await Feedbacks.findById(req.body.feedbackId);
-  if(req.body.publish == 'on'){
+  if (req.body.publish == "on") {
     feedback.publish = true;
-  }else{
+  } else {
     feedback.publish = false;
   }
   feedback.save();
-  res.render("../Admin/views/pages/Feedback/viewFeedbackQuery",{
-    feedback: feedback
+  res.render("../Admin/views/pages/Feedback/viewFeedbackQuery", {
+    feedback: feedback,
   });
-})
+});
 
 //Messages
 router.get("/admin/Messages", isAuth, msgList);
@@ -1277,49 +1286,48 @@ router.post(
   "/admin/Users/addUser",
   [
     body("name", "Please enter valid user name.")
-    .notEmpty()
-    .custom(val =>{
-      if(val.trim().length===0){
-        return false;
-      }else{
-        return true;
-      }
-    })
-    .trim()
-    .escape(),
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .trim()
+      .escape(),
     body("contact", "Please enter valid contact number.")
-    .notEmpty()
-    .isLength({min: 10, max: 11})
-    .isNumeric()
-    .trim(),
+      .notEmpty()
+      .isLength({ min: 10, max: 11 })
+      .isNumeric()
+      .trim(),
     body("cnic", "Please enter valid 13-digit number without dashes.")
-    .notEmpty()
-    .isLength({min: 13, max: 13})
-    .trim(),
+      .notEmpty()
+      .isLength({ min: 13, max: 13 })
+      .trim(),
     body("city", "Invalid value for city.")
-    .notEmpty()
-    .custom(val =>{
-      if(val.trim().length===0){
-        return false;
-      }else{
-        return true;
-      }
-    })
-    .isLength({min: 1, max: 300})
-    .trim(),
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 1, max: 300 })
+      .trim(),
     body("address", "Please enter valid address.")
-    .notEmpty()
-    .custom(val =>{
-      if(val.trim().length===0){
-        return false;
-      }else{
-        return true;
-      }
-    })
-    .isLength({min: 1, max: 300})
-    .trim(),
-    body("access", "Invalid value for user type.")
-    .notEmpty(),
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 1, max: 300 })
+      .trim(),
+    body("access", "Invalid value for user type.").notEmpty(),
     body("email")
       .isEmail()
       .withMessage("Please enter a valid email.")
@@ -1340,11 +1348,10 @@ router.post(
       .isLength({ min: 8 })
       .isAlphanumeric()
       .trim(),
-    body("cnfmPassword", "Passwords must match.")
-    .custom((val, {req})=>{
-      if(val == req.body.password){
+    body("cnfmPassword", "Passwords must match.").custom((val, { req }) => {
+      if (val == req.body.password) {
         return true;
-      }else{
+      } else {
         return false;
       }
     }),
@@ -1363,49 +1370,48 @@ router.post(
   "/admin/Users/editUser",
   [
     body("name", "Please enter valid user name.")
-    .notEmpty()
-    .custom(val =>{
-      if(val.trim().length===0){
-        return false;
-      }else{
-        return true;
-      }
-    })
-    .trim()
-    .escape(),
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .trim()
+      .escape(),
     body("contact", "Please enter valid contact number.")
-    .notEmpty()
-    .isLength({min: 10, max: 11})
-    .isNumeric()
-    .trim(),
+      .notEmpty()
+      .isLength({ min: 10, max: 11 })
+      .isNumeric()
+      .trim(),
     body("cnic", "Please enter valid 13-digit number without dashes.")
-    .notEmpty()
-    .isLength({min: 13, max: 13})
-    .trim(),
+      .notEmpty()
+      .isLength({ min: 13, max: 13 })
+      .trim(),
     body("city", "Invalid value for city.")
-    .notEmpty()
-    .custom(val =>{
-      if(val.trim().length===0){
-        return false;
-      }else{
-        return true;
-      }
-    })
-    .isLength({min: 1, max: 300})
-    .trim(),
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 1, max: 300 })
+      .trim(),
     body("address", "Please enter valid address.")
-    .notEmpty()
-    .custom(val =>{
-      if(val.trim().length===0){
-        return false;
-      }else{
-        return true;
-      }
-    })
-    .isLength({min: 1, max: 300})
-    .trim(),
-    body("access", "Invalid value for user type.")
-    .notEmpty(),
+      .notEmpty()
+      .custom((val) => {
+        if (val.trim().length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .isLength({ min: 1, max: 300 })
+      .trim(),
+    body("access", "Invalid value for user type.").notEmpty(),
     body("email")
       .isEmail()
       .withMessage("Please enter a valid email.")
@@ -1426,10 +1432,10 @@ router.post(
       .isLength({ min: 8 })
       .isAlphanumeric()
       .trim(),
-    body("cnfmPassword", "Passwords must match.").custom((val, {req})=> {
-      if(val == req.body.cnfmPassword){
+    body("cnfmPassword", "Passwords must match.").custom((val, { req }) => {
+      if (val == req.body.cnfmPassword) {
         return true;
-      }else{
+      } else {
         return false;
       }
     }),

@@ -204,46 +204,46 @@
                           <div class="row">
                             <div class="form-group col-md-3">
                               <label>Number of Rooms</label>
-                              <input type="number" name="twinRmNo" value="" placeholder="Total Number of Single Bed Rooms" class="form-control"
+                              <input type="number" name="twinRmNo" value="<%= oldInput.twin.total %>" placeholder="Total Number of Single Bed Rooms" class="form-control"
                                 required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>Charges</label>
-                              <input type="number" value="<%= oldInput.charges %>" name="twinRmCharges" placeholder="0000" class="form-control"
+                              <input type="number" value="<%= oldInput.twin.charges %>" name="twinRmCharges" placeholder="0000" class="form-control"
                                 required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>Video Link</label>
-                              <input type="url" value="<%= oldInput.videoUrl %>" name="twinRmVideoUrl"
+                              <input type="url" value="<%= oldInput.twin.videoUrl %>" name="twinRmVideoUrl"
                                 placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0" class="form-control" required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>Size</label>
-                              <input type="text" value="<%= oldInput.size %>" name="twinRmSize" placeholder="i.e: 47-52 sqft" class="form-control"
+                              <input type="text" value="<%= oldInput.twin.size %>" name="twinRmSize" placeholder="i.e: 47-52 sqft" class="form-control"
                                 required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>Occupency</label>
-                              <input type="number" value="<%= oldInput.occupency %>" name="twinRmOccupency" placeholder="i.e: Upto 4 childrens"
+                              <input type="number" value="<%= oldInput.twin.occupency %>" name="twinRmOccupancy" placeholder="i.e: Upto 4 childrens"
                                 class="form-control" required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>View</label>
-                              <input type="number" value="<%= oldInput.view %>" name="twinRmView" placeholder="Enter Number of Rooms with View"
+                              <input type="number" value="<%= oldInput.twin.view %>" name="twinRmView" placeholder="Enter Number of Rooms with View"
                                 class="form-control" required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>Bed Size</label>
                               <select class="form-control select2" style="width: 100%;" name="twinRmBedSize">
-                                <option value="king" <%=oldInput.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
-                                <option value="queen" <%=oldInput.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
-                                <option value="regular" <%=oldInput.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
+                                <option value="king" <%=oldInput.twin.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="queen" <%=oldInput.twin.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="regular" <%=oldInput.twin.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
                                 </option>
                               </select>
                             </div>
@@ -251,13 +251,13 @@
                             <div class="form-group col-md-6">
                               <label>Description</label>
                               <textarea name="twinRmDescription" id="" rows="5" class="form-control" placeholder="Room Description . . ."
-                                required><%= oldInput.description %></textarea>
+                                required><%= oldInput.twin.description %></textarea>
                             </div>
                         
                             <div class="form-group col-md-6">
                               <label>Features</label>
                               <textarea name="twinRmFeatures" id="" rows="5" class="form-control" placeholder="Room Features . . ."
-                                required><%= oldInput.features %> </textarea>
+                                required><%= oldInput.twin.features %> </textarea>
                             </div>
                           </div>
                           
@@ -279,46 +279,46 @@
                           <div class="row">
                             <div class="form-group col-md-3">
                               <label>Number of Rooms</label>
-                              <input type="number" name="tripleRmNo" value="" placeholder="Total Number of Single Bed Rooms" class="form-control"
+                              <input type="number" name="tripleRmNo" value="<%= oldInput.triple.total %>" placeholder="Total Number of Single Bed Rooms" class="form-control"
                                 required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>Charges</label>
-                              <input type="number" value="<%= oldInput.charges %>" name="tripleRmCharges" placeholder="i.e: 5000" class="form-control"
+                              <input type="number" value="<%= oldInput.triple.charges %>" name="tripleRmCharges" placeholder="i.e: 5000" class="form-control"
                                 required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>Video Link</label>
-                              <input type="url" value="<%= oldInput.videoUrl %>" name="tripleRmVideoUrl"
+                              <input type="url" value="<%= oldInput.triple.videoUrl %>" name="tripleRmVideoUrl"
                                 placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0" class="form-control" required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>Size</label>
-                              <input type="text" value="<%= oldInput.size %>" name="size" placeholder="i.e: 47-52 sqft" class="form-control"
+                              <input type="text" value="<%= oldInput.triple.size %>" name="tripleRmSize" placeholder="i.e: 47-52 sqft" class="form-control"
                                 required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>Occupency</label>
-                              <input type="text" value="<%= oldInput.occupency %>" name="tripleRmOccupency" placeholder="i.e: Upto 4 childrens"
+                              <input type="text" value="<%= oldInput.triple.occupency %>" name="tripleRmOccupancy" placeholder="i.e: Upto 4 childrens"
                                 class="form-control" required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>View</label>
-                              <input type="number" value="<%= oldInput.view %>" name="tripleRmView" placeholder="Enter Number of Rooms with View"
+                              <input type="number" value="<%= oldInput.triple.view %>" name="tripleRmView" placeholder="Enter Number of Rooms with View"
                                 class="form-control" required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>Bed Size</label>
                               <select class="form-control select2" style="width: 100%;" name="tripleRmBedSize">
-                                <option value="king" <%=oldInput.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
-                                <option value="regular" <%=oldInput.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
-                                <option value="king&regular" <%=oldInput.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
+                                <option value="king" <%=oldInput.triple.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="regular" <%=oldInput.triple.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="king&regular" <%=oldInput.triple.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
                                 </option>
                               </select>
                             </div>
@@ -326,13 +326,13 @@
                             <div class="form-group col-md-6">
                               <label>Description</label>
                               <textarea name="tripleRmDescription" id="" rows="5" class="form-control" placeholder="Room Description . . ."
-                                required><%= oldInput.description %></textarea>
+                                required><%= oldInput.triple.description %></textarea>
                             </div>
                         
                             <div class="form-group col-md-6">
                               <label>Features</label>
                               <textarea name="tripleRmFeatures" id="" rows="5" class="form-control" placeholder="Room Features . . ."
-                                required><%= oldInput.features %> </textarea>
+                                required><%= oldInput.triple.features %> </textarea>
                             </div>
                           </div>
                           
@@ -355,46 +355,46 @@
                           <div class="row">
                             <div class="form-group col-md-3">
                               <label>Number of Rooms</label>
-                              <input type="number" name="quadRmNo" value="" placeholder="Total Number of Single Bed Rooms" class="form-control"
+                              <input type="number" name="quadRmNo" value="<%= oldInput.quad.total %>" placeholder="Total Number of Single Bed Rooms" class="form-control"
                                 required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>Charges</label>
-                              <input type="number" value="<%= oldInput.charges %>" name="quadRmCharges" placeholder="i.e: 5000" class="form-control"
+                              <input type="number" value="<%= oldInput.quad.charges %>" name="quadRmCharges" placeholder="i.e: 5000" class="form-control"
                                 required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>Video Link</label>
-                              <input type="url" value="<%= oldInput.videoUrl %>" name="quadRmVideoUrl"
+                              <input type="url" value="<%= oldInput.quad.videoUrl %>" name="quadRmVideoUrl"
                                 placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0" class="form-control" required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>Size</label>
-                              <input type="text" value="<%= oldInput.size %>" name="quadRmSize" placeholder="i.e: 47-52 sqft" class="form-control"
+                              <input type="text" value="<%= oldInput.quad.size %>" name="quadRmSize" placeholder="i.e: 47-52 sqft" class="form-control"
                                 required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>Occupency</label>
-                              <input type="text" value="<%= oldInput.occupency %>" name="quadRmOccupency" placeholder="i.e: Upto 4 childrens"
+                              <input type="text" value="<%= oldInput.quad.occupency %>" name="quadRmOccupancy" placeholder="i.e: Upto 4 childrens"
                                 class="form-control" required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>View</label>
-                              <input type="number" value="<%= oldInput.view %>" name="quadRmView" placeholder="Enter Number of Rooms with View"
+                              <input type="number" value="<%= oldInput.quad.view %>" name="quadRmView" placeholder="Enter Number of Rooms with View"
                                 class="form-control" required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>Bed Size</label>
                               <select class="form-control select2" style="width: 100%;" name="quadRmBedSize">
-                                <option value="king" <%=oldInput.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
-                                <option value="regular" <%=oldInput.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
-                                <option value="king&regular" <%=oldInput.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
+                                <option value="king" <%=oldInput.quad.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="regular" <%=oldInput.quad.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="king&regular" <%=oldInput.quad.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
                                 </option>
                               </select>
                             </div>
@@ -402,13 +402,13 @@
                             <div class="form-group col-md-6">
                               <label>Description</label>
                               <textarea name="quadRmDescription" id="" rows="5" class="form-control" placeholder="Room Description . . ."
-                                required><%= oldInput.description %></textarea>
+                                required><%= oldInput.quad.description %></textarea>
                             </div>
                         
                             <div class="form-group col-md-6">
                               <label>Features</label>
                               <textarea name="quadRmFeatures" id="" rows="5" class="form-control" placeholder="Room Features . . ."
-                                required><%= oldInput.features %> </textarea>
+                                required><%= oldInput.quad.features %> </textarea>
                             </div>
                           </div>
                           

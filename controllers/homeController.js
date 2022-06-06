@@ -28,7 +28,7 @@ const home = async (req, res, next) => {
     }
   }
 
-  const hotels = await HotelsModel.find({ approvedStatus: true });
+  const hotels = await HotelsModel.find();
   const appartments = await AppartmentModel.find();
   const tours = await ToursModel.find();
   const vehicles = await VehiclesModel.find();

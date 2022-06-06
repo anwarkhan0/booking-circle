@@ -419,17 +419,15 @@
 <div class="section">
 	<div id="owl-sep-2" class="owl-carousel owl-theme">
 		<% hotels.forEach((hotel)=>{ %>
-			<% hotel.rooms.forEach((room)=>{ %>
-				<% room.gallery.forEach((image)=>{ %>
-					<div class="item">
-						<a href="uploads/<%= image %>" data-fancybox="gallery">
-							<div class="img-wrap gallery-small">
-								<img src="uploads/<%= image %>" alt="">
-							</div>
-						</a>
-					</div>
+			<% hotel.rooms.gallery.forEach( image =>{ %>
+				<div class="item">
+					<a href="/uploads/<%= image %>" data-fancybox="gallery">
+						<div class="img-wrap gallery-small">
+							<img src="/uploads/<%= image %>" alt="">
+						</div>
+					</a>
+				</div>
+				<% }) %>
 					<% }) %>
-						<% }) %>
-							<% }) %>
 	</div>
 </div>
