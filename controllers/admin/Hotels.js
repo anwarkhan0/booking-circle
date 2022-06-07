@@ -223,6 +223,25 @@ const viewHotelImages = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
+const viewRoomImages = (req, res, next) => {
+  const hotelId = req.params.id;
+  Hotels.findById(hotelId)
+    .then((hotel) => {
+      if (!hotel) {
+        res.redirect("/");
+      }
+      res.render("../Admin/views/pages/Hotels/viewHotelImages", {
+        hotelId: hotel.id,
+        hotel: hotel.name,
+        gallery: hotel.rooms.gallery,
+        pageTitle: "Gallery List",
+        path: "/Hotels/gallery-list",
+        flashMessage: req.flash("message"),
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
 //Hotel post Requests
 const postAddHotel = async (req, res, next) => {
   //Hotel Details
@@ -656,8 +675,6 @@ const postEditHotel = async (req, res, next) => {
     hashedPassword = oldLoginPassword;
   }
 
-  console.log(hashedPassword)
-
   try {
     const hotel = await Hotels.findOneAndUpdate({id: hotelId});
     hotel.name = name;
@@ -858,30 +875,45 @@ const postAddRoomGallery = async (req, res, next) => {
   const hotelId = req.body.hotelId;
   const gallery = [];
 
-  for (let i = 0; i < uploads.length; i++) {
-    gallery.push(uploads[i].filename);
-  }
+  uploads.forEach((image, i) =>{
+    gallery.push(uploads.filename);
+  })
 
   try {
     const hotel = await Hotels.findById(hotelId);
-    if (hotel.rooms.gallery.length === 0) {
       hotel.rooms.gallery = gallery;
       hotel.save();
       console.log("added gallery to hotel");
       req.flash("message", "Hotel added Successfully");
       res.redirect("/admin");
-    } else {
-      updatedGallery = hotel.gallery.concat(gallery);
-      hotel.rooms.gallery = updatedGallery;
-      hotel.save();
-      console.log("gallery updated");
-      req.flash("message", "Gallery Updated Successfully");
-      res.redirect("/admin");
-    }
+    
   } catch (err) {
     console.log(err);
     req.flash("message", "Something went wrong.");
     res.redirect("/admin/Hotels/addRoomsGallery?hotelId=" + hotelId);
+  }
+};
+
+const postUpdateRoomGallery = async (req, res) => {
+  const uploads = req.files;
+  const hotelId = req.body.hotelId;
+  const gallery = [];
+
+  uploads.forEach((image, i) =>{
+    gallery.push(uploads.filename);
+  })
+  try {
+    const hotel = await Hotels.findById(hotelId);
+    updatedGallery = hotel.gallery.concat(gallery);
+    hotel.rooms.gallery = updatedGallery;
+    hotel.save();
+    console.log("gallery updated");
+    req.flash("message", "Gallery Updated Successfully");
+    res.redirect("/admin/Hotels/roomGallery/" + hotelId);
+  } catch (err) {
+    console.log(err);
+    req.flash("message", "Something went wrong.");
+    es.redirect("/admin/Hotels/roomGallery/" + hotelId);
   }
 };
 
@@ -928,6 +960,30 @@ const postDeleteGalleryImage = async (req, res) => {
   }
 };
 
+const postDeleteRoomGalleryImage = async (req, res) => {
+  const image = req.body.image;
+  const hotelId = req.body.id;
+
+  try {
+    const hotel = await Hotels.findById(hotelId);
+    gallery = hotel.rooms.gallery;
+    //removing the selected image from array
+    gallery.splice(gallery.indexOf(image), 1);
+    hotel.gallery = gallery;
+
+    if (delImg(image)) {
+      await hotel.save();
+      console.log("UPDATED Gallery!");
+      res.sendStatus(200);
+    } else {
+      throw "Something went wrong while deleting the file.";
+    }
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(204);
+  }
+};
+
 module.exports = {
     hotelClients,
     hotelList,
@@ -940,13 +996,15 @@ module.exports = {
     addRoomImages,
     galleryList,
     viewHotelImages,
+    viewRoomImages,
   
-    
     postAddHotel,
     postEditHotel,
     postAddHotelGallery,
     postUpdateHotelGallery,
     postAddRoomGallery,
+    postUpdateRoomGallery,
     postDeleteGalleryImage,
+    postDeleteRoomGalleryImage,
     postDeleteHotel,
 };

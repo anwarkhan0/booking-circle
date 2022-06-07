@@ -25,12 +25,15 @@ const {
   addRoomImages,
   galleryList,
   viewHotelImages,
+  viewRoomImages,
   postAddHotel,
   postEditHotel,
   postAddHotelGallery,
   postUpdateHotelGallery,
   postAddRoomGallery,
+  postUpdateRoomGallery,
   postDeleteGalleryImage,
+  postDeleteRoomGalleryImage,
   postDeleteHotel,
 } = require("../controllers/admin/Hotels");
 
@@ -231,6 +234,8 @@ router.get("/admin/Hotels/Galleries", isAuth, galleryList);
 router.get("/admin/Hotels/addHotelGallery", isAuth, addHotelImages);
 router.get("/admin/Hotels/addRoomsGallery", isAuth, addRoomImages);
 router.get("/admin/Hotels/viewHotelImages/:id", isAuth, viewHotelImages);
+router.get("/admin/Hotels/roomGallery/:id", isAuth, viewRoomImages);
+
 router.post(
   "/admin/Hotels/addHotel",
   [
@@ -403,8 +408,10 @@ router.post(
 );
 router.post("/admin/Hotels/addHotelGallery", isAuth, postAddHotelGallery);
 router.post("/admin/Hotels/updateGallery", isAuth, postUpdateHotelGallery);
+router.post("/admin/Hotels/Rooms/updateGallery", isAuth, postUpdateRoomGallery);
 router.post("/admin/Hotels/addRoomsGallery", isAuth, postAddRoomGallery);
-router.post("/admin/Hotels/DeleteGalleryImage", postDeleteGalleryImage);
+router.post("/admin/Hotels/DeleteGalleryImage", isAuth, postDeleteGalleryImage);
+router.post("/admin/Hotels/Rooms/DeleteGalleryImage", isAuth, postDeleteRoomGalleryImage)
 router.post("/admin/Hotels/deleteHotel", isAuth, postDeleteHotel);
 
 // Appartments

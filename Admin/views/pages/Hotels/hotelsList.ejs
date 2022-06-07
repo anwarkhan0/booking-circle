@@ -44,60 +44,47 @@
                   <tr>
                     <th>S#</th>
                     <th>Name</th>
-                    <th>Contact</th>
-                    <th>Parking</th>
+                    <th>Owner</th>
                     <th>Location</th>
-                    <th>Status</th>
+                    <th>contact</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
 
-                  <% for( let i=0; i< hotels.length; i++) { %>
-                    <tr id="<%= hotels[i].id %>">
+                  <% hotels.forEach( (hotel, i) => { %>
+                    <tr id="<%= hotel.id %>">
                       <td>
                         <%= i + 1 %>
                       </td>
                       <td>
-                        <%= hotels[i].name %>
+                        <%= hotel.name %>
                       </td>
                       <td>
-                        <%= hotels[i].contact %>
+                        <%= hotel.owner.name %> 
                       </td>
                       <td>
-                        <% if(hotels[i].parking) { %>
-                          <span class="badge badge-primary"><i class="fa fa-check"></i></span>
-                          <% }else{ %>
-                            <span class="badge badge-danger"><i class="fa fa-times"></i></span>
-                            <% } %>
+                        <%= hotel.location %> 
                       </td>
                       <td>
-                        <%= hotels[i].area %>
+                        <%= hotel.contact %>
                       </td>
                       <td>
-                        <% if(hotels[i].approvedStatus) { %>
-                          <span class="badge badge-primary">Approved</span>
-                          <% } else{ %>
-                            <span class="badge badge-danger">Unapproved</span>
-                            <% } %>
-                      </td>
-                      <td>
-                        <a href="<%= '/admin/Hotels/viewHotel/' + hotels[i].id %>" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                        <a href="<%= '/admin/Hotels/editHotel/' + hotels[i].id %>" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></a>
-                          <button class="btn btn-danger btn-sm" onClick="<%= `deleteHandler('/admin/Hotels/deleteHotel', '${hotels[i].id.toString()}')` %>"><i class="fa fa-trash"></i></button>
+                        <a href="<%= '/admin/Hotels/viewHotel/' + hotel.id %>" class="btn btn-info "><i class="fa fa-eye"></i> Full Details</a>
+                        <a href="<%= '/admin/Hotels/editHotel/' + hotel.id %>" class="btn btn-primary "><i class="fa fa-pencil"></i></a>
+                          <button class="btn btn-danger " onClick="<%= `deleteHandler('/admin/Hotels/deleteHotel', '${hotels[i].id.toString()}')` %>"><i class="fa fa-trash"></i></button>
                       </td>
                     </tr>
-                    <% } %>
+                    <% }) %>
 
                 </tbody>
                 <tfoot>
                   <tr>
                     <th>S#</th>
                     <th>Name</th>
-                    <th>Contact</th>
-                    <th>Parking</th>
+                    <th>Owner</th>
                     <th>Location</th>
-                    <th>Status</th>
+                    <th>contact</th>
                     <th>Action</th>
                   </tr>
                 </tfoot>

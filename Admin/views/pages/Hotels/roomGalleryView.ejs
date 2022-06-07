@@ -37,13 +37,22 @@
                   <h3 class="card-title">Room Gallery</h3>
                 </div>
                 <div class="card-body">
-                  <a class="btn btn-info btn-lg mb-1" href="<%= '/admin/Hotels/addHotelGallery?hotelId=' + hotelId %>">Add New<i class="fa fa-plus"></i></a>
+                  <form action="/admin/Hotels/Rooms/updateGallery" method="POST" class="form-inline" enctype="multipart/form-data">
+                    <div class="form-group">
+                      <input type="file" multiple name="images" class="form-control" required>
+                    </div>
+                    <hr>
+                    <input type="hidden" name="hotelId" value="<%= hotelId %>">
+                    <div class="form-group">
+                      <button class="btn btn-primary font-weight-bold" type="submit" name="">Upload</button>
+                    </div>
+                  </form>
                   <div class="row">
   
                     <% gallery.forEach( (image, i) => { %>
                       <div class="col-md-4" id="<%= 'elem' + i %>">
                         <img src="<%= '/uploads/' + image %>" class="img-thumbnail" style="width: 100%; height: 100%;">
-                          <button style="width: 50px;" class="btn btn-danger rounded-circle" onclick="<%= `deleteImageHandler('/admin/Hotels/DeleteGalleryImage',  '${hotelId}', '${image}', '${'elem' + i}')` %>"> <i
+                          <button style="width: 50px;" class="btn btn-danger rounded-circle" onclick="<%= `deleteImageHandler('/admin/Hotels/Rooms/DeleteGalleryImage',  '${hotelId}', '${image}', '${'elem' + i}')` %>"> <i
                               class="fa fa-trash"></i></button>
                       </div>
                     
