@@ -116,7 +116,7 @@ const editHotel = async (req, res, next) => {
 
     res.render("../Admin/views/pages/Hotels/editHotel", {
       pageTitle: "Edit Tour",
-      path: "/admin/edit-tour",
+      path: "/admin/Hotels/editHotel",
       areas: areas,
       hotel: hotel,
       flashMessage: req.flash("message"),
@@ -567,12 +567,13 @@ const postEditHotel = async (req, res, next) => {
   const ownerContact = req.body.ownerContact;
   const loginEmail = req.body.loginEmail;
   const loginPassword = req.body.loginPassword;
+  const oldLoginPassword = req.body.oldPassword;
 
+  const areas = await Areas.find();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const areas = await Areas.find();
-    return res.status(422).render("../views/pages/Hotels/editHotel", {
-      path: "/admin/Hotesl/addHotel",
+    return res.status(422).render("../Admin/views/pages/Hotels/editHotel", {
+      path: "/admin/Hotesl/editHotel",
       pageTitle: "Hotel",
       areas: areas,
       flashMessage: errors.array()[0].msg,
@@ -719,8 +720,71 @@ const postEditHotel = async (req, res, next) => {
     res.redirect("/admin/Hotels/hotelsList");
   } catch (err) {
     console.log(err);
-    req.flash("message", "Something went wrong.");
-    res.redirect("/admin");
+    res.status(422).render("../Admin/views/pages/Hotels/editHotel", {
+      path: "/admin/Hotesl/editHotel",
+      pageTitle: "Hotel",
+      areas: areas,
+      flashMessage: 'Something went wrong.',
+      hotel: {
+        id: hotelId,
+        name: name,
+        contact: contact,
+        parking: parking,
+        location: location,
+        roomService: roomService,
+        address: address,
+        ownerName: ownerName,
+        ownerCNIC: ownerCNIC,
+        ownerContact: ownerContact,
+        loginEmail: loginEmail,
+        loginPassword: loginPassword,
+        single: {
+          total: singleRooms,
+          charges: singleRmCharges,
+          videoUrl: singleRmVideoUrl,
+          size: singleRmSize,
+          view: singleRmView,
+          occupancy: singleRmOccupancy,
+          bedSize: singleRmBedSize,
+          description: singleRmDescription,
+          features: singleRmFeatures,
+        },
+        twin: {
+          total: twinRooms,
+          charges: twinRmCharges,
+          videoUrl: twinRmVideoUrl,
+          size: twinRmSize,
+          view: twinRmView,
+          occupancy: twinRmOccupancy,
+          bedSize: twinRmBedSize,
+          description: twinRmDescription,
+          features: twinRmFeatures,
+        },
+        triple: {
+          total: tripleRooms,
+          charges: tripleRmCharges,
+          videoUrl: tripleRmVideoUrl,
+          size: tripleRmSize,
+          view: tripleRmView,
+          occupancy: tripleRmOccupancy,
+          bedSize: tripleRmBedSize,
+          description: tripleRmDescription,
+          features: tripleRmFeatures,
+        },
+        quad: {
+          total: quadRooms,
+          charges: quadRmCharges,
+          videoUrl: quadRmVideoUrl,
+          size: quadRmSize,
+          view: quadRmView,
+          occupancy: quadRmOccupancy,
+          bedSize: quadRmBedSize,
+          description: quadRmDescription,
+          features: quadRmFeatures,
+        },
+      },
+      validationErrors: errors.array(),
+    });
   }
 };
 

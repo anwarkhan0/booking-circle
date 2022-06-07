@@ -324,7 +324,7 @@ router.post(
 );
 
 router.post(
-  "/admin/Hotels/editHotel/",
+  "/admin/Hotels/editHotel",
   [
     body("name", "Please enter valid Hotel Name.")
       .notEmpty()

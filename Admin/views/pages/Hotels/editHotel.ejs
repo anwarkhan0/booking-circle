@@ -38,7 +38,7 @@
               <h3 class="card-title">Edit Hotel</h3>
             </div>
             <div class="card-body">
-              <form action="/admin/Hotels/addHotel" method="POST">
+              <form action="/admin/Hotels/editHotel" method="POST">
                 <h5><b>Details</b></h5>
                 <hr>
                 <div class="row">
@@ -453,6 +453,8 @@
                     <input type="password" value="" name="loginPassword" placeholder="New Password or Leave it empty"
                       class="form-control" >
                   </div>
+
+                  <input type="hidden" name="oldPassword" value="<%= hotel.owner.password %>">
 
                   <div class="form-group col-md-3">
                     <label>Confirm Password</label>
