@@ -30,62 +30,54 @@
           <div class="col-md-12">
             <div class="card card-success">
                 <div class="card-header">
-                    <h3 class="card-title">Hotels Gallery List</h3>
+                    <h3 class="card-title">Hotels Galleries</h3>
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body">
+                    
                     <table id="tableData" class="table table-striped table-hover">
                       <thead>
                         <tr>
                             <th>S#</th>
+                            <th>Photo</th>
                             <th>Name</th>
-                            <th>Contact</th>
-                            <th>Area</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>Gallery Link</th>
+                            <th>Rooms Gallery Link</th>
                         </tr>
                       </thead>
                       <tbody> 
 
-                        <% for(let i=0; i< hotels.length; i++) { %>
-                          <% if(hotels[i].gallery.length > 0) { %>
+                        <% hotels.forEach( (hotel, i)=> { %>
                             <tr>
                               <td>
                                 <%= i + 1 %>
                               </td>
                               <td>
-                                <%= hotels[i].name %>
+                                <img src="/uploads/<%= hotel.gallery[0] %>" style="width: 300px; height: 200px" alt="">
                               </td>
-                              <td>
-                                <%= hotels[i].contact %>
+                              <td class="align-middle">
+                                <h2><%= hotel.name %> </h2>
                               </td>
-                              <td>
-                                <%= hotels[i].area %>
+                              
+                              <td class="align-middle">
+                                <a href="<%= '/admin/Hotels/viewHotelImages/' + hotel.id %>" class="btn btn-info">View Gallery <i
+                                    class="fa fa-eye"></i></a>
                               </td>
-                              <td>
-                                <% if(hotels[i].approvedStatus) { %>
-                                  <span class="badge badge-primary">Approved</span>
-                                  <% } else { %>
-                                    <span class="badge badge-danger">Unapproved</span>
-                                    <% } %>
-                              </td>
-                              <td>
-                                <a href="<%= '/admin/Hotels/viewHotelImages/' + hotels[i].id %>" class="btn btn-info btn-sm">View Gallery <i
+                              <td class="align-middle">
+                                <a href="<%= '/admin/Hotels/viewHotelImages/' + hotel.id %>" class="btn btn-info">View Room Gallery <i
                                     class="fa fa-eye"></i></a>
                               </td>
                             </tr>
-                            <% } %>
-                          <% } %>
+                          <% }) %>
 
                       </tbody>
                       <tfoot>
                         <tr>
-                            <th>S#</th>
-                            <th>Name</th>
-                            <th>Contact</th>
-                            <th>Area</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                          <th>S#</th>
+                          <th>Photo</th>
+                          <th>Name</th>
+                          <th>Gallery Link</th>
+                          <th>Room Gallery Link</th>
                         </tr>
                       </tfoot>
                     </table>

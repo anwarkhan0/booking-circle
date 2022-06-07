@@ -34,24 +34,33 @@
           <div class="col-md-12">
             <div class="card card-success">
               <div class="card-header">
-                <h3 class="card-title">Hotel Gallery</h3>
+                <h3 class="card-title"><%= hotel %></h3>
               </div>
               <div class="card-body">
-                <a class="btn btn-info btn-lg mb-1" href="<%= '/admin/Hotels/addHotelImages?hotelId=' + hotelId %>">Add New<i class="fa fa-plus"></i></a>
+                <form action="/admin/Hotels/updateGallery" method="POST" class="form-inline" enctype="multipart/form-data">
+                  <div class="form-group">
+                    <input type="file" multiple name="images" class="form-control" required>
+                  </div>
+                  <hr>
+                  <input type="hidden" name="hotelId" value="<%= hotelId %>">
+                  <div class="form-group">
+                    <button class="btn btn-primary" type="submit" name="">Upload</button>
+                  </div>
+                </form>
                 <div class="row">
 
-                  <% for(let i=0; i< gallery.length; i++) { %>
-                    <div class="col-md-4" id="<%= 'elem' + i %>">
-                      <img src="<%= '/uploads/' + gallery[i] %>" class="img-thumbnail" width="304" height="236">
-                        <button style="width: 90%" class="btn btn-danger btn-sm" onclick="<%= `deleteImageHandler('/admin/Hotels/DeleteGalleryImage',  '${hotelId}', '${gallery[i]}', '${'elem' + i}')` %>">Delete <i
+                  <% gallery.forEach( (image, i) => { %>
+                    <div class="col-md-4 mt-5" id="<%= 'elem' + i %>">
+                      <img src="<%= '/uploads/' + image %>" class="img-thumbnail" style="width: 100%; height: 100%;">
+                        <button style="width: 50px;" class="btn btn-danger rounded-circle" onclick="<%= `deleteImageHandler('/admin/Hotels/DeleteGalleryImage',  '${hotelId}', '${image}', '${'elem' + i}')` %>"> <i
                             class="fa fa-trash"></i></button>
                     </div>
                   
-                    <% } %>
+                    <% }) %>
               
                 </div>
                 <hr>
-                <div class="form-group">
+                <div class="form-group mt-5">
                   <a class="btn btn-secondary btn-sm" name="cancel" type="submit" onclick="history.back(-1)">Cancel</a>
                 </div>
               

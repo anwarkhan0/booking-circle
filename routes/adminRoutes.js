@@ -28,6 +28,7 @@ const {
   postAddHotel,
   postEditHotel,
   postAddHotelGallery,
+  postUpdateHotelGallery,
   postAddRoomGallery,
   postDeleteGalleryImage,
   postDeleteHotel,
@@ -226,11 +227,9 @@ router.get("/admin/Hotels/addHotel", isAuth, hotelClients);
 router.get("/admin/Hotels/hotelsList", isAuth, hotelList);
 router.get("/admin/Hotels/viewHotel/:id", isAuth, viewHotel);
 router.get("/admin/Hotels/editHotel/:id", isAuth, editHotel);
-router.get("/admin/Hotels/approvedHotels", isAuth, hotelApproved);
-router.get("/admin/Hotels/unapprovedHotels", isAuth, hotelUnapproved);
+router.get("/admin/Hotels/Galleries", isAuth, galleryList);
 router.get("/admin/Hotels/addHotelGallery", isAuth, addHotelImages);
 router.get("/admin/Hotels/addRoomsGallery", isAuth, addRoomImages);
-router.get("/admin/Hotels/galleryList", isAuth, galleryList);
 router.get("/admin/Hotels/viewHotelImages/:id", isAuth, viewHotelImages);
 router.post(
   "/admin/Hotels/addHotel",
@@ -342,16 +341,11 @@ router.post(
       .isLength({ min: 10, max: 11 })
       .isNumeric()
       .trim(),
-    body("parking", "Please enter valid value for parking.").isBoolean(),
     body("area", "Please enter valid Hotel Location.")
       .notEmpty()
       .isLength({ min: 2, max: 200 })
       .trim()
       .escape(),
-    body(
-      "roomServices",
-      "Please enter valid value for room Service."
-    ).isBoolean(),
     body("address", "Please enter valid Hotel Address.")
       .notEmpty()
       .custom((val) => {
@@ -401,12 +395,14 @@ router.post(
       } else {
         return true;
       }
-    }),
+    })
+    .trim(),
   ],
-  isAuth,
+  isAuth, 
   postEditHotel
 );
 router.post("/admin/Hotels/addHotelGallery", isAuth, postAddHotelGallery);
+router.post("/admin/Hotels/updateGallery", isAuth, postUpdateHotelGallery);
 router.post("/admin/Hotels/addRoomsGallery", isAuth, postAddRoomGallery);
 router.post("/admin/Hotels/DeleteGalleryImage", postDeleteGalleryImage);
 router.post("/admin/Hotels/deleteHotel", isAuth, postDeleteHotel);
