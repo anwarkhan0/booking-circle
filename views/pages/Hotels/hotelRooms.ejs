@@ -22,11 +22,8 @@
 			<div class="row">
 				<div class="col-lg-8 mt-4 mt-lg-0">
 					<div class="row">
-						<% if(rooms.length==0){ %>
-							<h3>No Room Found.</h3>
-							<% } %>
+						
 
-								<% for(let i=0; i< rooms.length; i++){ %>
 									<div class="col-lg-6 mt-4"
 										data-scroll-reveal="enter bottom move 50px over 0.7s after 0.2s">
 										<div class="room-box background-grey">
@@ -38,22 +35,20 @@
 									<i class="fa fa-star"></i>
 									<i class="fa fa-star"></i>
 								</div> -->
-											<img src="<%= '/uploads/' + rooms[i].gallery[0] %> " alt="">
+											<img src="<%= '/uploads/' + gallery[0] %> " alt="">
 											<div class="room-box-in">
-												<h5 class="">Room No.<%= rooms[i].roomNo %>
+												<h5 class="">Room No. 3
 												</h5>
 												<p class="mt-3">
-													<%= rooms[i].description.substr(0, 60) + '....' %>
+													description
 												</p>
 												<a class="mt-1 btn btn-primary"
-													href="<%= `/Hotels/roomBooking/${hotelId}?roomId=${rooms[i].id}` %>">book from <%=
-														rooms[i].charges %>
+													href="<%= `/Hotels/roomBooking/${hotelId}?roomId=${hotelId}` %>">book from charges
 														PKR</a>
 
 											</div>
 										</div>
 									</div>
-									<% } %>
 
 					</div>
 				</div>

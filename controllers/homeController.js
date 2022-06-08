@@ -543,27 +543,19 @@ const hotelGallery = async (req, res, next) => {
 const hotelRooms = async (req, res, next) => {
   const hotelId = req.params.id;
   const hotel = await HotelsModel.findById(hotelId);
-  const rooms = hotel.rooms;
 
-  res.render("./pages/Hotels/hotelRooms", {
+  res.render("./pages/Hotels/roomBooking", {
     loggedIn: req.session.userLoggedIn,
     user: req.session.user,
+    hotelId: hotel.id,
+    hotel: hotel,
     oldInput: {
-      hotelId: "",
       checkIn: "",
       checkOut: "",
-      adults: "",
-      priceRange: 25000,
-      hotWater: false,
-      heater: false,
-      kingBeds: false,
-      balcony: false,
-      parking: false,
-      roomService: false,
+      adults: false,
+      children: false,
     },
-    hotelId: hotelId,
-    hotelName: hotel.name,
-    rooms: rooms,
+    flashMessage: "",
   });
 };
 

@@ -23,6 +23,10 @@ const HotelsSchema = new Schema({
     type: String,
     required: true,
   },
+  videoUrl: {
+    type: String,
+    required: true
+  },
   parking: {
     type: Boolean,
     required: true,

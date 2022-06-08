@@ -10,7 +10,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 parallax-fade-top">
-                    <div class="hero-text">Room Booking</div>
+                    <div class="hero-text"><%= hotel.name %> </div>
                 </div>
             </div>
         </div>
@@ -21,42 +21,54 @@
     <div class="section z-bigger">
         <div class="container">
             <div class="row">
+
+                <% if(hotel.hotWater){ %> 
                 <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center">
                     <div class="amenities">
                         <img src="/img/icons/HotWater.svg" alt="">
                         <p>Hot Water</p>
                     </div>
                 </div>
+                <% } %> 
                 <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center">
                     <div class="amenities">
                         <img src="/img/icons/2.svg" alt="">
-                        <p>King Bed</p>
+                        <p><%= hotel.rooms.single.bedSize %> <%= hotel.rooms.twin.bedSize %> <%= hotel.rooms.triple.bedSize %> <%= hotel.rooms.quad.bedSize %>  </p>
                     </div>
                 </div>
+                <% if(hotel.heater){ %> 
                 <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center mt-4 mt-md-0">
                     <div class="amenities">
                         <img src="/img/icons/heater.png" alt="">
                         <p>Heater / AC</p>
                     </div>
                 </div>
+                <% } %> 
+                <% if(hotel.parking){ %> 
                 <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center mt-4 mt-lg-0">
                     <div class="amenities">
                         <img src="/img/icons/johnny_automatic_NPS_map_pictographs_part_52.svg" alt="">
                         <p>Parking</p>
                     </div>
                 </div>
+                <% } %> 
+                <% if(hotel.rooms.single.view > 0){ %> 
                 <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center mt-4 mt-lg-0">
                     <div class="amenities">
                         <img src="/img/icons/5.svg" alt="">
                         <p>Balcony</p>
                     </div>
                 </div>
+                <% } %> 
+                <% if(hotel.roomService){ %> 
                 <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center mt-4 mt-lg-0">
                     <div class="amenities">
                         <img src="/img/icons/6.svg" alt="">
                         <p>Room Service</p>
                     </div>
                 </div>
+                <% } %> 
+
             </div>
         </div>
     </div>
@@ -73,7 +85,7 @@
                             <a class="next-rooms-sync-1"></a>
                         </div>
                         <div id="rooms-sync1" class="owl-carousel">
-                            <% room.gallery.forEach( image =>{ %>
+                            <% hotel.rooms.gallery.forEach( image =>{ %>
                                 <div class="item">
                                     <img src="<%= '/uploads/' + image %>" alt="">
                                 </div>
@@ -82,7 +94,7 @@
                     </div>
                     <div class="section">
                         <div id="rooms-sync2" class="owl-carousel">
-                            <% room.gallery.forEach( image => { %>
+                            <% hotel.rooms.gallery.forEach( image => { %>
                                 <div class="item">
                                     <img src="<%= '/uploads/' + image %>" alt="">
                                 </div>
@@ -97,7 +109,7 @@
                     <!-- Copy SRC from iframe tag -->
                     <div class="section big-55-height over-hide z-bigger">
                         <iframe style="width: 100%; max-height: 100%; min-height: 100%;"
-                            src="<%= room.videoUrl %>" title="YouTube video player" frameborder="0"
+                            src="<%= hotel.rooms.single.videoUrl %>" title="YouTube video player" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen></iframe>
                     </div>
@@ -105,32 +117,32 @@
 
                     <div class="section pt-5">
                         <h5>Description</h5>
-                        <p class="mt-3"><%= room.description %></p>
+                        <p class="mt-3"><%= hotel.rooms.single.description %></p>
                     </div>
 
-                    <div class="section pt-4">
+                    <!-- <div class="section pt-4">
                         <div class="row">
                             <div class="col-12">
                                 <h5 class="mb-3">Overview</h5>
                             </div>
                             <div class="col-lg-6">
-                                <p><strong class="color-black">Hot Water:</strong> <%= room.hotWater ? 'Yes' : 'No' %> </p>
-                                <p><strong class="color-black">Balcony:</strong> <%= room.balcony ? 'Yes' : 'No' %> </p>
-                                <p><strong class="color-black">Parking:</strong> <%= room.parking ? 'Yes' : 'No' %> </p>
-                                <p><strong class="color-black">Room service:</strong> Yes </p>
+                                <p><strong class="color-black">Hot Water:</strong> <%= hotel.rooms.singlehotWater ? 'Yes' : 'No' %> </p>
+                                <p><strong class="color-black">Balcony:</strong> <%= hotel.rooms.singlebalcony ? 'Yes' : 'No' %> </p>
+                                <p><strong class="color-black">Parking:</strong> <%= hotel.rooms.singleparking ? 'Yes' : 'No' %> </p>
+                                <p><strong class="color-black">rooms service:</strong> Yes </p>
                             </div>
                             <div class="col-lg-6">
-                                <p><strong class="color-black">Room size:</strong> <%= room.size %> </p>
-                                <p><strong class="color-black">Occupancy:</strong> <%= room.occupency %> </p>
-                                <p><strong class="color-black">Location:</strong> <%= room.location %> </p>
-                                <p><strong class="color-black">Bed size:</strong> <%= room.bedSize %> </p>
-                                <p><strong class="color-black">Night Charges:</strong> <%= room.charges %> Rs </p>
+                                <p><strong class="color-black">rooms size:</strong> <%= hotel.rooms.singlesize %> </p>
+                                <p><strong class="color-black">Occupancy:</strong> <%= hotel.rooms.singleoccupency %> </p>
+                                <p><strong class="color-black">Location:</strong> <%= hotel.rooms.singlelocation %> </p>
+                                <p><strong class="color-black">Bed size:</strong> <%= hotel.rooms.singlebedSize %> </p>
+                                <p><strong class="color-black">Night Charges:</strong> <%= hotel.rooms.singlecharges %> Rs </p>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="section pt-4">
                         <h5>Features</h5>
-                        <p class="mt-3"><%= room.features %></p>
+                        <p class="mt-3"><%= hotel.rooms.single.features %></p>
                     </div>
                 </div>
                 <div class="col-lg-4 order-first order-lg-last">
@@ -186,11 +198,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type="hidden" value="<%= room.id %>" id="roomId">
+                            <input type="hidden" value="<%= '' %>" id="roomsId">
                             <input type="hidden" value="<%= hotelId %>" id="hotelId">
-                            <input type="hidden" value="<%= room.charges %>" id="roomCharges">
+                            <input type="hidden" value="<%= hotel.rooms.single.charges %>" id="roomsCharges">
                             <div class="col-12 pt-4">
-                                <a class="booking-button" href="javascript: ;" id="roomBooking">book now</a>
+                                <a class="booking-button" href="javascript: ;" id="roomsBooking">book now</a>
                             </div>
                         </div>
                     </div>
