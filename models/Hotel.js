@@ -47,6 +47,8 @@ const HotelsSchema = new Schema({
     type: Boolean,
     required: true,
   },
+  description: String,
+  features: String,
   owner: {
     name: {
       type: String,
@@ -79,8 +81,6 @@ const HotelsSchema = new Schema({
       occupancy: Number,
       view: Number,
       bedSize: String,
-      description: String,
-      features: String,
       reservations: [
         {
           user: Object,
@@ -99,8 +99,6 @@ const HotelsSchema = new Schema({
       occupancy: Number,
       view: Number,
       bedSize: String,
-      description: String,
-      features: String,
       reservations: [
         {
           user: Object,
@@ -119,8 +117,6 @@ const HotelsSchema = new Schema({
       occupancy: Number,
       view: Number,
       bedSize: String,
-      description: String,
-      features: String,
       reservations: [
         {
           user: Object,
@@ -139,8 +135,6 @@ const HotelsSchema = new Schema({
       occupancy: Number,
       view: Number,
       bedSize: String,
-      description: String,
-      features: String,
       reservations: [
         {
           user: Object,

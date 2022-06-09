@@ -230,7 +230,7 @@ const viewRoomImages = (req, res, next) => {
       if (!hotel) {
         res.redirect("/");
       }
-      res.render("../Admin/views/pages/Hotels/viewHotelImages", {
+      res.render("../Admin/views/pages/Hotels/roomGalleryView", {
         hotelId: hotel.id,
         hotel: hotel.name,
         gallery: hotel.rooms.gallery,
@@ -248,6 +248,7 @@ const postAddHotel = async (req, res, next) => {
   const name = req.body.name;
   const contact = req.body.contact;
   const address = req.body.address;
+  const videoUrl = req.body.videoUrl;
   const location = req.body.area;
   const stars = Number(req.body.stars);
   const hotWater = req.body.hotWater ? true : false;
@@ -256,39 +257,35 @@ const postAddHotel = async (req, res, next) => {
   const roomService = req.body.roomService ? true : false;
   const parking = req.body.parking ? true : false;
 
+  const description = req.body.description;
+  const features = req.body.features;
+
   // Rooms Details
-  const singleRooms = Number(req.body.singleRooms);
-  const singleRmCharges = Number(req.body.singleRmCharges);
-  const singleRmVideoUrl = req.body.singleRmVideoUrl;
-  const singleRmSize = req.body.singleRmSize;
-  const singleRmView = Number(req.body.singleRmView);
-  const singleRmOccupancy = Number(req.body.singleRmOccupancy);
-  const singleRmBedSize = req.body.singleRmBedSize;
-  const singleRmDescription = req.body.singleRmDescription;
-  const singleRmFeatures = req.body.singleRmFeatures;
+  const singleRooms = req.body.singleRmNo ? Number(req.body.singleRmNo) : "";
+  const singleRmCharges = req.body.singleRmCharges
+    ? Number(req.body.singleRmCharges)
+    : "";
+  const singleRmSize = req.body.singleRmSize ? req.body.singleRmSize : "";
+  const singleRmView = req.body.singleRmView ? Number(req.body.singleRmView) : "";
+  const singleRmOccupancy = req.body.singleRmOccupancy
+    ? Number(req.body.singleRmOccupancy)
+    : "";
+  const singleRmBedSize = req.body.singleRmBedSize ? req.body.singleRmBedSize : "";
 
   const twinRooms = req.body.twinRmNo ? Number(req.body.twinRmNo) : "";
   const twinRmCharges = req.body.twinRmCharges
     ? Number(req.body.twinRmCharges)
     : "";
-  const twinRmVideoUrl = req.body.twinRmVideoUrl ? req.body.twinRmVideoUrl : "";
   const twinRmSize = req.body.twinRmSize ? req.body.twinRmSize : "";
   const twinRmView = req.body.twinRmView ? Number(req.body.twinRmView) : "";
   const twinRmOccupancy = req.body.twinRmOccupancy
     ? Number(req.body.twinRmOccupancy)
     : "";
   const twinRmBedSize = req.body.twinRmBedSize ? req.body.twinRmBedSize : "";
-  const twinRmDescription = req.body.twinRmDescription
-    ? req.body.twinRmDescription
-    : "";
-  const twinRmFeatures = req.body.twinRmFeatures ? req.body.twinRmFeatures : "";
 
   const tripleRooms = req.body.tripleRmNo ? Number(req.body.tripleRmNo) : "";
   const tripleRmCharges = req.body.tripleRmCharges
     ? Number(req.body.tripleRmCharges)
-    : "";
-  const tripleRmVideoUrl = req.body.tripleRmVideoUrl
-    ? req.body.tripleRmVideoUrl
     : "";
   const tripleRmSize = req.body.tripleRmSize ? req.body.tripleRmSize : "";
   const tripleRmView = req.body.tripleRmView
@@ -300,28 +297,17 @@ const postAddHotel = async (req, res, next) => {
   const tripleRmBedSize = req.body.tripleRmBedSize
     ? req.body.tripleRmBedSize
     : "";
-  const tripleRmDescription = req.body.tripleRmDescription
-    ? req.body.tripleRmDescription
-    : "";
-  const tripleRmFeatures = req.body.tripleRmFeatures
-    ? req.body.tripleRmFeatures
-    : "";
 
   const quadRooms = req.body.quadRmNo ? Number(req.body.quadRmNo) : "";
   const quadRmCharges = req.body.quadRmCharges
     ? Number(req.body.quadRmCharges)
     : "";
-  const quadRmVideoUrl = req.body.quadRmVideoUrl ? req.body.quadRmVideoUrl : "";
   const quadRmSize = req.body.quadRmSize ? req.body.quadRmSize : "";
   const quadRmView = req.body.quadRmView ? Number(req.body.quadRmView) : "";
   const quadRmOccupancy = req.body.quadRmOccupancy
     ? Number(req.body.quadRmOccupancy)
     : "";
   const quadRmBedSize = req.body.quadRmBedSize ? req.body.quadRmBedSize : "";
-  const quadRmDescription = req.body.quadRmDescription
-    ? req.body.quadRmDescription
-    : "";
-  const quadRmFeatures = req.body.quadRmFeatures ? req.body.quadRmFeatures : "";
 
   // owner info
   const ownerName = req.body.ownerName;
@@ -350,54 +336,45 @@ const postAddHotel = async (req, res, next) => {
         location: location,
         roomService: roomService,
         address: address,
+        videoUrl: videoUrl,
         ownerName: ownerName,
         ownerCNIC: ownerCNIC,
         ownerContact: ownerContact,
         loginEmail: loginEmail,
         loginPassword: loginPassword,
+        description: description,
+        features: features,
         single: {
           total: singleRooms,
           charges: singleRmCharges,
-          videoUrl: singleRmVideoUrl,
           size: singleRmSize,
           view: singleRmView,
           occupancy: singleRmOccupancy,
-          bedSize: singleRmBedSize,
-          description: singleRmDescription,
-          features: singleRmFeatures,
+          bedSize: singleRmBedSize
         },
         twin: {
           total: twinRooms,
           charges: twinRmCharges,
-          videoUrl: twinRmVideoUrl,
           size: twinRmSize,
           view: twinRmView,
           occupancy: twinRmOccupancy,
-          bedSize: twinRmBedSize,
-          description: twinRmDescription,
-          features: twinRmFeatures,
+          bedSize: twinRmBedSize
         },
         triple: {
           total: tripleRooms,
           charges: tripleRmCharges,
-          videoUrl: tripleRmVideoUrl,
           size: tripleRmSize,
           view: tripleRmView,
           occupancy: tripleRmOccupancy,
-          bedSize: tripleRmBedSize,
-          description: tripleRmDescription,
-          features: tripleRmFeatures,
+          bedSize: tripleRmBedSize
         },
         quad: {
           total: quadRooms,
           charges: quadRmCharges,
-          videoUrl: quadRmVideoUrl,
           size: quadRmSize,
           view: quadRmView,
           occupancy: quadRmOccupancy,
-          bedSize: quadRmBedSize,
-          description: quadRmDescription,
-          features: quadRmFeatures,
+          bedSize: quadRmBedSize
         },
       },
       validationErrors: errors.array(),
@@ -409,12 +386,15 @@ const postAddHotel = async (req, res, next) => {
     contact: contact,
     address: address,
     location: location,
+    videoUrl: videoUrl,
     stars: stars,
     parking: parking,
     roomService: roomService,
     wifi: wifi,
     hotWater: hotWater,
     heater: heater,
+    description: description,
+    features: features,
     owner: {
       name: ownerName,
       cnic: ownerCNIC,
@@ -426,46 +406,34 @@ const postAddHotel = async (req, res, next) => {
       single: {
         total: singleRooms,
         charges: singleRmCharges,
-        videoUrl: singleRmVideoUrl,
         size: singleRmSize,
         view: singleRmView,
         occupancy: singleRmOccupancy,
-        bedSize: singleRmBedSize,
-        description: singleRmDescription,
-        features: singleRmFeatures,
+        bedSize: singleRmBedSize
       },
       twin: {
         total: twinRooms,
         charges: twinRmCharges,
-        videoUrl: twinRmVideoUrl,
         size: twinRmSize,
         view: twinRmView,
         occupancy: twinRmOccupancy,
-        bedSize: twinRmBedSize,
-        description: twinRmDescription,
-        features: twinRmFeatures,
+        bedSize: twinRmBedSize
       },
       triple: {
         total: tripleRooms,
         charges: tripleRmCharges,
-        videoUrl: tripleRmVideoUrl,
         size: tripleRmSize,
         view: tripleRmView,
         occupancy: tripleRmOccupancy,
-        bedSize: tripleRmBedSize,
-        description: tripleRmDescription,
-        features: tripleRmFeatures,
+        bedSize: tripleRmBedSize
       },
       quad: {
         total: quadRooms,
         charges: quadRmCharges,
-        videoUrl: quadRmVideoUrl,
         size: quadRmSize,
         view: quadRmView,
         occupancy: quadRmOccupancy,
-        bedSize: quadRmBedSize,
-        description: quadRmDescription,
-        features: quadRmFeatures,
+        bedSize: quadRmBedSize
       },
     },
   });
@@ -491,12 +459,47 @@ const postAddHotel = async (req, res, next) => {
         location: location,
         roomService: roomService,
         address: address,
+        videoUrl: videoUrl,
         ownerName: ownerName,
         ownerCNIC: ownerCNIC,
         ownerContact: ownerContact,
         loginEmail: loginEmail,
         loginPassword: loginPassword,
-      },
+        description: description,
+        features: features,
+        single: {
+          total: singleRooms,
+          charges: singleRmCharges,
+          size: singleRmSize,
+          view: singleRmView,
+          occupancy: singleRmOccupancy,
+          bedSize: singleRmBedSize
+        },
+        twin: {
+          total: twinRooms,
+          charges: twinRmCharges,
+          size: twinRmSize,
+          view: twinRmView,
+          occupancy: twinRmOccupancy,
+          bedSize: twinRmBedSize
+        },
+        triple: {
+          total: tripleRooms,
+          charges: tripleRmCharges,
+          size: tripleRmSize,
+          view: tripleRmView,
+          occupancy: tripleRmOccupancy,
+          bedSize: tripleRmBedSize
+        },
+        quad: {
+          total: quadRooms,
+          charges: quadRmCharges,
+          size: quadRmSize,
+          view: quadRmView,
+          occupancy: quadRmOccupancy,
+          bedSize: quadRmBedSize
+        }
+      }
     });
   }
 };
@@ -506,6 +509,7 @@ const postEditHotel = async (req, res, next) => {
   const name = req.body.name;
   const contact = req.body.contact;
   const address = req.body.address;
+  const videoUrl = req.body.videoUrl;
   const location = req.body.area;
   const stars = Number(req.body.stars);
   const hotWater = req.body.hotWater ? true : false;
@@ -513,40 +517,36 @@ const postEditHotel = async (req, res, next) => {
   const wifi = req.body.wifi ? true : false;
   const roomService = req.body.roomService ? true : false;
   const parking = req.body.parking ? true : false;
+  const description = req.body.description;
+  const features = req.body.features;
 
   // Rooms Details
-  const singleRooms = Number(req.body.singleRooms);
-  const singleRmCharges = Number(req.body.singleRmCharges);
-  const singleRmVideoUrl = req.body.singleRmVideoUrl;
-  const singleRmSize = req.body.singleRmSize;
-  const singleRmView = Number(req.body.singleRmView);
-  const singleRmOccupancy = Number(req.body.singleRmOccupancy);
-  const singleRmBedSize = req.body.singleRmBedSize;
-  const singleRmDescription = req.body.singleRmDescription;
-  const singleRmFeatures = req.body.singleRmFeatures;
+  const singleRooms = req.body.singleRmNo ? Number(req.body.singleRmNo) : "";
+  const singleRmCharges = req.body.singleRmCharges
+    ? Number(req.body.singleRmCharges)
+    : "";
+  const singleRmSize = req.body.singleRmSize ? req.body.singleRmSize : "";
+  const singleRmView = req.body.singleRmView ? Number(req.body.singleRmView) : "";
+  const singleRmOccupancy = req.body.singleRmOccupancy
+    ? Number(req.body.singleRmOccupancy)
+    : "";
+  const singleRmBedSize = req.body.singleRmBedSize ? req.body.singleRmBedSize : "";
+  
 
   const twinRooms = req.body.twinRmNo ? Number(req.body.twinRmNo) : "";
   const twinRmCharges = req.body.twinRmCharges
     ? Number(req.body.twinRmCharges)
     : "";
-  const twinRmVideoUrl = req.body.twinRmVideoUrl ? req.body.twinRmVideoUrl : "";
   const twinRmSize = req.body.twinRmSize ? req.body.twinRmSize : "";
   const twinRmView = req.body.twinRmView ? Number(req.body.twinRmView) : "";
   const twinRmOccupancy = req.body.twinRmOccupancy
     ? Number(req.body.twinRmOccupancy)
     : "";
   const twinRmBedSize = req.body.twinRmBedSize ? req.body.twinRmBedSize : "";
-  const twinRmDescription = req.body.twinRmDescription
-    ? req.body.twinRmDescription
-    : "";
-  const twinRmFeatures = req.body.twinRmFeatures ? req.body.twinRmFeatures : "";
 
   const tripleRooms = req.body.tripleRmNo ? Number(req.body.tripleRmNo) : "";
   const tripleRmCharges = req.body.tripleRmCharges
     ? Number(req.body.tripleRmCharges)
-    : "";
-  const tripleRmVideoUrl = req.body.tripleRmVideoUrl
-    ? req.body.tripleRmVideoUrl
     : "";
   const tripleRmSize = req.body.tripleRmSize ? req.body.tripleRmSize : "";
   const tripleRmView = req.body.tripleRmView
@@ -558,28 +558,19 @@ const postEditHotel = async (req, res, next) => {
   const tripleRmBedSize = req.body.tripleRmBedSize
     ? req.body.tripleRmBedSize
     : "";
-  const tripleRmDescription = req.body.tripleRmDescription
-    ? req.body.tripleRmDescription
-    : "";
-  const tripleRmFeatures = req.body.tripleRmFeatures
-    ? req.body.tripleRmFeatures
-    : "";
+
 
   const quadRooms = req.body.quadRmNo ? Number(req.body.quadRmNo) : "";
   const quadRmCharges = req.body.quadRmCharges
     ? Number(req.body.quadRmCharges)
     : "";
-  const quadRmVideoUrl = req.body.quadRmVideoUrl ? req.body.quadRmVideoUrl : "";
   const quadRmSize = req.body.quadRmSize ? req.body.quadRmSize : "";
   const quadRmView = req.body.quadRmView ? Number(req.body.quadRmView) : "";
   const quadRmOccupancy = req.body.quadRmOccupancy
     ? Number(req.body.quadRmOccupancy)
     : "";
   const quadRmBedSize = req.body.quadRmBedSize ? req.body.quadRmBedSize : "";
-  const quadRmDescription = req.body.quadRmDescription
-    ? req.body.quadRmDescription
-    : "";
-  const quadRmFeatures = req.body.quadRmFeatures ? req.body.quadRmFeatures : "";
+
 
   // owner info
   const ownerName = req.body.ownerName;
@@ -605,50 +596,39 @@ const postEditHotel = async (req, res, next) => {
         location: location,
         roomService: roomService,
         address: address,
+        videoUrl: videoUrl,
         rooms: {
           single: {
             total: singleRooms,
             charges: singleRmCharges,
-            videoUrl: singleRmVideoUrl,
             size: singleRmSize,
             view: singleRmView,
             occupancy: singleRmOccupancy,
             bedSize: singleRmBedSize,
-            description: singleRmDescription,
-            features: singleRmFeatures,
           },
           twin: {
             total: twinRooms,
             charges: twinRmCharges,
-            videoUrl: twinRmVideoUrl,
             size: twinRmSize,
             view: twinRmView,
             occupancy: twinRmOccupancy,
             bedSize: twinRmBedSize,
-            description: twinRmDescription,
-            features: twinRmFeatures,
           },
           triple: {
             total: tripleRooms,
             charges: tripleRmCharges,
-            videoUrl: tripleRmVideoUrl,
             size: tripleRmSize,
             view: tripleRmView,
             occupancy: tripleRmOccupancy,
             bedSize: tripleRmBedSize,
-            description: tripleRmDescription,
-            features: tripleRmFeatures,
           },
           quad: {
             total: quadRooms,
             charges: quadRmCharges,
-            videoUrl: quadRmVideoUrl,
             size: quadRmSize,
             view: quadRmView,
             occupancy: quadRmOccupancy,
             bedSize: quadRmBedSize,
-            description: quadRmDescription,
-            features: quadRmFeatures,
           }
         },
         owner : {
@@ -680,6 +660,7 @@ const postEditHotel = async (req, res, next) => {
     hotel.name = name;
     hotel.contact = contact;
     hotel.address = address;
+    hotel.videoUrl = videoUrl;
     hotel.location = location;
     hotel.stars = stars;
     hotel.parking = parking;
@@ -687,6 +668,8 @@ const postEditHotel = async (req, res, next) => {
     hotel.wifi = wifi;
     hotel.hotWater = hotWater;
     hotel.heater = heater;
+    hotel.description = description;
+    hotel.features = features;
     hotel.owner = {
       name: ownerName,
       cnic: ownerCNIC,
@@ -697,46 +680,34 @@ const postEditHotel = async (req, res, next) => {
     hotel.rooms.single = {
       total: singleRooms,
       charges: singleRmCharges,
-      videoUrl: singleRmVideoUrl,
       size: singleRmSize,
       view: singleRmView,
       occupancy: singleRmOccupancy,
       bedSize: singleRmBedSize,
-      description: singleRmDescription,
-      features: singleRmFeatures,
     };
     hotel.rooms.twin = {
       total: twinRooms,
       charges: twinRmCharges,
-      videoUrl: twinRmVideoUrl,
       size: twinRmSize,
       view: twinRmView,
       occupancy: twinRmOccupancy,
       bedSize: twinRmBedSize,
-      description: twinRmDescription,
-      features: twinRmFeatures,
     };
     hotel.rooms.triple = {
       total: tripleRooms,
       charges: tripleRmCharges,
-      videoUrl: tripleRmVideoUrl,
       size: tripleRmSize,
       view: tripleRmView,
       occupancy: tripleRmOccupancy,
       bedSize: tripleRmBedSize,
-      description: tripleRmDescription,
-      features: tripleRmFeatures,
     };
     hotel.rooms.quad = {
       total: quadRooms,
       charges: quadRmCharges,
-      videoUrl: quadRmVideoUrl,
       size: quadRmSize,
       view: quadRmView,
       occupancy: quadRmOccupancy,
       bedSize: quadRmBedSize,
-      description: quadRmDescription,
-      features: quadRmFeatures,
     };
 
     await hotel.save();
@@ -763,50 +734,40 @@ const postEditHotel = async (req, res, next) => {
         ownerContact: ownerContact,
         loginEmail: loginEmail,
         loginPassword: loginPassword,
+        description: description,
+        features: features,
         rooms: {
           single: {
             total: singleRooms,
             charges: singleRmCharges,
-            videoUrl: singleRmVideoUrl,
             size: singleRmSize,
             view: singleRmView,
             occupancy: singleRmOccupancy,
             bedSize: singleRmBedSize,
-            description: singleRmDescription,
-            features: singleRmFeatures,
           },
           twin: {
             total: twinRooms,
             charges: twinRmCharges,
-            videoUrl: twinRmVideoUrl,
             size: twinRmSize,
             view: twinRmView,
             occupancy: twinRmOccupancy,
             bedSize: twinRmBedSize,
-            description: twinRmDescription,
-            features: twinRmFeatures,
           },
           triple: {
             total: tripleRooms,
             charges: tripleRmCharges,
-            videoUrl: tripleRmVideoUrl,
             size: tripleRmSize,
             view: tripleRmView,
             occupancy: tripleRmOccupancy,
             bedSize: tripleRmBedSize,
-            description: tripleRmDescription,
-            features: tripleRmFeatures,
           },
           quad: {
             total: quadRooms,
             charges: quadRmCharges,
-            videoUrl: quadRmVideoUrl,
             size: quadRmSize,
             view: quadRmView,
             occupancy: quadRmOccupancy,
             bedSize: quadRmBedSize,
-            description: quadRmDescription,
-            features: quadRmFeatures,
           },
         },
         owner : {
@@ -828,14 +789,14 @@ const postAddHotelGallery = async (req, res, next) => {
   const gallery = [];
 
   uploads.forEach(image => {
-    gallery.push(uploads.filename);
+    gallery.push( image.filename );
   })
 
   try {
     const hotel = await Hotels.findById(hotelId);
     hotel.gallery = gallery;
     hotel.save();
-    console.log("added gallery to hotel");
+    console.log("hotel pictures added");
     req.flash("message", "Hotel pictures uploaded Successfully");
     res.redirect("/admin/Hotels/addRoomsGallery?hotelId=" + hotelId);
     
@@ -856,11 +817,11 @@ const postUpdateHotelGallery = async (req, res)=>{
   })
 
   try {
-    const hotel = await Hotels.findOneAndUpdate(hotelId);
+    const hotel = await Hotels.findById(hotelId);
     const updatedGallery = hotel.gallery.concat(gallery);
     hotel.gallery = updatedGallery;
     hotel.save();
-    console.log("gallery updated");
+    console.log("hotel gallery updated");
     req.flash("message", "Hotel Gallery Updated Successfully");
     res.redirect("/admin/Hotels/viewHotelImages/" + hotelId);
   } catch (err) {
@@ -876,14 +837,14 @@ const postAddRoomGallery = async (req, res, next) => {
   const gallery = [];
 
   uploads.forEach((image, i) =>{
-    gallery.push(uploads.filename);
+    gallery.push(image.filename);
   })
 
   try {
     const hotel = await Hotels.findById(hotelId);
       hotel.rooms.gallery = gallery;
       hotel.save();
-      console.log("added gallery to hotel");
+      console.log("room pictures addedd");
       req.flash("message", "Hotel added Successfully");
       res.redirect("/admin");
     
@@ -895,19 +856,20 @@ const postAddRoomGallery = async (req, res, next) => {
 };
 
 const postUpdateRoomGallery = async (req, res) => {
+  console.log('upadte function')
   const uploads = req.files;
   const hotelId = req.body.hotelId;
   const gallery = [];
 
   uploads.forEach((image, i) =>{
-    gallery.push(uploads.filename);
+    gallery.push(image.filename);
   })
   try {
     const hotel = await Hotels.findById(hotelId);
-    updatedGallery = hotel.gallery.concat(gallery);
+    updatedGallery = hotel.rooms.gallery.concat(gallery);
     hotel.rooms.gallery = updatedGallery;
     hotel.save();
-    console.log("gallery updated");
+    console.log("room gallery updated");
     req.flash("message", "Gallery Updated Successfully");
     res.redirect("/admin/Hotels/roomGallery/" + hotelId);
   } catch (err) {
@@ -969,7 +931,7 @@ const postDeleteRoomGalleryImage = async (req, res) => {
     gallery = hotel.rooms.gallery;
     //removing the selected image from array
     gallery.splice(gallery.indexOf(image), 1);
-    hotel.gallery = gallery;
+    hotel.rooms.gallery = gallery;
 
     if (delImg(image)) {
       await hotel.save();
