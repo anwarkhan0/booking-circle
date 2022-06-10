@@ -10,7 +10,9 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 parallax-fade-top">
-                    <div class="hero-text"><%= hotel.name %> </div>
+                    <div class="hero-text">
+                        <%= hotel.name %>
+                    </div>
                 </div>
             </div>
         </div>
@@ -22,52 +24,59 @@
         <div class="container">
             <div class="row">
 
-                <% if(hotel.hotWater){ %> 
-                <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center">
-                    <div class="amenities">
-                        <img src="/img/icons/HotWater.svg" alt="">
-                        <p>Hot Water</p>
+                <% if(hotel.hotWater){ %>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center">
+                        <div class="amenities">
+                            <img src="/img/icons/HotWater.svg" alt="">
+                            <p>Hot Water</p>
+                        </div>
                     </div>
-                </div>
-                <% } %> 
-                <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center">
-                    <div class="amenities">
-                        <img src="/img/icons/2.svg" alt="">
-                        <p><%= hotel.rooms.single.bedSize %> <%= hotel.rooms.twin.bedSize %> <%= hotel.rooms.triple.bedSize %> <%= hotel.rooms.quad.bedSize %>  </p>
-                    </div>
-                </div>
-                <% if(hotel.heater){ %> 
-                <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center mt-4 mt-md-0">
-                    <div class="amenities">
-                        <img src="/img/icons/heater.png" alt="">
-                        <p>Heater / AC</p>
-                    </div>
-                </div>
-                <% } %> 
-                <% if(hotel.parking){ %> 
-                <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center mt-4 mt-lg-0">
-                    <div class="amenities">
-                        <img src="/img/icons/johnny_automatic_NPS_map_pictographs_part_52.svg" alt="">
-                        <p>Parking</p>
-                    </div>
-                </div>
-                <% } %> 
-                <% if(hotel.rooms.single.view > 0){ %> 
-                <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center mt-4 mt-lg-0">
-                    <div class="amenities">
-                        <img src="/img/icons/5.svg" alt="">
-                        <p>Balcony</p>
-                    </div>
-                </div>
-                <% } %> 
-                <% if(hotel.roomService){ %> 
-                <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center mt-4 mt-lg-0">
-                    <div class="amenities">
-                        <img src="/img/icons/6.svg" alt="">
-                        <p>Room Service</p>
-                    </div>
-                </div>
-                <% } %> 
+                    <% } %>
+                        <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center">
+                            <div class="amenities">
+                                <img src="/img/icons/2.svg" alt="">
+                                <p>
+                                    <%= hotel.rooms.single.bedSize %>
+                                        <%= hotel.rooms.twin.bedSize %>
+                                            <%= hotel.rooms.triple.bedSize %>
+                                                <%= hotel.rooms.quad.bedSize %>
+                                </p>
+                            </div>
+                        </div>
+                        <% if(hotel.heater){ %>
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center mt-4 mt-md-0">
+                                <div class="amenities">
+                                    <img src="/img/icons/heater.png" alt="">
+                                    <p>Heater / AC</p>
+                                </div>
+                            </div>
+                            <% } %>
+                                <% if(hotel.parking){ %>
+                                    <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center mt-4 mt-lg-0">
+                                        <div class="amenities">
+                                            <img src="/img/icons/johnny_automatic_NPS_map_pictographs_part_52.svg"
+                                                alt="">
+                                            <p>Parking</p>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                                        <% if(hotel.rooms.single.view> 0){ %>
+                                            <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-center mt-4 mt-lg-0">
+                                                <div class="amenities">
+                                                    <img src="/img/icons/5.svg" alt="">
+                                                    <p>Balcony</p>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                                <% if(hotel.roomService){ %>
+                                                    <div
+                                                        class="col-6 col-sm-6 col-md-4 col-lg-2 text-center mt-4 mt-lg-0">
+                                                        <div class="amenities">
+                                                            <img src="/img/icons/6.svg" alt="">
+                                                            <p>Room Service</p>
+                                                        </div>
+                                                    </div>
+                                                    <% } %>
 
             </div>
         </div>
@@ -85,7 +94,7 @@
                             <a class="next-rooms-sync-1"></a>
                         </div>
                         <div id="rooms-sync1" class="owl-carousel">
-                            <% hotel.rooms.gallery.forEach( image =>{ %>
+                            <% hotel.rooms.gallery.forEach( image=>{ %>
                                 <div class="item">
                                     <img src="<%= '/uploads/' + image %>" alt="">
                                 </div>
@@ -94,7 +103,7 @@
                     </div>
                     <div class="section">
                         <div id="rooms-sync2" class="owl-carousel">
-                            <% hotel.rooms.gallery.forEach( image => { %>
+                            <% hotel.rooms.gallery.forEach( image=> { %>
                                 <div class="item">
                                     <img src="<%= '/uploads/' + image %>" alt="">
                                 </div>
@@ -108,8 +117,8 @@
                     </div>
                     <!-- Copy SRC from iframe tag -->
                     <div class="section big-55-height over-hide z-bigger">
-                        <iframe style="width: 100%; max-height: 100%; min-height: 100%;"
-                            src="<%= hotel.videoUrl %>" title="YouTube video player" frameborder="0"
+                        <iframe style="width: 100%; max-height: 100%; min-height: 100%;" src="<%= hotel.videoUrl %>"
+                            title="YouTube video player" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen></iframe>
                     </div>
@@ -117,73 +126,211 @@
 
                     <div class="section pt-5">
                         <h5>Description</h5>
-                        <p class="mt-3"><%= hotel.description %></p>
+                        <p class="mt-3">
+                            <%= hotel.description %>
+                        </p>
                     </div>
 
-                    
+
                     <div class="section pt-4">
                         <h5>Features</h5>
-                        <p class="mt-3"><%= hotel.features %></p>
+                        <p class="mt-3">
+                            <%= hotel.features %>
+                        </p>
                     </div>
                 </div>
                 <div class="col-lg-4 order-first order-lg-last">
                     <div class="section background-dark p-4">
                         <div class="row">
-                            <p class="text-danger"><%= flashMessage %></p>
+                            <p class="text-danger">
+                                <%= flashMessage %>
+                            </p>
                             <div class="col-12">
                                 <div class="input-daterange input-group" id="flight-datepicker">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-item">
                                                 <span class="fontawesome-calendar"></span>
-                                                <input class="input-sm" type="text" value="<%= oldInput.checkIn %>" autocomplete="off" id="start-date-1"
-                                                    name="start" placeholder="chech-in date"
-                                                    data-date-format="DD, MM d" required/>
+                                                <input class="input-sm" type="text" value="<%= oldInput.checkIn %>"
+                                                    autocomplete="off" id="start-date-1" name="start"
+                                                    placeholder="chech-in date" data-date-format="DD, MM d" required />
                                                 <span class="date-text date-depart"></span>
                                             </div>
                                         </div>
                                         <div class="col-12 pt-4">
                                             <div class="form-item">
                                                 <span class="fontawesome-calendar"></span>
-                                                <input class="input-sm" type="text" value="<%= oldInput.checkOut %>" autocomplete="off" id="end-date-1"
-                                                    name="end" placeholder="check-out date"
-                                                    data-date-format="DD, MM d" required/>
+                                                <input class="input-sm" type="text" value="<%= oldInput.checkOut %>"
+                                                    autocomplete="off" id="end-date-1" name="end"
+                                                    placeholder="check-out date" data-date-format="DD, MM d" required />
                                                 <span class="date-text date-return"></span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12">
+
+                            <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-12 pt-4">
-                                        <select name="adults" class="wide" id="adults" required>
-                                            <option data-display="adults" value="<%= oldInput.adults %>">adults</option>
-                                            <option value="1" <%= oldInput.adults == 1 ? 'selected' : '' %> >1</option>
-                                            <option value="2" <%= oldInput.adults == 2 ? 'selected' : '' %> >2</option>
-                                            <option value="3" <%= oldInput.adults == 3 ? 'selected' : '' %> >3</option>
-                                            <option value="4" <%= oldInput.adults == 4 ? 'selected' : '' %> >4</option>
-                                            <option value="5" <%= oldInput.adults == 5 ? 'selected' : '' %> >5</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12 pt-4">
-                                        <select name="children" class="wide" id="childs" required>
-                                            <option data-display="children" value="<%= oldInput.children %>" >children</option>
-                                            <option value="0" <%= oldInput.children == 0 ? 'selected' : '' %> >0</option>
-                                            <option value="1" <%= oldInput.children == 1 ? 'selected' : '' %> >1</option>
-                                            <option value="2" <%= oldInput.children == 2 ? 'selected' : '' %> >2</option>
-                                            <option value="3" <%= oldInput.children == 3 ? 'selected' : '' %> >3</option>
-                                            <option value="4" <%= oldInput.children == 4 ? 'selected' : '' %> >4</option>
-                                            <option value="5" <%= oldInput.children == 5 ? 'selected' : '' %> >5</option>
+                                        <p class="text-white">Number of Rooms</p>
+                                        <select name="adults" class="wide" id="numOfRooms" onchange="numberOfRooms()"
+                                            required>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Room 1 -->
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12 pt-4">
+                                        <p class="text-white">Room 1</p>
+                                        <select name="adults1" class="wide" id="adults" required>
+                                            <option data-display="adults" value="<%= oldInput.adults %>">adults</option>
+                                            <option value="1" <%=oldInput.adults==1 ? 'selected' : '' %> >1</option>
+                                            <option value="2" <%=oldInput.adults==2 ? 'selected' : '' %> >2</option>
+                                            <option value="3" <%=oldInput.adults==3 ? 'selected' : '' %> >3</option>
+                                            <option value="4" <%=oldInput.adults==4 ? 'selected' : '' %> >4</option>
+                                            <option value="5" <%=oldInput.adults==5 ? 'selected' : '' %> >5</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 pt-4">
+                                        <select name="children1" class="wide" id="childs" required>
+                                            <option value="0" <%=oldInput.children==0 ? 'selected' : '' %> >children
+                                            </option>
+                                            <option value="1" <%=oldInput.children==1 ? 'selected' : '' %> >1</option>
+                                            <option value="2" <%=oldInput.children==2 ? 'selected' : '' %> >2</option>
+                                            <option value="3" <%=oldInput.children==3 ? 'selected' : '' %> >3</option>
+                                            <option value="4" <%=oldInput.children==4 ? 'selected' : '' %> >4</option>
+                                            <option value="5" <%=oldInput.children==5 ? 'selected' : '' %> >5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Room 2 -->
+                            <div class="col-12" style="display: none;" id="room2">
+                                <div class="row">
+                                    <div class="col-12 pt-4">
+                                        <p class="text-white">Room 2</p>
+                                        <select name="adults2" class="wide" id="adults" required>
+                                            <option data-display="adults" value="<%= oldInput.adults %>">adults</option>
+                                            <option value="1" <%=oldInput.adults==1 ? 'selected' : '' %> >1</option>
+                                            <option value="2" <%=oldInput.adults==2 ? 'selected' : '' %> >2</option>
+                                            <option value="3" <%=oldInput.adults==3 ? 'selected' : '' %> >3</option>
+                                            <option value="4" <%=oldInput.adults==4 ? 'selected' : '' %> >4</option>
+                                            <option value="5" <%=oldInput.adults==5 ? 'selected' : '' %> >5</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 pt-4">
+                                        <select name="children2" class="wide" id="childs" required>
+                                            <option value="0" <%=oldInput.children==0 ? 'selected' : '' %> >children
+                                            </option>
+                                            <option value="1" <%=oldInput.children==1 ? 'selected' : '' %> >1</option>
+                                            <option value="2" <%=oldInput.children==2 ? 'selected' : '' %> >2</option>
+                                            <option value="3" <%=oldInput.children==3 ? 'selected' : '' %> >3</option>
+                                            <option value="4" <%=oldInput.children==4 ? 'selected' : '' %> >4</option>
+                                            <option value="5" <%=oldInput.children==5 ? 'selected' : '' %> >5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Room 3 -->
+                            <div class="col-12" style="display: none;" id="room3">
+                                <div class="row">
+                                    <div class="col-12 pt-4">
+                                        <p class="text-white">Room 3</p>
+                                        <select name="adults3" class="wide" id="adults" required>
+                                            <option data-display="adults" value="<%= oldInput.adults %>">adults</option>
+                                            <option value="1" <%=oldInput.adults==1 ? 'selected' : '' %> >1</option>
+                                            <option value="2" <%=oldInput.adults==2 ? 'selected' : '' %> >2</option>
+                                            <option value="3" <%=oldInput.adults==3 ? 'selected' : '' %> >3</option>
+                                            <option value="4" <%=oldInput.adults==4 ? 'selected' : '' %> >4</option>
+                                            <option value="5" <%=oldInput.adults==5 ? 'selected' : '' %> >5</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 pt-4">
+                                        <select name="children3" class="wide" id="childs" required>
+                                            <option value="0" <%=oldInput.children==0 ? 'selected' : '' %> >children
+                                            </option>
+                                            <option value="1" <%=oldInput.children==1 ? 'selected' : '' %> >1</option>
+                                            <option value="2" <%=oldInput.children==2 ? 'selected' : '' %> >2</option>
+                                            <option value="3" <%=oldInput.children==3 ? 'selected' : '' %> >3</option>
+                                            <option value="4" <%=oldInput.children==4 ? 'selected' : '' %> >4</option>
+                                            <option value="5" <%=oldInput.children==5 ? 'selected' : '' %> >5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Room 4 -->
+                            <div class="col-12" style="display: none;" id="room4">
+                                <div class="row">
+                                    <div class="col-12 pt-4">
+                                        <p class="text-white">Room 4</p>
+                                        <select name="adults4" class="wide" id="adults" required>
+                                            <option data-display="adults" value="<%= oldInput.adults %>">adults</option>
+                                            <option value="1" <%=oldInput.adults==1 ? 'selected' : '' %> >1</option>
+                                            <option value="2" <%=oldInput.adults==2 ? 'selected' : '' %> >2</option>
+                                            <option value="3" <%=oldInput.adults==3 ? 'selected' : '' %> >3</option>
+                                            <option value="4" <%=oldInput.adults==4 ? 'selected' : '' %> >4</option>
+                                            <option value="5" <%=oldInput.adults==5 ? 'selected' : '' %> >5</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 pt-4">
+                                        <select name="children4" class="wide" id="childs" required>
+                                            <option value="0" <%=oldInput.children==0 ? 'selected' : '' %> >children
+                                            </option>
+                                            <option value="1" <%=oldInput.children==1 ? 'selected' : '' %> >1</option>
+                                            <option value="2" <%=oldInput.children==2 ? 'selected' : '' %> >2</option>
+                                            <option value="3" <%=oldInput.children==3 ? 'selected' : '' %> >3</option>
+                                            <option value="4" <%=oldInput.children==4 ? 'selected' : '' %> >4</option>
+                                            <option value="5" <%=oldInput.children==5 ? 'selected' : '' %> >5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Room 5 -->
+                            <div class="col-12" style="display: none;" id="room5">
+                                <div class="row">
+                                    <div class="col-12 pt-4">
+                                        <p class="text-white">Room 5</p>
+                                        <select name="adults5" class="wide" id="adults" required>
+                                            <option data-display="adults" value="<%= oldInput.adults %>">adults</option>
+                                            <option value="1" <%=oldInput.adults==1 ? 'selected' : '' %> >1</option>
+                                            <option value="2" <%=oldInput.adults==2 ? 'selected' : '' %> >2</option>
+                                            <option value="3" <%=oldInput.adults==3 ? 'selected' : '' %> >3</option>
+                                            <option value="4" <%=oldInput.adults==4 ? 'selected' : '' %> >4</option>
+                                            <option value="5" <%=oldInput.adults==5 ? 'selected' : '' %> >5</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 pt-4">
+                                        <select name="children5" class="wide" id="childs" required>
+                                            <option value="0" <%=oldInput.children==0 ? 'selected' : '' %> >children
+                                            </option>
+                                            <option value="1" <%=oldInput.children==1 ? 'selected' : '' %> >1</option>
+                                            <option value="2" <%=oldInput.children==2 ? 'selected' : '' %> >2</option>
+                                            <option value="3" <%=oldInput.children==3 ? 'selected' : '' %> >3</option>
+                                            <option value="4" <%=oldInput.children==4 ? 'selected' : '' %> >4</option>
+                                            <option value="5" <%=oldInput.children==5 ? 'selected' : '' %> >5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
                             <input type="hidden" value="<%= '' %>" id="roomsId">
                             <input type="hidden" value="<%= hotelId %>" id="hotelId">
                             <input type="hidden" value="<%= hotel.rooms.single.charges %>" id="roomsCharges">
                             <div class="col-12 pt-4">
-                                <a class="booking-button" href="javascript: ;" id="roomsBooking">book now</a>
+                                <a class="booking-button" href="#" id="roomsBooking">Check Availability</a>
                             </div>
                         </div>
                     </div>
@@ -192,3 +339,35 @@
         </div>
     </div>
 </div>
+
+<script>
+    function numberOfRooms() {
+        const numOfRooms = document.getElementById('numOfRooms').value;
+        if (numOfRooms == 1) {
+            document.getElementById('room2').style.display = 'none';
+            document.getElementById('room3').style.display = 'none';
+            document.getElementById('room4').style.display = 'none';
+            document.getElementById('room5').style.display = 'none';
+        } else if (numOfRooms == 2) {
+            document.getElementById('room2').style.display = 'block';
+            document.getElementById('room3').style.display = 'none';
+            document.getElementById('room4').style.display = 'none';
+            document.getElementById('room5').style.display = 'none';
+        } else if (numOfRooms == 3) {
+            document.getElementById('room2').style.display = 'block';
+            document.getElementById('room3').style.display = 'block';
+            document.getElementById('room4').style.display = 'none';
+            document.getElementById('room5').style.display = 'none';
+        } else if (numOfRooms == 4) {
+            document.getElementById('room2').style.display = 'block';
+            document.getElementById('room3').style.display = 'block';
+            document.getElementById('room4').style.display = 'block';
+            document.getElementById('room5').style.display = 'none';
+        } else if (numOfRooms == 5) {
+            document.getElementById('room2').style.display = 'block';
+            document.getElementById('room3').style.display = 'block';
+            document.getElementById('room4').style.display = 'block';
+            document.getElementById('room5').style.display = 'block';
+        }
+    }
+</script>

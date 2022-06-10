@@ -1275,107 +1275,109 @@ const roomBooking = async (req, res, next) => {
 
 const postRoomBooking = async (req, res, next) => {
   const hotelId = req.query.hotelId;
-  const roomId = req.query.roomId;
   const checkIn = req.query.checkIn.replace(/\./g, "/");
   const checkOut = req.query.checkOut.replace(/\./g, "/");
-  const adults = req.query.adults;
-  const children = req.query.children;
+  const adults = req.query.adults1;
+  const children = req.query.children1;
   const routePath = req.query.routePath;
-  const charges = req.query.charges;
-  const redirectUrl = routePath + hotelId + "?roomId=" + roomId;
+  const charges = req.query.charges1;
+  const redirectUrl = routePath + hotelId;
 
-  if (!req.session.userLoggedIn) {
-    req.session.redirectUrl = redirectUrl;
-    res.redirect("/user/login");
-    return;
-  }
+  console.log(adults, children);
+  res.sendStatus(200);
 
-  const hotel = await HotelsModel.findById(hotelId);
-  const room = hotel.rooms.find((room) => room.id == roomId);
-  const formatedCheckin = new Date(checkIn);
-  const formatedCheckout = new Date(checkOut);
-  let flag;
-  if (room.reservations.length == 0) {
-    flag = true;
-  } else {
-    for (let i = 0; i < room.reservations.length; i++) {
-      flag = false;
-      if (
-        formatedCheckin >= room.reservations[i].checkIn &&
-        formatedCheckin <= room.reservations[i].checkOut
-      ) {
-        console.log("this room is not available");
-        break;
-      }
-      if (
-        formatedCheckout >= room.reservations[i].checkIn &&
-        formatedCheckout <= room.reservations[i].checkOut
-      ) {
-        console.log("this room is not available");
-        break;
-      }
-      if (
-        formatedCheckin < room.reservations[i].checkIn &&
-        formatedCheckout > room.reservations[i].checkOut
-      ) {
-        console.log("this room is not available");
-        break;
-      }
-      flag = true;
-    }
-  }
+  // if (!req.session.userLoggedIn) {
+  //   req.session.redirectUrl = redirectUrl;
+  //   res.redirect("/user/login");
+  //   return;
+  // }
 
-  if (!flag) {
-    return res.status(422).render("./pages/Hotels/roomBooking", {
-      loggedIn: req.session.userLoggedIn,
-      user: req.session.user,
-      hotelId: hotel.id,
-      room: room,
-      flashMessage:
-        "Sorry, this room is already reserved for given dates or room is insufficient for you.",
-      oldInput: {
-        checkIn: checkIn,
-        checkOut: checkOut,
-        adults: adults,
-        children: children,
-      },
-      // validationErrors: errors.array(),
-    });
-  }
-  const bookingData = {
-    bookingMode: "room",
-    hotelId: hotelId,
-    roomId: roomId,
-    checkIn: checkIn,
-    checkOut: checkOut,
-    adults: adults,
-    children: children,
-    date: new Date(),
-  };
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).render("./pages/Hotels/roomBooking", {
-      loggedIn: req.session.userLoggedIn,
-      user: req.session.user,
-      hotelId: hotel.id,
-      room: room,
-      flashMessage: errors.errors[0].msg,
-      oldInput: {
-        checkIn: checkIn,
-        checkOut: checkOut,
-        adults: adults,
-        children: children,
-      },
-      // validationErrors: errors.array(),
-    });
-  }
-  req.session.bookingData = bookingData;
-  res.render("./pages/Payment/checkout", {
-    layout: false,
-    loggedIn: req.session.userLoggedIn,
-    user: req.session.user,
-    charges: charges,
-  });
+  // const hotel = await HotelsModel.findById(hotelId);
+  // const room = hotel.rooms.find((room) => room.id == roomId);
+  // const formatedCheckin = new Date(checkIn);
+  // const formatedCheckout = new Date(checkOut);
+  // let flag;
+  // if (room.reservations.length == 0) {
+  //   flag = true;
+  // } else {
+  //   for (let i = 0; i < room.reservations.length; i++) {
+  //     flag = false;
+  //     if (
+  //       formatedCheckin >= room.reservations[i].checkIn &&
+  //       formatedCheckin <= room.reservations[i].checkOut
+  //     ) {
+  //       console.log("this room is not available");
+  //       break;
+  //     }
+  //     if (
+  //       formatedCheckout >= room.reservations[i].checkIn &&
+  //       formatedCheckout <= room.reservations[i].checkOut
+  //     ) {
+  //       console.log("this room is not available");
+  //       break;
+  //     }
+  //     if (
+  //       formatedCheckin < room.reservations[i].checkIn &&
+  //       formatedCheckout > room.reservations[i].checkOut
+  //     ) {
+  //       console.log("this room is not available");
+  //       break;
+  //     }
+  //     flag = true;
+  //   }
+  // }
+
+  // if (!flag) {
+  //   return res.status(422).render("./pages/Hotels/roomBooking", {
+  //     loggedIn: req.session.userLoggedIn,
+  //     user: req.session.user,
+  //     hotelId: hotel.id,
+  //     room: room,
+  //     flashMessage:
+  //       "Sorry, this room is already reserved for given dates or room is insufficient for you.",
+  //     oldInput: {
+  //       checkIn: checkIn,
+  //       checkOut: checkOut,
+  //       adults: adults,
+  //       children: children,
+  //     },
+  //     // validationErrors: errors.array(),
+  //   });
+  // }
+  // const bookingData = {
+  //   bookingMode: "room",
+  //   hotelId: hotelId,
+  //   roomId: roomId,
+  //   checkIn: checkIn,
+  //   checkOut: checkOut,
+  //   adults: adults,
+  //   children: children,
+  //   date: new Date(),
+  // };
+  // const errors = validationResult(req);
+  // if (!errors.isEmpty()) {
+  //   return res.status(422).render("./pages/Hotels/roomBooking", {
+  //     loggedIn: req.session.userLoggedIn,
+  //     user: req.session.user,
+  //     hotelId: hotel.id,
+  //     room: room,
+  //     flashMessage: errors.errors[0].msg,
+  //     oldInput: {
+  //       checkIn: checkIn,
+  //       checkOut: checkOut,
+  //       adults: adults,
+  //       children: children,
+  //     },
+  //     // validationErrors: errors.array(),
+  //   });
+  // }
+  // req.session.bookingData = bookingData;
+  // res.render("./pages/Payment/checkout", {
+  //   layout: false,
+  //   loggedIn: req.session.userLoggedIn,
+  //   user: req.session.user,
+  //   charges: charges,
+  // });
 };
 
 // Tours

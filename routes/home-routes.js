@@ -164,6 +164,7 @@ router.get(
 );
 router.get("/Hotels/roomBooking/:hotelId", roomBooking);
 router.get("/Hotels/:location", searchHotels);
+router.post("/Hotels/roomsCheck", (req, res)=> res.redirect('/Hotels'))
 
 router.get("/Vehicles/booking",
 [

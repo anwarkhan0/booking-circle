@@ -40,16 +40,26 @@ $("#searchVehicles").click(function () {
   window.location.href = `/Vehicles/availableVehicles?area=${area}&adults=${adults}&children=${children}`;
 });
 
-$("#roomBooking").click(function () {
-  const roomId = $("#roomId").val();
+$("#roomsBooking").click(function () {
   const hotelId = $("#hotelId").val();
   const checkIn = $("#start-date-1").val();
   const checkOut = $("#end-date-1").val();
-  const adults = $("#adults").val();
-  const children = $("#childs").val();
-  const roomCharges = $("#roomCharges").val();
-  const routePath = "/Hotels/roomBooking/";
-  window.location.href = `/Hotels/roomBooking/payment?roomId=${roomId}&hotelId=${hotelId}&checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}&children=${children}&routePath=${routePath}&charges=${roomCharges}`;
+  const adults = $("#adults1").val();
+  const children = $("#childs1").val();
+  const roomCharges = $("#roomCharges1").val();
+
+  const formData = new FormData();
+  formData.append("hotelId", hotelId);
+  formData.append("checkIn", checkIn);
+  formData.append("checkOut", checkOut);
+  formData.append("adults", adults);
+  formData.append("children", children);
+  formData.append("roomCharges", roomCharges);
+  
+
+  var request = new XMLHttpRequest();
+  request.open("POST", "/Hotels/roomsCheck");
+  request.send(formData);
 });
 
 function roomFilter() {
