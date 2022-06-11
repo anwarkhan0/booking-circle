@@ -961,14 +961,12 @@ const postDeleteHotel = async (req, res) => {
   const hotelId = req.body.id;
   try {
     const hotel = await Hotels.findById(hotelId);
-    const gallery = hotel.gallery;
-
-    if (delMultImages(gallery)) {
+    if (delMultImages(hotel.gallery) && delMultImages(hotel.rooms.gallery)) {
       await Hotels.findByIdAndDelete(hotelId);
       res.sendStatus(200);
       console.log("hotel deleted");
     } else {
-      throw "Something went wrong while deleting file.";
+      throw "Something went wrong while deleting files.";
     }
   } catch (err) {
     console.log(err);

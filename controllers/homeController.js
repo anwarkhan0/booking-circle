@@ -1279,6 +1279,7 @@ const postRoomCheck = async (req, res, next) => {
   const hotelId = req.body.hotelId;
   const checkIn = req.body.checkIn.replace(/\./g, "/");
   const checkOut = req.body.checkOut.replace(/\./g, "/");
+  const noOfRooms = req.body.numOfRooms;
 
   const adults1 = req.body.adults1;
   const children1 = req.body.children1;
@@ -1295,19 +1296,87 @@ const postRoomCheck = async (req, res, next) => {
   const adults5 = req.body.adults5 ? req.body.adults5 : '';
   const children5 = req.body.children5 ? req.body.children5 : '';
 
-  const hotel = await HotelsModel.findById(hotelId);
-
-  console.log(hotelId, checkIn, checkOut, adults1, children1, adults2, children2, adults3, children3, adults4, children4, adults5, children5)
-
-  res.redirect('/Hotels/rooms/62a1b6e0f940fadb1f4adbd1');
-
   // if (!req.session.userLoggedIn) {
   //   req.session.redirectUrl = redirectUrl;
   //   res.redirect("/user/login");
   //   return;
   // }
 
-  // const hotel = await HotelsModel.findById(hotelId);
+  const hotel = await HotelsModel.findById(hotelId);
+  // set counter to count rooms
+  let counter = 0;
+  const entry = new Date(checkIn);
+  const exit = new Date(checkOut);
+  
+  hotel.rooms.single.reservation = [
+    {
+    user: {
+      name: 'khan0',
+      email: 'test@test.com',
+    },
+    checkIn: entry,
+    checkOut: exit,
+    confirm: false
+  }
+  ]
+
+  // hotel.rooms.single.reservations.forEach( reservation =>{
+  //   console.log(reservation.length)
+  //   if (
+  //     entry >= reservation.checkIn &&
+  //     exit <= reservation.checkOut
+  //   ) {
+  //     console.log("this room is not available");
+  //     return;
+  //   }
+  //   if (
+  //     exit >= reservation.checkIn &&
+  //     exit <= reservation.checkOut
+  //   ) {
+  //     console.log("this room is not available");
+  //     return;
+  //   }
+  //   if (
+  //     entry < reservation.checkIn &&
+  //     exit > reservation.checkOut
+  //   ) {
+  //     console.log("this room is not available");
+  //     return;
+  //   }
+  
+  // })
+
+  try {
+    // if(flag){
+    //   hotel.rooms.single.reservations.push({
+    //     user: {
+    //       name:'anwer',
+    //       email: 'test@test.com'
+    //     },
+    //     date: new Date(),
+    //     checkIn: entry,
+    //     checkout: exit,
+    //     confirm: false,
+    //   })
+    // }
+    await hotel.save();
+    res.render('./pages/Hotels/roomAvailable', {
+      layout: false,
+      loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
+      user: req.session.user,
+      details: {
+      checkIn: entry,
+      exit: checkOut
+    }})
+  } catch (err) {
+    console.log(err);
+    res.redirect('Hotels/list')
+  }
+  
+  // second find room 2 if exists..
+  // third find room 3 if exists and so on...
+
   // const room = hotel.rooms.find((room) => room.id == roomId);
   // const formatedCheckin = new Date(checkIn);
   // const formatedCheckout = new Date(checkOut);

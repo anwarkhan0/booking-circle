@@ -89,7 +89,7 @@ const HotelsSchema = new Schema({
           checkout: Date,
           confirm: Boolean,
         },
-      ],
+      ]
     },
     twin: {
       total: Number,
@@ -160,11 +160,11 @@ const HotelsSchema = new Schema({
           checkIn: Date,
           checkout: Date,
           confirm: Boolean,
-        },
+        }
       ],
     },
     gallery: [String]
-  },
+  }
 });
 
 module.exports = mongoose.model("Hotels", HotelsSchema);

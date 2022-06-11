@@ -11,7 +11,7 @@ const delImg = (name) => {
     console.log('image deleted');
     return true;
   }catch(err){
-    // console.log(err);
+    console.log(err);
     return false;
   }
   
@@ -20,17 +20,28 @@ const delImg = (name) => {
 const delMultImages = (names) => {
   
   try {
-    const imgDirectory = path.join(__dirname, "../files/uploads/");
-    names.map((name) => {
-      imgPath = imgDirectory + name;
-      fs.unlink(imgPath, (err) => {
-        if (err) throw new Error();
+    const pathDir = path.join(__dirname, "../files/uploads/");
+    let success;
+    names.forEach((name) => {
+      success = false;
+      imgFullPath = pathDir + name;
+      fs.unlink(imgFullPath, (err) => {
+        if (err) {
+          throw err;
+        }else{
+          success = true;
+        }
       });
     });
-    console.log("gallery deleted");
-    return true;
+
+    if(success){
+      return true;
+    }else{
+      return false;
+    }
+    
   } catch (err) {
-    // console.log(err);
+    console.log(err);
     return false;
   }
 };
