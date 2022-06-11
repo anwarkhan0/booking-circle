@@ -141,6 +141,7 @@
                 </div>
                 <div class="col-lg-4 order-first order-lg-last">
                     <div class="section background-dark p-4">
+                        <form action="/Hotels/roomsCheck" method="POST">
                         <div class="row">
                             <p class="text-danger">
                                 <%= flashMessage %>
@@ -152,7 +153,7 @@
                                             <div class="form-item">
                                                 <span class="fontawesome-calendar"></span>
                                                 <input class="input-sm" type="text" value="<%= oldInput.checkIn %>"
-                                                    autocomplete="off" id="start-date-1" name="start"
+                                                    autocomplete="off" id="start-date-1" name="checkIn"
                                                     placeholder="chech-in date" data-date-format="DD, MM d" required />
                                                 <span class="date-text date-depart"></span>
                                             </div>
@@ -161,7 +162,7 @@
                                             <div class="form-item">
                                                 <span class="fontawesome-calendar"></span>
                                                 <input class="input-sm" type="text" value="<%= oldInput.checkOut %>"
-                                                    autocomplete="off" id="end-date-1" name="end"
+                                                    autocomplete="off" id="end-date-1" name="checkOut"
                                                     placeholder="check-out date" data-date-format="DD, MM d" required />
                                                 <span class="date-text date-return"></span>
                                             </div>
@@ -191,7 +192,7 @@
                                 <div class="row">
                                     <div class="col-12 pt-4">
                                         <p class="text-white">Room 1</p>
-                                        <select name="adults1" class="wide" id="adults" required>
+                                        <select name="adults1" class="wide" id="adults1" required>
                                             <option data-display="adults" value="<%= oldInput.adults %>">adults</option>
                                             <option value="1" <%=oldInput.adults==1 ? 'selected' : '' %> >1</option>
                                             <option value="2" <%=oldInput.adults==2 ? 'selected' : '' %> >2</option>
@@ -201,7 +202,7 @@
                                         </select>
                                     </div>
                                     <div class="col-12 pt-4">
-                                        <select name="children1" class="wide" id="childs" required>
+                                        <select name="children1" class="wide" id="childs1" required>
                                             <option value="0" <%=oldInput.children==0 ? 'selected' : '' %> >children
                                             </option>
                                             <option value="1" <%=oldInput.children==1 ? 'selected' : '' %> >1</option>
@@ -219,7 +220,7 @@
                                 <div class="row">
                                     <div class="col-12 pt-4">
                                         <p class="text-white">Room 2</p>
-                                        <select name="adults2" class="wide" id="adults" required>
+                                        <select name="adults2" class="wide" id="adults2" required>
                                             <option data-display="adults" value="<%= oldInput.adults %>">adults</option>
                                             <option value="1" <%=oldInput.adults==1 ? 'selected' : '' %> >1</option>
                                             <option value="2" <%=oldInput.adults==2 ? 'selected' : '' %> >2</option>
@@ -229,7 +230,7 @@
                                         </select>
                                     </div>
                                     <div class="col-12 pt-4">
-                                        <select name="children2" class="wide" id="childs" required>
+                                        <select name="children2" class="wide" id="childs2" required>
                                             <option value="0" <%=oldInput.children==0 ? 'selected' : '' %> >children
                                             </option>
                                             <option value="1" <%=oldInput.children==1 ? 'selected' : '' %> >1</option>
@@ -247,7 +248,7 @@
                                 <div class="row">
                                     <div class="col-12 pt-4">
                                         <p class="text-white">Room 3</p>
-                                        <select name="adults3" class="wide" id="adults" required>
+                                        <select name="adults3" class="wide" id="adults3" required>
                                             <option data-display="adults" value="<%= oldInput.adults %>">adults</option>
                                             <option value="1" <%=oldInput.adults==1 ? 'selected' : '' %> >1</option>
                                             <option value="2" <%=oldInput.adults==2 ? 'selected' : '' %> >2</option>
@@ -257,7 +258,7 @@
                                         </select>
                                     </div>
                                     <div class="col-12 pt-4">
-                                        <select name="children3" class="wide" id="childs" required>
+                                        <select name="children3" class="wide" id="childs3" required>
                                             <option value="0" <%=oldInput.children==0 ? 'selected' : '' %> >children
                                             </option>
                                             <option value="1" <%=oldInput.children==1 ? 'selected' : '' %> >1</option>
@@ -275,7 +276,7 @@
                                 <div class="row">
                                     <div class="col-12 pt-4">
                                         <p class="text-white">Room 4</p>
-                                        <select name="adults4" class="wide" id="adults" required>
+                                        <select name="adults4" class="wide" id="adults4" required>
                                             <option data-display="adults" value="<%= oldInput.adults %>">adults</option>
                                             <option value="1" <%=oldInput.adults==1 ? 'selected' : '' %> >1</option>
                                             <option value="2" <%=oldInput.adults==2 ? 'selected' : '' %> >2</option>
@@ -285,7 +286,7 @@
                                         </select>
                                     </div>
                                     <div class="col-12 pt-4">
-                                        <select name="children4" class="wide" id="childs" required>
+                                        <select name="children4" class="wide" id="childs4" required>
                                             <option value="0" <%=oldInput.children==0 ? 'selected' : '' %> >children
                                             </option>
                                             <option value="1" <%=oldInput.children==1 ? 'selected' : '' %> >1</option>
@@ -303,7 +304,7 @@
                                 <div class="row">
                                     <div class="col-12 pt-4">
                                         <p class="text-white">Room 5</p>
-                                        <select name="adults5" class="wide" id="adults" required>
+                                        <select name="adults5" class="wide" id="adults5" required>
                                             <option data-display="adults" value="<%= oldInput.adults %>">adults</option>
                                             <option value="1" <%=oldInput.adults==1 ? 'selected' : '' %> >1</option>
                                             <option value="2" <%=oldInput.adults==2 ? 'selected' : '' %> >2</option>
@@ -313,7 +314,7 @@
                                         </select>
                                     </div>
                                     <div class="col-12 pt-4">
-                                        <select name="children5" class="wide" id="childs" required>
+                                        <select name="children5" class="wide" id="childs5" required>
                                             <option value="0" <%=oldInput.children==0 ? 'selected' : '' %> >children
                                             </option>
                                             <option value="1" <%=oldInput.children==1 ? 'selected' : '' %> >1</option>
@@ -327,12 +328,13 @@
                             </div>
 
                             <input type="hidden" value="<%= '' %>" id="roomsId">
-                            <input type="hidden" value="<%= hotelId %>" id="hotelId">
-                            <input type="hidden" value="<%= hotel.rooms.single.charges %>" id="roomsCharges">
+                            <input type="hidden" value="<%= hotel.id %>" name="hotelId">
                             <div class="col-12 pt-4">
-                                <a class="booking-button" href="#" id="roomsBooking">Check Availability</a>
+                                <button class="booking-button" type="submit">Check Availability</button>
                             </div>
+                        </form>
                         </div>
+                        <!-- end row -->
                     </div>
                 </div>
             </div>

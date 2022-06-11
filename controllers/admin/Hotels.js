@@ -71,6 +71,14 @@ const hotelClients = (req, res, next) => {
             description: "",
             features: "",
           },
+          quin: {
+            total: '',
+            charges: '',
+            size: '',
+            view: '',
+            occupancy: '',
+            bedSize: ''
+          }
         },
         flashMessage: req.flash("message"),
       });
@@ -309,6 +317,17 @@ const postAddHotel = async (req, res, next) => {
     : "";
   const quadRmBedSize = req.body.quadRmBedSize ? req.body.quadRmBedSize : "";
 
+  const quinRooms = req.body.quinRmNo ? Number(req.body.quinRmNo) : "";
+  const quinRmCharges = req.body.quinRmCharges
+    ? Number(req.body.quinRmCharges)
+    : "";
+  const quinRmSize = req.body.quinRmSize ? req.body.quinRmSize : "";
+  const quinRmView = req.body.quinRmView ? Number(req.body.quinRmView) : "";
+  const quinRmOccupancy = req.body.quinRmOccupancy
+    ? Number(req.body.quinRmOccupancy)
+    : "";
+  const quinRmBedSize = req.body.quinRmBedSize ? req.body.quinRmBedSize : "";
+
   // owner info
   const ownerName = req.body.ownerName;
   const ownerCNIC = req.body.ownerCNIC;
@@ -376,6 +395,14 @@ const postAddHotel = async (req, res, next) => {
           occupancy: quadRmOccupancy,
           bedSize: quadRmBedSize
         },
+        quin: {
+          total: quinRooms,
+          charges: quinRmCharges,
+          size: quinRmSize,
+          view: quinRmView,
+          occupancy: quinRmOccupancy,
+          bedSize: quinRmBedSize
+        }
       },
       validationErrors: errors.array(),
     });
@@ -435,6 +462,14 @@ const postAddHotel = async (req, res, next) => {
         occupancy: quadRmOccupancy,
         bedSize: quadRmBedSize
       },
+      quin: {
+        total: quinRooms,
+        charges: quinRmCharges,
+        size: quinRmSize,
+        view: quinRmView,
+        occupancy: quinRmOccupancy,
+        bedSize: quinRmBedSize
+      }
     },
   });
 
@@ -498,7 +533,15 @@ const postAddHotel = async (req, res, next) => {
           view: quadRmView,
           occupancy: quadRmOccupancy,
           bedSize: quadRmBedSize
-        }
+        },
+        quin: {
+          total: quinRooms,
+          charges: quinRmCharges,
+          size: quinRmSize,
+          view: quinRmView,
+          occupancy: quinRmOccupancy,
+          bedSize: quinRmBedSize
+        },
       }
     });
   }
@@ -558,6 +601,17 @@ const postEditHotel = async (req, res, next) => {
   const tripleRmBedSize = req.body.tripleRmBedSize
     ? req.body.tripleRmBedSize
     : "";
+
+  const quinRooms = req.body.quinRmNo ? Number(req.body.quinRmNo) : "";
+  const quinRmCharges = req.body.quinRmCharges
+    ? Number(req.body.quinRmCharges)
+    : "";
+  const quinRmSize = req.body.quinRmSize ? req.body.quinRmSize : "";
+  const quinRmView = req.body.quinRmView ? Number(req.body.quinRmView) : "";
+  const quinRmOccupancy = req.body.quinRmOccupancy
+    ? Number(req.body.quinRmOccupancy)
+    : "";
+  const quinRmBedSize = req.body.quinRmBedSize ? req.body.quinRmBedSize : "";
 
 
   const quadRooms = req.body.quadRmNo ? Number(req.body.quadRmNo) : "";
@@ -629,6 +683,14 @@ const postEditHotel = async (req, res, next) => {
             view: quadRmView,
             occupancy: quadRmOccupancy,
             bedSize: quadRmBedSize,
+          },
+          quin: {
+            total: quinRooms,
+            charges: quinRmCharges,
+            size: quinRmSize,
+            view: quinRmView,
+            occupancy: quinRmOccupancy,
+            bedSize: quinRmBedSize
           }
         },
         owner : {
@@ -709,6 +771,14 @@ const postEditHotel = async (req, res, next) => {
       occupancy: quadRmOccupancy,
       bedSize: quadRmBedSize,
     };
+    hotel.rooms.quin = {
+      total: quinRooms,
+      charges: quinRmCharges,
+      size: quinRmSize,
+      view: quinRmView,
+      occupancy: quinRmOccupancy,
+      bedSize: quinRmBedSize
+    };
 
     await hotel.save();
     console.log("UPDATED Hotel!");
@@ -769,6 +839,14 @@ const postEditHotel = async (req, res, next) => {
             occupancy: quadRmOccupancy,
             bedSize: quadRmBedSize,
           },
+          quin: {
+            total: quinRooms,
+            charges: quinRmCharges,
+            size: quinRmSize,
+            view: quinRmView,
+            occupancy: quinRmOccupancy,
+            bedSize: quinRmBedSize
+          }
         },
         owner : {
           name: ownerName,

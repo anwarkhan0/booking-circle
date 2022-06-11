@@ -23,7 +23,7 @@ const {
   hotelRooms,
   roomBooking,
   searchHotels,
-  postRoomBooking,
+  postRoomCheck,
   findHotels,
 
   //vehicles
@@ -160,12 +160,13 @@ router.get(
     query("adults", "Enter number of Adults").custom(val => val == 'false' ? false : true),
     query("children", "Enter number of Children.").custom(val => val == 'false' ? false : true)
   ],
-  postRoomBooking
+  postRoomCheck
 );
 router.get("/Hotels/roomBooking/:hotelId", roomBooking);
 router.get("/Hotels/:location", searchHotels);
-router.post("/Hotels/roomsCheck", (req, res)=> res.redirect('/Hotels'))
+router.post("/Hotels/roomsCheck", postRoomCheck);
 
+// Vehicles
 router.get("/Vehicles/booking",
 [
   query("checkIn", "Please enter Check In Date.").notEmpty(),

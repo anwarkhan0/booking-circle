@@ -19,16 +19,16 @@ app.use(cors());
 app.use(compression());
 
 // cloud
-const store = new MongoDBStore({
-  uri: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xjk47.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
-  collection: 'sessions'
-});
-
-// local db
 // const store = new MongoDBStore({
-//   uri: `mongodb://127.0.0.1:27017/bookingring?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.4.2`,
+//   uri: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xjk47.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
 //   collection: 'sessions'
 // });
+
+// local db
+const store = new MongoDBStore({
+  uri: `mongodb://127.0.0.1:27017/bookingring?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.4.2`,
+  collection: 'sessions'
+});
 
 // configuring of file destination and name
 const fileStorage = multer.diskStorage({
@@ -112,9 +112,21 @@ app.use(adminRoutes.routes);
 const port = process.env.PORT || 4000;
 
 //Cloud Database
-mongoose
+// mongoose
+//   .connect(
+//     `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xjk47.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+//   )
+//   .then(result => {
+//     app.listen(port, () => console.log(`App listening on Port: ${port}`));
+//   })
+//   .catch(err => {
+//     console.log(err);
+//   });
+  
+  // LOCALHOST:DATABASE/////////////
+  mongoose
   .connect(
-    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xjk47.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+    `mongodb://127.0.0.1:27017/bookingring?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.4.2`
   )
   .then(result => {
     app.listen(port, () => console.log(`App listening on Port: ${port}`));
@@ -122,15 +134,3 @@ mongoose
   .catch(err => {
     console.log(err);
   });
-  
-  // LOCALHOST:DATABASE/////////////
-  // mongoose
-  // .connect(
-  //   `mongodb://127.0.0.1:27017/bookingring?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.4.2`
-  // )
-  // .then(result => {
-  //   app.listen(port, () => console.log(`App listening on Port: ${port}`));
-  // })
-  // .catch(err => {
-  //   console.log(err);
-  // });

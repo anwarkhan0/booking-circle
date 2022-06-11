@@ -44,7 +44,7 @@
                 <div class="row">
                   <div class="form-group col-md-6">
                     <label>Name</label>
-                    <input type="text" name="name" value="<%= hotel.name %>" placeholder="Example: Continental" class="form-control"
+                    <input type="text" name="name" value="<%= hotel.name %>" placeholder="Continental" class="form-control"
                       required>
                   </div>
 
@@ -72,12 +72,12 @@
 
                   <div class="form-group col-md-3">
                     <label>Contact</label>
-                    <input type="number" value="<%= hotel.contact %>" name="contact" placeholder="Example: 0946712215" class="form-control" required>
+                    <input type="number" value="<%= hotel.contact %>" name="contact" placeholder="0946712215" class="form-control" required>
                   </div>
 
                   <div class="form-group col-md-4">
                     <label>Address</label>
-                    <input type="text" name="address" value="<%= hotel.address %>" placeholder="Example: Near Shell Ptrol Station, Madyan Bazar"
+                    <input type="text" name="address" value="<%= hotel.address %>" placeholder="Near Shell Ptrol Station, Madyan Bazar"
                       class="form-control" required>
                   </div>
 
@@ -146,7 +146,7 @@
                       <div class="card card-info">
                         <div class="card-header">
                           <div class="row">
-                            <h3 class="card-title col-md-11">single Beds</h3>
+                            <h3 class="card-title col-md-11">Single Beds</h3>
                             <button class="col-md-1 btn bg-danger rounded-pill m-0 p-0" onclick="removeSingleElem()"><i class="fa fa-minus"></i></button>
                           </div>
                         </div>
@@ -160,13 +160,13 @@
                         
                             <div class="form-group col-md-3">
                               <label>Charges</label>
-                              <input type="number" value="<%= hotel.rooms.single.charges %>" name="singleRmCharges" placeholder="i.e: 5000" class="form-control"
+                              <input type="number" value="<%= hotel.rooms.single.charges %>" name="singleRmCharges" placeholder="Single Room Charges" class="form-control"
                                 required>
                             </div>
                         
                             <div class="form-group col-md-3">
                               <label>Size</label>
-                              <input type="text" value="<%= hotel.rooms.single.size %>" name="singleRmSize" placeholder="i.e: 47-52 sqft" class="form-control"
+                              <input type="text" value="<%= hotel.rooms.single.size %>" name="singleRmSize" placeholder="i.e: 47x52 sqft" class="form-control"
                                 required>
                             </div>
                         
@@ -377,6 +377,64 @@
                         </div>
                       </div>
                     </div>
+
+                    <!-- Quintuple -->
+                    <div class="form-group col-md-12" id="quinElem">
+                      <div class="card card-info">
+                        <div class="card-header">
+                          <div class="row">
+                            <h3 class="card-title col-md-11">Quintuple Beds</h3>
+                            <button class="col-md-1 btn bg-danger rounded-pill m-0 p-0" onclick="removeQuinElem()"><i class="fa fa-minus"></i></button>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="form-group col-md-3">
+                              <label>Number of Rooms</label>
+                              <input type="number" name="quinRmNo" value="<%= oldInput.quad.total %>" placeholder="Total Number of Single Bed Rooms" class="form-control"
+                                required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Charges</label>
+                              <input type="number" value="<%= oldInput.quad.charges %>" name="quinRmCharges" placeholder="i.e: 5000" class="form-control"
+                                required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Size</label>
+                              <input type="text" value="<%= oldInput.quad.size %>" name="quinRmSize" placeholder="i.e: 47-52 sqft" class="form-control"
+                                required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Occupency</label>
+                              <input type="text" value="<%= oldInput.quad.occupency %>" name="quinRmOccupancy" placeholder="i.e: Upto 4 childrens"
+                                class="form-control" required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>View</label>
+                              <input type="number" value="<%= oldInput.quad.view %>" name="quinRmView" placeholder="Enter Number of Rooms with View"
+                                class="form-control" required>
+                            </div>
+                        
+                            <div class="form-group col-md-3">
+                              <label>Bed Size</label>
+                              <select class="form-control select2" style="width: 100%;" name="quinRmBedSize">
+                                <option value="king" <%=oldInput.quad.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="regular" <%=oldInput.quad.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="king&regular" <%=oldInput.quad.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
+                            </div>
+                      
+                          </div>
+                          
+                          
+                        </div>
+                      </div>
+                    </div>
                    
                   
                   </div>
@@ -454,5 +512,8 @@
   }
   function removeQuadElem(){
     document.getElementById("quadElem").remove()
+  }
+  function removeQuinElem(){
+    document.getElementById("quinElem").remove()
   }
 </script>

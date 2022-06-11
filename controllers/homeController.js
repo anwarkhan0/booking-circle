@@ -17,6 +17,8 @@ const sliderGallery = require("../models/SliderGallery");
 const subscribeModel = require("../models/subscribeModel");
 const queryModel = require("../models/Query");
 const Feedbacks = require("../models/Feedback");
+const checkout = require("safepay/dist/resources/checkout");
+const { findByIdAndDelete } = require("../models/Location");
 
 // HomePage
 const home = async (req, res, next) => {
@@ -1273,18 +1275,31 @@ const roomBooking = async (req, res, next) => {
   });
 };
 
-const postRoomBooking = async (req, res, next) => {
-  const hotelId = req.query.hotelId;
-  const checkIn = req.query.checkIn.replace(/\./g, "/");
-  const checkOut = req.query.checkOut.replace(/\./g, "/");
-  const adults = req.query.adults1;
-  const children = req.query.children1;
-  const routePath = req.query.routePath;
-  const charges = req.query.charges1;
-  const redirectUrl = routePath + hotelId;
+const postRoomCheck = async (req, res, next) => {
+  const hotelId = req.body.hotelId;
+  const checkIn = req.body.checkIn.replace(/\./g, "/");
+  const checkOut = req.body.checkOut.replace(/\./g, "/");
 
-  console.log(adults, children);
-  res.sendStatus(200);
+  const adults1 = req.body.adults1;
+  const children1 = req.body.children1;
+
+  const adults2 = req.body.adults2 ? req.body.adults2 : '';
+  const children2 = req.body.children2 ? req.body.children2 : '';
+
+  const adults3 = req.body.adults3 ? req.body.adults3 : '';
+  const children3 = req.body.children3 ? req.body.children3 : '';
+
+  const adults4 = req.body.adults4 ? req.body.adults4 : '';
+  const children4 = req.body.children4 ? req.body.children4 : '';
+
+  const adults5 = req.body.adults5 ? req.body.adults5 : '';
+  const children5 = req.body.children5 ? req.body.children5 : '';
+
+  const hotel = await HotelsModel.findById(hotelId);
+
+  console.log(hotelId, checkIn, checkOut, adults1, children1, adults2, children2, adults3, children3, adults4, children4, adults5, children5)
+
+  res.redirect('/Hotels/rooms/62a1b6e0f940fadb1f4adbd1');
 
   // if (!req.session.userLoggedIn) {
   //   req.session.redirectUrl = redirectUrl;
@@ -2362,7 +2377,7 @@ module.exports = {
   hotelGallery,
   hotelRooms,
   roomBooking,
-  postRoomBooking,
+  postRoomCheck,
   findHotels,
   roomFilter,
 

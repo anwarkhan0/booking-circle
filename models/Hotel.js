@@ -145,6 +145,24 @@ const HotelsSchema = new Schema({
         },
       ],
     },
+    quin: {
+      total: Number,
+      charges: Number,
+      videoUrl: String,
+      size: String,
+      occupancy: Number,
+      view: Number,
+      bedSize: String,
+      reservations: [
+        {
+          user: Object,
+          date: Date,
+          checkIn: Date,
+          checkout: Date,
+          confirm: Boolean,
+        },
+      ],
+    },
     gallery: [String]
   },
 });
