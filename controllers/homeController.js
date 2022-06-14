@@ -1307,58 +1307,66 @@ const postRoomCheck = async (req, res, next) => {
   let counter = 0;
   const entry = new Date(checkIn);
   const exit = new Date(checkOut);
-  
-  hotel.rooms.single.reservation = [
-    {
-    user: {
-      name: 'khan0',
-      email: 'test@test.com',
-    },
-    checkIn: entry,
-    checkOut: exit,
-    confirm: false
-  }
-  ]
+  const lastIndex = hotel.rooms.single.reservations.length - 1;
+  const currentDate = new Date();
 
-  // hotel.rooms.single.reservations.forEach( reservation =>{
-  //   console.log(reservation.length)
-  //   if (
-  //     entry >= reservation.checkIn &&
-  //     exit <= reservation.checkOut
-  //   ) {
-  //     console.log("this room is not available");
-  //     return;
-  //   }
-  //   if (
-  //     exit >= reservation.checkIn &&
-  //     exit <= reservation.checkOut
-  //   ) {
-  //     console.log("this room is not available");
-  //     return;
-  //   }
-  //   if (
-  //     entry < reservation.checkIn &&
-  //     exit > reservation.checkOut
-  //   ) {
-  //     console.log("this room is not available");
-  //     return;
-  //   }
-  
-  // })
+  const people = (adults1 + children1) / hotel.rooms.single.occupancy;
+  console.log(people);
+
+  if (adults1 == 1) {
+    // check if there are any reservations or if they are all expired reservations
+    if (hotel.rooms.single.reservations.length === 0 || hotel.rooms.single.reservations[lastIndex].checkOut < currentDate) {
+      console.log('no reservation or expired')
+      hotel.rooms.single.reservations.push({
+        user: {
+          name: 'anwer',
+          email: 'test@test.com'
+        },
+        date: new Date(),
+        checkIn: entry,
+        checkOut: exit,
+        confirm: false,
+      })
+    } else {
+      hotel.rooms.single.reservations.forEach(reservation => {
+        if (
+          entry >= reservation.checkIn &&
+          exit <= reservation.checkOut
+        ) {
+          console.log("this room is not available");
+          return;
+        }
+        if (
+          exit >= reservation.checkIn &&
+          exit <= reservation.checkOut
+        ) {
+          console.log("this room is not available");
+          return;
+        }
+        if (
+          entry < reservation.checkIn &&
+          exit > reservation.checkOut
+        ) {
+          console.log("this room is not available");
+          return;
+        }
+        hotel.rooms.single.reservations.push({
+          user: {
+            name: 'anwer',
+            email: 'test@test.com'
+          },
+          date: new Date(),
+          checkIn: entry,
+          checkout: exit,
+          confirm: false,
+        })
+      })
+    }
+ 
+  }
 
   try {
-    // if(flag){
-    //   hotel.rooms.single.reservations.push({
-    //     user: {
-    //       name:'anwer',
-    //       email: 'test@test.com'
-    //     },
-    //     date: new Date(),
-    //     checkIn: entry,
-    //     checkout: exit,
-    //     confirm: false,
-    //   })
-    // }
+         
     await hotel.save();
     res.render('./pages/Hotels/roomAvailable', {
       layout: false,

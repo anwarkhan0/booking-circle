@@ -81,15 +81,13 @@ const HotelsSchema = new Schema({
       occupancy: Number,
       view: Number,
       bedSize: String,
-      reservations: [
-        {
-          user: Object,
-          date: Date,
-          checkIn: Date,
-          checkout: Date,
-          confirm: Boolean,
-        },
-      ]
+      reservations: [{
+        user: Object,
+        date: Date,
+        checkIn: Date,
+        checkOut: Date,
+        confirm: Boolean
+      }]
     },
     twin: {
       total: Number,
@@ -99,15 +97,13 @@ const HotelsSchema = new Schema({
       occupancy: Number,
       view: Number,
       bedSize: String,
-      reservations: [
-        {
-          user: Object,
-          date: Date,
-          checkIn: Date,
-          checkout: Date,
-          confirm: Boolean,
-        },
-      ],
+      reservations: [{
+        user: Object,
+        date: Date,
+        checkIn: Date,
+        checkOut: Date,
+        confirm: Boolean
+      }]
     },
     triple: {
       total: Number,
@@ -117,15 +113,13 @@ const HotelsSchema = new Schema({
       occupancy: Number,
       view: Number,
       bedSize: String,
-      reservations: [
-        {
-          user: Object,
-          date: Date,
-          checkIn: Date,
-          checkout: Date,
-          confirm: Boolean,
-        },
-      ],
+      reservations: [{
+        user: Object,
+        date: Date,
+        checkIn: Date,
+        checkOut: Date,
+        confirm: Boolean
+      }]
     },
     quad: {
       total: Number,
@@ -135,15 +129,13 @@ const HotelsSchema = new Schema({
       occupancy: Number,
       view: Number,
       bedSize: String,
-      reservations: [
-        {
-          user: Object,
-          date: Date,
-          checkIn: Date,
-          checkout: Date,
-          confirm: Boolean,
-        },
-      ],
+      reservations: [{
+        user: Object,
+        date: Date,
+        checkIn: Date,
+        checkOut: Date,
+        confirm: Boolean
+      }]
     },
     quin: {
       total: Number,
@@ -153,15 +145,13 @@ const HotelsSchema = new Schema({
       occupancy: Number,
       view: Number,
       bedSize: String,
-      reservations: [
-        {
-          user: Object,
-          date: Date,
-          checkIn: Date,
-          checkout: Date,
-          confirm: Boolean,
-        }
-      ],
+      reservations: [{
+        user: Object,
+        date: Date,
+        checkIn: Date,
+        checkOut: Date,
+        confirm: Boolean
+      }]
     },
     gallery: [String]
   }

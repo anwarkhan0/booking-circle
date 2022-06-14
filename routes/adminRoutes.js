@@ -22,6 +22,7 @@ const {
   hotelUnapproved,
   addGalleryHotel,
   addHotelImages,
+  hotelBookings,
   addRoomImages,
   galleryList,
   viewHotelImages,
@@ -228,6 +229,7 @@ router.post("/admin/Customers/deleteCustomer", isAuth, delCustomer);
 // Hotels Clients
 router.get("/admin/Hotels/addHotel", isAuth, hotelClients);
 router.get("/admin/Hotels/hotelsList", isAuth, hotelList);
+router.get("/admin/Hotels/Bookings", isAuth, hotelBookings);
 router.get("/admin/Hotels/viewHotel/:id", isAuth, viewHotel);
 router.get("/admin/Hotels/editHotel/:id", isAuth, editHotel);
 router.get("/admin/Hotels/Galleries", isAuth, galleryList);

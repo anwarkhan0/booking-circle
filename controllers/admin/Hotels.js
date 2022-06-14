@@ -1,4 +1,6 @@
-const { delImg, delMultImages } = require("../../util/file");
+const { delImg } = require("../../util/file");
+const fs = require('fs');
+const path = require('path');
 const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
 
@@ -133,6 +135,15 @@ const editHotel = async (req, res, next) => {
     console.log(err);
   }
 };
+
+const hotelBookings = async (req, res, next)=>{
+  const hotels = await Hotels.find();
+  res.render("../Admin/views/pages/Hotels/bookings", {
+    hotels: hotels,
+    pageTitle: "Hotels Reservations",
+    path: "/Hotels/hotels-reservations",
+  });
+}
 
 const hotelApproved = (req, res, next) => {
   Hotels.find({ approvedStatus: true })
@@ -958,16 +969,28 @@ const postUpdateRoomGallery = async (req, res) => {
 };
 
 const postDeleteHotel = async (req, res) => {
+ 
   const hotelId = req.body.id;
   try {
     const hotel = await Hotels.findById(hotelId);
-    if (delMultImages(hotel.gallery) && delMultImages(hotel.rooms.gallery)) {
-      await Hotels.findByIdAndDelete(hotelId);
-      res.sendStatus(200);
-      console.log("hotel deleted");
-    } else {
-      throw "Something went wrong while deleting files.";
-    }
+
+    hotel.gallery.forEach( image => {
+      const imgPath = path.join(__dirname + '../../../files/uploads/' + image);
+      fs.unlink(imgPath, err =>{
+        if(err) throw err;
+      })
+    })
+
+    hotel.rooms.gallery.forEach( image => {
+      const imgPath = path.join(__dirname + '../../../files/uploads/' + image);
+      fs.unlink(imgPath, err =>{
+        if(err) throw err;
+      })
+    })
+    await Hotels.findByIdAndDelete(hotelId);
+    res.sendStatus(200);
+    console.log("hotel deleted");
+    
   } catch (err) {
     console.log(err);
     res.sendStatus(204);
@@ -1035,6 +1058,7 @@ module.exports = {
     galleryList,
     viewHotelImages,
     viewRoomImages,
+    hotelBookings,
   
     postAddHotel,
     postEditHotel,
