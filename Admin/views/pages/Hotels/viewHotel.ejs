@@ -131,7 +131,6 @@
                     <p class="card-text">
                       <li class="list-group-item"><span class="font-weight-bold">Total:</span> <%= hotel.rooms.single.total %> </li>
                       <li class="list-group-item"><span class="font-weight-bold">Charges:</span> <%= hotel.rooms.single.charges %> </li>
-                      <li class="list-group-item"><span class="font-weight-bold">Video URL:</span> <%= hotel.rooms.single.videoUrl %> </li>
                       <li class="list-group-item"><span class="font-weight-bold">Occupancy:</span> <%= hotel.rooms.single.occupancy %> </li>
                       <li class="list-group-item"><span class="font-weight-bold">View:</span> <%= hotel.rooms.single.view %> </li>
                       <li class="list-group-item"><span class="font-weight-bold">Bed Size:</span> <%= hotel.rooms.single.bedSize %> </li>
@@ -140,7 +139,7 @@
                 </div>
               </div>
 
-              <% if(hotel.rooms.twin.length > 0){ %> 
+              <% if(hotel.rooms.twin.total > 0){ %> 
               <div class="col-md-3">
                 <div class="card" style="width: 18rem;">
                   <div class="card-body">
@@ -148,7 +147,6 @@
                     <p class="card-text">
                       <li class="list-group-item"><span class="font-weight-bold">Total:</span> <%= hotel.rooms.twin.total %> </li>
                       <li class="list-group-item"><span class="font-weight-bold">Charges:</span> <%= hotel.rooms.twin.charges %> </li>
-                      <li class="list-group-item"><span class="font-weight-bold">Video URL:</span> <%= hotel.rooms.twin.videoUrl %> </li>
                       <li class="list-group-item"><span class="font-weight-bold">Occupancy:</span> <%= hotel.rooms.twin.occupancy %> </li>
                       <li class="list-group-item"><span class="font-weight-bold">View:</span> <%= hotel.rooms.twin.view %> </li>
                       <li class="list-group-item"><span class="font-weight-bold">Bed Size:</span> <%= hotel.rooms.twin.bedSize %> </li>
@@ -158,33 +156,31 @@
               </div>
               <% } %> 
 
-              <% if(hotel.rooms.triple.length > 0){ %> 
+              <% if(hotel.rooms.triple.total > 0){ %> 
               <div class="col-md-3">
                 <div class="card" style="width: 18rem;">
                   <div class="card-body">
                     <h5 class="card-title font-weight-bold">Triple Rooms</h5>
                     <p class="card-text">
-                      <li class="list-group-item"><span class="font-weight-bold">Total:</span> <%= hotel.room.triple.total %> </li>
-                      <li class="list-group-item"><span class="font-weight-bold">Charges:</span> <%= hotel.rooms.sin.triple.charges %> </li>
-                      <li class="list-group-item"><span class="font-weight-bold">Video URL:</span> <%= hotel.rooms.sin.triple.videoUrl %> </li>
-                      <li class="list-group-item"><span class="font-weight-bold">Occupancy:</span> <%= hotel.rooms.sin.triple.occupancy %> </li>
-                      <li class="list-group-item"><span class="font-weight-bold">View:</span> <%= hotel.rooms.sin.triple.view %> </li>
-                      <li class="list-group-item"><span class="font-weight-bold">Bed Size:</span> <%= hotel.rooms.sin.triple.bedSize %> </li>
+                      <li class="list-group-item"><span class="font-weight-bold">Total:</span> <%= hotel.rooms.triple.total %> </li>
+                      <li class="list-group-item"><span class="font-weight-bold">Charges:</span> <%= hotel.rooms.triple.charges %> </li>
+                      <li class="list-group-item"><span class="font-weight-bold">Occupancy:</span> <%= hotel.rooms.triple.occupancy %> </li>
+                      <li class="list-group-item"><span class="font-weight-bold">View:</span> <%= hotel.rooms.triple.view %> </li>
+                      <li class="list-group-item"><span class="font-weight-bold">Bed Size:</span> <%= hotel.rooms.triple.bedSize %> </li>
                     </p>
                   </div>
                 </div>
               </div>
               <% } %> 
 
-              <% if(hotel.rooms.quad.length > 0){ %> 
+              <% if(hotel.rooms.quad.total > 0){ %> 
               <div class="col-md-3">
                 <div class="card" style="width: 18rem;">
                   <div class="card-body">
-                    <h5 class="card-title font-weight-bold">QuadRuple Rooms</h5>
+                    <h5 class="card-title font-weight-bold">Quadruple Rooms</h5>
                     <p class="card-text">
                       <li class="list-group-item"><span class="font-weight-bold">Total:</span> <%= hotel.rooms.quad.total %> </li>
                       <li class="list-group-item"><span class="font-weight-bold">Charges:</span> <%= hotel.rooms.quad.charges %> </li>
-                      <li class="list-group-item"><span class="font-weight-bold">Video URL:</span> <%= hotel.rooms.quad.videoUrl %> </li>
                       <li class="list-group-item"><span class="font-weight-bold">Occupancy:</span> <%= hotel.rooms.quad.occupancy %> </li>
                       <li class="list-group-item"><span class="font-weight-bold">View:</span> <%= hotel.rooms.quad.view %> </li>
                       <li class="list-group-item"><span class="font-weight-bold">Bed Size:</span> <%= hotel.rooms.quad.bedSize %> </li>
@@ -193,6 +189,23 @@
                 </div>
               </div>
               <% } %> 
+
+              <% if(hotel.rooms.quin.total > 0){ %> 
+                <div class="col-md-3">
+                  <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                      <h5 class="card-title font-weight-bold">Quintiple Rooms</h5>
+                      <p class="card-text">
+                        <li class="list-group-item"><span class="font-weight-bold">Total:</span> <%= hotel.rooms.quin.total %> </li>
+                        <li class="list-group-item"><span class="font-weight-bold">Charges:</span> <%= hotel.rooms.quin.charges %> </li>
+                        <li class="list-group-item"><span class="font-weight-bold">Occupancy:</span> <%= hotel.rooms.quin.occupancy %> </li>
+                        <li class="list-group-item"><span class="font-weight-bold">View:</span> <%= hotel.rooms.quin.view %> </li>
+                        <li class="list-group-item"><span class="font-weight-bold">Bed Size:</span> <%= hotel.rooms.quin.bedSize %> </li>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <% } %> 
 
             </div>
           </div>

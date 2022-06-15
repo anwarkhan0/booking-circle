@@ -974,19 +974,24 @@ const postDeleteHotel = async (req, res) => {
   try {
     const hotel = await Hotels.findById(hotelId);
 
-    hotel.gallery.forEach( image => {
-      const imgPath = path.join(__dirname + '../../../files/uploads/' + image);
-      fs.unlink(imgPath, err =>{
-        if(err) throw err;
+    if(!hotel.gallery.length == 0){
+      hotel.gallery.forEach( image => {
+        const imgPath = path.join(__dirname + '../../../files/uploads/' + image);
+        fs.unlink(imgPath, err =>{
+          if(err) throw err;
+        })
       })
-    })
-
-    hotel.rooms.gallery.forEach( image => {
-      const imgPath = path.join(__dirname + '../../../files/uploads/' + image);
-      fs.unlink(imgPath, err =>{
-        if(err) throw err;
+    }
+    
+    if(!hotel.rooms.gallery.length == 0){
+      hotel.rooms.gallery.forEach( image => {
+        const imgPath = path.join(__dirname + '../../../files/uploads/' + image);
+        fs.unlink(imgPath, err =>{
+          if(err) throw err;
+        })
       })
-    })
+    }
+    
     await Hotels.findByIdAndDelete(hotelId);
     res.sendStatus(200);
     console.log("hotel deleted");

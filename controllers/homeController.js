@@ -1281,20 +1281,20 @@ const postRoomCheck = async (req, res, next) => {
   const checkOut = req.body.checkOut.replace(/\./g, "/");
   const noOfRooms = req.body.numOfRooms;
 
-  const adults1 = req.body.adults1;
-  const children1 = req.body.children1;
+  const adults1 = Number(req.body.adults1);
+  const children1 = Number(req.body.children1);
 
-  const adults2 = req.body.adults2 ? req.body.adults2 : '';
-  const children2 = req.body.children2 ? req.body.children2 : '';
+  const adults2 = req.body.adults2 ? Number(req.body.adults2) : '';
+  const children2 = req.body.children2 ? Number(req.body.children2) : '';
 
-  const adults3 = req.body.adults3 ? req.body.adults3 : '';
-  const children3 = req.body.children3 ? req.body.children3 : '';
+  const adults3 = req.body.adults3 ? Number(req.body.adults3) : '';
+  const children3 = req.body.children3 ? Number(req.body.children3) : '';
 
-  const adults4 = req.body.adults4 ? req.body.adults4 : '';
-  const children4 = req.body.children4 ? req.body.children4 : '';
+  const adults4 = req.body.adults4 ? Number(req.body.adults4) : '';
+  const children4 = req.body.children4 ? Number(req.body.children4) : '';
 
-  const adults5 = req.body.adults5 ? req.body.adults5 : '';
-  const children5 = req.body.children5 ? req.body.children5 : '';
+  const adults5 = req.body.adults5 ? Number(req.body.adults5) : '';
+  const children5 = req.body.children5 ? Number(req.body.children5) : '';
 
   // if (!req.session.userLoggedIn) {
   //   req.session.redirectUrl = redirectUrl;
@@ -1307,26 +1307,37 @@ const postRoomCheck = async (req, res, next) => {
   let counter = 0;
   const entry = new Date(checkIn);
   const exit = new Date(checkOut);
-  const lastIndex = hotel.rooms.single.reservations.length - 1;
-  const currentDate = new Date();
+  const singleLastIndex = hotel.rooms.single.reservations.length - 1;
+  const twinLastIndex = hotel.rooms.twin.reservations.length - 1;
+  const tripleLastIndex = hotel.rooms.triple.reservations.length - 1;
+  const quadLastIndex = hotel.rooms.quad.reservations.length - 1;
+  const quinLastIndex = hotel.rooms.quin.reservations.length - 1;
+  const today = new Date();
 
-  const people = (adults1 + children1) / hotel.rooms.single.occupancy;
-  console.log(people);
+  const singleFit = ((adults1 + children1/2) / hotel.rooms.single.occupancy) <= 1 ? true : false;
+  const twinFit = ((adults1 + children1/2) / hotel.rooms.twin.occupancy) <= 1 ? true : false;
+  const tripleFit = ((adults1 + children1/2) / hotel.rooms.triple.occupancy) <=1 ? true : false;
+  const quadFit = ((adults1 + children1/2) / hotel.rooms.quad.occupancy <= 1) <= 1 ? true : false;
+  const quinFit = ((adults1 + children1/2) / hotel.rooms.quin.occupancy <= 1) <= 1 ? true : false;
 
-  if (adults1 == 1) {
+  const booking = {
+      user: {
+        name: 'anwer',
+        email: 'test@test.com',
+        phone: '03409838828'
+      },
+      noOfRooms: noOfRooms,
+      date: new Date(),
+      checkIn: entry,
+      checkOut: exit,
+      confirm: false,
+  }
+
+  if(singleFit){
     // check if there are any reservations or if they are all expired reservations
-    if (hotel.rooms.single.reservations.length === 0 || hotel.rooms.single.reservations[lastIndex].checkOut < currentDate) {
+    if (hotel.rooms.single.reservations.length === 0 || hotel.rooms.single.reservations[singleLastIndex].checkOut < today) {
       console.log('no reservation or expired')
-      hotel.rooms.single.reservations.push({
-        user: {
-          name: 'anwer',
-          email: 'test@test.com'
-        },
-        date: new Date(),
-        checkIn: entry,
-        checkOut: exit,
-        confirm: false,
-      })
+      hotel.rooms.single.reservations.push(booking)
     } else {
       hotel.rooms.single.reservations.forEach(reservation => {
         if (
@@ -1350,23 +1361,136 @@ const postRoomCheck = async (req, res, next) => {
           console.log("this room is not available");
           return;
         }
-        hotel.rooms.single.reservations.push({
-          user: {
-            name: 'anwer',
-            email: 'test@test.com'
-          },
-          date: new Date(),
-          checkIn: entry,
-          checkout: exit,
-          confirm: false,
-        })
+        hotel.rooms.single.reservations.push(booking)
       })
     }
- 
+  }else if(twinFit){
+    // check if there are any reservations or if they are all expired reservations
+    if (hotel.rooms.twin.reservations.length === 0 || hotel.rooms.twin.reservations[twinLastIndex].checkOut < today) {
+      console.log('no reservation or expired')
+      hotel.rooms.twin.reservations.push(booking)
+    } else {
+      hotel.rooms.twin.reservations.forEach(reservation => {
+        if (
+          entry >= reservation.checkIn &&
+          exit <= reservation.checkOut
+        ) {
+          console.log("this room is not available");
+          return;
+        }
+        if (
+          exit >= reservation.checkIn &&
+          exit <= reservation.checkOut
+        ) {
+          console.log("this room is not available");
+          return;
+        }
+        if (
+          entry < reservation.checkIn &&
+          exit > reservation.checkOut
+        ) {
+          console.log("this room is not available");
+          return;
+        }
+        hotel.rooms.twin.reservations.push(booking)
+      })
+    }
+  }else if(tripleFit){
+    // check if there are any reservations or if they are all expired reservations
+    if (hotel.rooms.triple.reservations.length === 0 || hotel.rooms.triple.reservations[tripleLastIndex].checkOut < today) {
+      console.log('no reservation or expired')
+      hotel.rooms.triple.reservations.push(booking)
+    } else {
+      hotel.rooms.triple.reservations.forEach(reservation => {
+        if (
+          entry >= reservation.checkIn &&
+          exit <= reservation.checkOut
+        ) {
+          console.log("this room is not available");
+          return;
+        }
+        if (
+          exit >= reservation.checkIn &&
+          exit <= reservation.checkOut
+        ) {
+          console.log("this room is not available");
+          return;
+        }
+        if (
+          entry < reservation.checkIn &&
+          exit > reservation.checkOut
+        ) {
+          console.log("this room is not available");
+          return;
+        }
+        hotel.rooms.triple.reservations.push(booking)
+      })
+    }
+  }else if(quadFit){
+    // check if there are any reservations or if they are all expired reservations
+    if (hotel.rooms.quad.reservations.length === 0 || hotel.rooms.quad.reservations[quadLastIndex].checkOut < today) {
+      console.log('no reservation or expired')
+      hotel.rooms.quad.reservations.push(booking)
+    } else {
+      hotel.rooms.quad.reservations.forEach(reservation => {
+        if (
+          entry >= reservation.checkIn &&
+          exit <= reservation.checkOut
+        ) {
+          console.log("this room is not available");
+          return;
+        }
+        if (
+          exit >= reservation.checkIn &&
+          exit <= reservation.checkOut
+        ) {
+          console.log("this room is not available");
+          return;
+        }
+        if (
+          entry < reservation.checkIn &&
+          exit > reservation.checkOut
+        ) {
+          console.log("this room is not available");
+          return;
+        }
+        hotel.rooms.quad.reservations.push(booking)
+      })
+    }
+  }else if(quinFit){
+    // check if there are any reservations or if they are all expired reservations
+    if (hotel.rooms.quin.reservations.length === 0 || hotel.rooms.quin.reservations[quinLastIndex].checkOut < today) {
+      console.log('no reservation or expired')
+      hotel.rooms.quin.reservations.push(booking)
+    } else {
+      hotel.rooms.quin.reservations.forEach(reservation => {
+        if (
+          entry >= reservation.checkIn &&
+          exit <= reservation.checkOut
+        ) {
+          console.log("this room is not available");
+          return;
+        }
+        if (
+          exit >= reservation.checkIn &&
+          exit <= reservation.checkOut
+        ) {
+          console.log("this room is not available");
+          return;
+        }
+        if (
+          entry < reservation.checkIn &&
+          exit > reservation.checkOut
+        ) {
+          console.log("this room is not available");
+          return;
+        }
+        hotel.rooms.quin.reservations.push(booking)
+      })
+    }
   }
 
   try {
-         
     await hotel.save();
     res.render('./pages/Hotels/roomAvailable', {
       layout: false,

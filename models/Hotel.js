@@ -86,6 +86,7 @@ const HotelsSchema = new Schema({
         date: Date,
         checkIn: Date,
         checkOut: Date,
+        noOfRooms: Number,
         confirm: Boolean
       }]
     },
@@ -102,6 +103,7 @@ const HotelsSchema = new Schema({
         date: Date,
         checkIn: Date,
         checkOut: Date,
+        noOfRooms: Number,
         confirm: Boolean
       }]
     },
@@ -118,6 +120,7 @@ const HotelsSchema = new Schema({
         date: Date,
         checkIn: Date,
         checkOut: Date,
+        noOfRooms: Number,
         confirm: Boolean
       }]
     },
@@ -134,6 +137,7 @@ const HotelsSchema = new Schema({
         date: Date,
         checkIn: Date,
         checkOut: Date,
+        noOfRooms: Number,
         confirm: Boolean
       }]
     },
@@ -150,6 +154,7 @@ const HotelsSchema = new Schema({
         date: Date,
         checkIn: Date,
         checkOut: Date,
+        noOfRooms: Number,
         confirm: Boolean
       }]
     },
