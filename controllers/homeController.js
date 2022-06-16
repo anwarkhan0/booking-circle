@@ -1279,7 +1279,7 @@ const postRoomCheck = async (req, res, next) => {
   const hotelId = req.body.hotelId;
   const checkIn = req.body.checkIn.replace(/\./g, "/");
   const checkOut = req.body.checkOut.replace(/\./g, "/");
-  const noOfRooms = req.body.numOfRooms;
+  const noOfRooms = Number(req.body.numOfRooms);
 
   const adults1 = Number(req.body.adults1);
   const children1 = Number(req.body.children1);
@@ -1304,191 +1304,272 @@ const postRoomCheck = async (req, res, next) => {
 
   const hotel = await HotelsModel.findById(hotelId);
   // set counter to count rooms
-  let counter = 0;
   const entry = new Date(checkIn);
   const exit = new Date(checkOut);
-  const singleLastIndex = hotel.rooms.single.reservations.length - 1;
-  const twinLastIndex = hotel.rooms.twin.reservations.length - 1;
-  const tripleLastIndex = hotel.rooms.triple.reservations.length - 1;
-  const quadLastIndex = hotel.rooms.quad.reservations.length - 1;
-  const quinLastIndex = hotel.rooms.quin.reservations.length - 1;
+  // const singleLastIndex = hotel.rooms.single.reservations.length - 1;
+  // const twinLastIndex = hotel.rooms.twin.reservations.length - 1;
+  // const tripleLastIndex = hotel.rooms.triple.reservations.length - 1;
+  // const quadLastIndex = hotel.rooms.quad.reservations.length - 1;
+  // const quinLastIndex = hotel.rooms.quin.reservations.length - 1;
   const today = new Date();
 
-  const singleFit = ((adults1 + children1/2) / hotel.rooms.single.occupancy) <= 1 ? true : false;
-  const twinFit = ((adults1 + children1/2) / hotel.rooms.twin.occupancy) <= 1 ? true : false;
-  const tripleFit = ((adults1 + children1/2) / hotel.rooms.triple.occupancy) <=1 ? true : false;
-  const quadFit = ((adults1 + children1/2) / hotel.rooms.quad.occupancy <= 1) <= 1 ? true : false;
-  const quinFit = ((adults1 + children1/2) / hotel.rooms.quin.occupancy <= 1) <= 1 ? true : false;
-
-  const booking = {
-      user: {
-        name: 'anwer',
-        email: 'test@test.com',
-        phone: '03409838828'
-      },
-      noOfRooms: noOfRooms,
-      date: new Date(),
-      checkIn: entry,
-      checkOut: exit,
-      confirm: false,
-  }
-
-  if(singleFit){
-    // check if there are any reservations or if they are all expired reservations
-    if (hotel.rooms.single.reservations.length === 0 || hotel.rooms.single.reservations[singleLastIndex].checkOut < today) {
-      console.log('no reservation or expired')
-      hotel.rooms.single.reservations.push(booking)
-    } else {
-      hotel.rooms.single.reservations.forEach(reservation => {
-        if (
-          entry >= reservation.checkIn &&
-          exit <= reservation.checkOut
-        ) {
-          console.log("this room is not available");
-          return;
-        }
-        if (
-          exit >= reservation.checkIn &&
-          exit <= reservation.checkOut
-        ) {
-          console.log("this room is not available");
-          return;
-        }
-        if (
-          entry < reservation.checkIn &&
-          exit > reservation.checkOut
-        ) {
-          console.log("this room is not available");
-          return;
-        }
-        hotel.rooms.single.reservations.push(booking)
-      })
+  let counter = 1;
+  do{
+    let singleFit, twinFit, tripleFit, quadFit, quinFit;
+    if(counter == 1){
+      singleFit = ((adults1 + children1/2) / hotel.rooms.single.occupancy) <= 1 ? true : false;
+      twinFit = ((adults1 + children1/2) / hotel.rooms.twin.occupancy) <= 1 ? true : false;
+      tripleFit = ((adults1 + children1/2) / hotel.rooms.triple.occupancy) <=1 ? true : false;
+      quadFit = ((adults1 + children1/2) / hotel.rooms.quad.occupancy <= 1) <= 1 ? true : false;
+      quinFit = ((adults1 + children1/2) / hotel.rooms.quin.occupancy <= 1) <= 1 ? true : false;
+    }else if(counter == 2){
+      singleFit = ((adults2 + children2/2) / hotel.rooms.single.occupancy) <= 1 ? true : false;
+      twinFit = ((adults2 + children2/2) / hotel.rooms.twin.occupancy) <= 1 ? true : false;
+      tripleFit = ((adults2 + children2/2) / hotel.rooms.triple.occupancy) <=1 ? true : false;
+      quadFit = ((adults2 + children2/2) / hotel.rooms.quad.occupancy <= 1) <= 1 ? true : false;
+      quinFit = ((adults2 + children2/2) / hotel.rooms.quin.occupancy <= 1) <= 1 ? true : false;
+    }else if(counter == 3){
+      singleFit = ((adults3 + children3/2) / hotel.rooms.single.occupancy) <= 1 ? true : false;
+      twinFit = ((adults3 + children3/2) / hotel.rooms.twin.occupancy) <= 1 ? true : false;
+      tripleFit = ((adults3 + children3/2) / hotel.rooms.triple.occupancy) <=1 ? true : false;
+      quadFit = ((adults3 + children3/2) / hotel.rooms.quad.occupancy <= 1) <= 1 ? true : false;
+      quinFit = ((adults3 + children3/2) / hotel.rooms.quin.occupancy <= 1) <= 1 ? true : false;
+    }else if(counter == 4){
+      singleFit = ((adults4 + children4/2) / hotel.rooms.single.occupancy) <= 1 ? true : false;
+      twinFit = ((adults4 + children4/2) / hotel.rooms.twin.occupancy) <= 1 ? true : false;
+      tripleFit = ((adults4 + children4/2) / hotel.rooms.triple.occupancy) <=1 ? true : false;
+      quadFit = ((adults4 + children4/2) / hotel.rooms.quad.occupancy <= 1) <= 1 ? true : false;
+      quinFit = ((adults4 + children4/2) / hotel.rooms.quin.occupancy <= 1) <= 1 ? true : false;
+    }else if(counter == 5){
+      singleFit = ((adults5 + children5/2) / hotel.rooms.single.occupancy) <= 1 ? true : false;
+      twinFit = ((adults5 + children5/2) / hotel.rooms.twin.occupancy) <= 1 ? true : false;
+      tripleFit = ((adults5 + children5/2) / hotel.rooms.triple.occupancy) <=1 ? true : false;
+      quadFit = ((adults5 + children5/2) / hotel.rooms.quad.occupancy <= 1) <= 1 ? true : false;
+      quinFit = ((adults5 + children5/2) / hotel.rooms.quin.occupancy <= 1) <= 1 ? true : false;
     }
-  }else if(twinFit){
-    // check if there are any reservations or if they are all expired reservations
-    if (hotel.rooms.twin.reservations.length === 0 || hotel.rooms.twin.reservations[twinLastIndex].checkOut < today) {
-      console.log('no reservation or expired')
-      hotel.rooms.twin.reservations.push(booking)
-    } else {
-      hotel.rooms.twin.reservations.forEach(reservation => {
-        if (
-          entry >= reservation.checkIn &&
-          exit <= reservation.checkOut
-        ) {
-          console.log("this room is not available");
-          return;
+    
+    const saveBooking = (index, type) => {
+      const booking = {
+        roomNo: index,
+        user: {
+          name: "anwer",
+          email: "test@test.com",
+          phone: "03409838828",
+        },
+        noOfRooms: noOfRooms,
+        date: new Date(),
+        checkIn: entry,
+        checkOut: exit,
+        confirm: false,
+      };
+      console.log(index, type)
+      hotel.rooms.single.reservations.push(booking);
+    };
+
+    if(singleFit){
+      let singleFlag;
+      let index;
+      // check if there are any reservations or if they are all expired reservations
+      if (
+        hotel.rooms.single.reservations.length === 0
+      ) {
+        console.log("no reservation or expired");
+        saveBooking(0, 1);
+      } else {
+
+        for(let i= 0; i< hotel.rooms.single.total; i++){
+          singleFlag = false;
+          hotel.rooms.single.reservations.forEach(reservation => {
+            if (
+              entry >= reservation.checkIn &&
+              entry <= reservation.checkOut
+            ) {
+              if(reservation.roomNo == i){
+                console.log("this room is not available");
+                return;
+              }
+            }
+            if (
+              exit >= reservation.checkIn &&
+              exit <= reservation.checkOut
+            ) {
+              if(reservation.roomNo == i){
+                console.log("this room is not available");
+                return;
+              }
+            }
+            if (
+              entry < reservation.checkIn &&
+              exit > reservation.checkOut
+            ) {
+              if(reservation.roomNo == i){
+                console.log("this room is not available");
+                return;
+              }
+            }
+            singleFlag = true;
+            return;
+          })
+
+          if(singleFlag){
+            index = i;
+            break;
+          }
+
         }
-        if (
-          exit >= reservation.checkIn &&
-          exit <= reservation.checkOut
-        ) {
-          console.log("this room is not available");
-          return;
-        }
-        if (
-          entry < reservation.checkIn &&
-          exit > reservation.checkOut
-        ) {
-          console.log("this room is not available");
-          return;
-        }
+
+        if(singleFlag) saveBooking(index, 1);
+        
+      }
+  
+    }else if(twinFit){
+      let twinFlag;
+      // check if there are any reservations or if they are all expired reservations
+      if (hotel.rooms.twin.reservations.length === 0) {
+        console.log('no reservation or expired')
         hotel.rooms.twin.reservations.push(booking)
-      })
-    }
-  }else if(tripleFit){
-    // check if there are any reservations or if they are all expired reservations
-    if (hotel.rooms.triple.reservations.length === 0 || hotel.rooms.triple.reservations[tripleLastIndex].checkOut < today) {
-      console.log('no reservation or expired')
-      hotel.rooms.triple.reservations.push(booking)
-    } else {
-      hotel.rooms.triple.reservations.forEach(reservation => {
-        if (
-          entry >= reservation.checkIn &&
-          exit <= reservation.checkOut
-        ) {
-          console.log("this room is not available");
-          return;
-        }
-        if (
-          exit >= reservation.checkIn &&
-          exit <= reservation.checkOut
-        ) {
-          console.log("this room is not available");
-          return;
-        }
-        if (
-          entry < reservation.checkIn &&
-          exit > reservation.checkOut
-        ) {
-          console.log("this room is not available");
-          return;
-        }
+      } else {
+        hotel.rooms.twin.reservations.forEach(reservation => {
+          twinFlag = false;
+          if (
+            entry >= reservation.checkIn &&
+            entry <= reservation.checkOut
+          ) {
+            console.log("this room is not available");
+            return;
+          }
+          if (
+            exit >= reservation.checkIn &&
+            exit <= reservation.checkOut
+          ) {
+            console.log("this room is not available");
+            return;
+          }
+          if (
+            entry < reservation.checkIn &&
+            exit > reservation.checkOut
+          ) {
+            console.log("this room is not available");
+            return;
+          }
+          twinFlag = true;
+        })
+      }
+  
+      if(twinFlag) hotel.rooms.twin.reservations.push(booking);
+  
+    }else if(tripleFit){
+      let tripleFlag;
+      // check if there are any reservations or if they are all expired reservations
+      if (hotel.rooms.triple.reservations.length === 0) {
+        console.log('no reservation or expired')
         hotel.rooms.triple.reservations.push(booking)
-      })
-    }
-  }else if(quadFit){
-    // check if there are any reservations or if they are all expired reservations
-    if (hotel.rooms.quad.reservations.length === 0 || hotel.rooms.quad.reservations[quadLastIndex].checkOut < today) {
-      console.log('no reservation or expired')
-      hotel.rooms.quad.reservations.push(booking)
-    } else {
-      hotel.rooms.quad.reservations.forEach(reservation => {
-        if (
-          entry >= reservation.checkIn &&
-          exit <= reservation.checkOut
-        ) {
-          console.log("this room is not available");
-          return;
-        }
-        if (
-          exit >= reservation.checkIn &&
-          exit <= reservation.checkOut
-        ) {
-          console.log("this room is not available");
-          return;
-        }
-        if (
-          entry < reservation.checkIn &&
-          exit > reservation.checkOut
-        ) {
-          console.log("this room is not available");
-          return;
-        }
+      } else {
+        hotel.rooms.triple.reservations.forEach(reservation => {
+          tripleFlag = false;
+          if (
+            entry >= reservation.checkIn &&
+            entry <= reservation.checkOut
+          ) {
+            console.log("this room is not available");
+            return;
+          }
+          if (
+            exit >= reservation.checkIn &&
+            exit <= reservation.checkOut
+          ) {
+            console.log("this room is not available");
+            return;
+          }
+          if (
+            entry < reservation.checkIn &&
+            exit > reservation.checkOut
+          ) {
+            console.log("this room is not available");
+            return;
+          }
+          tripleFlag = true;
+        })
+      }
+  
+      if(tripleFlag) hotel.rooms.triple.reservations.push(booking);
+  
+    }else if(quadFit){
+      let quadFlag;
+      // check if there are any reservations or if they are all expired reservations
+      if (hotel.rooms.quad.reservations.length === 0) {
+        console.log('no reservation or expired')
         hotel.rooms.quad.reservations.push(booking)
-      })
-    }
-  }else if(quinFit){
-    // check if there are any reservations or if they are all expired reservations
-    if (hotel.rooms.quin.reservations.length === 0 || hotel.rooms.quin.reservations[quinLastIndex].checkOut < today) {
-      console.log('no reservation or expired')
-      hotel.rooms.quin.reservations.push(booking)
-    } else {
-      hotel.rooms.quin.reservations.forEach(reservation => {
-        if (
-          entry >= reservation.checkIn &&
-          exit <= reservation.checkOut
-        ) {
-          console.log("this room is not available");
-          return;
-        }
-        if (
-          exit >= reservation.checkIn &&
-          exit <= reservation.checkOut
-        ) {
-          console.log("this room is not available");
-          return;
-        }
-        if (
-          entry < reservation.checkIn &&
-          exit > reservation.checkOut
-        ) {
-          console.log("this room is not available");
-          return;
-        }
+      } else {
+        hotel.rooms.quad.reservations.forEach(reservation => {
+          quadFlag = false;
+          if (
+            entry >= reservation.checkIn &&
+            entry <= reservation.checkOut
+          ) {
+            console.log("this room is not available");
+            return;
+          }
+          if (
+            exit >= reservation.checkIn &&
+            exit <= reservation.checkOut
+          ) {
+            console.log("this room is not available");
+            return;
+          }
+          if (
+            entry < reservation.checkIn &&
+            exit > reservation.checkOut
+          ) {
+            console.log("this room is not available");
+            return;
+          }
+          quadFlag = true;
+        })
+      }
+  
+      if(quadFlag) hotel.rooms.quad.reservations.push(booking);
+  
+    }else if(quinFit){
+      let quinFlag;
+      // check if there are any reservations or if they are all expired reservations
+      if (hotel.rooms.quin.reservations.length === 0) {
+        console.log('no reservation or expired')
         hotel.rooms.quin.reservations.push(booking)
-      })
+      } else {
+        hotel.rooms.quin.reservations.forEach(reservation => {
+          quinFlag = false;
+          if (
+            entry >= reservation.checkIn &&
+            entry <= reservation.checkOut
+          ) {
+            console.log("this room is not available");
+            return;
+          }
+          if (
+            exit >= reservation.checkIn &&
+            exit <= reservation.checkOut
+          ) {
+            console.log("this room is not available");
+            return;
+          }
+          if (
+            entry < reservation.checkIn &&
+            exit > reservation.checkOut
+          ) {
+            console.log("this room is not available");
+            return;
+          }
+          quinFlag = true;
+        })
+      }
+  
+      if(quinFlag) hotel.rooms.quin.reservations.push(booking);
+  
     }
-  }
+    counter++;
+  }while(counter <= noOfRooms);
+  
 
   try {
     await hotel.save();

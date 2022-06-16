@@ -82,6 +82,7 @@ const HotelsSchema = new Schema({
       view: Number,
       bedSize: String,
       reservations: [{
+        roomNo: Number,
         user: Object,
         date: Date,
         checkIn: Date,
@@ -99,6 +100,7 @@ const HotelsSchema = new Schema({
       view: Number,
       bedSize: String,
       reservations: [{
+        roomNo: Number,
         user: Object,
         date: Date,
         checkIn: Date,
@@ -116,6 +118,7 @@ const HotelsSchema = new Schema({
       view: Number,
       bedSize: String,
       reservations: [{
+        roomNo: Number,
         user: Object,
         date: Date,
         checkIn: Date,
@@ -133,6 +136,7 @@ const HotelsSchema = new Schema({
       view: Number,
       bedSize: String,
       reservations: [{
+        roomNo: Number,
         user: Object,
         date: Date,
         checkIn: Date,
@@ -150,6 +154,7 @@ const HotelsSchema = new Schema({
       view: Number,
       bedSize: String,
       reservations: [{
+        roomNo: Number,
         user: Object,
         date: Date,
         checkIn: Date,

@@ -134,3 +134,9 @@ const port = process.env.PORT || 4000;
   .catch(err => {
     console.log(err);
   });
+
+  const cron = require('node-cron');
+
+  cron.schedule('* 0 * * * *', () => {
+    console.log('running a task every hour');
+  });

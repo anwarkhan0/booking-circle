@@ -50,8 +50,8 @@
                   </thead>
                   <tbody>
   
-                    <% hotels.forEach( (hotel, i) => { %>
-                      <% hotel.rooms.single.reservations.forEach(reservation =>{ %>
+                    <% hotels.forEach( (hotel) => { %>
+                      <% hotel.rooms.single.reservations.forEach((reservation, i) =>{ %>
                         <tr>
                           <td><%= i + 1 %> </td>
                           <td><%= reservation.user.name %> </td>
