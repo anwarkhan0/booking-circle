@@ -1368,7 +1368,6 @@ const postRoomCheck = async (req, res, next) => {
 
     if(singleFit){
       let singleFlag;
-      let index;
       // check if there are any reservations or if they are all expired reservations
       if (
         hotel.rooms.single.reservations.length === 0
@@ -1377,15 +1376,21 @@ const postRoomCheck = async (req, res, next) => {
         saveBooking(0, 1);
       } else {
 
+        // for loop for each room 
         for(let i= 0; i< hotel.rooms.single.total; i++){
-          singleFlag = false;
+          console.log('checking room NO', i);
+           // loop for each reservation 
           hotel.rooms.single.reservations.forEach(reservation => {
+            console.log(reservation.roomNo == i)
+             // check reservation against each index
             if (
               entry >= reservation.checkIn &&
               entry <= reservation.checkOut
             ) {
+              // if index and reservation room No is equal this room is taken
               if(reservation.roomNo == i){
-                console.log("this room is not available");
+                singleFlag = false;
+                console.log(i, "room is not available");
                 return;
               }
             }
@@ -1394,7 +1399,8 @@ const postRoomCheck = async (req, res, next) => {
               exit <= reservation.checkOut
             ) {
               if(reservation.roomNo == i){
-                console.log("this room is not available");
+                singleFlag = false;
+                console.log(i, "room is not available");
                 return;
               }
             }
@@ -1403,22 +1409,22 @@ const postRoomCheck = async (req, res, next) => {
               exit > reservation.checkOut
             ) {
               if(reservation.roomNo == i){
-                console.log("this room is not available");
+                singleFlag = false;
+                console.log(i, "room is not available");
                 return;
               }
             }
+            console.log('this room is available', i);
             singleFlag = true;
             return;
           })
 
           if(singleFlag){
-            index = i;
+            saveBooking(i, 1)
             break;
           }
 
         }
-
-        if(singleFlag) saveBooking(index, 1);
         
       }
   
