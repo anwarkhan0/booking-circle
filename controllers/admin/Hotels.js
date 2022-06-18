@@ -443,6 +443,7 @@ const postAddHotel = async (req, res, next) => {
     rooms: {
       single: {
         total: singleRooms,
+        available: singleRooms,
         charges: singleRmCharges,
         size: singleRmSize,
         view: singleRmView,
@@ -451,6 +452,7 @@ const postAddHotel = async (req, res, next) => {
       },
       twin: {
         total: twinRooms,
+        available: twinRooms,
         charges: twinRmCharges,
         size: twinRmSize,
         view: twinRmView,
@@ -459,6 +461,7 @@ const postAddHotel = async (req, res, next) => {
       },
       triple: {
         total: tripleRooms,
+        available: tripleRooms,
         charges: tripleRmCharges,
         size: tripleRmSize,
         view: tripleRmView,
@@ -467,6 +470,7 @@ const postAddHotel = async (req, res, next) => {
       },
       quad: {
         total: quadRooms,
+        available: quadRooms,
         charges: quadRmCharges,
         size: quadRmSize,
         view: quadRmView,
@@ -475,6 +479,7 @@ const postAddHotel = async (req, res, next) => {
       },
       quin: {
         total: quinRooms,
+        available: quinRooms,
         charges: quinRmCharges,
         size: quinRmSize,
         view: quinRmView,
@@ -752,6 +757,7 @@ const postEditHotel = async (req, res, next) => {
     };
     hotel.rooms.single = {
       total: singleRooms,
+      available: singleRooms,
       charges: singleRmCharges,
       size: singleRmSize,
       view: singleRmView,
@@ -760,6 +766,7 @@ const postEditHotel = async (req, res, next) => {
     };
     hotel.rooms.twin = {
       total: twinRooms,
+      available: twinRooms,
       charges: twinRmCharges,
       size: twinRmSize,
       view: twinRmView,
@@ -768,6 +775,7 @@ const postEditHotel = async (req, res, next) => {
     };
     hotel.rooms.triple = {
       total: tripleRooms,
+      available: tripleRooms,
       charges: tripleRmCharges,
       size: tripleRmSize,
       view: tripleRmView,
@@ -776,6 +784,7 @@ const postEditHotel = async (req, res, next) => {
     };
     hotel.rooms.quad = {
       total: quadRooms,
+      available: quadRooms,
       charges: quadRmCharges,
       size: quadRmSize,
       view: quadRmView,
@@ -784,6 +793,7 @@ const postEditHotel = async (req, res, next) => {
     };
     hotel.rooms.quin = {
       total: quinRooms,
+      available: quinRooms,
       charges: quinRmCharges,
       size: quinRmSize,
       view: quinRmView,

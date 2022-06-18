@@ -1347,23 +1347,18 @@ const postRoomCheck = async (req, res, next) => {
       quadFit = ((adults5 + children5/2) / hotel.rooms.quad.occupancy <= 1) <= 1 ? true : false;
       quinFit = ((adults5 + children5/2) / hotel.rooms.quin.occupancy <= 1) <= 1 ? true : false;
     }
-    
-    const saveBooking = (index, type) => {
-      const booking = {
-        roomNo: index,
-        user: {
-          name: "anwer",
-          email: "test@test.com",
-          phone: "03409838828",
-        },
-        noOfRooms: noOfRooms,
-        date: new Date(),
-        checkIn: entry,
-        checkOut: exit,
-        confirm: false,
-      };
-      console.log(index, type)
-      hotel.rooms.single.reservations.push(booking);
+
+    const booking = {
+      user: {
+        name: "anwer",
+        email: "test@test.com",
+        phone: "03409838828",
+      },
+      noOfRooms: noOfRooms,
+      date: new Date(),
+      checkIn: entry,
+      checkOut: exit,
+      confirm: false,
     };
 
     if(singleFit){
@@ -1373,61 +1368,38 @@ const postRoomCheck = async (req, res, next) => {
         hotel.rooms.single.reservations.length === 0
       ) {
         console.log("no reservation or expired");
-        saveBooking(0, 1);
+        hotel.rooms.single.reservations.push(booking);
       } else {
-
-        // for loop for each room 
-        for(let i= 0; i< hotel.rooms.single.total; i++){
-          console.log('checking room NO', i);
-           // loop for each reservation 
-          hotel.rooms.single.reservations.forEach(reservation => {
-            console.log(reservation.roomNo == i)
-             // check reservation against each index
-            if (
-              entry >= reservation.checkIn &&
-              entry <= reservation.checkOut
-            ) {
-              // if index and reservation room No is equal this room is taken
-              if(reservation.roomNo == i){
-                singleFlag = false;
-                console.log(i, "room is not available");
-                return;
-              }
-            }
-            if (
-              exit >= reservation.checkIn &&
-              exit <= reservation.checkOut
-            ) {
-              if(reservation.roomNo == i){
-                singleFlag = false;
-                console.log(i, "room is not available");
-                return;
-              }
-            }
-            if (
-              entry < reservation.checkIn &&
-              exit > reservation.checkOut
-            ) {
-              if(reservation.roomNo == i){
-                singleFlag = false;
-                console.log(i, "room is not available");
-                return;
-              }
-            }
-            console.log('this room is available', i);
-            singleFlag = true;
+        hotel.rooms.single.reservations.forEach(reservation => {
+          singleFlag = false;
+          if (
+            entry >= reservation.checkIn &&
+            entry <= reservation.checkOut
+          ) {
+            console.log("this room is not available");
             return;
-          })
-
-          if(singleFlag){
-            saveBooking(i, 1)
-            break;
           }
-
-        }
-        
+          if (
+            exit >= reservation.checkIn &&
+            exit <= reservation.checkOut
+          ) {
+            console.log("this room is not available");
+            return;
+          }
+          if (
+            entry < reservation.checkIn &&
+            exit > reservation.checkOut
+          ) {
+            console.log("this room is not available");
+            return;
+          }
+          singleFlag = true;
+        })
       }
-  
+
+      if (singleFlag) hotel.rooms.single.reservations.push(booking);
+
+
     }else if(twinFit){
       let twinFlag;
       // check if there are any reservations or if they are all expired reservations
