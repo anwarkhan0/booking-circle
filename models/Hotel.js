@@ -75,7 +75,6 @@ const HotelsSchema = new Schema({
   rooms: {
     single: {
       total: Number,
-      available: Number,
       charges: Number,
       videoUrl: String,
       size: String,
@@ -83,6 +82,7 @@ const HotelsSchema = new Schema({
       view: Number,
       bedSize: String,
       reservations: [{
+        roomIndex: Number,
         user: Object,
         date: Date,
         checkIn: Date,
@@ -93,7 +93,6 @@ const HotelsSchema = new Schema({
     },
     twin: {
       total: Number,
-      available: Number,
       charges: Number,
       videoUrl: String,
       size: String,
@@ -101,6 +100,7 @@ const HotelsSchema = new Schema({
       view: Number,
       bedSize: String,
       reservations: [{
+        roomIndex: Number,
         user: Object,
         date: Date,
         checkIn: Date,
@@ -111,7 +111,6 @@ const HotelsSchema = new Schema({
     },
     triple: {
       total: Number,
-      available: Number,
       charges: Number,
       videoUrl: String,
       size: String,
@@ -119,6 +118,7 @@ const HotelsSchema = new Schema({
       view: Number,
       bedSize: String,
       reservations: [{
+        roomIndex: Number,
         user: Object,
         date: Date,
         checkIn: Date,
@@ -129,7 +129,6 @@ const HotelsSchema = new Schema({
     },
     quad: {
       total: Number,
-      available: Number,
       charges: Number,
       videoUrl: String,
       size: String,
@@ -137,6 +136,7 @@ const HotelsSchema = new Schema({
       view: Number,
       bedSize: String,
       reservations: [{
+        roomIndex: Number,
         user: Object,
         date: Date,
         checkIn: Date,
@@ -147,7 +147,6 @@ const HotelsSchema = new Schema({
     },
     quin: {
       total: Number,
-      available: Number,
       charges: Number,
       videoUrl: String,
       size: String,
@@ -155,6 +154,7 @@ const HotelsSchema = new Schema({
       view: Number,
       bedSize: String,
       reservations: [{
+        roomIndex: Number,
         user: Object,
         date: Date,
         checkIn: Date,
