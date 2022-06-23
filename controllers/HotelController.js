@@ -335,6 +335,8 @@ const postRoomCheck = async (req, res, next) => {
   const entry = new Date(checkIn);
   const exit = new Date(checkOut);
 
+  let totalCharges = 0;
+
   
 
   let counter = 1;
@@ -478,13 +480,14 @@ const postRoomCheck = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
+          totalCharges += hotel.rooms.single.charges;
           req.session.booking = {
             roomIndex: i,
             noOfRooms: noOfRooms,
             date: new Date(),
             checkIn: entry,
             checkOut: exit,
-            confirm: false,
+            total: totalCharges
           };
           console.log("room reserved on index : " + i);
           break;
@@ -526,13 +529,14 @@ const postRoomCheck = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
+          totalCharges += hotel.rooms.single.charges;
           req.session.booking = {
             roomIndex: i,
             noOfRooms: noOfRooms,
             date: new Date(),
             checkIn: entry,
             checkOut: exit,
-            confirm: false,
+            total: totalCharges,
           };
           console.log("room reserved on index : " + i);
           break;
@@ -574,13 +578,14 @@ const postRoomCheck = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
+          totalCharges += hotel.rooms.single.charges;
           req.session.booking = {
             roomIndex: i,
             noOfRooms: noOfRooms,
             date: new Date(),
             checkIn: entry,
             checkOut: exit,
-            confirm: false,
+            total: totalCharges,
           };
           console.log("room reserved on index : " + i);
           break;
@@ -622,13 +627,14 @@ const postRoomCheck = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
+          totalCharges += hotel.rooms.single.charges;
           req.session.booking  = {
             roomIndex: i,
             noOfRooms: noOfRooms,
             date: new Date(),
             checkIn: entry,
             checkOut: exit,
-            confirm: false,
+            total: totalCharges,
           };
           console.log("room reserved on index : " + i);
           break;
@@ -670,13 +676,14 @@ const postRoomCheck = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
+          totalCharges += hotel.rooms.single.charges;
           req.session.booking = {
             roomIndex: i,
             noOfRooms: noOfRooms,
             date: new Date(),
             checkIn: entry,
             checkOut: exit,
-            confirm: false,
+            total: totalCharges,
           };
           console.log("room reserved on index : " + i);
           break;
@@ -698,14 +705,7 @@ const postRoomCheck = async (req, res, next) => {
       if (!req.session.userLoggedIn) {
         res.render("./pages/Hotels/customerInfo", {
           loggedIn: req.session.userLoggedIn,
-          user: req.session.user,
-          booking: {
-            noOfRooms: noOfRooms,
-            checkIn: entry,
-            checkOut: exit,
-            adults: 2,
-            children: 3
-          }
+          user: req.session.user
         });
       }
       
@@ -737,6 +737,13 @@ const postRoomCheck = async (req, res, next) => {
     });
   }
 };
+
+const getPayment = (req, res)=>{
+  const name = req.body.name;
+  const phoneNo = req.body.phoneNo;
+  const email = req.body.email;
+
+}
 
 module.exports = {
   hotels,

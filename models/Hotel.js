@@ -88,7 +88,7 @@ const HotelsSchema = new Schema({
         checkIn: Date,
         checkOut: Date,
         noOfRooms: Number,
-        confirm: Boolean
+        total: Number
       }]
     },
     twin: {
@@ -106,7 +106,7 @@ const HotelsSchema = new Schema({
         checkIn: Date,
         checkOut: Date,
         noOfRooms: Number,
-        confirm: Boolean
+        total: Number
       }]
     },
     triple: {
@@ -124,7 +124,7 @@ const HotelsSchema = new Schema({
         checkIn: Date,
         checkOut: Date,
         noOfRooms: Number,
-        confirm: Boolean
+        total: Number
       }]
     },
     quad: {
@@ -142,7 +142,7 @@ const HotelsSchema = new Schema({
         checkIn: Date,
         checkOut: Date,
         noOfRooms: Number,
-        confirm: Boolean
+        total: Number
       }]
     },
     quin: {
@@ -160,7 +160,7 @@ const HotelsSchema = new Schema({
         checkIn: Date,
         checkOut: Date,
         noOfRooms: Number,
-        confirm: Boolean
+        total: Number
       }]
     },
     gallery: [String]
