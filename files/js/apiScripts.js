@@ -19,8 +19,14 @@ $("#searchHotels").click(function () {
   const checkOut = $("#end-date-1").val();
   const area = $("#area").val();
   const adults = $("#adults").val();
+  const noOfRooms = $("#numOfRooms").val();
 
-  window.location.href = `/Hotels/availableHotels/?checkIn=${checkIn}&checkOut=${checkOut}&area=${area}&adults=${adults}`;
+  if(checkIn == '' || checkOut == '' || area == '' || adults == false){
+    document.getElementById('error').style.display = 'block';
+  }else{
+    window.location.href = `/Hotels/availableHotels/?checkIn=${checkIn}&checkOut=${checkOut}&area=${area}&adults=${adults}&noOfRooms=${noOfRooms}`;
+  }
+
 });
 
 $("#searchAppartments").click(function () {
@@ -40,64 +46,6 @@ $("#searchVehicles").click(function () {
   window.location.href = `/Vehicles/availableVehicles?area=${area}&adults=${adults}&children=${children}`;
 });
 
-function roomFilter() {
-  const hotelId = $("#roomFilterhotelId").val();
-  const checkIn = $("#fromDate").val();
-  const checkOut = $("#toDate").val();
-  const adults = $("#roomAdults").val();
-  const children = $("#children").val();
-  const priceRange = $("#priceRange").val();
-  const hotWater = $("#hotWater").is(":checked");
-  const heater = $("#heater").is(":checked");
-  const kingBeds = $("#kingBeds").is(":checked");
-  const balcony = $("#balcony").is(":checked");
-  const parking = $("#parking").is(":checked");
-  const roomService = $("#roomService").is(":checked");
-  window.location.href = `/Hotels/roomFilter?checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}&children=${children}&priceRange=${priceRange}&hotWater=${hotWater}&heater=${heater}&kingBeds=${kingBeds}&balcony=${balcony}&parking=${parking}&roomService=${roomService}&hotelId=${hotelId}`;
-}
-
-const previousCheckIn = $("#fromDate").val();
-const previousCheckOut = $("#toDate").val();
-$("#fromDate").change(() => {
-  const currentCheckIn = $("#fromDate").val();
-  if (currentCheckIn != previousCheckIn) {
-    roomFilter();
-  }
-});
-$("#toDate").change(() => {
-  const currentCheckOut = $("#toDate").val();
-  if (currentCheckOut != previousCheckOut) {
-    roomFilter();
-  }
-});
-
-$("#roomAdults").change(() => {
-  roomFilter();
-});
-$("#children").change(() => {
-  roomFilter();
-});
-$("#priceRange").change(() => {
-  roomFilter();
-});
-$("#hotWater").change(() => {
-  roomFilter();
-});
-$("#heater").change(() => {
-  roomFilter();
-});
-$("#kingBeds").change(() => {
-  roomFilter();
-});
-$("#balcony").change(() => {
-  roomFilter();
-});
-$("#parking").change(() => {
-  roomFilter();
-});
-$("#roomService").change(() => {
-  roomFilter();
-});
 
 $("#appartmentBooking").click(function () {
   const appartmentId = $("#appartmentId").val();

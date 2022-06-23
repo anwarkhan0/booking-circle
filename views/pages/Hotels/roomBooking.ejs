@@ -3,7 +3,7 @@
 
 <div class="section big-55-height over-hide customClass">
 
-    <div class="parallax parallax-top" style="background-image: url('/img/rooms.jpg')"></div>
+    <div class="parallax parallax-top" style="background-image: url(`/uploads/${hotel.gallery[0]}`)"></div>
     <div class="dark-over-pages"></div>
 
     <div class="hero-center-section pages">
@@ -143,7 +143,7 @@
                     <div class="section background-dark p-4">
                         <form action="/Hotels/roomsCheck" method="POST">
                         <div class="row">
-                            <p class="text-danger">
+                            <p class="text-danger font-weight-bold">
                                 <%= flashMessage %>
                             </p>
                             <div class="col-12">

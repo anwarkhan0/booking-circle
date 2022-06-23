@@ -121,8 +121,9 @@ const postAddAppartment = async (req, res, next) => {
   const price = req.body.price;
   const contact = req.body.contact;
   const parking = req.body.parking;
+  const wifi = req.body.wifi;
+  const secuirity = req.body.secuirity;
   const area = req.body.area;
-  const appartType = req.body.appartType;
   const address = req.body.address;
   const ownerName = req.body.ownerName;
   const ownerCNIC = req.body.ownerCNIC;
@@ -133,10 +134,10 @@ const postAddAppartment = async (req, res, next) => {
   const features = req.body.features;
   const videoUrl = req.body.videoUrl;
 
+  const areas = await Areas.find();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const areas = await Areas.find();
-    return res.status(422).render("../views/pages/Appartments/addAppartment", {
+    return res.status(422).render("../Admin/views/pages/Appartments/addAppartment", {
       path: "/Appartments/addAppartment",
       pageTitle: "Appartment",
       areas: areas,
@@ -147,7 +148,6 @@ const postAddAppartment = async (req, res, next) => {
         contact: contact,
         parking: parking,
         area: area,
-        appartmentType: appartType,
         address: address,
         ownerName: ownerName,
         ownerCNIC: ownerCNIC,
@@ -173,8 +173,9 @@ const postAddAppartment = async (req, res, next) => {
     price: price,
     contact: contact,
     parking: parking,
+    wifi: wifi,
+    secuirity: secuirity,
     area: area,
-    appartmentType: appartType,
     address: address,
     ownerName: ownerName,
     ownerCNIC: ownerCNIC,
@@ -191,10 +192,32 @@ const postAddAppartment = async (req, res, next) => {
     await appartment.save();
     // console.log(result);
     console.log("appartment added");
-    req.flash("message", "Appartment Added Successfully");
-    res.redirect("/admin/Appartments/appartmentHouseList");
+    res.redirect("/admin/Appartments/addGallery/" + appartment.id);
   } catch (err) {
     console.log(err);
+    return res.status(422).render("../Admin/views/pages/Appartments/addAppartment", {
+      path: "/Appartments/addAppartment",
+      pageTitle: "Appartment",
+      areas: areas,
+      flashMessage: errors.array()[0].msg,
+      oldInput: {
+        name: name,
+        price: price,
+        contact: contact,
+        parking: parking,
+        area: area,
+        address: address,
+        ownerName: ownerName,
+        ownerCNIC: ownerCNIC,
+        ownerContact: ownerContact,
+        loginEmail: loginEmail,
+        loginPassword: loginPassword,
+        description: description,
+        features: features,
+        videoUrl: videoUrl,
+      },
+      validationErrors: errors.array(),
+    });
   }
 };
 
@@ -319,8 +342,8 @@ const postAddAppartmentGallery = async (req, res, next) => {
       appartment.gallery = gallery;
       appartment.save();
       console.log("added gallery to appartment");
-      req.flash("message", "Gallery added To Appartment Successfully");
-      res.redirect("/admin/Appartments/editGallery/" + appartId);
+      req.flash("message", "Appartment added successfully.");
+      res.redirect("/admin");
     } else {
       updatedGallery = appartment.gallery.concat(gallery);
       appartment.gallery = updatedGallery;

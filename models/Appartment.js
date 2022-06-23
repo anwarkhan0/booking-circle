@@ -19,6 +19,14 @@ const AppartmentsSchema = new Schema({
     type: Boolean,
     required: true,
   },
+  wifi: {
+    type: Boolean,
+    required: true
+  },
+  secuirity: {
+    type: Boolean,
+    required: true
+  },
   area: {
     type: String,
     required: true,
@@ -45,10 +53,6 @@ const AppartmentsSchema = new Schema({
   },
   loginPassword: {
     type: String,
-    required: true,
-  },
-  availibilityStatus: {
-    type: Boolean,
     required: true,
   },
   description: {

@@ -453,7 +453,6 @@ router.post(
     body("contact", "Please enter valid Appartment Contact number.")
       .isLength({ min: 10, max: 11 })
       .isNumeric(),
-    body("parking", "Please enter valid parking value.").isBoolean(),
     body("area", "Please enter valid location.")
       .notEmpty()
       .custom((val) => {
@@ -464,18 +463,6 @@ router.post(
         }
       })
       .isLength({ min: 2, max: 200 })
-      .escape(),
-    body("appartType", "Please enter valid appartment type.")
-      .notEmpty()
-      .custom((val) => {
-        if (val.trim().length === 0) {
-          throw new Error();
-        } else {
-          return true;
-        }
-      })
-      .isLength({ min: 2, max: 50 })
-      .trim()
       .escape(),
     body("address", "Please enter valid address.")
       .notEmpty()

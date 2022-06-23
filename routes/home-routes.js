@@ -4,43 +4,11 @@ const {
   // HomePage
   home,
 
-  // Services (Appartments)
-  appartments,
-  allappartments,
-  apartmentBooking,
-  appartmentGallery,
-  postAppartmentBooking,
-  searchAppartments,
-  findAppartments,
-
-  // Houses
-  houses,
-  houseInfo,
-
-  //hotels
-  hotels,
-  hotelGallery,
-  hotelRooms,
-  roomBooking,
-  searchHotels,
-  postRoomCheck,
-  findHotels,
-
-  //vehicles
-  vehicles,
-  vehicleBooking,
   galleryAppRoom,
-  postVehicleBooking,
-  searchVehicles,
-  findVehicles,
+  
 
   // Tours
-  tours,
-  hike,
-  booking,
-  gallerytandh,
-  postTourEnrolling,
-  searchTour,
+
 
   // News
   news,
@@ -85,11 +53,54 @@ const {
   paymentCancel,
   paymentError,
   jazzCashResponse,
-  roomFilter,
 
   //booking 
   bookingConfirmation
 } = require("../controllers/homeController");
+
+const {
+  hotels,
+  hotelGallery,
+  hotelRooms,
+  roomBooking,
+  searchHotels,
+  postRoomCheck,
+  findHotels
+} = require('../controllers/HotelController');
+
+const {
+  appartments,
+  allappartments,
+  apartmentBooking,
+  appartmentGallery,
+  postAppartmentBooking,
+  searchAppartments,
+  findAppartments,
+  filterAppartments
+} = require('../controllers/AppartmentController');
+
+const {
+  houses,
+  houseInfo,
+} = require('../controllers/HousesController');
+
+const {
+  vehicles,
+  vehicleBooking,
+  postVehicleBooking,
+  searchVehicles,
+  findVehicles
+} = require('../controllers/VehiclesController');
+
+const {
+  tours,
+  hike,
+  booking,
+  gallerytandh,
+  postTourEnrolling,
+  searchTour
+} = require('../controllers/ToursController');
+
 const router = express.Router();
 const { body, query } = require("express-validator");
 const UsersModel = require("../models/usersModel");
@@ -114,6 +125,7 @@ router.get("/galleryAppRoom", galleryAppRoom);
 router.get("/Appartments/availableAppartments/", findAppartments);
 router.get("/Appartments/appartments", appartments);
 router.get("/Appartments/allappartments", allappartments);
+router.get("/Appartments/filter", filterAppartments);
 router.get("/Appartments/apartmentBooking/:id", apartmentBooking);
 router.get("/Appartments/appartmentGallery", appartmentGallery);
 router.get("/Appartments/:location", searchAppartments);
@@ -139,7 +151,6 @@ router.get("/Houses/list", houses);
 router.get("/Houses/houseInfo/:id", houseInfo);
 
 // Hotels
-router.get("/Hotels/roomFilter", roomFilter);
 router.get("/Hotels/availableHotels/", findHotels);
 router.get("/Hotels/list", hotels);
 router.get("/Hotels/hotelGallery/:id", hotelGallery);

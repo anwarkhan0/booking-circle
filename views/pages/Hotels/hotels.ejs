@@ -16,44 +16,15 @@
     </div>
 </div>
 
-<!-- <div class="container sliderContainerClass" id="fixed">
-    <div class="row">
-        <div class="col-12 mt-3">
-            <div class="booking-hero-wrap customWrapper">
-                <div class="row justify-content-center customJustifier">
-                    <div class="col-5">
-                        <select class="wide nice-select select2">
-                            <select class="wide nice-select">
-                                <option value="Kalam">Kalam</option>
-                                <option value="Malamjabba">Malamjabba</option>
-                                <option value="Bahrain">Bahrain</option>
-                                <option value="Madyan">Madyan</option>
-                                <option value="Utror">Utror</option>
-                                <option value="GabinJabba">GabinJabba</option>
-                            </select>
-                    </div>
-
-                    <div class="col-5 no-mob">
-                        <select name="" class="wide">
-                            <option value="0">Economic</option>
-                            <option value="1">Luxury</option>
-                        </select>
-                    </div>
-                    <div class="col-6 col-sm-4 col-lg-2">
-                        <a class="booking-button" href="search.html">Search!</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
 
 <div class="container sliderContainerClass" id="fixed">
     <div class="row">
-        <div class="col-12 mt-3">
+        <p class="text-danger font-weight-bold" style="display: none;" id="error">Please fill All the fields.</p>
+        <div class="col-12">
             <div class="booking-hero-wrap customWrapper">
                 <div class="row justify-content-center customJustifier">
-                    <div class="col-md-5 col-sm-12" id="dateId">
+                    
+                    <div class="col-md-4 col-sm-12" id="dateId">
                         <div class="input-daterange input-group" id="flight-datepicker">
                             <div class="row">
                                 <div class="col-6">
@@ -76,18 +47,18 @@
                         </div>
                     </div>
 
-                    <div class="col-md-5 col-sm-12" id="dateId">
+                    <div class="col-md-6 col-sm-12" >
                         <div class="row">
-                            <div class="col-6 selectClassCustom">
+                            <div class="col-5 selectClassCustom">
                                 <select class="wide nice-select" id="area">
-                                    <% for(let j=0; j< areas.length; j++) { %> 
+                                    <% areas.forEach( location => { %> 
                                     <option data-display="Select Location"></option>
-                                    <option value="<%= areas[j].name %>"><%= areas[j].name %></option>
-                                    <% } %> 
+                                    <option value="<%= location.name %>"><%= location.name %></option>
+                                    <% }) %> 
                                 </select>
                             </div>
 
-                            <div class="col-6 selectClassCustom">
+                            <div class="col-3 selectClassCustom">
                                 <select name="adults" class="wide" id="adults">
                                     <option data-display="adults" value="false">adults</option>
                                     <option value="1">1</option>
@@ -97,9 +68,22 @@
                                     <option value="5">5</option>
                                 </select>
                             </div>
+
+                            <div class="col-4 selectClassCustom">
+                                <select name="numOfRooms" class="wide" id="numOfRooms">
+                                    <option  value="false" >No. of Rooms</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+
+                            
                         </div>
                     </div>
-                    <div class="col-6  col-sm-4 col-lg-2">
+                    <div class="col-6  col-sm-4 col-md-2">
                         <a class="booking-button" id="searchHotels" href="javascript:;">Search!</a>
                     </div>
                 </div>
