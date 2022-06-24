@@ -707,10 +707,15 @@ const postRoomCheck = async (req, res, next) => {
           loggedIn: req.session.userLoggedIn,
           user: req.session.user
         });
+      }else{
+        res.render("./pages/Hotels/customerInfo", {
+          loggedIn: req.session.userLoggedIn,
+          user: req.session.user
+        });
       }
       
     } else {
-      return res.status(422).render("./pages/Hotels/roomBooking", {
+      return res.status(422).render("./pages/Payment/checkout", {
         loggedIn: req.session.userLoggedIn,
         user: req.session.user,
         hotel: hotel,
