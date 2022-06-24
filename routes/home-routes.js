@@ -49,13 +49,10 @@ const {
   //payment
   safepayPayment,
   stripePayment,
-  paymentSuccess,
   paymentCancel,
   paymentError,
   jazzCashResponse,
 
-  //booking 
-  bookingConfirmation
 } = require("../controllers/homeController");
 
 const {
@@ -101,6 +98,12 @@ const {
   searchTour
 } = require('../controllers/ToursController');
 
+const {
+  rmBookingCustomerInfo,
+  paymentSuccess,
+  bookingConfirmation
+} = require('../controllers/BookingsController')
+
 const router = express.Router();
 const { body, query } = require("express-validator");
 const UsersModel = require("../models/usersModel");
@@ -108,6 +111,10 @@ const isAuth = require("../middleware/userAuth");
 
 // HomePage
 router.get("/", home);
+
+// Bookings
+router.post("/Bookings/Rooms/checkout", rmBookingCustomerInfo);
+router.get("/Booking/confirmed", bookingConfirmation);
 
 // router.get("/payment", payment);
 router.get("/payment/paymentSafepay", safepayPayment);
@@ -367,7 +374,6 @@ router.get("/TermsConditions/termsAndCondition", termsAndCondition);
 router.get("/FAQs/faqs", faqs);
 router.post("/query", postQuery);
 
-router.get("/Booking/confirmed", bookingConfirmation);
 
 module.exports = {
   routes: router,

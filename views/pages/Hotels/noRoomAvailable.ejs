@@ -1,0 +1,43 @@
+<div class="section over-hide" id="bannerSection">
+    <div class="dark-over-pages"></div>
+
+    <div class="hero-center-section pages">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 parallax-fade-top">
+                    <div class="hero-text text-danger"> Sorry, No Room Available </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+    <div class="section pt-4 pb-4 over-hide background-grey">
+        
+        <div class="container">
+            <h4 class="mb-3">Check Out Other Hotels</h4>
+            <div class="row justify-content-center">
+                
+                <% hotels.forEach(hotel => { %> 
+                <div class="col-md-4 mt-4 mt-md-0" data-scroll-reveal="enter bottom move 50px over 0.7s after 0.2s">
+                    <div class="room-box background-white">
+                        <div class="room-per">
+                            <% for(let i= 1; i <= hotel.stars; i++){ %> 
+                            <i class="fa fa-star"></i>
+                            <% } %> 
+                        </div>
+                        <img src="/uploads/<%= hotel.gallery[0] %>" alt="<%= hotel.name %>">
+                        <div class="room-box-in">
+                            <h5 class=""><%= hotel.name %></h5>
+                            <p class="mt-3"><strong>Address: </strong><%= hotel.address %> </p>
+                            <a class="mt-1 btn btn-primary" href="/Hotels/rooms/<%= hotel.id %>">Check Rooms</a>
+                            <a class="mt-1 btn btn-primary" href="/Hotels/hotelGallery/<%= hotel.id %>">Hotel Gallery</a>
+                        </div>
+                    </div>
+                </div>
+                <% }) %> 
+               
+            </div>
+        </div>
+    </div>

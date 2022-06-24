@@ -107,15 +107,26 @@
 </head>
 
 <body>
+  <div class="section over-hide" id="bannerSection">
+    <div class="dark-over-pages"></div>
+
+    <div class="hero-center-section pages">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 parallax-fade-top">
+                    <div class="hero-text"> Make Payment to Confirm your booking </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
   <div class="container d-flex justify-content-center">
 
     <div class="d-flex flex-column justify-content-between">
-      <button onclick="window.history.go(-1)" class="m-2 btn btn-secondary"><i class="fas fa-long-arrow-alt-left m-2"></i>Go Back</button>
-      <div class="card mt-3 p-5">
-        <div class="logo mb-3"><img src="https://imgur.com/zydrQCr.png"></div>
+      <div class="card mt-1 p-5">
         <div>
-          <p class="mb-1">Make Payment to Confirm your booking</p>
-          <h4 class="mb-5 text-white">Choose Payment Method</h4>
+          <p class="text-white font-weight-bold">Choose Payment Method</p>
         </div>
       </div>
       <div class="card two bg-white px-5 py-4 mb-3">
@@ -123,16 +134,11 @@
           <!-- <input type="number" name="amount" class="form-control" id="amount" required> -->
           <!-- <label class="form-control-placeholder" for="amount">Payment Amount</label> -->
         </div>
-        <a href="/payment/success" class="btn btn-primary btn-block btn-lg mt-1 mb-2"><span>test booking<i
-          class="fas fa-long-arrow-alt-right ml-2"></i></span></a>
-        <a href="/payment/paymentSafepay" class="btn btn-primary btn-block btn-lg mt-1 mb-2"><span>SafePay<i
-              class="fas fa-long-arrow-alt-right ml-2"></i></span></a>
-        <a href="/payment/paymentStripe?charges=<%= charges %>" class="btn btn-primary btn-block btn-lg mt-1 mb-2"><span>Stripe<i
-              class="fas fa-long-arrow-alt-right ml-2"></i></span></a>
-        <a href="#" class="btn btn-primary btn-block btn-lg mt-1 mb-2"><span>JazzCash<i
-              class="fas fa-long-arrow-alt-right ml-2"></i></span></a>
-        <a href="#" class="btn btn-primary btn-block btn-lg mt-1 mb-2"><span>EasyPaisa<i
-              class="fas fa-long-arrow-alt-right ml-2"></i></span></a>
+        <a href="/payment/success" class="btn btn-primary btn-block btn-lg mt-1 mb-2"><span>test booking</span></a>
+        <!-- <a href="/payment/paymentSafepay" class="btn btn-primary btn-block btn-lg mt-1 mb-2"><span>SafePay</span></a>
+        <a href="/payment/paymentStripe?charges=2000" class="btn btn-primary btn-block btn-lg mt-1 mb-2"><span>Stripe</span></a>
+        <a href="#" class="btn btn-primary btn-block btn-lg mt-1 mb-2"><span>JazzCash</span></a> -->
+        <a href="#" class="btn btn-primary btn-block btn-lg mt-1 mb-2"><span>EasyPaisa</span></a>
       </div>
     </div>
   </div>

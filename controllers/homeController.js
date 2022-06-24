@@ -907,76 +907,6 @@ const stripePayment = async (req, res) => {
   }
 };
 
-const paymentSuccess = async (req, res, next) => {
-  
-  try {
-    // Room Booking data saving //////////////
-  if (req.session.bookingData.bookingMode == "room") {
-    const hotel = await HotelsModel.findById(req.session.bookingData.hotelId);
-    let reservedRoom;
-    console.log(new Date());
-    hotel.rooms.forEach((room) => {
-      if (room.id == req.session.bookingData.roomId) {
-        room.reservations.push({
-          user: req.session.user,
-          checkIn: req.session.bookingData.checkIn,
-          checkOut: req.session.bookingData.checkOut,
-          adults: Number(req.session.bookingData.adults),
-          date: req.session.bookingData.date,
-        });
-        reservedRoom = room;
-      }
-    });
-    await hotel.save();
-    res.redirect('/Booking/confirmed');
-    // Appartment booking data save ///////////////
-  } else if (req.session.bookingData.bookingMode == "appartment") {
-    const appartment = await AppartmentModel.findById(
-      req.session.bookingData.appartmentId
-    );
-    appartment.reservations.push({
-      loggedIn: req.session.userLoggedIn,
-      user: req.session.user,
-      checkIn: req.session.bookingData.checkIn,
-      checkOut: req.session.bookingData.checkOut,
-      adults: Number(req.session.bookingData.adults),
-      date: req.session.bookingData.date,
-    });
-    await appartment.save();
-    res.redirect('/Booking/confirmed');
-    // Vehicle Booking data save //////////////////
-  } else if (req.session.bookingData.bookingMode == "vehicle") {
-    const vehicle = await VehiclesModel.findById(
-      req.session.bookingData.vehicleId
-    );
-    vehicle.reservations.push({
-      loggedIn: req.session.userLoggedIn,
-      user: req.session.user,
-      checkIn: req.session.bookingData.checkIn,
-      checkOut: req.session.bookingData.checkOut,
-      adults: Number(req.session.bookingData.adults),
-      date: req.session.bookingData.date,
-    });
-    await vehicle.save();
-    res.redirect('/Booking/confirmed');
-    // Tour/Hikes Booking Save ////////////////////
-  } else if (req.session.bookingData.bookingMode == "tour") {
-    const tour = await ToursModel.findById(req.session.bookingData.tourId);
-    tour.availableSeats -= req.session.bookingData.seats;
-    tour.reservations.push({
-      user: req.session.user,
-      seats: req.session.bookingData.seats,
-      charges: req.session.bookingData.charges,
-      date: req.session.bookingData.date,
-    });
-    await tour.save();
-    res.redirect('/Booking/confirmed');
-  }
-  } catch (err) {
-    console.log(err);
-    res.redirect('/');
-  }
-};
 
 const paymentCancel = (req, res, next) => {
   res.render("./pages/Payment/cancel", {
@@ -998,14 +928,6 @@ const jazzCashResponse = (req, res) => {
   res.send("jazz response arrived");
 };
 
-const bookingConfirmation = (req, res, next)=>{
-  console.log(req.session.bookingData)
-  res.render("./pages/Payment/success", {
-    loggedIn: req.session.userLoggedIn,
-    user: req.session.user,
-    data: req.session.bookingData
-  });
-}
 
 module.exports = {
   // HomePage
@@ -1051,11 +973,8 @@ module.exports = {
   //payment
   safepayPayment,
   stripePayment,
-  paymentSuccess,
   paymentCancel,
   paymentError,
   jazzCashResponse,
 
-  //booking
-  bookingConfirmation
 };

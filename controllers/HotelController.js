@@ -336,8 +336,14 @@ const postRoomCheck = async (req, res, next) => {
   const exit = new Date(checkOut);
 
   let totalCharges = 0;
-
-  
+  const booking = {
+    type: 1,
+    single: [],
+    twin: [],
+    triple: [],
+    quad: [],
+    quin: []
+  }
 
   let counter = 1;
   let isAllFound = true;
@@ -481,14 +487,14 @@ const postRoomCheck = async (req, res, next) => {
 
         if (isIndexAvailable) {
           totalCharges += hotel.rooms.single.charges;
-          req.session.booking = {
+          booking.single.push({
             roomIndex: i,
             noOfRooms: noOfRooms,
             date: new Date(),
             checkIn: entry,
-            checkOut: exit,
-            total: totalCharges
-          };
+            checkOut: exit
+          });
+          req.session.booking = booking;
           console.log("room reserved on index : " + i);
           break;
         } else {
@@ -529,15 +535,15 @@ const postRoomCheck = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
-          totalCharges += hotel.rooms.single.charges;
-          req.session.booking = {
+          totalCharges += hotel.rooms.twin.charges;
+          booking.twin.push({
             roomIndex: i,
             noOfRooms: noOfRooms,
             date: new Date(),
             checkIn: entry,
-            checkOut: exit,
-            total: totalCharges,
-          };
+            checkOut: exit
+          });
+          req.session.booking = booking;
           console.log("room reserved on index : " + i);
           break;
         } else {
@@ -578,15 +584,15 @@ const postRoomCheck = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
-          totalCharges += hotel.rooms.single.charges;
-          req.session.booking = {
+          totalCharges += hotel.rooms.triple.charges;
+          booking.triple.push({
             roomIndex: i,
             noOfRooms: noOfRooms,
             date: new Date(),
             checkIn: entry,
-            checkOut: exit,
-            total: totalCharges,
-          };
+            checkOut: exit
+          });
+          req.session.booking = booking;
           console.log("room reserved on index : " + i);
           break;
         } else {
@@ -627,15 +633,15 @@ const postRoomCheck = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
-          totalCharges += hotel.rooms.single.charges;
-          req.session.booking  = {
+          totalCharges += hotel.rooms.quad.charges;
+          booking.single.push({
             roomIndex: i,
             noOfRooms: noOfRooms,
             date: new Date(),
             checkIn: entry,
-            checkOut: exit,
-            total: totalCharges,
-          };
+            checkOut: exit
+          });
+          req.session.booking = booking;
           console.log("room reserved on index : " + i);
           break;
         } else {
@@ -676,15 +682,15 @@ const postRoomCheck = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
-          totalCharges += hotel.rooms.single.charges;
-          req.session.booking = {
+          totalCharges += hotel.rooms.quin.charges;
+          booking.single.push({
             roomIndex: i,
             noOfRooms: noOfRooms,
             date: new Date(),
             checkIn: entry,
-            checkOut: exit,
-            total: totalCharges,
-          };
+            checkOut: exit
+          });
+          req.session.booking = booking;
           console.log("room reserved on index : " + i);
           break;
         } else {
@@ -702,6 +708,9 @@ const postRoomCheck = async (req, res, next) => {
   try {
     
     if (isAllFound) {
+      req.session.booking.hotelId = hotel.id;
+      req.session.booking.total = totalCharges;
+      
       if (!req.session.userLoggedIn) {
         res.render("./pages/Hotels/customerInfo", {
           loggedIn: req.session.userLoggedIn,
@@ -715,16 +724,11 @@ const postRoomCheck = async (req, res, next) => {
       }
       
     } else {
-      return res.status(422).render("./pages/Payment/checkout", {
+      const hotels = await HotelsModel.find();
+      return res.render("./pages/Hotels/noRoomAvailable", {
         loggedIn: req.session.userLoggedIn,
         user: req.session.user,
-        hotel: hotel,
-        flashMessage: "Sorry, No Rooms Available.",
-        oldInput: {
-          checkIn: checkIn,
-          checkOut: checkOut,
-        },
-        // validationErrors: errors.array(),
+        hotels: hotels
       });
     }
   } catch (err) {
@@ -742,13 +746,6 @@ const postRoomCheck = async (req, res, next) => {
     });
   }
 };
-
-const getPayment = (req, res)=>{
-  const name = req.body.name;
-  const phoneNo = req.body.phoneNo;
-  const email = req.body.email;
-
-}
 
 module.exports = {
   hotels,
