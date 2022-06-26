@@ -19,6 +19,7 @@ const queryModel = require("../models/Query");
 const Feedbacks = require("../models/Feedback");
 const checkout = require("safepay/dist/resources/checkout");
 const session = require("express-session");
+const moment = require("moment");
 
 const rmBookingCustomerInfo = (req, res)=>{
     const name = req.body.name;
@@ -36,7 +37,115 @@ const rmBookingCustomerInfo = (req, res)=>{
     });
 }
 
+const bookSingleRoom = async (req, res)=>{
+  const hotelId = req.query.hotelId;
+  let checkIn = req.query.checkin.replace(/\./g, "/");
+  let checkOut = req.query.checkout.replace(/\./g, "/");
+  const roomIndex = Number(req.query.index);
+  const whichRoom = req.query.roomType;
+  const hotel = await HotelsModel.findById(hotelId);
+  const booking = {
+    type: 1,
+    single: [],
+    twin: [],
+    triple: [],
+    quad: [],
+    quin: []
+  }
+  const entry = new Date(checkIn);
+  const exit = new Date(checkOut);
+  const start = moment(entry, "YYYY-MM-DD");
+  const end = moment(exit, "YYYY-MM-DD");
+  const days = moment.duration(end.diff(start)).asDays();
+  
+  let total;
+  switch (whichRoom) {
+    case whichRoom == 1:
+      total = hotel.rooms.single.charges * days;
+      booking.single.push({
+        roomIndex: roomIndex,
+        noOfRooms: 1,
+        date: new Date(),
+        checkIn: entry,
+        checkOut: exit,
+      });
+
+      booking.total = total;
+      req.session.booking = booking;
+      req.session.booking.hotelId = hotelId;
+      break;
+
+    case whichRoom == 2:
+      total = hotel.rooms.twin.charges * days;
+      booking.twin.push({
+        roomIndex: roomIndex,
+        noOfRooms: 1,
+        date: new Date(),
+        checkIn: entry,
+        checkOut: exit,
+      });
+
+      booking.total = total;
+      req.session.booking = booking;
+      req.session.booking.hotelId = hotelId;
+      break;
+
+    case whichRoom == 3:
+      total = hotel.rooms.triple.charges * days;
+      booking.triple.push({
+        roomIndex: roomIndex,
+        noOfRooms: 1,
+        date: new Date(),
+        checkIn: entry,
+        checkOut: exit,
+      });
+
+      booking.total = total;
+      req.session.booking = booking;
+      req.session.booking.hotelId = hotelId;
+      break;
+
+    case whichRoom == 4:
+      total = hotel.rooms.quad.charges * days;
+      booking.quad.push({
+        roomIndex: roomIndex,
+        noOfRooms: 1,
+        date: new Date(),
+        checkIn: entry,
+        checkOut: exit,
+      });
+
+      booking.total = total;
+      req.session.booking = booking;
+      req.session.booking.hotelId = hotelId;
+      break;
+
+    case whichRoom == 5:
+      total = hotel.rooms.quin.charges * days;
+      booking.quin.push({
+        roomIndex: roomIndex,
+        noOfRooms: 1,
+        date: new Date(),
+        checkIn: entry,
+        checkOut: exit,
+      });
+
+      booking.total = total;
+      req.session.booking = booking;
+      req.session.booking.hotelId = hotelId;
+      break;
+
+    default:
+      break;
+  }
+
+
+
+  res.redirect("/Bookings/userDetails");
+}
+
 const collectUserInfo = (req, res) => {
+  console.log(req.session.booking)
   if (!req.session.userLoggedIn) {
     res.render("./pages/Hotels/customerInfo", {
       loggedIn: req.session.userLoggedIn,
@@ -63,22 +172,31 @@ const paymentSuccess = async (req, res, next) => {
         
         if(req.session.booking.type == 1){
             const hotel = await HotelsModel.findById(req.session.booking.hotelId);
-            req.session.booking.single.forEach( booking =>{
-                booking.user = req.session.booking.user;
-                hotel.rooms.single.reservations.push(booking)
-            })
-            req.session.booking.twin.forEach( booking =>{
-                hotel.rooms.twin.reservations.push(booking)
-            })
-            req.session.booking.triple.forEach( booking =>{
-                hotel.rooms.triple.reservations.push(booking)
-            })
-            req.session.booking.quad.forEach( booking =>{
-                hotel.rooms.quad.reservations.push(booking)
-            })
-            req.session.booking.quin.forEach( booking =>{
-                hotel.rooms.quin.reservations.push(booking)
-            })
+            req.session.booking.single.forEach((booking) => {
+              booking.user = req.session.booking.user;
+              booking.total = req.session.booking.total;
+              hotel.rooms.single.reservations.push(booking);
+            });
+            req.session.booking.twin.forEach((booking) => {
+              booking.user = req.session.booking.user;
+              booking.total = req.session.booking.total;
+              hotel.rooms.twin.reservations.push(booking);
+            });
+            req.session.booking.triple.forEach((booking) => {
+              booking.user = req.session.booking.user;
+              booking.total = req.session.booking.total;
+              hotel.rooms.triple.reservations.push(booking);
+            });
+            req.session.booking.quad.forEach((booking) => {
+              booking.user = req.session.booking.user;
+              booking.total = req.session.booking.total;
+              hotel.rooms.quad.reservations.push(booking);
+            });
+            req.session.booking.quin.forEach((booking) => {
+              booking.user = req.session.booking.user;
+              booking.total = req.session.booking.total;
+              hotel.rooms.quin.reservations.push(booking);
+            });
             await hotel.save();
             console.log('booking confirmed')
             res.redirect('/Booking/confirmed')
@@ -164,5 +282,6 @@ module.exports = {
     rmBookingCustomerInfo,
     paymentSuccess,
     bookingConfirmation,
-    collectUserInfo
+    collectUserInfo,
+    bookSingleRoom
 }

@@ -7,6 +7,8 @@ const fetch = (...args) =>
 const AreasModel = require("../models/Location");
 const HotelsModel = require("../models/Hotel");
 
+const moment = require('moment');
+
 // hotels
 const hotels = async (req, res, next) => {
   //areas
@@ -42,15 +44,14 @@ const findHotels = async (req, res, next) => {
   const location = req.query.area;
   const allAdults = Number(req.query.adults);
   const children = Number(req.query.children);
-  console.log(allAdults, children)
+  console.log(allAdults, children);
   let adults = allAdults + children / 2;
 
   const hotels = await HotelsModel.find({ location: location });
   const HotelsFound = [];
-  // set counter to count rooms
   const entry = new Date(checkIn);
   const exit = new Date(checkOut);
- 
+
   hotels.forEach((hotel) => {
     const singleFit = adults / hotel.rooms.single.occupancy <= 1 ? true : false;
     const twinFit = adults / hotel.rooms.twin.occupancy <= 1 ? true : false;
@@ -59,12 +60,14 @@ const findHotels = async (req, res, next) => {
       adults / hotel.rooms.quad.occupancy <= 1 <= 1 ? true : false;
     const quinFit =
       adults / hotel.rooms.quin.occupancy <= 1 <= 1 ? true : false;
+
     if (singleFit) {
       console.log("checking single rooms");
       let isIndexAvailable;
       for (let i = 0; i < hotel.rooms.single.total; i++) {
         isIndexAvailable = true;
         console.log("room index: ", i);
+        // check all the indexes for the dates if available
         hotel.rooms.single.reservations.forEach((reservation) => {
           if (
             entry >= reservation.checkIn &&
@@ -87,7 +90,16 @@ const findHotels = async (req, res, next) => {
           }
         });
 
+        // check if the index is available
         if (isIndexAvailable) {
+          hotel.booking = {
+            roomIndex: i,
+            noOfRooms: 1,
+            date: new Date(),
+            checkIn: entry,
+            checkOut: exit,
+            roomType: 1
+          }
           HotelsFound.push(hotel);
           break;
         }
@@ -121,8 +133,26 @@ const findHotels = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
-          HotelsFound.push(hotel);
+          const start = moment(entry, "YYYY-MM-DD");
+          const end = moment(exit, "YYYY-MM-DD");
+          const days = moment.duration(end.diff(start)).asDays();
+          totalCharges += hotel.rooms.twin.charges * days;
+          booking.twin.push({
+            roomIndex: i,
+            noOfRooms: 1,
+            date: new Date(),
+            checkIn: entry,
+            checkOut: exit,
+          });
+          req.session.booking = booking;
+          console.log("room reserved on index : " + i);
           break;
+        } else {
+          console.log("index", i, "is reserved");
+          const isLastIndex = i + 1 == hotel.rooms.twin.total ? true : false;
+          if (isLastIndex) {
+            isAllFound = false;
+          }
         }
       }
     } else if (tripleFit) {
@@ -154,8 +184,26 @@ const findHotels = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
-          HotelsFound.push(hotel);
+          const start = moment(entry, "YYYY-MM-DD");
+          const end = moment(exit, "YYYY-MM-DD");
+          const days = moment.duration(end.diff(start)).asDays();
+          totalCharges += hotel.rooms.triple.charges * days;
+          booking.triple.push({
+            roomIndex: i,
+            noOfRooms: 1,
+            date: new Date(),
+            checkIn: entry,
+            checkOut: exit,
+          });
+          req.session.booking = booking;
+          console.log("room reserved on index : " + i);
           break;
+        } else {
+          console.log("index", i, "is reserved");
+          const isLastIndex = i + 1 == hotel.rooms.triple.total ? true : false;
+          if (isLastIndex) {
+            isAllFound = false;
+          }
         }
       }
     } else if (quadFit) {
@@ -187,8 +235,26 @@ const findHotels = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
-          HotelsFound.push(hotel);
+          const start = moment(entry, "YYYY-MM-DD");
+          const end = moment(exit, "YYYY-MM-DD");
+          const days = moment.duration(end.diff(start)).asDays();
+          totalCharges += hotel.rooms.quad.charges * days;
+          booking.quad.push({
+            roomIndex: i,
+            noOfRooms: 1,
+            date: new Date(),
+            checkIn: entry,
+            checkOut: exit,
+          });
+          req.session.booking = booking;
+          console.log("room reserved on index : " + i);
           break;
+        } else {
+          console.log("index", i, "is reserved");
+          const isLastIndex = i + 1 == hotel.rooms.quad.total ? true : false;
+          if (isLastIndex) {
+            isAllFound = false;
+          }
         }
       }
     } else if (quinFit) {
@@ -220,20 +286,36 @@ const findHotels = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
-          HotelsFound.push(hotel);
+          const start = moment(entry, "YYYY-MM-DD");
+          const end = moment(exit, "YYYY-MM-DD");
+          const days = moment.duration(end.diff(start)).asDays();
+          totalCharges += hotel.rooms.quin.charges * days;
+          booking.quin.push({
+            roomIndex: i,
+            noOfRooms: 1,
+            date: new Date(),
+            checkIn: entry,
+            checkOut: exit,
+          });
+          req.session.booking = booking;
+          console.log("room reserved on index : " + i);
           break;
+        } else {
+          console.log("index", i, "is reserved");
+          const isLastIndex = i + 1 == hotel.rooms.quin.total ? true : false;
+          if (isLastIndex) {
+            isAllFound = false;
+          }
         }
       }
     }
   });
-   
 
   res.render("./pages/Hotels/availableHotels", {
     loggedIn: req.session.userLoggedIn,
     user: req.session.user,
     hotels: HotelsFound,
   });
-
 };
 
 const hotelGallery = async (req, res, next) => {
@@ -294,6 +376,7 @@ const postRoomCheck = async (req, res, next) => {
   const checkOut = req.body.checkOut.replace(/\./g, "/");
   const noOfRooms = Number(req.body.numOfRooms);
 
+  // collect all the adults and children
   const adults1 = Number(req.body.adults1);
   const children1 = Number(req.body.children1);
 
@@ -328,7 +411,9 @@ const postRoomCheck = async (req, res, next) => {
   let isAllFound = true;
   let singleFit, twinFit, tripleFit, quadFit, quinFit;
   while (counter <= noOfRooms) {
+    // romm counter for room no 1 and 2 so on...
     if (counter == 1) {
+      // find out the room fit
       singleFit =
         (adults1 + children1 / 2) / hotel.rooms.single.occupancy <= 1
           ? true
@@ -442,6 +527,7 @@ const postRoomCheck = async (req, res, next) => {
       for (let i = 0; i < hotel.rooms.single.total; i++) {
         isIndexAvailable = true;
         console.log("room index: ", i);
+        // check all the indexes for the dates if available
         hotel.rooms.single.reservations.forEach((reservation) => {
           if (
             entry >= reservation.checkIn &&
@@ -464,8 +550,12 @@ const postRoomCheck = async (req, res, next) => {
           }
         });
 
+        // check if the index is available
         if (isIndexAvailable) {
-          totalCharges += hotel.rooms.single.charges;
+          const start = moment(entry, "YYYY-MM-DD");
+          const end = moment(exit, "YYYY-MM-DD");
+          const days = moment.duration(end.diff(start)).asDays();
+          totalCharges += hotel.rooms.single.charges * days;
           booking.single.push({
             roomIndex: i,
             noOfRooms: noOfRooms,
@@ -514,7 +604,10 @@ const postRoomCheck = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
-          totalCharges += hotel.rooms.twin.charges;
+          const start = moment(entry, "YYYY-MM-DD");
+          const end = moment(exit, "YYYY-MM-DD");
+          const days = moment.duration(end.diff(start)).asDays();
+          totalCharges += hotel.rooms.twin.charges * days;
           booking.twin.push({
             roomIndex: i,
             noOfRooms: noOfRooms,
@@ -563,7 +656,10 @@ const postRoomCheck = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
-          totalCharges += hotel.rooms.triple.charges;
+          const start = moment(entry, "YYYY-MM-DD");
+          const end = moment(exit, "YYYY-MM-DD");
+          const days = moment.duration(end.diff(start)).asDays();
+          totalCharges += hotel.rooms.triple.charges * days;
           booking.triple.push({
             roomIndex: i,
             noOfRooms: noOfRooms,
@@ -612,8 +708,11 @@ const postRoomCheck = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
-          totalCharges += hotel.rooms.quad.charges;
-          booking.single.push({
+          const start = moment(entry, "YYYY-MM-DD");
+          const end = moment(exit, "YYYY-MM-DD");
+          const days = moment.duration(end.diff(start)).asDays();
+          totalCharges += hotel.rooms.quad.charges * days;
+          booking.quad.push({
             roomIndex: i,
             noOfRooms: noOfRooms,
             date: new Date(),
@@ -661,8 +760,11 @@ const postRoomCheck = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
-          totalCharges += hotel.rooms.quin.charges;
-          booking.single.push({
+          const start = moment(entry, "YYYY-MM-DD");
+          const end = moment(exit, "YYYY-MM-DD");
+          const days = moment.duration(end.diff(start)).asDays();
+          totalCharges += hotel.rooms.quin.charges * days;
+          booking.quin.push({
             roomIndex: i,
             noOfRooms: noOfRooms,
             date: new Date(),
@@ -686,6 +788,7 @@ const postRoomCheck = async (req, res, next) => {
 
   try {
     
+    // check if the rooms required are available
     if (isAllFound) {
       req.session.booking.hotelId = hotel.id;
       req.session.booking.total = totalCharges;
