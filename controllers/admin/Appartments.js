@@ -1,6 +1,8 @@
 const { delImg, delMultImages } = require("../../util/file");
 const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
+const path = require('path');
+const fs = require('fs');
 
 //models
 const Areas = require("../../models/Location");
@@ -16,6 +18,7 @@ const appartmentsHouses = (req, res, next) => {
           name: "",
           price: "",
           contact: "",
+          occupancy: "",
           parking: "",
           area: "",
           appartmentType: "",
@@ -120,9 +123,16 @@ const postAddAppartment = async (req, res, next) => {
   const name = req.body.appartName;
   const price = req.body.price;
   const contact = req.body.contact;
-  const parking = req.body.parking;
-  const wifi = req.body.wifi;
-  const secuirity = req.body.secuirity;
+  const occupancy = req.body.occupancy;
+  const parking = req.body.parking  ? true : false;;
+  const wifi = req.body.wifi ? true : false;;
+  const secuirity = req.body.secuirity ? true : false;
+  const kitchen = req.body.kitchen ? true : false;
+  const tv = req.body.tv ? true : false;
+  const cleaning = req.body.cleaning ? true : false;
+  const pets = req.body.pets ? true : false;
+  const livingArea = req.body.livingArea ? true : false;
+  const view = req.body.view ? true : false;
   const area = req.body.area;
   const address = req.body.address;
   const ownerName = req.body.ownerName;
@@ -170,11 +180,18 @@ const postAddAppartment = async (req, res, next) => {
   const appartment = new Appartments({
     name: name,
     contact: contact,
+    occupancy: occupancy,
     price: price,
     contact: contact,
     parking: parking,
     wifi: wifi,
     secuirity: secuirity,
+    kitchen: kitchen,
+    tv: tv,
+    cleaning: cleaning,
+    pets: pets,
+    livingArea: livingArea,
+    view: view,
     area: area,
     address: address,
     ownerName: ownerName,
@@ -225,8 +242,17 @@ const postEditAppartment = async (req, res, next) => {
   const appartId = req.body.appartId;
   const name = req.body.appartName;
   const price = req.body.price;
+  const occupancy = Number(req.body.occupancy);
+  const parking = req.body.parking  ? true : false;;
+  const wifi = req.body.wifi ? true : false;;
+  const secuirity = req.body.secuirity ? true : false;
+  const kitchen = req.body.kitchen ? true : false;
+  const tv = req.body.tv ? true : false;
+  const cleaning = req.body.cleaning ? true : false;
+  const pets = req.body.pets ? true : false;
+  const livingArea = req.body.livingArea ? true : false;
+  const view = req.body.view ? true : false;
   const contact = req.body.contact;
-  const parking = req.body.parking;
   const area = req.body.area;
   const appartType = req.body.appartType;
   const address = req.body.address;
@@ -242,8 +268,8 @@ const postEditAppartment = async (req, res, next) => {
   const videoUrl = req.body.videoUrl;
 
   const errors = validationResult(req);
+  const areas = await Areas.find();
   if (!errors.isEmpty()) {
-    const areas = await Areas.find();
     return res
       .status(422)
       .render("../Admin/views/pages/Appartments/editAppartmentHouse", {
@@ -287,7 +313,16 @@ const postEditAppartment = async (req, res, next) => {
     appart.name = name;
     appart.price = price;
     appart.contact = contact;
+    appart.occupancy = occupancy;
     appart.parking = parking;
+    appart.wifi = wifi;
+    appart.secuirity = secuirity;
+    appart.kitchen = kitchen;
+    appart.tv = tv;
+    appart.cleaning = cleaning;
+    appart.pets = pets;
+    appart.livingArea = livingArea;
+    appart.view = view;
     appart.area = area;
     appart.appartmentType = appartType;
     appart.address = address;
@@ -306,6 +341,28 @@ const postEditAppartment = async (req, res, next) => {
     res.redirect("/admin/Appartments/appartmentList");
   } catch (err) {
     console.log(err);
+    return res.render("../Admin/views/pages/Appartments/editAppartmentHouse", {
+      areas: areas,
+      flashMessage: err,
+      appart: {
+        id: appartId,
+        name: name,
+        price: price,
+        contact: contact,
+        parking: parking,
+        area: area,
+        address: address,
+        ownerName: ownerName,
+        ownerCNIC: ownerCNIC,
+        ownerContact: ownerContact,
+        loginEmail: loginEmail,
+        loginPassword: loginPassword,
+        description: description,
+        features: features,
+        videoUrl: videoUrl,
+      },
+      validationErrors: errors.array(),
+    });
   }
 };
 
@@ -313,14 +370,20 @@ const postDeleteAppartment = async (req, res) => {
   const appartId = req.body.id;
   try {
     const appartment = await Appartments.findById(appartId);
-    const gallery = appartment.gallery;
-    if (delMultImages(gallery)) {
-      await Appartments.findByIdAndDelete(appartId);
-      res.sendStatus(200);
-      console.log("appartment deleted Successfully.");
-    } else {
-      throw "Something went wrong while deleting file.";
+
+    if(!appartment.gallery.length == 0){
+      appartment.gallery.forEach( image => {
+        const imgPath = path.join(__dirname + '../../../files/uploads/' + image);
+        fs.unlink(imgPath, err =>{
+          if(err) throw err;
+        })
+      })
     }
+    
+    await Appartments.findByIdAndDelete(appartId);
+    res.sendStatus(200);
+    console.log("appartment deleted");
+    
   } catch (err) {
     console.log(err);
     res.sendStatus(204);

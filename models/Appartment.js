@@ -15,6 +15,10 @@ const AppartmentsSchema = new Schema({
     type: String,
     required: true,
   },
+  occupancy: {
+    type: Number,
+    required: true
+  },
   parking: {
     type: Boolean,
     required: true,
@@ -24,6 +28,30 @@ const AppartmentsSchema = new Schema({
     required: true
   },
   secuirity: {
+    type: Boolean,
+    required: true
+  },
+  kitchen: {
+    type: Boolean,
+    required: true
+  },
+  tv: {
+    type: Boolean,
+    required: true
+  },
+  cleaning: {
+    type: Boolean,
+    required: true
+  },
+  pets: {
+    type: Boolean,
+    required: true
+  },
+  livingArea: {
+    type: Boolean,
+    required: true
+  },
+  view: {
     type: Boolean,
     required: true
   },

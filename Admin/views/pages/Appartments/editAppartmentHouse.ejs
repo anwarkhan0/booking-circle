@@ -61,14 +61,6 @@
                   </div>
 
                   <div class="form-group col-md-3">
-                    <label>Parking</label>
-                    <select class="form-control" name="parking">
-                      <option value="true" <%=appart.parking ? 'selected' : '' %>>Yes</option>
-                      <option value="false" <%=!appart.parking ? 'selected' : '' %>>No</option>
-                    </select>
-                  </div>
-
-                  <div class="form-group col-md-3">
                     <label>Location</label>
                     <select class="form-control" style="width: 100%;" name="area">
                       <% for(let i=0; i< areas.length; i++) { %>
@@ -79,21 +71,74 @@
                     </select>
                   </div>
 
+                  <div class="form-group col-md-2">
+                    <label>Occupancy</label>
+                    <input type="number" value="<%= appart.occupancy %>" name="occupancy" placeholder="only number"
+                      class="form-control" required>
+                  </div>
 
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-5">
                     <label>Address</label>
                     <input type="text" name="address" value="<%= appart.address %>"
                       placeholder="Example: Near Shell Ptrol Station, Madyan Bazar" class="form-control" required>
                   </div>
 
-                  <div class="form-group col-md-3">
-                    <label>Avialibility Status</label>
-                    <select class="form-control" name="status">
-                        <option value="true" <%=appart.availibilityStatus ? 'selected' : '' %>> Available </option>
-                        <option value="false" <%=!appart.availibilityStatus ? 'selected' : '' %> >Unavailable
-                        </option>
-                    </select>
+                  <div class="form-group col-md-5">
+                    <label>Video Link</label>
+                    <input type="url" value="<%= appart.videoUrl %>" name="videoUrl" placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0"
+                      class="form-control" required>
                   </div>
+
+                  <div class="row col-12">
+                    <div class="form-group col-sm-12">
+                      <div class="card card-primary">
+                        <div class="card-header">
+                          <div class="card-title">
+                            Facilities
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="form-check form-check-inline">
+                            <input name="wifi" class="form-check-input" type="checkbox" id="" value="true" <%= appart.wifi ? 'checked' : '' %> >
+                            <label class="form-check-label" for="inlineCheckbox3">Wifi</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input name="parking" class="form-check-input" type="checkbox" id="" value="true" <%= appart.parking ? 'checked' : '' %> >
+                            <label class="form-check-label" for="inlineCheckbox3">Parking Area</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input name="kitchen" class="form-check-input" type="checkbox" id="" value="true" <%= appart.kitchen ? 'checked' : '' %> >
+                            <label class="form-check-label" for="inlineCheckbox3">Kitchen</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input name="view" class="form-check-input" type="checkbox" id="" value="true" <%= appart.view ? 'checked' : '' %> >
+                            <label class="form-check-label" for="inlineCheckbox3">View</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input name="tv" class="form-check-input" type="checkbox" id="" value="true" <%= appart.tv ? 'checked' : '' %> >
+                            <label class="form-check-label" for="inlineCheckbox3">TV</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input name="cleaning" class="form-check-input" type="checkbox" id="" value="true" <%= appart.cleaning ? 'checked' : '' %> >
+                            <label class="form-check-label" for="inlineCheckbox3">Ckeaning Services</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input name="pets" class="form-check-input" type="checkbox" id="" value="true" <%= appart.pets ? 'checked' : '' %> >
+                            <label class="form-check-label" for="inlineCheckbox3">Pets</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input name="secuirity" class="form-check-input" type="checkbox" id="" value="true">
+                            <label class="form-check-label" for="inlineCheckbox3" <%= appart.secuirity ? 'checked' : '' %> >Secuirity</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input name="livingArea" class="form-check-input" type="checkbox" id="" value="true" <%= appart.livingArea ? 'checked' : '' %> >
+                            <label class="form-check-label" for="inlineCheckbox3">Living Area</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   <!-- New Data -->
                   <div class="form-group col-md-6">
                     <label>Description</label>
@@ -107,11 +152,7 @@
                       required><%= appart.features %></textarea>
                   </div>
 
-                  <div class="form-group col-md-6">
-                    <label>Video Link</label>
-                    <input type="url" value="<%= appart.videoUrl %>" name="videoUrl" placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0"
-                      class="form-control" required>
-                  </div>
+                  
                   <!-- /New Data -->
 
                   <!-- <div class="form-group col-md-3">

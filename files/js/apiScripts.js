@@ -19,12 +19,12 @@ $("#searchHotels").click(function () {
   const checkOut = $("#end-date-1").val();
   const area = $("#area").val();
   const adults = $("#adults").val();
-  const noOfRooms = $("#numOfRooms").val();
+  const children = $("#children").val();
 
   if(checkIn == '' || checkOut == '' || area == '' || adults == false){
     document.getElementById('error').style.display = 'block';
   }else{
-    window.location.href = `/Hotels/availableHotels/?checkIn=${checkIn}&checkOut=${checkOut}&area=${area}&adults=${adults}&noOfRooms=${noOfRooms}`;
+    window.location.href = `/Hotels/availableHotels/?checkIn=${checkIn}&checkOut=${checkOut}&area=${area}&adults=${adults}&children=${children}`;
   }
 
 });

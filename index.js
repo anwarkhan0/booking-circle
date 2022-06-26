@@ -137,6 +137,6 @@ mongoose
 
   // const cron = require('node-cron');
 
-  // cron.schedule('* 0 * * * *', () => {
-  //   console.log('running a task every hour');
+  // cron.schedule('* * * * *', () => {
+  //   console.log('running a task every minute');
   // });

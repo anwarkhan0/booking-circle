@@ -40,62 +40,51 @@
                     <th>S#</th>
                     <th>Name</th>
                     <th>Contact</th>
-                    <th>Parking</th>
-                    <th>A | H</th>
+                    <th>Owner</th>
                     <th>Location</th>
-                    <th>Status</th>
+                    <th>Occupancy</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <% for(let i=0; i< aparts.length; i++){ %>
-                    <tr id="<%= aparts[i].id %>">
+                  <% aparts.forEach((appartment, i) => { %>
+                    <tr id="<%= appartment.id %>">
                       <td>
                         <%= i + 1 %>
                       </td>
                       <td>
-                        <%= aparts[i].name %>
+                        <%= appartment.name %>
                       </td>
                       <td>
-                        <%= aparts[i].contact %>
+                        <%= appartment.contact %>
                       </td>
                       <td>
-                        <% if(aparts[i].parking) { %>
-                          <span class="badge badge-success"><i class="fa fa-check"></i></span>
-                          <% } else{ %>
-                            <span class="badge badge-danger"><i class="fa fa-times"></i></span>
-                            <% } %>
-                      </td>
-                      <td><span class="badge badge-info">Appartment</span></td>
-                      <td>
-                        <%= aparts[i].area %>
+                        <%= appartment.ownerName %> 
                       </td>
                       <td>
-                        <% if(aparts[i].availibilityStatus) { %>
-                          <span class="badge badge-primary">Available</span>
-                          <% } else{ %>
-                            <span class="badge badge-secondary">Unavailable</span>
-                            <% } %>
+                        <%= appartment.area %> 
                       </td>
                       <td>
-                        <a href="<%= '/admin/Appartments/editAppartmentHouse/' + aparts[i].id %> " class="btn btn-success btn-sm">Edit <i
+                        <%= appartment.occupancy %> 
+                      </td>
+                      <td>
+                        <a href="<%= '/admin/Appartments/editAppartmentHouse/' + appartment.id %> " class="btn btn-success btn-sm">Edit <i
                           class="fa fa-pencil"></i></a>
-                        <a href="<%= '/admin/Appartments/editGallery/' + aparts[i].id %>" class="btn btn-primary btn-sm">Gallery
+                        <a href="<%= '/admin/Appartments/editGallery/' + appartment.id %>" class="btn btn-primary btn-sm">Gallery
                           <i class="fa fa-picture-o"></i></a>
-                          <button class="btn btn-danger btn-sm" onClick="<%= `deleteHandler('/admin/Appartments/deleteAppartment', '${aparts[i].id}' )` %>"><i class="fa fa-trash"></i></button>
+                          <button class="btn btn-danger btn-sm" onClick="<%= `deleteHandler('/admin/Appartments/deleteAppartment', '${appartment.id}' )` %>"><i class="fa fa-trash"></i></button>
                       </td>
                     </tr>
-                    <% } %>
+                    <% }) %>
                 </tbody>
                 <tfoot>
                   <tr>
                     <th>S#</th>
                     <th>Name</th>
                     <th>Contact</th>
-                    <th>Parking</th>
-                    <th>A | H</th>
+                    <th>Owner</th>
                     <th>Location</th>
-                    <th>Status</th>
+                    <th>Occupancy</th>
                     <th>Action</th>
                   </tr>
                 </tfoot>

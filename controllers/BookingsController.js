@@ -36,6 +36,20 @@ const rmBookingCustomerInfo = (req, res)=>{
     });
 }
 
+const collectUserInfo = (req, res) => {
+  if (!req.session.userLoggedIn) {
+    res.render("./pages/Hotels/customerInfo", {
+      loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
+    });
+  } else {
+    res.render("./pages/Payment/checkout", {
+      loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
+    });
+  }
+};
+
 
 const paymentSuccess = async (req, res, next) => {
 
@@ -149,5 +163,6 @@ const paymentSuccess = async (req, res, next) => {
 module.exports = {
     rmBookingCustomerInfo,
     paymentSuccess,
-    bookingConfirmation
+    bookingConfirmation,
+    collectUserInfo
 }

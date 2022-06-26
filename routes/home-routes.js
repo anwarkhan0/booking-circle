@@ -101,7 +101,8 @@ const {
 const {
   rmBookingCustomerInfo,
   paymentSuccess,
-  bookingConfirmation
+  bookingConfirmation,
+  collectUserInfo
 } = require('../controllers/BookingsController')
 
 const router = express.Router();
@@ -115,6 +116,7 @@ router.get("/", home);
 // Bookings
 router.post("/Bookings/Rooms/checkout", rmBookingCustomerInfo);
 router.get("/Booking/confirmed", bookingConfirmation);
+router.get("/Bookings/userDetails", collectUserInfo)
 
 // router.get("/payment", payment);
 router.get("/payment/paymentSafepay", safepayPayment);

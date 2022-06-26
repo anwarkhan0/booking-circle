@@ -1,0 +1,44 @@
+<!-- Primary Page Layout
+	================================================== -->
+    <div class="section big-55-height over-hide z-bigger customClass">
+
+        <div class="parallax parallax-top" style="background-image: url('/img/Hotel2.jpg')"></div>
+        <div class="dark-over-pages"></div>
+    
+        <div class="hero-center-section pages">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 parallax-fade-top">
+                        <div class="hero-text"> Available Hotel Rooms </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="section padding-top-bottom over-hide background-grey">
+        <div class="container">
+            <div class="row justify-content-center">
+                
+                <% hotels.forEach(hotel => { %> 
+                <div class="col-md-4 mt-4 mt-md-0" data-scroll-reveal="enter bottom move 50px over 0.7s after 0.2s">
+                    <div class="room-box background-white">
+                        <div class="room-per">
+                            <% for(let i= 1; i <= hotel.stars; i++){ %> 
+                            <i class="fa fa-star"></i>
+                            <% } %> 
+                        </div>
+                        <img src="/uploads/<%= hotel.gallery[0] %>" alt="<%= hotel.name %>">
+                        <div class="room-box-in">
+                            <h5 class=""><%= hotel.name %></h5>
+                            <p class="mt-3"><strong>Address: </strong><%= hotel.address %> </p>
+                            <a class="mt-1 btn btn-primary" href="/Hotels/rooms/<%= hotel.id %>">Book Room Here</a>
+                        </div>
+                    </div>
+                </div>
+                <% }) %> 
+               
+            </div>
+        </div>
+    </div>
