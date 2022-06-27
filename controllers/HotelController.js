@@ -133,18 +133,15 @@ const findHotels = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
-          const start = moment(entry, "YYYY-MM-DD");
-          const end = moment(exit, "YYYY-MM-DD");
-          const days = moment.duration(end.diff(start)).asDays();
-          totalCharges += hotel.rooms.twin.charges * days;
-          booking.twin.push({
+          hotel.booking = {
             roomIndex: i,
             noOfRooms: 1,
             date: new Date(),
             checkIn: entry,
             checkOut: exit,
-          });
-          req.session.booking = booking;
+            roomType: 2
+          }
+          HotelsFound.push(hotel);
           console.log("room reserved on index : " + i);
           break;
         } else {
@@ -184,18 +181,15 @@ const findHotels = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
-          const start = moment(entry, "YYYY-MM-DD");
-          const end = moment(exit, "YYYY-MM-DD");
-          const days = moment.duration(end.diff(start)).asDays();
-          totalCharges += hotel.rooms.triple.charges * days;
-          booking.triple.push({
+          hotel.booking = {
             roomIndex: i,
             noOfRooms: 1,
             date: new Date(),
             checkIn: entry,
             checkOut: exit,
-          });
-          req.session.booking = booking;
+            roomType: 3
+          }
+          HotelsFound.push(hotel);
           console.log("room reserved on index : " + i);
           break;
         } else {
@@ -235,18 +229,15 @@ const findHotels = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
-          const start = moment(entry, "YYYY-MM-DD");
-          const end = moment(exit, "YYYY-MM-DD");
-          const days = moment.duration(end.diff(start)).asDays();
-          totalCharges += hotel.rooms.quad.charges * days;
-          booking.quad.push({
+          hotel.booking = {
             roomIndex: i,
             noOfRooms: 1,
             date: new Date(),
             checkIn: entry,
             checkOut: exit,
-          });
-          req.session.booking = booking;
+            roomType: 4
+          }
+          HotelsFound.push(hotel);
           console.log("room reserved on index : " + i);
           break;
         } else {
@@ -286,18 +277,15 @@ const findHotels = async (req, res, next) => {
         });
 
         if (isIndexAvailable) {
-          const start = moment(entry, "YYYY-MM-DD");
-          const end = moment(exit, "YYYY-MM-DD");
-          const days = moment.duration(end.diff(start)).asDays();
-          totalCharges += hotel.rooms.quin.charges * days;
-          booking.quin.push({
+          hotel.booking = {
             roomIndex: i,
             noOfRooms: 1,
             date: new Date(),
             checkIn: entry,
             checkOut: exit,
-          });
-          req.session.booking = booking;
+            roomType: 5
+          }
+          HotelsFound.push(hotel);
           console.log("room reserved on index : " + i);
           break;
         } else {

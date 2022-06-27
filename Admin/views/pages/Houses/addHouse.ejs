@@ -44,31 +44,23 @@
                   <div class="row">
                     <div class="form-group col-md-3">
                       <label>Name</label>
-                      <input type="text" name="HouseName" value="<%= oldInput.name %>" placeholder="Example: john House" class="form-control"
+                      <input type="text" name="HouseName" value="<%= oldInput.name %>" placeholder="khan House No 3" class="form-control"
                         required>
                     </div>
   
                     <div class="form-group col-md-3">
                       <label>Rent</label>
-                      <input type="number" value="<%= oldInput.price %>" name="price" placeholder="Example: 5000" class="form-control" required>
+                      <input type="number" value="<%= oldInput.price %>" name="price" placeholder="5000" class="form-control" required>
                     </div>
   
                     <div class="form-group col-md-3">
                       <label>Contact</label>
-                      <input type="number" value="<%= oldInput.contact %>" name="contact" placeholder="Example: 0946712215" class="form-control" required>
+                      <input type="number" value="<%= oldInput.contact %>" name="contact" placeholder="xxxxxxxxxxx" class="form-control" required>
                     </div>
   
                     <div class="form-group col-md-3">
-                      <label>Parking</label>
-                      <select class="form-control" name="parking">
-                        <option value="true" <%= oldInput.parking ? 'selected' : '' %> >Yes</option>
-                        <option value="false" <%= !oldInput.parking ? 'selected' : '' %> >No</option>
-                      </select>
-                    </div>
-  
-                    <div class="form-group col-md-3">
-                      <label>Area</label>
-                      <select class="form-control select2" style="width: 100%;" name="area">
+                      <label>Location</label>
+                      <select class="form-control" style="width: 100%;" name="area">
                         <% for(let i=0; i< areas.length; i++) { %>
                           <option value="<%= areas[i].name %>" <%= areas[i].name === oldInput.area ? 'selected' : '' %> >
                             <%= areas[i].name %>
@@ -79,37 +71,78 @@
   
                     <div class="form-group col-md-6">
                       <label>Address</label>
-                      <input type="text" value="<%= oldInput.address %>" name="address" placeholder="Example: Near Shell Petrol Station, Madyan Bazar"
+                      <input type="text" value="<%= oldInput.address %>" name="address" placeholder="Near Shell Petrol Station, Madyan Bazar"
                         class="form-control" required>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label>Video Link</label>
+                      <input type="url" value="<%= oldInput.videoUrl %>" name="videoUrl" placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0"
+                        class="form-control" required>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                      <label>Bed Rooms</label>
+                      <input type="number" value="<%=  %>" name="bedRooms" placeholder="only number"
+                        class="form-control" required>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                      <label>Bath'(s)</label>
+                      <input type="number" value="<%=  %>" name="baths" placeholder="only number"
+                        class="form-control" required>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                      <label>Area</label>
+                      <input type="text" value="<%=  %>" name="area" placeholder="14 marla"
+                        class="form-control" required>
+                    </div>
+                    
+
+                    <div class="row col-12">
+                      <div class="form-group col-sm-12">
+                        <div class="card card-primary">
+                          <div class="card-header">
+                            <div class="card-title">
+                              Facilities
+                            </div>
+                          </div>
+                          <div class="card-body">
+                            <div class="form-check form-check-inline">
+                              <input name="wifi" class="form-check-input" type="checkbox" id="" value="true">
+                              <label class="form-check-label" for="inlineCheckbox3">Wifi</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input name="parking" class="form-check-input" type="checkbox" id="" value="true">
+                              <label class="form-check-label" for="inlineCheckbox3">Parking Area</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input name="kitchen" class="form-check-input" type="checkbox" id="" value="true">
+                              <label class="form-check-label" for="inlineCheckbox3">Kitchen</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input name="secuirity" class="form-check-input" type="checkbox" id="" value="true">
+                              <label class="form-check-label" for="inlineCheckbox3">Secuirity</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
   
                     <!-- New Data -->
                     <div class="form-group col-md-6">
                       <label>Description</label>
                       <textarea name="description" id="" rows="5" class="form-control"
-                        placeholder="Apartment/House Description . . ." required><%= oldInput.description %></textarea>
+                        placeholder="Description . . ." required><%= oldInput.description %></textarea>
                     </div>
   
                     <div class="form-group col-md-6">
                       <label>Features</label>
-                      <textarea name="features" id="" rows="5" class="form-control" placeholder="Apartment/House Features . . ."
+                      <textarea name="features" id="" rows="5" class="form-control" placeholder="Features . . ."
                         required><%= oldInput.features %></textarea>
                     </div>
   
-                    <div class="form-group col-md-6">
-                      <label>Video Link</label>
-                      <input type="url" value="<%= oldInput.videoUrl %>" name="videoUrl" placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0"
-                        class="form-control" required>
-                    </div>
-                    <!-- /New Data -->
-  
-                    <!-- <div class="form-group col-md-6">
-                      <label>Appartment | House Classification</label>
-                      <select class="form-control" style="width: 100%;" name="">
-                        <option value="">Luxury</option>
-                        <option value="">Economic</option>
-                      </select>
-                    </div> -->
                   </div>
   
                   <hr>
@@ -119,31 +152,31 @@
                   <div class="row">
                     <div class="form-group col-md-6">
                       <label>Name</label>
-                      <input type="text" value="<%= oldInput.ownerName %>" name="ownerName" placeholder="Example: Asif Khan" class="form-control" required>
+                      <input type="text" value="<%= oldInput.ownerName %>" name="ownerName" placeholder="Khan" class="form-control" required>
                     </div>
   
                     <div class="form-group col-md-3">
                       <label>CNIC #</label>
-                      <input type="number" value="<%= oldInput.ownerCNIC %>" name="ownerCNIC" placeholder="Example: xxxxx-xxxxxxx-x" class="form-control"
+                      <input type="number" value="<%= oldInput.ownerCNIC %>" name="ownerCNIC" placeholder="xxxxxxxxxxxxx" class="form-control"
                         required>
                     </div>
   
                     <div class="form-group col-md-3">
                       <label>Contact</label>
-                      <input type="number" value="<%= oldInput.ownerContact %>" name="ownerContact" placeholder="Example: 03xxxxxxxxx" class="form-control"
+                      <input type="number" value="<%= oldInput.ownerContact %>" name="ownerContact" placeholder="03xxxxxxxxx" class="form-control"
                         required>
                     </div>
   
   
                     <div class="form-group col-md-6">
                       <label>Login Email</label>
-                      <input type="email" value="<%= oldInput.loginEmail %>" name="loginEmail" placeholder="Example: example@gmail.com" class="form-control"
+                      <input type="email" value="<%= oldInput.loginEmail %>" name="loginEmail" placeholder="example@gmail.com" class="form-control"
                         required>
                     </div>
   
                     <div class="form-group col-md-6">
                       <label>Password</label>
-                      <input type="password" value="<%= oldInput.loginPassword %>" name="loginPassword" placeholder="Example: example@gmail.com"
+                      <input type="password" value="<%= oldInput.loginPassword %>" name="loginPassword" placeholder="********"
                         class="form-control" required>
                     </div>
                   </div>

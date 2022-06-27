@@ -25,6 +25,7 @@ const rmBookingCustomerInfo = (req, res)=>{
     const name = req.body.name;
     const phoneNo = req.body.phoneNo;
     const email = req.body.email;
+    req.session.booking = {};
     req.session.booking.user = {
         name: name,
         phoneNo: phoneNo,

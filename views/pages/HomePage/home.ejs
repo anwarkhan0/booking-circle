@@ -244,8 +244,8 @@
 			<div class="col-sm-6 col-lg-4 mb-3">
 				<a href="/Hotels/<%= hotel.area %>">
 					<div class="img-wrap services-wrap h-300">
-						<img src="uploads/<%= hotel.gallery[0]%>" alt="" class="image-cover">
-						<div class="services-text-over btn btn-primary fit-content"><%= hotel.area %></div>
+						<img src="uploads/<%= hotel.gallery[0] ? hotel.gallery[0] : 'noImage.png'%>" alt="" class="image-cover">
+						<div class="services-text-over btn btn-primary fit-content"><%= hotel.location %></div>
 					</div>
 				</a>
 			</div>
@@ -262,16 +262,16 @@
 		<h3 class="text-center  text-white subtitle with-line mb-5">OUR APARTMENTS IN</h3>
 		<div class="row">
 
-			<% for(let i= 0; i< appartments.length; i++){ %> 
+			<% appartments.forEach( appartment => { %> 
 			<div class="col-sm-6 col-lg-4 mb-3">
-				<a href="/Appartments/<%= appartments[i].area %>">
+				<a href="/Appartments/<%= appartment.area %>">
 					<div class="img-wrap services-wrap h-300">
-						<img src="uploads/<%= appartments[i].gallery[0] %>" alt="" class="image-cover">
-						<div class="services-text-over btn btn-primary fit-content"><%= appartments[i].area %></div>
+						<img src="uploads/<%= appartment.gallery[0] ? appartment.gallery[0] : 'noImage.png' %>" alt="" class="image-cover">
+						<div class="services-text-over btn btn-primary fit-content"><%= appartment.area %></div>
 					</div>
 				</a>
 			</div>
-			<% } %> 
+			<% }) %> 
 			
 		</div>
 		<a class="booking-button mt-5" href="/Appartments/allappartments">Explore all Apartments</a>
