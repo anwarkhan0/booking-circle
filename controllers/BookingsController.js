@@ -25,7 +25,6 @@ const rmBookingCustomerInfo = (req, res)=>{
     const name = req.body.name;
     const phoneNo = req.body.phoneNo;
     const email = req.body.email;
-    req.session.booking = {};
     req.session.booking.user = {
         name: name,
         phoneNo: phoneNo,
@@ -140,13 +139,10 @@ const bookSingleRoom = async (req, res)=>{
       break;
   }
 
-
-
   res.redirect("/Bookings/userDetails");
 }
 
 const collectUserInfo = (req, res) => {
-  console.log(req.session.booking)
   if (!req.session.userLoggedIn) {
     res.render("./pages/Hotels/customerInfo", {
       loggedIn: req.session.userLoggedIn,
@@ -162,6 +158,7 @@ const collectUserInfo = (req, res) => {
 
 
 const paymentSuccess = async (req, res, next) => {
+
 
     // type 1 = room, 
     // type 2 = appartment, 
