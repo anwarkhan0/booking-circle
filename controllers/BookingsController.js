@@ -21,10 +21,11 @@ const checkout = require("safepay/dist/resources/checkout");
 const session = require("express-session");
 const moment = require("moment");
 
-const rmBookingCustomerInfo = (req, res)=>{
+const BookingCustomerInfo = (req, res)=>{
     const name = req.body.name;
     const phoneNo = req.body.phoneNo;
     const email = req.body.email;
+    console.log('session after user info',req.session.booking)
     req.session.booking.user = {
         name: name,
         phoneNo: phoneNo,
@@ -42,7 +43,7 @@ const bookSingleRoom = async (req, res)=>{
   let checkIn = req.query.checkin.replace(/\./g, "/");
   let checkOut = req.query.checkout.replace(/\./g, "/");
   const roomIndex = Number(req.query.index);
-  const whichRoom = req.query.roomType;
+  const whichRoom = Number(req.query.roomType);
   const hotel = await HotelsModel.findById(hotelId);
   const booking = {
     type: 1,
@@ -59,7 +60,7 @@ const bookSingleRoom = async (req, res)=>{
   const days = moment.duration(end.diff(start)).asDays();
   
   let total;
-  switch (whichRoom) {
+  switch (true) {
     case whichRoom == 1:
       total = hotel.rooms.single.charges * days;
       booking.single.push({
@@ -71,8 +72,6 @@ const bookSingleRoom = async (req, res)=>{
       });
 
       booking.total = total;
-      req.session.booking = booking;
-      req.session.booking.hotelId = hotelId;
       break;
 
     case whichRoom == 2:
@@ -86,8 +85,6 @@ const bookSingleRoom = async (req, res)=>{
       });
 
       booking.total = total;
-      req.session.booking = booking;
-      req.session.booking.hotelId = hotelId;
       break;
 
     case whichRoom == 3:
@@ -101,8 +98,6 @@ const bookSingleRoom = async (req, res)=>{
       });
 
       booking.total = total;
-      req.session.booking = booking;
-      req.session.booking.hotelId = hotelId;
       break;
 
     case whichRoom == 4:
@@ -116,8 +111,6 @@ const bookSingleRoom = async (req, res)=>{
       });
 
       booking.total = total;
-      req.session.booking = booking;
-      req.session.booking.hotelId = hotelId;
       break;
 
     case whichRoom == 5:
@@ -131,14 +124,14 @@ const bookSingleRoom = async (req, res)=>{
       });
 
       booking.total = total;
-      req.session.booking = booking;
-      req.session.booking.hotelId = hotelId;
       break;
 
     default:
       break;
   }
-
+  req.session.booking = booking;
+  req.session.booking.hotelId = hotelId;
+  console.log(req.session.booking )
   res.redirect("/Bookings/userDetails");
 }
 
@@ -277,7 +270,7 @@ const paymentSuccess = async (req, res, next) => {
   }
 
 module.exports = {
-    rmBookingCustomerInfo,
+    BookingCustomerInfo,
     paymentSuccess,
     bookingConfirmation,
     collectUserInfo,

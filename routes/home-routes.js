@@ -99,7 +99,7 @@ const {
 } = require('../controllers/ToursController');
 
 const {
-  rmBookingCustomerInfo,
+  BookingCustomerInfo,
   paymentSuccess,
   bookingConfirmation,
   collectUserInfo,
@@ -115,7 +115,7 @@ const isAuth = require("../middleware/userAuth");
 router.get("/", home);
 
 // Bookings
-router.post("/Bookings/Rooms/checkout", rmBookingCustomerInfo);
+router.post("/Bookings/Rooms/checkout", BookingCustomerInfo);
 router.get("/Booking/confirmed", bookingConfirmation);
 router.get("/Bookings/userDetails", collectUserInfo);
 router.get("/Bookings/singleRoom", bookSingleRoom);
