@@ -35,7 +35,7 @@
           <div class="col-md-12">
             <div class="card card-success">
               <div class="card-header">
-                <h3 class="card-title">House</h3>
+                <h3 class="card-title">Add House</h3>
               </div>
               <div class="card-body">
                 <form action="/admin/Houses/addHouse" method="POST">
@@ -60,7 +60,7 @@
   
                     <div class="form-group col-md-3">
                       <label>Location</label>
-                      <select class="form-control" style="width: 100%;" name="area">
+                      <select class="form-control" style="width: 100%;" name="location">
                         <% for(let i=0; i< areas.length; i++) { %>
                           <option value="<%= areas[i].name %>" <%= areas[i].name === oldInput.area ? 'selected' : '' %> >
                             <%= areas[i].name %>
@@ -184,8 +184,8 @@
   
                   <hr>
                   <div class="form-group">
-                    <a class="btn btn-secondary btn-sm" name="cancel" type="submit" onclick="history.back(-1)">Cancel</a>
-                    <button class="btn btn-success btn-sm" type="submit" name="">Add Appartment | House</button>
+                    <a class="btn btn-secondary " name="cancel" type="submit" onclick="history.back(-1)">Cancel</a>
+                    <button class="btn btn-success " type="submit" name="">Save</button>
                   </div>
                 </form>
               </div>

@@ -84,6 +84,7 @@ const addHouse = (req, res, next) => {
           res.render("../Admin/views/pages/Houses/gallery", {
             gallery: appartment.gallery,
             houseId: appartment.id,
+            house: appartment.name,
             flashMessage: req.flash("message"),
           });
         }
@@ -95,9 +96,14 @@ const addHouse = (req, res, next) => {
     const name = req.body.HouseName;
     const price = req.body.price;
     const contact = req.body.contact;
-    const parking = req.body.parking;
+    const bedRooms = Number(req.body.bedRooms);
+    const baths = Number(req.body.baths);
     const area = req.body.area;
-    const appartType = req.body.appartType;
+    const wifi = req.body.wifi ? true : false;
+    const parking = req.body.parking ? true : false;
+    const kitchen = req.body.kitchen ? true : false;
+    const secuirity = req.body.secuirity ? true : false;
+    const location = req.body.location;
     const address = req.body.address;
     const ownerName = req.body.ownerName;
     const ownerCNIC = req.body.ownerCNIC;
@@ -109,9 +115,10 @@ const addHouse = (req, res, next) => {
     const videoUrl = req.body.videoUrl;
   
     const errors = validationResult(req);
+    const areas = await Areas.find();
     if (!errors.isEmpty()) {
-      const areas = await Areas.find();
-      return res.status(422).render("../views/pages/Appartments/addAppartment", {
+      
+      return res.status(422).render("../Admin/views/pages/Houses/addHouse", {
         path: "/Houses/addHouse",
         pageTitle: "House",
         areas: areas,
@@ -122,7 +129,6 @@ const addHouse = (req, res, next) => {
           contact: contact,
           parking: parking,
           area: area,
-          appartmentType: appartType,
           address: address,
           ownerName: ownerName,
           ownerCNIC: ownerCNIC,
@@ -147,16 +153,23 @@ const addHouse = (req, res, next) => {
       contact: contact,
       price: price,
       contact: contact,
-      parking: parking,
+      bedRooms: bedRooms,
+      baths: baths,
       area: area,
-      appartmentType: appartType,
+      wifi: wifi,
+      parking: parking,
+      kitchen: kitchen,
+      secuirity: secuirity,
+      location: location,
+      location: location,
       address: address,
-      ownerName: ownerName,
-      ownerCNIC: ownerCNIC,
-      ownerContact: ownerContact,
-      loginEmail: loginEmail,
-      loginPassword: hashedPassword,
-      availibilityStatus: false,
+      owner: {
+        name: ownerName,
+        cnic: ownerCNIC,
+        contact: ownerContact,
+        email: loginEmail,
+        password: hashedPassword,
+      },
       description: description,
       features: features,
       videoUrl: videoUrl,
@@ -167,10 +180,32 @@ const addHouse = (req, res, next) => {
       // console.log(result);
       console.log("House added");
       req.flash("message", "House Added Successfully");
-      res.redirect("/admin/Appartments/appartmentHouseList");
+      res.redirect("/admin/Houses/addGallery/" + house.id);
     } catch (err) {
       console.log(err);
-      res.redirect('/admin')
+      return res.status(422).render("../Admin/views/pages/Houses/addHouse", {
+        path: "/Houses/addHouse",
+        pageTitle: "House",
+        areas: areas,
+        flashMessage: err._message,
+        oldInput: {
+          name: name,
+          price: price,
+          contact: contact,
+          parking: parking,
+          area: area,
+          address: address,
+          ownerName: ownerName,
+          ownerCNIC: ownerCNIC,
+          ownerContact: ownerContact,
+          loginEmail: loginEmail,
+          loginPassword: loginPassword,
+          description: description,
+          features: features,
+          videoUrl: videoUrl,
+        },
+        validationErrors: errors.array(),
+      });
     }
   };
   
@@ -180,23 +215,29 @@ const addHouse = (req, res, next) => {
     const name = req.body.houseName;
     const price = req.body.price;
     const contact = req.body.contact;
-    const parking = req.body.parking;
+    const bedRooms = Number(req.body.bedRooms);
+    const baths = Number(req.body.baths);
     const area = req.body.area;
+    const wifi = req.body.wifi ? true : false;
+    const parking = req.body.parking ? true : false;
+    const kitchen = req.body.kitchen ? true : false;
+    const secuirity = req.body.secuirity ? true : false;
+    const location = req.body.location;
     const address = req.body.address;
     const ownerName = req.body.ownerName;
     const ownerCNIC = req.body.ownerCNIC;
     const ownerContact = req.body.ownerContact;
     const loginEmail = req.body.loginEmail;
     const loginPassword = req.body.loginPassword;
-    const oldLoginPassword = req.body.oldLoginPassword;
-    const availibilityStatus = req.body.status;
+    const oldLoginPassword = req.body.oldPassword;
     const description = req.body.description;
     const features = req.body.features;
     const videoUrl = req.body.videoUrl;
   
     const errors = validationResult(req);
+    const areas = await Areas.find();
     if (!errors.isEmpty()) {
-      const areas = await Areas.find();
+      
       return res
         .status(422)
         .render("../Admin/views/pages/Houses/edit", {
@@ -207,14 +248,19 @@ const addHouse = (req, res, next) => {
             name: name,
             price: price,
             contact: contact,
+            wifi: wifi,
             parking: parking,
+            kitchen: kitchen,
+            secuirity: secuirity,
             area: area,
             address: address,
-            ownerName: ownerName,
-            ownerCNIC: ownerCNIC,
-            ownerContact: ownerContact,
-            loginEmail: loginEmail,
-            loginPassword: loginPassword,
+            owner : {
+              name: ownerName,
+              cnic: ownerCNIC,
+              contact: ownerContact,
+              email: loginEmail,
+              password: loginPassword
+            },
             description: description,
             features: features,
             videoUrl: videoUrl,
@@ -223,33 +269,38 @@ const addHouse = (req, res, next) => {
         });
     }
   
-    let salt=null;
-    let hashedPassword=null;
-    if (loginPassword.length > 0) {
-  
-      // generate salt to hash password
-      salt = await bcrypt.genSalt(16);
-      // now we set user password to hashed password
-      hashedPassword = await bcrypt.hash(loginPassword, salt);
-  
-    } else {
-      hashedPassword = oldLoginPassword;
-    }
-  
+    
     try {
+      let hashedPassword;
+      
+      if (loginPassword.length > 0) {
+        // generate salt to hash password
+        const salt = await bcrypt.genSalt(16);
+        // now we set user password to hashed password
+        hashedPassword = await bcrypt.hash(loginPassword, salt);
+      } else {
+        hashedPassword = oldLoginPassword;
+      }
       const house = await Houses.findById(houseId);
       house.name = name;
       house.price = price;
       house.contact = contact;
-      house.parking = parking;
+      house.bedRooms = bedRooms;
+      house.baths = baths;
       house.area = area;
+      house.wifi = wifi;
+      house.parking = parking;
+      house.kitchen = kitchen;
+      house.secuirity = secuirity;
+      house.location = location;
       house.address = address;
-      house.ownerName = ownerName;
-      house.ownerCNIC = ownerCNIC;
-      house.ownerContact = ownerContact;
-      house.loginEmail = loginEmail;
-      house.loginPassword = hashedPassword;
-      house.availibilityStatus = availibilityStatus;
+      house.owner = {
+        name: ownerName,
+        cnic: ownerCNIC,
+        contact: ownerContact,
+        email: loginEmail,
+        password: hashedPassword
+      }
       house.description = description;
       house.features = features;
       house.videoUrl = videoUrl;
@@ -259,8 +310,34 @@ const addHouse = (req, res, next) => {
       res.redirect("/admin/Houses/list");
     } catch (err) {
       console.log(err);
-      req.flash('message', 'Something went wrong.');
-      res.redirect('/admin')
+      return res
+        .status(422)
+        .render("../Admin/views/pages/Houses/edit", {
+          areas: areas,
+          flashMessage: err,
+          house: {
+            id: houseId,
+            name: name,
+            price: price,
+            contact: contact,
+            wifi: wifi,
+            parking: parking,
+            kitchen: kitchen,
+            secuirity: secuirity,
+            area: area,
+            address: address,
+            owner : {
+              name: ownerName,
+              cnic: ownerCNIC,
+              contact: ownerContact,
+              email: loginEmail,
+              password: loginPassword
+            },
+            description: description,
+            features: features,
+            videoUrl: videoUrl,
+          }
+        });
     }
   };
   
@@ -285,33 +362,47 @@ const addHouse = (req, res, next) => {
   
   const postAddHouseGallery = async (req, res, next) => {
     const uploads = req.files;
-    const appartId = req.body.houseId;
+    const houseId = req.body.houseId;
     const gallery = [];
   
     for (let i = 0; i < uploads.length; i++) {
       gallery.push(uploads[i].filename);
     }
-  
+    
     try {
-      const appartment = await Houses.findById(appartId);
-      if (appartment.gallery.length === 0) {
-        appartment.gallery = gallery;
-        appartment.save();
-        console.log("added gallery to House");
-        req.flash("message", "Gallery added To House Successfully");
-        res.redirect("/admin/Houses/Gallery/" + appartId);
-      } else {
-        updatedGallery = appartment.gallery.concat(gallery);
-        appartment.gallery = updatedGallery;
-        appartment.save();
-        console.log("gallery updated");
-        req.flash("message", "House Gallery Updated Successfully");
-        res.redirect("/admin/Houses/Gallery/" + appartId);
-      }
+      const house = await Houses.findById(houseId);
+      house.gallery = gallery;
+      await house.save();
+      console.log("added gallery to House");
+      req.flash("message", "Gallery added To House Successfully");
+      res.redirect("/admin/Houses/Gallery/" + house.id);
     } catch (err) {
       console.log(err);
-      req.flash('message', 'Something went wrong.');
-      res.redirect('/admin');
+      req.flash("message", err._message);
+      res.redirect("/admin/Houses/addGallery/" + houseId);
+    }
+  };
+
+  const updateHouseGallery = async (req, res) => {
+    const uploads = req.files;
+    const houseId = req.body.houseId;
+    const gallery = [];
+  
+    for (let i = 0; i < uploads.length; i++) {
+      gallery.push(uploads[i].filename);
+    }
+
+    try {
+      const house = await Houses.findById(houseId);
+      const updatedGallery = house.gallery.concat(gallery);
+      house.gallery = updatedGallery;
+      await house.save();
+      console.log("gallery updated");
+      req.flash("message", "House Gallery Updated Successfully");
+      res.redirect("/admin/Houses/Gallery/" + houseId);
+    } catch (err) {
+      console.log(err);
+      res.redirect("/admin/Houses/Gallery/" + houseId);
     }
   };
   
@@ -354,5 +445,6 @@ const addHouse = (req, res, next) => {
     postAddHouseGallery,
     postDeleteHouse,
     postDeleteHouseGalleryImage,
-    housesList
+    housesList,
+    updateHouseGallery
   }

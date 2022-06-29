@@ -191,6 +191,8 @@ const paymentSuccess = async (req, res, next) => {
             await hotel.save();
             console.log('booking confirmed')
             res.redirect('/Booking/confirmed')
+        }else if(req.session.booking.type == 2){
+          console.log(req.session.booking)
         }
     //   // Room Booking data saving //////////////
     // if (req.session.bookingData.bookingMode == "room") {

@@ -65,6 +65,7 @@ const {
   postDeleteHouse,
   postDeleteHouseGalleryImage,
   housesList,
+  updateHouseGallery
 } = require("../controllers/admin/Houses.js");
 
 const {
@@ -870,6 +871,7 @@ router.post(
   postEditHouse
 );
 router.post("/admin/Houses/addGallery", isAuth, postAddHouseGallery);
+router.post("/admin/Houses/updateGallery", isAuth, updateHouseGallery);
 router.post("/admin/houses/deleteHouse", isAuth, postDeleteHouse);
 router.post(
   "/admin/houses/DeleteGalleryImage",

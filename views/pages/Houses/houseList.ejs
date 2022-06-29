@@ -98,7 +98,7 @@
                 <% houses.forEach(house => { %> 
                 <div class="col-md-4 mt-4 mt-md-0" data-scroll-reveal="enter bottom move 50px over 0.7s after 0.2s">
                     <div class="room-box background-white">
-                        <img src="<%= '/uploads/' + house.gallery[0] %>" alt="">
+                        <img src="/uploads/<%= house.gallery[0] ? house.gallery[0] : 'noImage.png' %>" alt="">
                         <div class="room-box-in">
                             <h5 class=""><%= house.name %></h5>
                             <p class="mt-3"><strong>Address: </strong> <%= house.address %> </p>

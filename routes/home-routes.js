@@ -79,6 +79,8 @@ const {
 const {
   houses,
   houseInfo,
+  filterHouses,
+  houseCheck
 } = require('../controllers/HousesController');
 
 const {
@@ -160,6 +162,8 @@ postAppartmentBooking);
 // Houses
 router.get("/Houses/list", houses);
 router.get("/Houses/houseInfo/:id", houseInfo);
+router.get("/Houses/filter", filterHouses);
+router.post("/Houses/houseCheck", houseCheck)
 
 // Hotels
 router.get("/Hotels/availableHotels/", findHotels);

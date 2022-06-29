@@ -15,11 +15,35 @@ const HousesSchema = new Schema({
     type: String,
     required: true,
   },
+  bedRooms: {
+    type: Number,
+    required: true
+  }, 
+  baths: {
+    type: Number,
+    required: true
+  },
+  area: {
+    type: String,
+    require: true
+  },
+  wifi: {
+    type: Boolean,
+    required: true
+  },
   parking: {
     type: Boolean,
     required: true,
   },
-  area: {
+  kitchen: {
+    type: Boolean,
+    required: true
+  },
+  secuirity: {
+    type: Boolean,
+    required: true
+  },
+  location: {
     type: String,
     required: true,
   },
@@ -27,29 +51,27 @@ const HousesSchema = new Schema({
     type: String,
     required: true,
   },
-  ownerName: {
-    type: String,
-    required: true,
-  },
-  ownerCNIC: {
-    type: String,
-    required: true,
-  },
-  ownerContact: {
-    type: String,
-    required: true,
-  },
-  loginEmail: {
-    type: String,
-    required: true,
-  },
-  loginPassword: {
-    type: String,
-    required: true,
-  },
-  availibilityStatus: {
-    type: Boolean,
-    required: true,
+  owner: {
+    name: {
+      type: String,
+      required: true
+    },
+    contact: {
+      type: String,
+      required: true,
+    },
+    cnic: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
   description: {
     type: String,
@@ -67,14 +89,7 @@ const HousesSchema = new Schema({
     type: [String],
     required: false,
   },
-  reservations: [{
-    user: Object,
-    checkIn: Date,
-    checkOut: Date,
-    adults: Number,
-    children: Number,
-    date: Date
-  }]
+  reservations: [Object]
 });
 
 module.exports = mongoose.model('Houses', HousesSchema);
