@@ -16,7 +16,7 @@ const appartmentsHouses = (req, res, next) => {
         path: "/Appartments/add-appartment",
         oldInput: {
           name: "",
-          price: "",
+          charges: "",
           contact: "",
           occupancy: "",
           parking: "",
@@ -121,10 +121,10 @@ const editGalleryHouses = (req, res, next) => {
 //Appartments post requests
 const postAddAppartment = async (req, res, next) => {
   const name = req.body.appartName;
-  const price = req.body.price;
+  const charges = req.body.charges;
   const contact = req.body.contact;
   const occupancy = req.body.occupancy;
-  const parking = req.body.parking  ? true : false;;
+  const parking = req.body.parking  ? true : false;
   const wifi = req.body.wifi ? true : false;;
   const secuirity = req.body.secuirity ? true : false;
   const kitchen = req.body.kitchen ? true : false;
@@ -154,7 +154,7 @@ const postAddAppartment = async (req, res, next) => {
       flashMessage: errors.array()[0].msg,
       oldInput: {
         name: name,
-        price: price,
+        charges: charges,
         contact: contact,
         parking: parking,
         area: area,
@@ -181,7 +181,7 @@ const postAddAppartment = async (req, res, next) => {
     name: name,
     contact: contact,
     occupancy: occupancy,
-    price: price,
+    charges: charges,
     contact: contact,
     parking: parking,
     wifi: wifi,
@@ -219,7 +219,7 @@ const postAddAppartment = async (req, res, next) => {
       flashMessage: errors.array()[0].msg,
       oldInput: {
         name: name,
-        price: price,
+        charges: charges,
         contact: contact,
         parking: parking,
         area: area,
@@ -241,10 +241,10 @@ const postAddAppartment = async (req, res, next) => {
 const postEditAppartment = async (req, res, next) => {
   const appartId = req.body.appartId;
   const name = req.body.appartName;
-  const price = req.body.price;
+  const charges = req.body.charges;
   const occupancy = Number(req.body.occupancy);
-  const parking = req.body.parking  ? true : false;;
-  const wifi = req.body.wifi ? true : false;;
+  const parking = req.body.parking  ? true : false;
+  const wifi = req.body.wifi ? true : false;
   const secuirity = req.body.secuirity ? true : false;
   const kitchen = req.body.kitchen ? true : false;
   const tv = req.body.tv ? true : false;
@@ -278,7 +278,7 @@ const postEditAppartment = async (req, res, next) => {
         appart: {
           id: appartId,
           name: name,
-          price: price,
+          charges: charges,
           contact: contact,
           parking: parking,
           area: area,
@@ -311,7 +311,7 @@ const postEditAppartment = async (req, res, next) => {
   try {
     const appart = await Appartments.findById(appartId);
     appart.name = name;
-    appart.price = price;
+    appart.charges = charges;
     appart.contact = contact;
     appart.occupancy = occupancy;
     appart.parking = parking;
@@ -338,7 +338,7 @@ const postEditAppartment = async (req, res, next) => {
     await appart.save();
     console.log("UPDATED appartment/house!");
     req.flash("message", "Appartment Data Updated Successfully");
-    res.redirect("/admin/Appartments/appartmentList");
+    res.redirect("/admin");
   } catch (err) {
     console.log(err);
     return res.render("../Admin/views/pages/Appartments/editAppartmentHouse", {
@@ -347,7 +347,7 @@ const postEditAppartment = async (req, res, next) => {
       appart: {
         id: appartId,
         name: name,
-        price: price,
+        charges: charges,
         contact: contact,
         parking: parking,
         area: area,

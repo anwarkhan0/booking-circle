@@ -21,11 +21,24 @@ const checkout = require("safepay/dist/resources/checkout");
 const session = require("express-session");
 const moment = require("moment");
 
+const collectUserInfo = (req, res) => {
+  if (!req.session.userLoggedIn) {
+    res.render("./pages/Hotels/customerInfo", {
+      loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
+    });
+  } else {
+    res.render("./pages/Payment/checkout", {
+      loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
+    });
+  }
+};
+
 const BookingCustomerInfo = (req, res)=>{
     const name = req.body.name;
     const phoneNo = req.body.phoneNo;
     const email = req.body.email;
-    console.log('session after user info',req.session.booking)
     req.session.booking.user = {
         name: name,
         phoneNo: phoneNo,
@@ -135,65 +148,58 @@ const bookSingleRoom = async (req, res)=>{
   res.redirect("/Bookings/userDetails");
 }
 
-const collectUserInfo = (req, res) => {
-  if (!req.session.userLoggedIn) {
-    res.render("./pages/Hotels/customerInfo", {
-      loggedIn: req.session.userLoggedIn,
-      user: req.session.user,
-    });
-  } else {
-    res.render("./pages/Payment/checkout", {
-      loggedIn: req.session.userLoggedIn,
-      user: req.session.user,
-    });
-  }
-};
-
 
 const paymentSuccess = async (req, res, next) => {
+  // type 1 = room,
+  // type 3 = appartment,
+  // type 2 = house,
+  // type 4 = vehicles,
+  // type 5 = tuors
 
-
-    // type 1 = room, 
-    // type 2 = appartment, 
-    // type 3 = house, 
-    // type 4 = vehicles, 
-    // type 5 = tuors
-    
-    try {
-        
-        if(req.session.booking.type == 1){
-            const hotel = await HotelsModel.findById(req.session.booking.hotelId);
-            req.session.booking.single.forEach((booking) => {
-              booking.user = req.session.booking.user;
-              booking.total = req.session.booking.total;
-              hotel.rooms.single.reservations.push(booking);
-            });
-            req.session.booking.twin.forEach((booking) => {
-              booking.user = req.session.booking.user;
-              booking.total = req.session.booking.total;
-              hotel.rooms.twin.reservations.push(booking);
-            });
-            req.session.booking.triple.forEach((booking) => {
-              booking.user = req.session.booking.user;
-              booking.total = req.session.booking.total;
-              hotel.rooms.triple.reservations.push(booking);
-            });
-            req.session.booking.quad.forEach((booking) => {
-              booking.user = req.session.booking.user;
-              booking.total = req.session.booking.total;
-              hotel.rooms.quad.reservations.push(booking);
-            });
-            req.session.booking.quin.forEach((booking) => {
-              booking.user = req.session.booking.user;
-              booking.total = req.session.booking.total;
-              hotel.rooms.quin.reservations.push(booking);
-            });
-            await hotel.save();
-            console.log('booking confirmed')
-            res.redirect('/Booking/confirmed')
-        }else if(req.session.booking.type == 2){
-          console.log(req.session.booking)
-        }
+  try {
+    if (req.session.booking.type == 1) {
+      const hotel = await HotelsModel.findById(req.session.booking.hotelId);
+      req.session.booking.single.forEach((booking) => {
+        booking.user = req.session.booking.user;
+        booking.total = req.session.booking.total;
+        hotel.rooms.single.reservations.push(booking);
+      });
+      req.session.booking.twin.forEach((booking) => {
+        booking.user = req.session.booking.user;
+        booking.total = req.session.booking.total;
+        hotel.rooms.twin.reservations.push(booking);
+      });
+      req.session.booking.triple.forEach((booking) => {
+        booking.user = req.session.booking.user;
+        booking.total = req.session.booking.total;
+        hotel.rooms.triple.reservations.push(booking);
+      });
+      req.session.booking.quad.forEach((booking) => {
+        booking.user = req.session.booking.user;
+        booking.total = req.session.booking.total;
+        hotel.rooms.quad.reservations.push(booking);
+      });
+      req.session.booking.quin.forEach((booking) => {
+        booking.user = req.session.booking.user;
+        booking.total = req.session.booking.total;
+        hotel.rooms.quin.reservations.push(booking);
+      });
+      await hotel.save();
+      console.log("booking confirmed");
+      res.redirect("/Booking/confirmed");
+    } else if (req.session.booking.type == 2) {
+      const house = await Houses.findById(req.session.booking.houseId);
+      house.reservations.push(req.session.booking);
+      await house.save();
+      res.redirect("/Booking/confirmed");
+    } else if (req.session.booking.type == 3) {
+      const appartment = await AppartmentModel.findById(
+        req.session.booking.appartmentId
+      );
+      appartment.reservations.push(req.session.booking);
+      await appartment.save();
+      res.redirect("/Booking/confirmed");
+    }
     //   // Room Booking data saving //////////////
     // if (req.session.bookingData.bookingMode == "room") {
     //   const hotel = await HotelsModel.findById(req.session.bookingData.hotelId);
@@ -256,20 +262,20 @@ const paymentSuccess = async (req, res, next) => {
     //   await tour.save();
     //   res.redirect('/Booking/confirmed');
     // }
-    } catch (err) {
-      console.log(err);
-      res.redirect('/Payment/error');
-    }
-  };
-
-  const bookingConfirmation = (req, res, next)=>{
-    console.log(req.session.bookingData)
-    res.render("./pages/Payment/success", {
-      loggedIn: req.session.userLoggedIn,
-      user: req.session.user,
-      data: req.session.bookingData
-    });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/Payment/error");
   }
+};
+
+const bookingConfirmation = (req, res, next) => {
+  console.log(req.session.bookingData);
+  res.render("./pages/Payment/success", {
+    loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
+    data: req.session.bookingData,
+  });
+};
 
 module.exports = {
     BookingCustomerInfo,

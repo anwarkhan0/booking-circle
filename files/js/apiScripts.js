@@ -34,9 +34,16 @@ $("#searchAppartments").click(function () {
   const checkOut = $("#end-date-1").val();
   const area = $("#area").val();
   const adults = $("#adults").val();
+  const children = $("#children").val();
 
-  window.location.href = `/Appartments/availableAppartments/?checkIn=${checkIn}&checkOut=${checkOut}&area=${area}&adults=${adults}`;
+  if(checkIn == '' || checkOut == '' || area == '' || adults == false){
+    document.getElementById('error').style.display = 'block';
+  }else{
+    window.location.href = `/Appartments/availableAppartments/?checkIn=${checkIn}&checkOut=${checkOut}&area=${area}&adults=${adults}&children=${children}`;
+  }
+
 });
+
 
 $("#searchVehicles").click(function () {
   const area = $("#area").val();

@@ -450,7 +450,7 @@ router.post(
       .isLength({ min: 2, max: 200 })
       .trim()
       .escape(),
-    body("price", "Please enter valid price.").isNumeric().trim(),
+    body("charges", "Please enter valid charges value.").isNumeric().trim(),
     body("contact", "Please enter valid Appartment Contact number.")
       .isLength({ min: 10, max: 11 })
       .isNumeric(),
@@ -560,11 +560,10 @@ router.post(
       .isLength({ min: 2, max: 200 })
       .trim()
       .escape(),
-    body("price", "Please enter valid price.").isNumeric().trim(),
+    body("charges", "Please enter valid charges value.").isNumeric().trim(),
     body("contact", "Please enter valid Appartment Contact number.")
       .isLength({ min: 10, max: 11 })
       .isNumeric(),
-    body("parking", "Please enter valid parking value.").isBoolean(),
     body("area", "Please enter valid location.")
       .notEmpty()
       .custom((val) => {

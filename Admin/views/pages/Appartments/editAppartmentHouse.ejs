@@ -50,7 +50,7 @@
 
                   <div class="form-group col-md-3">
                     <label>Rent</label>
-                    <input type="number" name="price" value="<%= appart.price %>" placeholder="Example: 5000"
+                    <input type="number" name="charges" value="<%= appart.charges %>" placeholder="Example: 5000"
                       class="form-control" required>
                   </div>
 
@@ -127,8 +127,8 @@
                             <label class="form-check-label" for="inlineCheckbox3">Pets</label>
                           </div>
                           <div class="form-check form-check-inline">
-                            <input name="secuirity" class="form-check-input" type="checkbox" id="" value="true">
-                            <label class="form-check-label" for="inlineCheckbox3" <%= appart.secuirity ? 'checked' : '' %> >Secuirity</label>
+                            <input name="secuirity" class="form-check-input" type="checkbox" id="" value="true" <%= appart.secuirity ? 'checked' : '' %>>
+                            <label class="form-check-label" for="inlineCheckbox3" >Secuirity</label>
                           </div>
                           <div class="form-check form-check-inline">
                             <input name="livingArea" class="form-check-input" type="checkbox" id="" value="true" <%= appart.livingArea ? 'checked' : '' %> >

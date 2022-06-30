@@ -44,17 +44,19 @@
 
 <div class="container sliderContainerClass" id="fixed">
     <div class="row">
-        <div class="col-12 mt-3">
+        <p class="text-danger font-weight-bold" style="display: none;" id="error">Please fill All the fields.</p>
+        <div class="col-12">
             <div class="booking-hero-wrap customWrapper">
                 <div class="row justify-content-center customJustifier">
-                    <div class="col-md-5 col-sm-12" id="dateId">
+                    
+                    <div class="col-md-4 col-sm-12" id="dateId">
                         <div class="input-daterange input-group" id="flight-datepicker">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-item inputClass">
                                         <span class="fontawesome-calendar"></span>
                                         <input class="input-sm" type="text" autocomplete="off" id="start-date-1"
-                                            name="start" placeholder="chech-in date" data-date-format="DD, MM d" />
+                                            name="start" placeholder="chech-in date" data-date-format="DD-MM-d" />
                                         <span class="date-text date-depart"></span>
                                     </div>
                                 </div>
@@ -62,7 +64,7 @@
                                     <div class="form-item inputClass">
                                         <span class="fontawesome-calendar"></span>
                                         <input class="input-sm" type="text" autocomplete="off" id="end-date-1"
-                                            name="end" placeholder="check-out date" data-date-format="DD, MM d" />
+                                            name="end" placeholder="check-out date" data-date-format="DD-MM-d" />
                                         <span class="date-text date-return"></span>
                                     </div>
                                 </div>
@@ -70,20 +72,44 @@
                         </div>
                     </div>
 
-                    <div class="col-md-5 col-sm-12" id="dateId">
+                    <div class="col-md-6 col-sm-12" >
                         <div class="row">
-                            <div class="col-6 selectClassCustom">
+                            <div class="col-5 selectClassCustom">
                                 <select class="wide nice-select" id="area">
-                                    <option data-display="Select Location" value=""></option>
-                                    <% for(let i= 0; i< areas.length; i++){ %> 
-                                    <option value="<%= areas[i].name %>"><%= areas[i].name %></option>
-                                    <% } %> 
+                                    <% areas.forEach( location => { %> 
+                                    <option data-display="Select Location"></option>
+                                    <option value="<%= location.name %>"><%= location.name %></option>
+                                    <% }) %> 
                                 </select>
                             </div>
+
+                            <div class="col-3 selectClassCustom">
+                                <select name="adults" class="wide" id="adults">
+                                    <option data-display="adults" value="false">adults</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+
+                            <div class="col-4 selectClassCustom">
+                                <select name="children" class="wide" id="children">
+                                    <option  value="0" >Children</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+
+                            
                         </div>
                     </div>
-                    <div class="col-6  col-sm-4 col-lg-2">
-                        <a class="booking-button" href="javascript: ;" id="searchAppartments">Search!</a>
+                    <div class="col-6  col-sm-4 col-md-2">
+                        <a class="booking-button" id="searchAppartments" href="javascript:;">Search!</a>
                     </div>
                 </div>
             </div>
@@ -94,6 +120,10 @@
 <div class="section padding-top-bottom over-hide background-grey">
     <div class="container">
         <div class="row justify-content-center">
+
+            <% if(appartments.length == 0){ %>
+                <h4>No Appartments Found</h4>
+            <% } %>  
 
             <% appartments.forEach(appartment => { %> 
             <div class="col-md-4 mt-4 mt-md-0" data-scroll-reveal="enter bottom move 50px over 0.7s after 0.2s">

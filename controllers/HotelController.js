@@ -44,7 +44,6 @@ const findHotels = async (req, res, next) => {
   const location = req.query.area;
   const allAdults = Number(req.query.adults);
   const children = Number(req.query.children);
-  console.log(allAdults, children);
   let adults = allAdults + children / 2;
 
   const hotels = await HotelsModel.find({ location: location });
@@ -94,6 +93,8 @@ const findHotels = async (req, res, next) => {
         if (isIndexAvailable) {
           hotel.booking = {
             roomIndex: i,
+            adults: allAdults,
+            children: children,
             noOfRooms: 1,
             date: new Date(),
             checkIn: entry,
@@ -135,6 +136,8 @@ const findHotels = async (req, res, next) => {
         if (isIndexAvailable) {
           hotel.booking = {
             roomIndex: i,
+            adults: allAdults,
+            children: children,
             noOfRooms: 1,
             date: new Date(),
             checkIn: entry,
@@ -183,6 +186,8 @@ const findHotels = async (req, res, next) => {
         if (isIndexAvailable) {
           hotel.booking = {
             roomIndex: i,
+            adults: allAdults,
+            children: children,
             noOfRooms: 1,
             date: new Date(),
             checkIn: entry,
@@ -231,6 +236,8 @@ const findHotels = async (req, res, next) => {
         if (isIndexAvailable) {
           hotel.booking = {
             roomIndex: i,
+            adults: allAdults,
+            children: children,
             noOfRooms: 1,
             date: new Date(),
             checkIn: entry,
@@ -279,6 +286,8 @@ const findHotels = async (req, res, next) => {
         if (isIndexAvailable) {
           hotel.booking = {
             roomIndex: i,
+            adults: allAdults,
+            children: children,
             noOfRooms: 1,
             date: new Date(),
             checkIn: entry,
@@ -368,17 +377,17 @@ const postRoomCheck = async (req, res, next) => {
   const adults1 = Number(req.body.adults1);
   const children1 = Number(req.body.children1);
 
-  const adults2 = req.body.adults2 ? Number(req.body.adults2) : "";
-  const children2 = req.body.children2 ? Number(req.body.children2) : "";
+  const adults2 = req.body.adults2 ? Number(req.body.adults2) : 0;
+  const children2 = req.body.children2 ? Number(req.body.children2) : 0;
 
-  const adults3 = req.body.adults3 ? Number(req.body.adults3) : "";
-  const children3 = req.body.children3 ? Number(req.body.children3) : "";
+  const adults3 = req.body.adults3 ? Number(req.body.adults3) : 0;
+  const children3 = req.body.children3 ? Number(req.body.children3) : 0;
 
-  const adults4 = req.body.adults4 ? Number(req.body.adults4) : "";
-  const children4 = req.body.children4 ? Number(req.body.children4) : "";
+  const adults4 = req.body.adults4 ? Number(req.body.adults4) : 0;
+  const children4 = req.body.children4 ? Number(req.body.children4) : 0;
 
-  const adults5 = req.body.adults5 ? Number(req.body.adults5) : "";
-  const children5 = req.body.children5 ? Number(req.body.children5) : "";
+  const adults5 = req.body.adults5 ? Number(req.body.adults5) : 0;
+  const children5 = req.body.children5 ? Number(req.body.children5) : 0;
 
   const hotel = await HotelsModel.findById(hotelId);
   // set counter to count rooms
@@ -388,6 +397,8 @@ const postRoomCheck = async (req, res, next) => {
   let totalCharges = 0;
   const booking = {
     type: 1,
+    adults: adults1 + adults2 + adults3 + adults4 + adults5,
+    children: children1 + children2 + children3 + children4,
     single: [],
     twin: [],
     triple: [],

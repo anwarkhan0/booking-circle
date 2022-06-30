@@ -73,11 +73,22 @@
                         <div class="col-md-5 col-sm-12" id="dateId">
                             <div class="row">
                                 <div class="col-6 selectClassCustom">
-                                    <select class="wide nice-select" id="area">
+                                    <select class="wide nice-select" id="location">
                                         <option data-display="Select Location" value=""></option>
                                         <% for(let i= 0; i< areas.length; i++){ %> 
                                         <option value="<%= areas[i].name %>"><%= areas[i].name %></option>
                                         <% } %> 
+                                    </select>
+                                </div>
+                                <div class="col-6 selectClassCustom">
+                                    <select class="wide nice-select" id="bedRooms">
+                                        <option data-display="Select Bed Rooms" value=""></option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        
                                     </select>
                                 </div>
                             </div>
@@ -112,3 +123,14 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('searchHouses').addEventListener('click', ()=>{
+            const checkIn = document.getElementById('start-date-1').value;
+            const checkOut = document.getElementById('end-date-1').value;
+            const location = document.getElementById('location').value;
+            const bedRooms = document.getElementById('bedRooms').value;
+
+            window.location.href = `/Houses/findHouses?checkIn=${checkIn}&checkOut=${checkOut}&location=${location}&bedRooms=${bedRooms}`;
+        })
+    </script>

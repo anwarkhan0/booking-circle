@@ -95,11 +95,73 @@ const houses = async (req, res, next) => {
   
   }
 
+  const findHouses = async (req, res)=>{
+    const checkIn = req.query.checkIn.replace(/\./g, "/");
+    const checkOut = req.query.checkOut.replace(/\./g, "/");
+    const location = req.query.location;
+    const bedRooms = req.query.bedRooms;
+
+    const entry = new Date(checkIn);
+    const exit = new Date(checkOut);
+
+    try {
+      const houses = await Houses.find({location: location});
+      const filteredHouses = [];
+      houses.forEach(house => {
+        if(house.bedRooms < bedRooms) return;
+        let isAvailable;
+        if(house.reservations.length == 0) isAvailable = true;
+        house.reservations.forEach(reservation => {
+          if (
+            entry >= reservation.checkIn &&
+            entry <= reservation.checkOut
+          ) {
+            isAvailable = false;
+            return;
+          } else if (
+            exit >= reservation.checkIn &&
+            exit <= reservation.checkOut
+          ) {
+            isAvailable = false;
+            return;
+          } else if (
+            entry < reservation.checkIn &&
+            exit > reservation.checkOut
+          ) {
+            isAvailable = false;
+            return;
+          }
+          isAvailable = true;
+        });
+    
+        if(isAvailable){
+          house.booking = {
+            type: 2,
+            checkIn: entry,
+            checkOut: exit,
+            houseId: house.id
+          }
+          filteredHouses.push(house);
+        }
+      })
+      const areas = await AreasModel.find();
+      res.render("./pages/Houses/houseList", {
+        loggedIn: req.session.userLoggedIn,
+        user: req.session.user,
+        areas: areas,
+        houses: filteredHouses,
+      });
+    } catch (err) {
+      console.log(err)
+    }
+
+  }
+
   const houseCheck = async (req, res)=>{
     const checkIn = req.body.checkIn.replace(/\./g, "/");
     const checkOut = req.body.checkOut.replace(/\./g, "/");
-    const adults = req.body.adults;
-    const children = req.body.children;
+    const adults = Number(req.body.adults);
+    const children = Number(req.body.children);
     const houseId = req.body.houseId;
     
     const entry = new Date(checkIn);
@@ -150,8 +212,6 @@ const houses = async (req, res, next) => {
       console.log(err);
       res.redirect('/')
     }
-
-
   }
 
 
@@ -159,5 +219,6 @@ module.exports = {
     houses,
     houseInfo,
     filterHouses,
-    houseCheck
+    houseCheck,
+    findHouses
 }

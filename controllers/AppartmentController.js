@@ -111,6 +111,8 @@ const filterAppartments = async (req, res)=>{
 const findAppartments = async (req, res, next) => {
   const checkIn = req.query.checkIn.replace(/\./g, "/");
   const checkOut = req.query.checkOut.replace(/\./g, "/");
+  const adults = req.query.adults;
+  const children = req.query.children;
   const location = req.query.area;
 
   const queryParams = {};
@@ -124,11 +126,13 @@ const findAppartments = async (req, res, next) => {
   const appartments = await AppartmentModel.find(queryParams);
 
   const filteredAppartments = [];
-  if (checkIn != "" && checkOut != "") {
-    let formatedCheckin = new Date(checkIn);
-    let formatedCheckout = new Date(checkOut);
+  let formatedCheckin = new Date(checkIn);
+  let formatedCheckout = new Date(checkOut);
 
-    appartments.forEach((appartment) => {
+  appartments.forEach((appartment) => {
+    let isSuitable =
+      (adults + children / 2) / appartment.occupancy <= 1 ? true : false;
+    if (isSuitable) {
       if (appartment.reservations.length == 0) {
         filteredAppartments.push(appartment);
       } else {
@@ -158,100 +162,25 @@ const findAppartments = async (req, res, next) => {
           filteredAppartments.push(appartment);
         }
       }
-    });
-    res.render("./pages/Appartments/allappartments", {
-      loggedIn: req.session.userLoggedIn,
-      user: req.session.user,
-      areas: areas,
-      appartments: filteredAppartments,
-    });
-  } else {
-    res.render("./pages/Appartments/allappartments", {
-      loggedIn: req.session.userLoggedIn,
-      user: req.session.user,
-      areas: areas,
-      appartments: appartments,
-    });
-  }
+    }
+  });
+  res.render("./pages/Appartments/allappartments", {
+    loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
+    areas: areas,
+    appartments: filteredAppartments
+  });
 };
 
-const postAppartmentBooking = async (req, res, next) => {
+const appartmentCheck = async (req, res, next) => {
   const appartmentId = req.query.appartmentId;
   const checkIn = req.query.checkIn.replace(/\./g, "/");
   const checkOut = req.query.checkOut.replace(/\./g, "/");
   const adults = req.query.adults;
   const children = req.query.children;
-  const routePath = req.query.routePath;
-  const redirectUrl = routePath + appartmentId;
-
-  if (!req.session.userLoggedIn) {
-    req.session.redirectUrl = redirectUrl;
-    res.redirect("/user/login");
-    return;
-  }
 
   const appartment = await AppartmentModel.findById(appartmentId);
-  const formatedCheckin = new Date(checkIn);
-  const formatedCheckout = new Date(checkOut);
-  let flag;
 
-  if (appartment.reservations.length == 0) {
-    flag = true;
-  } else {
-    for (let i = 0; i < appartment.reservations.length; i++) {
-      flag = false;
-      if (
-        formatedCheckin >= appartment.reservations[i].checkIn &&
-        formatedCheckin <= appartment.reservations[i].checkOut
-      ) {
-        console.log("this appartment is not available");
-        break;
-      }
-      if (
-        formatedCheckout >= appartment.reservations[i].checkIn &&
-        formatedCheckout <= appartment.reservations[i].checkOut
-      ) {
-        console.log("this appartment is not available");
-        break;
-      }
-      if (
-        formatedCheckin < appartment.reservations[i].checkIn &&
-        formatedCheckout > appartment.reservations[i].checkOut
-      ) {
-        console.log("this appartment is not available");
-        break;
-      }
-      flag = true;
-    }
-  }
-
-  if (!flag) {
-    return res.status(422).render("./pages/Appartments/apartmentBooking", {
-      loggedIn: req.session.userLoggedIn,
-      user: req.session.user,
-      appartmentId: appartment.id,
-      appartment: appartment,
-      flashMessage:
-        "Sorry, this appartment/house is already reserved for given dates.",
-      oldInput: {
-        checkIn: checkIn,
-        checkOut: checkOut,
-        adults: adults,
-        children: children,
-      },
-      // validationErrors: errors.array(),
-    });
-  }
-  const bookingData = {
-    user: req.session.user,
-    bookingMode: "appartment",
-    appartmentId: appartmentId,
-    checkIn: checkIn,
-    checkOut: checkOut,
-    adults: adults,
-    children: children,
-    date: new Date(),
-  };
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).render("./pages/Appartments/apartmentBooking", {
@@ -269,13 +198,68 @@ const postAppartmentBooking = async (req, res, next) => {
       // validationErrors: errors.array(),
     });
   }
-  req.session.bookingData = bookingData;
-  res.render("./pages/Payment/checkout", {
-    layout: false,
-    loggedIn: req.session.userLoggedIn,
-    user: req.session.user,
-    charges: appartment.price,
-  });
+
+  const entry = new Date(checkIn);
+  const exit = new Date(checkOut);
+  let isAvailable;
+  let isSuitable = (adults + children/2)/appartment.occupancy <= 1 ? true : false;
+
+  if(isSuitable){
+    if (appartment.reservations.length == 0) {
+      isAvailable = true;
+    } else {
+      for (let i = 0; i < appartment.reservations.length; i++) {
+        isAvailable = false;
+        if (
+          entry >= appartment.reservations[i].checkIn &&
+          entry <= appartment.reservations[i].checkOut
+        ) {
+          console.log("this appartment is not available");
+          break;
+        }
+        if (
+          exit >= appartment.reservations[i].checkIn &&
+          exit <= appartment.reservations[i].checkOut
+        ) {
+          console.log("this appartment is not available");
+          break;
+        }
+        if (
+          entry < appartment.reservations[i].checkIn &&
+          exit > appartment.reservations[i].checkOut
+        ) {
+          console.log("this appartment is not available");
+          break;
+        }
+        isAvailable = true;
+      }
+    }
+  }else{
+    isAvailable = false;
+  }
+  
+
+  if(isAvailable){
+    req.session.booking = {
+      type: 3,
+      appartmentId: appartmentId,
+      checkIn: entry,
+      checkOut: exit,
+      adults: adults,
+      children: children,
+      date: new Date(),
+    };
+    
+    res.redirect("/Bookings/userDetails");
+  }else{
+    const appartments = await AppartmentModel.find();
+    res.render("./pages/Appartments/notAvailable", {
+      loggedIn: req.session.userLoggedIn,
+      user: req.session.user,
+      appartments: appartments
+    })
+  }
+
 };
 
 const appartmentGallery = (req, res, next) =>
@@ -289,7 +273,7 @@ module.exports = {
   allappartments,
   apartmentBooking,
   appartmentGallery,
-  postAppartmentBooking,
+  appartmentCheck,
   searchAppartments,
   findAppartments,
   filterAppartments

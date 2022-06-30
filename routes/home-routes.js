@@ -70,7 +70,7 @@ const {
   allappartments,
   apartmentBooking,
   appartmentGallery,
-  postAppartmentBooking,
+  appartmentCheck,
   searchAppartments,
   findAppartments,
   filterAppartments
@@ -80,7 +80,8 @@ const {
   houses,
   houseInfo,
   filterHouses,
-  houseCheck
+  houseCheck,
+  findHouses
 } = require('../controllers/HousesController');
 
 const {
@@ -157,13 +158,14 @@ router.get("/Appartments/booking/payment",
   query("adults", "Enter number of Adults").custom(val => val == 'false' ? false : true),
   query("children", "Enter number of Children.").custom(val => val == 'false' ? false : true)
 ],
-postAppartmentBooking);
+appartmentCheck);
 
 // Houses
 router.get("/Houses/list", houses);
 router.get("/Houses/houseInfo/:id", houseInfo);
 router.get("/Houses/filter", filterHouses);
-router.post("/Houses/houseCheck", houseCheck)
+router.post("/Houses/houseCheck", houseCheck);
+router.get("/Houses/findHouses", findHouses);
 
 // Hotels
 router.get("/Hotels/availableHotels/", findHotels);
