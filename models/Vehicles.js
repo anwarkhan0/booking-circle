@@ -64,14 +64,7 @@ const VehiclesSchema = new Schema({
         type: [String],
         required: false
     },
-    reservations: [{
-        user: Object,
-        checkIn: Date,
-        checkOut: Date,
-        adults: Number,
-        children: Number,
-        date: Date
-      }]
+    reservations: [Object]
 });
 
 module.exports = mongoose.model('Vehicles', VehiclesSchema);

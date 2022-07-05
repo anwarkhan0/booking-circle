@@ -199,6 +199,13 @@ const paymentSuccess = async (req, res, next) => {
       appartment.reservations.push(req.session.booking);
       await appartment.save();
       res.redirect("/Booking/confirmed");
+    }else if (req.session.booking.type == 4) {
+      const vehicle = await VehiclesModel.findById(
+        req.session.booking.vehicleId
+      );
+      vehicle.reservations.push(req.session.booking);
+      await vehicle.save();
+      res.redirect("/Booking/confirmed");
     }
     //   // Room Booking data saving //////////////
     // if (req.session.bookingData.bookingMode == "room") {

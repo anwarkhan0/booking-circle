@@ -87,7 +87,7 @@ const {
 const {
   vehicles,
   vehicleBooking,
-  postVehicleBooking,
+  vehicleCheck,
   searchVehicles,
   findVehicles
 } = require('../controllers/VehiclesController');
@@ -195,7 +195,7 @@ router.get("/Hotels/:location", searchHotels);
 router.post("/Hotels/roomsCheck", postRoomCheck);
 
 // Vehicles
-router.get("/Vehicles/booking",
+router.post("/Vehicles/vehicleCheck",
 [
   query("checkIn", "Please enter Check In Date.").notEmpty(),
   query("checkOut", "Please enter Check Out Date.").custom((val, {req, loc, path}) =>{
@@ -210,7 +210,7 @@ router.get("/Vehicles/booking",
   query("adults", "Enter number of Adults").custom(val => val == 'false' ? false : true),
   query("children", "Enter number of Children.").custom(val => val == 'false' ? false : true)
 ],
-postVehicleBooking);
+vehicleCheck);
 router.get("/Vehicles/availableVehicles", findVehicles);
 router.get("/Vehicles/list", vehicles);
 router.get("/Vehicles/vehicleBooking/:id", vehicleBooking);

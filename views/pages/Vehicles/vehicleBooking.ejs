@@ -143,6 +143,7 @@
                 <div class="col-lg-4 order-first order-lg-last">
                     <div class="section background-dark p-4">
                         <div class="row">
+                            <form action="/Vehicles/vehicleCheck" method="POST">
                             <p class="text-danger"><%= flashMessage %> </p>
                             <div class="col-12">
                                 <div class="input-daterange input-group" id="flight-datepicker">
@@ -170,7 +171,7 @@
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-md-12 pt-4">
-                                        <select class="wide nice-select" id="pickupLocation">
+                                        <select class="wide nice-select" name="pickup" id="pickup">
                                             <option data-display="Pickup Location"></option>
                                             <% areas.forEach((area)=> { %>
                                                 <option value="<%= area.name %>" <%= area.name == oldInput.location ? 'selected' : '' %>  ><%= area.name %></option>
@@ -178,7 +179,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-12 pt-4">
-                                        <select class="wide nice-select" id="dropOffLocation">
+                                        <select class="wide nice-select" name="dropOff" id="dropOff">
                                             <option data-display="Drop Off Location"></option>
                                             <% areas.forEach((area)=> { %>
                                                 <option value="<%= area.name %>" <%= area.name == oldInput.location ? 'selected' : '' %>  ><%= area.name %></option>
@@ -210,8 +211,9 @@
                             </div>
                             <input type="hidden" value="<%= vehicle.id %>" id="vehicleId">
                             <div class="col-12 pt-4">
-                                <a class="booking-button" id="vehicleBooking">book now</a>
+                                <button class="booking-button" type="submit" id="vehicleBooking">book now</button>
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>
