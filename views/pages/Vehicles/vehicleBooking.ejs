@@ -170,8 +170,16 @@
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-md-12 pt-4">
-                                        <select class="wide nice-select" id="location">
-                                            <option data-display="Location"></option>
+                                        <select class="wide nice-select" id="pickupLocation">
+                                            <option data-display="Pickup Location"></option>
+                                            <% areas.forEach((area)=> { %>
+                                                <option value="<%= area.name %>" <%= area.name == oldInput.location ? 'selected' : '' %>  ><%= area.name %></option>
+                                                <% }) %>  
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 pt-4">
+                                        <select class="wide nice-select" id="dropOffLocation">
+                                            <option data-display="Drop Off Location"></option>
                                             <% areas.forEach((area)=> { %>
                                                 <option value="<%= area.name %>" <%= area.name == oldInput.location ? 'selected' : '' %>  ><%= area.name %></option>
                                                 <% }) %>  

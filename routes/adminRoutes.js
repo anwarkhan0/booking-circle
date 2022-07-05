@@ -944,12 +944,16 @@ router.post(
       .trim()
       .isNumeric()
       .escape(),
-    body("status", "Invalid input status input.").notEmpty().isBoolean(),
     body("seats", "Please enter valid seats value.")
       .notEmpty()
       .isLength({ min: 1 })
       .trim()
       .isNumeric()
+      .escape(),
+    body("serviceArea", "Please enter valid Service area.")
+      .notEmpty()
+      .isLength({ min: 2 })
+      .trim()
       .escape(),
     body("videoUrl", "Invalid URL.").notEmpty().isURL(),
     body("description", "Please enter valid description.")
@@ -1025,7 +1029,6 @@ router.post(
       .trim()
       .isNumeric()
       .escape(),
-    body("status", "Invalid input status input.").notEmpty().isBoolean(),
     body("seats", "Please enter valid seats value.")
       .notEmpty()
       .isLength({ min: 1 })

@@ -24,8 +24,8 @@ const VehiclesSchema = new Schema({
         type: String,
         required: true
     },
-    availabilityStatus: {
-        type: Boolean,
+    serviceArea: {
+        type: String,
         required: true
     },
     ownerName: {

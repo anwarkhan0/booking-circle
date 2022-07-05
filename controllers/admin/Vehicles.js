@@ -123,9 +123,9 @@ const addCategory = (req, res, next) => {
     try {
       const areas = await Areas.find();
       const cats = await vehicleCategory.find();
-      if (!cats) {
+      if (cats.length === 0) {
         console.log("could't find categories");
-        res.redirect("/VehiclesCategory/addCategory");
+        res.redirect("/admin/VehiclesCategory/addCategory");
       } else {
         res.render("../Admin/views/pages/Vehicles/addVehicles", {
           areas: areas,
@@ -138,7 +138,6 @@ const addCategory = (req, res, next) => {
             vehicleNo: "",
             model: "",
             seats: "",
-            availabilityStatus: "",
             ownerName: "",
             ownerCNIC: "",
             ownerContact: "",
@@ -236,7 +235,7 @@ const addCategory = (req, res, next) => {
     const vehicleNo = req.body.vehicleNo;
     const model = req.body.model;
     const seats = req.body.seats;
-    const status = req.body.status;
+    const serviceArea = req.body.serviceArea;
     const ownerName = req.body.ownerName;
     const ownerCNIC = req.body.ownerCNIC;
     const ownerContact = req.body.ownerContact;
@@ -247,20 +246,22 @@ const addCategory = (req, res, next) => {
     const videoUrl = req.body.videoUrl;
   
     const errors = validationResult(req);
+    const areas = await Areas.find();
+    const cats = await vehicleCategory.find();
     if (!errors.isEmpty()) {
-      const cats = await vehicleCategory.find();
-      return res.status(422).render("../views/pages/Vehicles/addVehicles", {
+      return res.status(422).render("../Admin/views/pages/Vehicles/addVehicles", {
         path: "/Vehicles/addVehicle",
         pageTitle: "Vehicles",
         flashMessage: errors.array()[0].msg,
         cats: cats,
+        areas: areas,
         oldInput: {
           categoryId: category.id,
           categoryName: category.name,
           vehicleNo: vehicleNo,
           model: model,
           seats: seats,
-          availabilityStatus: status,
+          serviceArea: serviceArea,
           ownerName: ownerName,
           ownerCNIC: ownerCNIC,
           ownerContact: ownerContact,
@@ -273,34 +274,6 @@ const addCategory = (req, res, next) => {
         validationErrors: errors.array(),
       });
     }
-  
-    // const cats = await vehicleCategory.find();
-    // cats.forEach((cat)=>{
-    //   const vehicle = new Vehicles({
-    //     categoryId: cat.id,
-    //     categoryName: cat.name,
-    //     vehicleNo: vehicleNo,
-    //     model: model,
-    //     seats: seats,
-    //     availabilityStatus: status,
-    //     ownerName: ownerName,
-    //     ownerCNIC: ownerCNIC,
-    //     ownerContact: ownerContact,
-    //     ownerArea: ownerArea,
-    //     ownerAddress: ownerAddress,
-    //     description: description,
-    //     features: features,
-    //     videoUrl: videoUrl,
-    //   });
-    
-    //   try {
-    //     vehicle.save();
-    //     console.log("Added vehicle");
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    
-    // })
     
     const vehicle = new Vehicles({
       categoryId: category.id,
@@ -308,7 +281,7 @@ const addCategory = (req, res, next) => {
       vehicleNo: vehicleNo,
       model: model,
       seats: seats,
-      availabilityStatus: status,
+      serviceArea: serviceArea,
       ownerName: ownerName,
       ownerCNIC: ownerCNIC,
       ownerContact: ownerContact,
@@ -323,9 +296,33 @@ const addCategory = (req, res, next) => {
       await vehicle.save();
       console.log("Added vehicle");
       req.flash("message", "Vehicle Added Successfully");
-      res.redirect("/admin/Vehicles/vehicleList");
+      res.redirect("/admin");
     } catch (err) {
       console.log(err);
+      return res.status(422).render("../Admin/views/pages/Vehicles/addVehicles", {
+        path: "/Vehicles/addVehicle",
+        pageTitle: "Vehicles",
+        flashMessage: 'Something went wrong.',
+        cats: cats,
+        areas: areas,
+        oldInput: {
+          categoryId: category.id,
+          categoryName: category.name,
+          vehicleNo: vehicleNo,
+          model: model,
+          seats: seats,
+          serviceArea: serviceArea,
+          ownerName: ownerName,
+          ownerCNIC: ownerCNIC,
+          ownerContact: ownerContact,
+          ownerAddress: ownerAddress,
+          ownerArea: ownerArea,
+          description: description,
+          features: features,
+          videoUrl: videoUrl,
+        },
+        validationErrors: errors.array(),
+      });
     }
   };
   
@@ -335,7 +332,7 @@ const addCategory = (req, res, next) => {
     const vehicleNo = req.body.vehicleNo;
     const model = req.body.model;
     const seats = req.body.seats;
-    const status = req.body.status;
+    const serviceArea = req.body.serviceArea;
     const ownerName = req.body.ownerName;
     const ownerCNIC = req.body.ownerCNIC;
     const ownerContact = req.body.ownerContact;
@@ -346,9 +343,9 @@ const addCategory = (req, res, next) => {
     const videoUrl = req.body.videoUrl;
   
     const errors = validationResult(req);
+    const cats = await vehicleCategory.find();
+    const areas = await Areas.find();
     if (!errors.isEmpty()) {
-      const cats = await vehicleCategory.find();
-      const areas = await Areas.find();
   
       return res.status(422).render("../Admin/views/pages/Vehicles/editVehicle", {
         path: "/Vehicles/addVehicle",
@@ -363,7 +360,7 @@ const addCategory = (req, res, next) => {
           vehicleNo: vehicleNo,
           model: model,
           seats: seats,
-          availabilityStatus: status,
+          serviceArea: serviceArea,
           ownerName: ownerName,
           ownerCNIC: ownerCNIC,
           ownerContact: ownerContact,
@@ -384,7 +381,7 @@ const addCategory = (req, res, next) => {
       vehicle.vehicleNo = vehicleNo;
       vehicle.model = model;
       vehicle.seats = seats;
-      vehicle.availabilityStatus = status;
+      vehicle.serviceArea = serviceArea;
       vehicle.ownerName = ownerName;
       vehicle.ownerCNIC = ownerCNIC;
       vehicle.ownerContact = ownerContact;
@@ -398,9 +395,34 @@ const addCategory = (req, res, next) => {
   
       console.log("Updated vehicle");
       req.flash("message", "Vehicle Data Updated Successfully");
-      res.redirect("/admin/Vehicles/vehicleList");
+      res.redirect("/admin");
     } catch (err) {
       console.log(err);
+      return res.status(422).render("../Admin/views/pages/Vehicles/editVehicle", {
+        path: "/Vehicles/addVehicle",
+        pageTitle: "Vehicles",
+        flashMessage: errors.array()[0].msg,
+        cats: cats,
+        areas: areas,
+        vehicle: {
+          id: id,
+          categoryId: category.id,
+          categoryName: category.name,
+          vehicleNo: vehicleNo,
+          model: model,
+          seats: seats,
+          serviceArea: serviceArea,
+          ownerName: ownerName,
+          ownerCNIC: ownerCNIC,
+          ownerContact: ownerContact,
+          ownerArea: ownerArea,
+          ownerAddress: ownerAddress,
+          description: description,
+          features: features,
+          videoUrl: videoUrl,
+        },
+        validationErrors: errors.array(),
+      });
     }
   };
   

@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
+const moment = require('moment');
 
 //models
 const Areas = require("../../models/Location");
@@ -140,6 +141,7 @@ const hotelBookings = async (req, res, next)=>{
   const hotels = await Hotels.find();
   res.render("../Admin/views/pages/Hotels/bookings", {
     hotels: hotels,
+    moment: moment,
     pageTitle: "Hotels Reservations",
     path: "/Hotels/hotels-reservations",
   });

@@ -59,18 +59,18 @@
                   </div>
 
                   <div class="form-group col-md-4">
-                    <label>Vehicle Status</label>
-                    <select class="form-control" name="status" required>
-                      <option value="true" <%=vehicle.availabilityStatus ? 'selected' : '' %> >Available</option>
-                      <option value="false" <%=!vehicle.availabilityStatus ? 'selected' : '' %>>Not Available
-                      </option>
-                    </select>
-                  </div>
-
-                  <div class="form-group col-md-4">
                     <label>Vehicle Seats</label>
                     <input type="number" name="seats" value="<%= vehicle.seats %>" placeholder="Example: 5"
                       class="form-control" required>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label>Service Area</label>
+                    <select class="form-control" name="serviceArea" required>
+                      <% areas.forEach((area)=>{ %> 
+                      <option value="<%= area.name %>" <%= vehicle.serviceArea == area.name ? 'selected' : '' %> ><%= area.name %> </option>
+                      <% }) %> 
+                    </select>
                   </div>
 
                   <!-- New Data -->

@@ -58,10 +58,10 @@
                           <td><%= hotel.name %> </td>
                           <td><%= reservation.user.email %> </td>
                           <td><%= reservation.user.phone %> </td>
-                          <td><%= reservation.date %> </td>
+                          <td><%= moment(reservation.date) %> </td>
                           <td><%= reservation.noOfRooms %> </td>
-                          <td><%= reservation.checkIn %> </td>
-                          <td><%= reservation.checkOut %> </td>
+                          <td><%= moment(reservation.checkIn) %> </td>
+                          <td><%= moment(reservation.checkOut) %> </td>
                         </tr>
                      <% }) %> 
                     <% }) %>

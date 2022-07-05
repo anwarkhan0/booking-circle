@@ -312,16 +312,16 @@
 		<h3 class="text-center  text-white subtitle with-line mb-5">OUR Cars</h3>
 
 		<div class="row">
-			<% for(let i= 0; i< vehicles.length; i++){ %> 
+			<% vehicles.forEach( vehicle => { %> 
 			<div class="col-sm-6 col-lg-4 ">
-				<a href="/Vehicles/<%= vehicles[i].ownerArea %>">
+				<a href="/Vehicles/<%= vehicle.serviceArea %>">
 					<div class="img-wrap services-wrap h-300">
-						<img src="uploads/<%= vehicles[i].gallery[0] %>" alt="" class="image-cover">
-						<div class="services-text-over booking-button fit-content"><%= vehicles[i].ownerArea %></div>
+						<img src="uploads/<%= vehicle.gallery[0] ? vehicle.gallery[0] : 'noImage.png' %>" alt="" class="image-cover">
+						<div class="services-text-over booking-button fit-content"><%= vehicle.ownerArea %></div>
 					</div>
 				</a>
 			</div>
-			<% } %> 
+			<% }) %> 
 		</div>
 		<a class="booking-button mt-5" href="/vehicles/list">Cars in all Cities</a>
 	</div>
