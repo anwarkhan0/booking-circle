@@ -197,18 +197,18 @@ router.post("/Hotels/roomsCheck", postRoomCheck);
 // Vehicles
 router.post("/Vehicles/vehicleCheck",
 [
-  query("checkIn", "Please enter Check In Date.").notEmpty(),
-  query("checkOut", "Please enter Check Out Date.").custom((val, {req, loc, path}) =>{
+  body("checkIn", "Please enter Check In Date.").notEmpty(),
+  body("checkOut", "Please enter Check Out Date.").custom((val, {req, loc, path}) =>{
     let checkout = new Date(val.replace(/\./g, "/"));
-    let checkin = new Date(req.query.checkIn.replace(/\./g, "/"));
+    let checkin = new Date(req.body.checkIn.replace(/\./g, "/"));
     if(checkout <= checkin){
       throw new Error("Please Select a valid checkout date.");
     }else{
       return true;
     }
   }),
-  query("adults", "Enter number of Adults").custom(val => val == 'false' ? false : true),
-  query("children", "Enter number of Children.").custom(val => val == 'false' ? false : true)
+  body("adults", "Enter number of Adults").custom(val => val == 'false' ? false : true),
+  body("children", "Enter number of Children.").custom(val => val == 'false' ? false : true)
 ],
 vehicleCheck);
 router.get("/Vehicles/availableVehicles", findVehicles);

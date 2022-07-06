@@ -1,7 +1,8 @@
 const bcrypt = require("bcrypt");
 const { validationResult, check } = require("express-validator");
 const Safepay = require("safepay");
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 const HomeModel = require("../models/homeModel");
 const AreasModel = require("../models/Location");
@@ -35,23 +36,23 @@ const collectUserInfo = (req, res) => {
   }
 };
 
-const BookingCustomerInfo = (req, res)=>{
-    const name = req.body.name;
-    const phoneNo = req.body.phoneNo;
-    const email = req.body.email;
-    req.session.booking.user = {
-        name: name,
-        phoneNo: phoneNo,
-        email: email
-    }
+const BookingCustomerInfo = (req, res) => {
+  const name = req.body.name;
+  const phoneNo = req.body.phoneNo;
+  const email = req.body.email;
+  req.session.booking.user = {
+    name: name,
+    phoneNo: phoneNo,
+    email: email,
+  };
 
-    res.render("./pages/Payment/checkout", {
-      loggedIn: req.session.userLoggedIn,
-      user: req.session.user,
-    });
-}
+  res.render("./pages/Payment/checkout", {
+    loggedIn: req.session.userLoggedIn,
+    user: req.session.user,
+  });
+};
 
-const bookSingleRoom = async (req, res)=>{
+const bookSingleRoom = async (req, res) => {
   const hotelId = req.query.hotelId;
   let checkIn = req.query.checkin.replace(/\./g, "/");
   let checkOut = req.query.checkout.replace(/\./g, "/");
@@ -64,14 +65,14 @@ const bookSingleRoom = async (req, res)=>{
     twin: [],
     triple: [],
     quad: [],
-    quin: []
-  }
+    quin: [],
+  };
   const entry = new Date(checkIn);
   const exit = new Date(checkOut);
   const start = moment(entry, "YYYY-MM-DD");
   const end = moment(exit, "YYYY-MM-DD");
   const days = moment.duration(end.diff(start)).asDays();
-  
+
   let total;
   switch (true) {
     case whichRoom == 1:
@@ -144,10 +145,9 @@ const bookSingleRoom = async (req, res)=>{
   }
   req.session.booking = booking;
   req.session.booking.hotelId = hotelId;
-  console.log(req.session.booking )
+  console.log(req.session.booking);
   res.redirect("/Bookings/userDetails");
-}
-
+};
 
 const paymentSuccess = async (req, res, next) => {
   // type 1 = room,
@@ -199,7 +199,7 @@ const paymentSuccess = async (req, res, next) => {
       appartment.reservations.push(req.session.booking);
       await appartment.save();
       res.redirect("/Booking/confirmed");
-    }else if (req.session.booking.type == 4) {
+    } else if (req.session.booking.type == 4) {
       const vehicle = await VehiclesModel.findById(
         req.session.booking.vehicleId
       );
@@ -207,68 +207,6 @@ const paymentSuccess = async (req, res, next) => {
       await vehicle.save();
       res.redirect("/Booking/confirmed");
     }
-    //   // Room Booking data saving //////////////
-    // if (req.session.bookingData.bookingMode == "room") {
-    //   const hotel = await HotelsModel.findById(req.session.bookingData.hotelId);
-    //   let reservedRoom;
-    //   console.log(new Date());
-    //   hotel.rooms.forEach((room) => {
-    //     if (room.id == req.session.bookingData.roomId) {
-    //       room.reservations.push({
-    //         user: req.session.user,
-    //         checkIn: req.session.bookingData.checkIn,
-    //         checkOut: req.session.bookingData.checkOut,
-    //         adults: Number(req.session.bookingData.adults),
-    //         date: req.session.bookingData.date,
-    //       });
-    //       reservedRoom = room;
-    //     }
-    //   });
-    //   await hotel.save();
-    //   res.redirect('/Booking/confirmed');
-    //   // Appartment booking data save ///////////////
-    // } else if (req.session.bookingData.bookingMode == "appartment") {
-    //   const appartment = await AppartmentModel.findById(
-    //     req.session.bookingData.appartmentId
-    //   );
-    //   appartment.reservations.push({
-    //     loggedIn: req.session.userLoggedIn,
-    //     user: req.session.user,
-    //     checkIn: req.session.bookingData.checkIn,
-    //     checkOut: req.session.bookingData.checkOut,
-    //     adults: Number(req.session.bookingData.adults),
-    //     date: req.session.bookingData.date,
-    //   });
-    //   await appartment.save();
-    //   res.redirect('/Booking/confirmed');
-    //   // Vehicle Booking data save //////////////////
-    // } else if (req.session.bookingData.bookingMode == "vehicle") {
-    //   const vehicle = await VehiclesModel.findById(
-    //     req.session.bookingData.vehicleId
-    //   );
-    //   vehicle.reservations.push({
-    //     loggedIn: req.session.userLoggedIn,
-    //     user: req.session.user,
-    //     checkIn: req.session.bookingData.checkIn,
-    //     checkOut: req.session.bookingData.checkOut,
-    //     adults: Number(req.session.bookingData.adults),
-    //     date: req.session.bookingData.date,
-    //   });
-    //   await vehicle.save();
-    //   res.redirect('/Booking/confirmed');
-    //   // Tour/Hikes Booking Save ////////////////////
-    // } else if (req.session.bookingData.bookingMode == "tour") {
-    //   const tour = await ToursModel.findById(req.session.bookingData.tourId);
-    //   tour.availableSeats -= req.session.bookingData.seats;
-    //   tour.reservations.push({
-    //     user: req.session.user,
-    //     seats: req.session.bookingData.seats,
-    //     charges: req.session.bookingData.charges,
-    //     date: req.session.bookingData.date,
-    //   });
-    //   await tour.save();
-    //   res.redirect('/Booking/confirmed');
-    // }
   } catch (err) {
     console.log(err);
     res.redirect("/Payment/error");
@@ -285,9 +223,9 @@ const bookingConfirmation = (req, res, next) => {
 };
 
 module.exports = {
-    BookingCustomerInfo,
-    paymentSuccess,
-    bookingConfirmation,
-    collectUserInfo,
-    bookSingleRoom
-}
+  BookingCustomerInfo,
+  paymentSuccess,
+  bookingConfirmation,
+  collectUserInfo,
+  bookSingleRoom,
+};

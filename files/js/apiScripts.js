@@ -46,11 +46,20 @@ $("#searchAppartments").click(function () {
 
 
 $("#searchVehicles").click(function () {
-  const area = $("#area").val();
+  const checkin = $('#start-date-1').val();
+  const checkout = $('#end-date-1').val()
+  const pickup = $("#pickup").val();
+  const dropOff = $("#dropOff").val();
   const adults = $("#adultsForVehicle").val();
   const children = $("#childrenForVehicle").val();
 
-  window.location.href = `/Vehicles/availableVehicles?area=${area}&adults=${adults}&children=${children}`;
+  if(checkin == '' || checkout =='' || pickup == '' || dropOff == '' || adults == '' || children == ''){
+    document.getElementById('error').style.display = 'block';
+  }else{
+    window.location.href = `/Vehicles/availableVehicles?checkIn=${checkin}&checkOut=${checkout}&pickup=${pickup}&dropOff=${dropOff}&adults=${adults}&children=${children}`;
+  }
+
+  
 });
 
 

@@ -16,12 +16,35 @@
 	</div>
 </div>
 
-<div class="container sliderContainerClass" id="fixed">
+<div class="container-fluid sliderContainerClass p-5" id="fixed">
 	<div class="row">
+		<p id="error" class="text-danger font-weight-bold" style="display: none;">Please provide the values.</p>
 		<div class="col-12 mt-3">
 			<div class="booking-hero-wrap customWrapper">
 				<div class="row justify-content-center customJustifier">
-					<div class="col-md-3 col-sm-1 customCol">
+					<div class="col-md-3 col-sm-12" id="dateId">
+                        <div class="input-daterange input-group" id="flight-datepicker">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-item inputClass">
+                                        <span class="fontawesome-calendar"></span>
+                                        <input class="input-sm" type="text" autocomplete="off" id="start-date-1"
+                                            name="start" placeholder="chech-in date" data-date-format="DD-MM-d" />
+                                        <span class="date-text date-depart"></span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-item inputClass">
+                                        <span class="fontawesome-calendar"></span>
+                                        <input class="input-sm" type="text" autocomplete="off" id="end-date-1"
+                                            name="end" placeholder="check-out date" data-date-format="DD-MM-d" />
+                                        <span class="date-text date-return"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					<div class="col-md-2 col-sm-1 customCol">
 						<select class="wide nice-select" id="pickup">
 							<option data-display="Pickup Location" value=""></option>
 							<% for(let i= 0; i< areas.length; i++){ %> 
@@ -30,7 +53,7 @@
 						</select>
 					</div>
 
-					<div class="col-md-3 col-sm-1 customCol">
+					<div class="col-md-2 col-sm-1 customCol">
 						<select class="wide nice-select" id="dropOff">
 							<option data-display="drop Off Location" value=""></option>
 							<% for(let i= 0; i< areas.length; i++){ %> 
@@ -63,7 +86,7 @@
 						</select>
 					</div>
 
-					<div class="col-md-2 col-sm-4">
+					<div class="col-md-1 col-sm-4">
 						<a class="booking-button" href="javascript: ;" id="searchVehicles">Search!</a>
 					</div>
 				</div>

@@ -65,23 +65,21 @@ const searchVehicles = async (req, res, next) => {
 };
 
 const findVehicles = async (req, res, next) => {
-  const location = req.query.area;
+  const checkin = req.query.checkIn;
+  const checkout = req.query.checkOut;
+  const pickup = req.query.pickup;
+  const dropOff = req.query.dropOff;
   const adults = req.query.adults;
   const children = req.query.children;
 
   let queryParams = {};
   let people;
-  if (location && adults != "false" && children != "false") {
-    people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
-    queryParams = {
-      serviceArea: pickup,
-      seats: { $gte: people },
-    };
-  } else if (location) {
-    queryParams.ownerArea = location;
-  } else if (adults != "false") {
-    queryParams.seats = adults;
-  }
+
+  people = Math.ceil((Number(children) * 1) / 2) + Number(adults);
+  queryParams = {
+    serviceArea: pickup,
+    seats: { $gte: people }
+  };
 
   //areas
   const areas = await AreasModel.find();
@@ -92,18 +90,18 @@ const findVehicles = async (req, res, next) => {
     loggedIn: req.session.userLoggedIn,
     user: req.session.user,
     areas: areas,
-    vehicles: vehicles,
+    vehicles: vehicles
   });
 };
 
 const vehicleCheck = async (req, res, next) => {
-  const vehicleId = req.query.vehicleId;
-  const checkIn = req.query.checkIn;
-  const checkOut = req.query.checkOut;
-  const pickup = req.query.pickup;
-  const dropOff = req.query.dropOff;
-  const adults = req.query.adults;
-  const children = req.query.children;
+  const vehicleId = req.body.vehicleId;
+  const checkIn = req.body.checkIn;
+  const checkOut = req.body.checkOut;
+  const pickup = req.body.pickup;
+  const dropOff = req.body.dropOff;
+  const adults = req.body.adults;
+  const children = req.body.children;
 
   const vehicle = await VehiclesModel.findById(vehicleId);
   const areas = await AreasModel.find();
