@@ -139,8 +139,24 @@ const editHotel = async (req, res, next) => {
 
 const hotelBookings = async (req, res, next)=>{
   const hotels = await Hotels.find();
+  let allBookings;
+  hotels.forEach( hotel => {
+    allBookings = [...hotel.rooms.single.reservations, ...hotel.rooms.twin.reservations, ...hotel.rooms.triple.reservations, ...hotel.rooms.quad.reservations, ...hotel.rooms.quin.reservations];
+  })
+  
+  const seen = {};
+  // bookings after removing duplicates
+  const bookings = allBookings.filter( booking => {
+    if(seen.hasOwnProperty(booking.date) ){
+      return false
+    }else{
+      seen[booking.date] = booking;
+      return true;
+    }
+  })
+
   res.render("../Admin/views/pages/Hotels/bookings", {
-    hotels: hotels,
+    reservations: bookings,
     moment: moment,
     pageTitle: "Hotels Reservations",
     path: "/Hotels/hotels-reservations",
