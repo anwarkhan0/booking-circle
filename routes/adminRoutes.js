@@ -57,6 +57,7 @@ const {
 const {
   addHouse,
   editHouse,
+  houseBookings,
   housesGallery,
   addHouseGallery,
   postAddHouse,
@@ -653,6 +654,7 @@ router.post(
 // Houses
 router.get("/admin/Houses/addHouse", isAuth, addHouse);
 router.get("/admin/Houses/edit/:id", isAuth, editHouse);
+router.get("/admin/Houses/bookings", houseBookings);
 router.get("/admin/Houses/addGallery/:id", isAuth, addHouseGallery);
 router.get("/admin/Houses/list", isAuth, housesList);
 router.get("/admin/houses/gallery/:id", isAuth, housesGallery);

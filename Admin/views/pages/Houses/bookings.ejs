@@ -38,7 +38,7 @@
                                             <tr>
                                                 <th>S#</th>
                                                 <th>Customer</th>
-                                                <th>Appartment</th>
+                                                <th>House</th>
                                                 <th>Contact</th>
                                                 <th>Check In</th>
                                                 <th>Check Out</th>
@@ -47,7 +47,7 @@
                                         </thead>
                                         <tbody>
 
-                                            <% appartments.forEach( (appartment, i)=> { %>
+                                            <% houses.forEach( (appartment, i)=> { %>
                                                 <% appartment.reservations.forEach(reservation=> { %>
                                                     <tr id="<%= appartment.id %>">
                                                         <td>
@@ -80,7 +80,7 @@
                                             <tr>
                                                 <th>S#</th>
                                                 <th>Customer</th>
-                                                <th>Appartment</th>
+                                                <th>House</th>
                                                 <th>Contact</th>
                                                 <th>Check In</th>
                                                 <th>Check Out</th>

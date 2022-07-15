@@ -7,8 +7,8 @@ const HousesSchema = new Schema({
     type: String,
     required: true,
   },
-  price: {
-    type: String,
+  charges: {
+    type: Number,
     required: true,
   },
   contact: {

@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt");
 const { validationResult, check } = require("express-validator");
-const Safepay = require("safepay");
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const moment = require('moment');
 
 const HomeModel = require("../models/homeModel");
 const AreasModel = require("../models/Location");
@@ -176,8 +175,8 @@ const appartmentCheck = async (req, res, next) => {
   const appartmentId = req.query.appartmentId;
   const checkIn = req.query.checkIn.replace(/\./g, "/");
   const checkOut = req.query.checkOut.replace(/\./g, "/");
-  const adults = req.query.adults;
-  const children = req.query.children;
+  const adults = Number(req.query.adults);
+  const children = Number(req.query.children);
 
   const appartment = await AppartmentModel.findById(appartmentId);
 
@@ -203,6 +202,7 @@ const appartmentCheck = async (req, res, next) => {
   const exit = new Date(checkOut);
   let isAvailable;
   let isSuitable = (adults + children/2)/appartment.occupancy <= 1 ? true : false;
+  let totalCharges;
 
   if(isSuitable){
     if (appartment.reservations.length == 0) {
@@ -231,6 +231,10 @@ const appartmentCheck = async (req, res, next) => {
           console.log("this appartment is not available");
           break;
         }
+        const start = moment(entry, "YYYY-MM-DD");
+        const end = moment(exit, "YYYY-MM-DD");
+        const days = moment.duration(end.diff(start)).asDays();
+        totalCharges = appartment.charges * days;
         isAvailable = true;
       }
     }
@@ -248,6 +252,7 @@ const appartmentCheck = async (req, res, next) => {
       adults: adults,
       children: children,
       date: new Date(),
+      total: totalCharges
     };
     
     res.redirect("/Bookings/userDetails");

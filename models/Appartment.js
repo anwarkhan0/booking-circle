@@ -8,7 +8,7 @@ const AppartmentsSchema = new Schema({
     required: true,
   },
   charges: {
-    type: String,
+    type: Number,
     required: true,
   },
   contact: {

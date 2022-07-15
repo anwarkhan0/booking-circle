@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
 const path = require('path');
 const fs = require('fs');
+const moment = require('moment');
 
 //models
 const Areas = require("../../models/Location");
@@ -99,15 +100,21 @@ const appartmentList = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-const appartmentBookingsList = (req, res, next) => {
-  Appartments.find()
-    .then((appartments) => {
-      res.render("../Admin/views/pages/Appartments/bookingsList", {
-        appartments: appartments,
-        flashMessage: req.flash("message"),
-      });
+const appartmentBookingsList = async (req, res, next) => {
+
+  try {
+    const appartments = await Appartments.find();
+    res.render("../Admin/views/pages/Appartments/bookingsList", {
+      moment: moment,
+      appartments: appartments,
+      flashMessage: req.flash("message"),
     })
-    .catch((err) => console.log(err));
+  } catch (err) {
+    console.log(err);
+    req.flash('message', 'Something went wrong.')
+    res.redirect('/admin')
+  }
+ 
 };
 
 const addGalleryHouses = (req, res, next) => {

@@ -1,24 +1,8 @@
 const bcrypt = require("bcrypt");
-const { validationResult, check } = require("express-validator");
-const Safepay = require("safepay");
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const moment = require("moment");
 
-const HomeModel = require("../models/homeModel");
 const AreasModel = require("../models/Location");
-const AppartmentModel = require("../models/Appartment");
 const Houses = require("../models/House");
-const HotelsModel = require("../models/Hotel");
-const VehiclesModel = require("../models/Vehicles");
-const ToursModel = require("../models/Tour");
-const NewsModel = require("../models/Updates");
-const UsersModel = require("../models/usersModel");
-const MessageModel = require("../models/Message");
-const sliderGallery = require("../models/SliderGallery");
-const subscribeModel = require("../models/subscribeModel");
-const queryModel = require("../models/Query");
-const Feedbacks = require("../models/Feedback");
-const checkout = require("safepay/dist/resources/checkout");
-const { findByIdAndDelete } = require("../models/Location");
 
 const houses = async (req, res, next) => {
     //areas
@@ -166,6 +150,7 @@ const houses = async (req, res, next) => {
     
     const entry = new Date(checkIn);
     const exit = new Date(checkOut);
+    let totalCharges;
 
     try {
       const house = await Houses.findById(houseId);
@@ -195,12 +180,17 @@ const houses = async (req, res, next) => {
       });
   
       if(isAvailable){
+        const start = moment(entry, "YYYY-MM-DD");
+        const end = moment(exit, "YYYY-MM-DD");
+        const days = moment.duration(end.diff(start)).asDays();
+        totalCharges = house.charges * days;
         req.session.booking = {
           type: 2,
           checkIn: entry,
           checkOut: exit,
           adults: adults,
           children: children,
+          total: totalCharges,
           houseId: house.id
         }
         res.redirect("/Bookings/userDetails");

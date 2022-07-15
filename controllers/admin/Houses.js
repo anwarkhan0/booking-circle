@@ -1,6 +1,7 @@
 const { delImg, delMultImages } = require("../../util/file");
 const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
+const moment = require('moment');
 
 //models
 const Areas = require("../../models/Location");
@@ -68,6 +69,15 @@ const addHouse = (req, res, next) => {
         res.redirect('/admin')
       })
   };
+
+  const houseBookings = async (req, res)=>{
+    const houses = await Houses.find();
+    res.render("../Admin/views/pages/Houses/bookings", {
+      houses: houses,
+      moment: moment,
+      flashMessage: req.flash("message"),
+    });
+  }
   
   const addHouseGallery = (req, res, next)=>{
     const id = req.params.id;
@@ -151,7 +161,7 @@ const addHouse = (req, res, next) => {
     const house = new Houses({
       name: name,
       contact: contact,
-      price: price,
+      charges: price,
       contact: contact,
       bedRooms: bedRooms,
       baths: baths,
@@ -283,7 +293,7 @@ const addHouse = (req, res, next) => {
       }
       const house = await Houses.findById(houseId);
       house.name = name;
-      house.price = price;
+      house.charges = price;
       house.contact = contact;
       house.bedRooms = bedRooms;
       house.baths = baths;
@@ -438,6 +448,7 @@ const addHouse = (req, res, next) => {
   module.exports = {
     addHouse,
     editHouse,
+    houseBookings,
     housesGallery,
     addHouseGallery,
     postAddHouse,
