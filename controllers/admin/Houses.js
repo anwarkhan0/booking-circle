@@ -11,6 +11,7 @@ const addHouse = (req, res, next) => {
     Areas.find()
       .then((areas) => {
         res.render("../Admin/views/pages/Houses/addHouse", {
+          user: req.session.user,
           areas: areas,
           pageTitle: "add House",
           path: "/Houses/add-House",
@@ -44,6 +45,7 @@ const addHouse = (req, res, next) => {
       const areas = await Areas.find();
       const house = await Houses.findById(id);
         res.render("../Admin/views/pages/Houses/edit", {
+          user: req.session.user,
           flashMessage: '',
           areas: areas,
           house: house
@@ -60,6 +62,7 @@ const addHouse = (req, res, next) => {
     Houses.find()
       .then((houses) => {
         res.render("../Admin/views/pages/Houses/list", {
+          user: req.session.user,
           houses: houses
         });
       })
@@ -73,6 +76,7 @@ const addHouse = (req, res, next) => {
   const houseBookings = async (req, res)=>{
     const houses = await Houses.find();
     res.render("../Admin/views/pages/Houses/bookings", {
+      user: req.session.user,
       houses: houses,
       moment: moment,
       flashMessage: req.flash("message"),
@@ -92,6 +96,7 @@ const addHouse = (req, res, next) => {
           res.redirect("/Appartments/addGallery/" + houseId);
         } else {
           res.render("../Admin/views/pages/Houses/gallery", {
+            user: req.session.user,
             gallery: appartment.gallery,
             houseId: appartment.id,
             house: appartment.name,
@@ -129,6 +134,7 @@ const addHouse = (req, res, next) => {
     if (!errors.isEmpty()) {
       
       return res.status(422).render("../Admin/views/pages/Houses/addHouse", {
+        user: req.session.user,
         path: "/Houses/addHouse",
         pageTitle: "House",
         areas: areas,
@@ -194,6 +200,7 @@ const addHouse = (req, res, next) => {
     } catch (err) {
       console.log(err);
       return res.status(422).render("../Admin/views/pages/Houses/addHouse", {
+        user: req.session.user,
         path: "/Houses/addHouse",
         pageTitle: "House",
         areas: areas,
@@ -251,6 +258,7 @@ const addHouse = (req, res, next) => {
       return res
         .status(422)
         .render("../Admin/views/pages/Houses/edit", {
+          user: req.session.user,
           areas: areas,
           flashMessage: errors.array()[0].msg,
           house: {
@@ -323,6 +331,7 @@ const addHouse = (req, res, next) => {
       return res
         .status(422)
         .render("../Admin/views/pages/Houses/edit", {
+          user: req.session.user,
           areas: areas,
           flashMessage: err,
           house: {

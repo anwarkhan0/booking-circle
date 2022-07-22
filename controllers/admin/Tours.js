@@ -11,6 +11,7 @@ const addTour = async (req, res, next) => {
       const hotels = await Hotels.find();
       const areas = await Areas.find();
       res.render("../Admin/views/pages/Tours/addTours", {
+        user: req.session.user,
         areas: areas,
         hotels: hotels,
         flashMessage: req.flash('message'),
@@ -40,6 +41,7 @@ const addTour = async (req, res, next) => {
     Tours.find()
       .then((tours) => {
         res.render("../Admin/views/pages/Tours/toursList", {
+          user: req.session.user,
           tours: tours,
           pageTitle: "Tours List",
           path: "/Tours/tour-list",
@@ -57,6 +59,7 @@ const addTour = async (req, res, next) => {
           return res.redirect("/");
         }
         res.render("../Admin/views/pages/Tours/viewTour", {
+          user: req.session.user,
           pageTitle: "View Tour",
           path: "/tours/tour",
           tour: tour,
@@ -78,6 +81,7 @@ const addTour = async (req, res, next) => {
           res.redirect("/admin/Tours/addGallery/" + tourId);
         } else {
           res.render("../Admin/views/pages/Tours/gallery", {
+            user: req.session.user,
             gallery: tour.gallery,
             tourId: tour.id,
             pageTitle: "Gallery List",
@@ -157,6 +161,7 @@ const addTour = async (req, res, next) => {
       const tourId = req.params.id;
       Tours.findById(tourId).then((tour) => {
         res.render("../Admin/views/pages/Tours/editTour", {
+          user: req.session.user,
           pageTitle: "Edit Tour",
           path: "/admin/edit-tour",
           tour: tour,
@@ -191,6 +196,7 @@ const addTour = async (req, res, next) => {
       const areas = await Areas.find();
       const hotels = await Hotels.find();
       return res.status(422).render("../views/pages/Tours/addTours", {
+        user: req.session.user,
         flashMessage: errors.array()[0].msg,
         areas: areas,
         hotels: hotels,

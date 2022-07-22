@@ -103,7 +103,7 @@
               </p>
             </a>
           </li>
-
+          <% if(user.role == 0 || user.role == 1){ %> 
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="fas fa-location-arrow nav-icon"></i>
@@ -127,7 +127,7 @@
               </li>
             </ul>
           </li>
-
+          
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="fas fa-users nav-icon"></i>
@@ -145,6 +145,7 @@
               </li>
             </ul>
           </li>
+          <% } %> 
 
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -155,12 +156,14 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              <% if(user.role == 1 || user.role == 0){ %> 
               <li class="nav-item">
                 <a href="/admin/Hotels/addHotel" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add Hotel</p>
                 </a>
               </li>
+              <% } %> 
               <li class="nav-item">
                 <a href="/admin/Hotels/hotelsList" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -221,12 +224,14 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              <% if(user.role == 0 || user.role == 1){ %> 
               <li class="nav-item">
                 <a href="/admin/Appartments/addAppartment" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add Appartment</p>
                 </a>
               </li>
+              <% } %> 
               <li class="nav-item">
                 <a href="/admin/Appartments/appartmentList" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -251,12 +256,14 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              <% if(user.role == 0 || user.role == 1){ %> 
               <li class="nav-item">
                 <a href="/admin/Houses/addHouse" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add House</p>
                 </a>
               </li>
+              <% } %> 
               <li class="nav-item">
                 <a href="/admin/Houses/list" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -271,7 +278,8 @@
               </li>
             </ul>
           </li>
-
+          
+          <% if(user.role == 0 || user.role == 1){ %> 
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="fa fa-car nav-icon"></i>
@@ -290,11 +298,12 @@
               <li class="nav-item">
                 <a href="/admin/VehiclesCategory/categoryList" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Vehicles Category List</p>
+                  <p>Category List</p>
                 </a>
               </li>
             </ul>
           </li>
+          <% } %> 
 
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -305,28 +314,30 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              <% if(user.role == 0 || user.role == 1){ %> 
               <li class="nav-item">
                 <a href="/admin/Vehicles/addVehicles" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Add Rental Vehicle</p>
+                  <p>Add Vehicle</p>
                 </a>
               </li>
+              <% } %> 
               <li class="nav-item">
                 <a href="/admin/Vehicles/vehicleList" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Rental Vehicles List</p>
+                  <p>Vehicles List</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/admin/Vehicles/bookings" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Vehicles Bookings List</p>
+                  <p>Bookings</p>
                 </a>
               </li>
             </ul>
           </li>
 
-
+          <% if(user.role == 0 || user.role == 1){ %>
           <li class="nav-header">News &amp; Updates</li>
 
           <!-- <li class="nav-item">
@@ -353,7 +364,7 @@
             </ul>
           </li> -->
 
-
+           
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="fas fa-newspaper nav-icon"></i>
@@ -377,6 +388,7 @@
               </li>
             </ul>
           </li>
+          
 
 
 
@@ -431,6 +443,7 @@
               </li>
             </ul>
           </li>
+          <% } %> 
 
           <!-- <li class="nav-item">
             <a href="#" class="nav-link">
@@ -455,7 +468,7 @@
               </li>
             </ul>
           </li> -->
-
+          <% if(user.role == 0 || user.role == 1){ %> 
           <li class="nav-header">Customer End</li>
 
           <li class="nav-item">
@@ -532,6 +545,7 @@
               </li>
             </ul>
           </li>
+          <% } %> 
 
           <!-- If required more pages, Add here! -->
           <!-- Next Page -->

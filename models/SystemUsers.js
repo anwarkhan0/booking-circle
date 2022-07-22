@@ -23,7 +23,7 @@ const UsersSchema = new Schema({
         type: String,
         required: true
     },
-    access: {
+    role: {
         type: Number,
         required: true
     },

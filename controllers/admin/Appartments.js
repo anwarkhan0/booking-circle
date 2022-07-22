@@ -12,6 +12,7 @@ const appartmentsHouses = (req, res, next) => {
   Areas.find()
     .then((areas) => {
       res.render("../Admin/views/pages/Appartments/addAppartment", {
+        user: req.session.user,
         areas: areas,
         pageTitle: "add appartment",
         path: "/Appartments/add-appartment",
@@ -51,6 +52,7 @@ const editAppartmentHouse = async (req, res, next) => {
 
     const areas = await Areas.find();
     res.render("../Admin/views/pages/Appartments/editAppartmentHouse", {
+      user: req.session.user,
       pageTitle: "Edit Appartment/House",
       path: "/Appartment/edit-Appartment",
       areas: areas,
@@ -65,6 +67,7 @@ const editAppartmentHouse = async (req, res, next) => {
 const addGallery = (req, res, next) => {
   const appartId = req.params.id;
   res.render("../Admin/views/pages/Appartments/addGalleryAppartments", {
+    user: req.session.user,
     appartId: appartId,
   });
 };
@@ -77,6 +80,7 @@ const editGalleryAppartments = (req, res, next) => {
         res.redirect("/Appartments/addGallery/" + appartId);
       } else {
         res.render("../Admin/views/pages/Appartments/editGalleryAppartments", {
+          user: req.session.user,
           gallery: appartment.gallery,
           appartmentId: appartment.id,
           pageTitle: "Gallery List",
@@ -92,6 +96,7 @@ const appartmentList = (req, res, next) => {
   Appartments.find()
     .then((appartments) => {
       res.render("../Admin/views/pages/Appartments/appartmentList", {
+        user: req.session.user,
         aparts: appartments,
         pageTitle: "Appartments List",
         path: "/Appartments/appartment-list",
@@ -105,6 +110,7 @@ const appartmentBookingsList = async (req, res, next) => {
   try {
     const appartments = await Appartments.find();
     res.render("../Admin/views/pages/Appartments/bookingsList", {
+      user: req.session.user,
       moment: moment,
       appartments: appartments,
       flashMessage: req.flash("message"),
@@ -155,6 +161,7 @@ const postAddAppartment = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).render("../Admin/views/pages/Appartments/addAppartment", {
+      user: req.session.user,
       path: "/Appartments/addAppartment",
       pageTitle: "Appartment",
       areas: areas,
@@ -220,6 +227,7 @@ const postAddAppartment = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     return res.status(422).render("../Admin/views/pages/Appartments/addAppartment", {
+      user: req.session.user,
       path: "/Appartments/addAppartment",
       pageTitle: "Appartment",
       areas: areas,
@@ -280,6 +288,7 @@ const postEditAppartment = async (req, res, next) => {
     return res
       .status(422)
       .render("../Admin/views/pages/Appartments/editAppartmentHouse", {
+        user: req.session.user,
         areas: areas,
         flashMessage: errors.array()[0].msg,
         appart: {
@@ -349,6 +358,7 @@ const postEditAppartment = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     return res.render("../Admin/views/pages/Appartments/editAppartmentHouse", {
+      user: req.session.user,
       areas: areas,
       flashMessage: err,
       appart: {

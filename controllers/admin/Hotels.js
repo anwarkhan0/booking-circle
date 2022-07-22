@@ -93,6 +93,7 @@ const hotelList = (req, res, next) => {
   Hotels.find()
     .then((hotels) => {
       res.render("../Admin/views/pages/Hotels/hotelsList", {
+        user: req.session.user,
         hotels: hotels,
         pageTitle: "Hotels List",
         path: "/Hotels/hotels-list",
@@ -107,6 +108,8 @@ const viewHotel = (req, res, next) => {
   Hotels.findById(hotelId)
     .then((hotel) => {
       res.render("../Admin/views/pages/Hotels/viewHotel", {
+        user: req.session.user,
+        user: req.session.user,
         hotel: hotel,
         pageTitle: "Hotels List",
         path: "/Hotels/hotel-view",
@@ -126,6 +129,8 @@ const editHotel = async (req, res, next) => {
     const areas = await Areas.find();
 
     res.render("../Admin/views/pages/Hotels/editHotel", {
+      user: req.session.user,
+      user: req.session.user,
       pageTitle: "Edit Tour",
       path: "/admin/Hotels/editHotel",
       areas: areas,
@@ -156,6 +161,9 @@ const hotelBookings = async (req, res, next)=>{
   })
 
   res.render("../Admin/views/pages/Hotels/bookings", {
+    user: req.session.user,
+    user: req.session.user,
+    user: req.session.user,
     reservations: bookings,
     moment: moment,
     pageTitle: "Hotels Reservations",
@@ -170,6 +178,8 @@ const hotelApproved = (req, res, next) => {
         redirect("/");
       }
       res.render("../Admin/views/pages/Hotels/approvedHotels", {
+        user: req.session.user,
+        user: req.session.user,
         hotels: hotels,
         pageTitle: "Approved Hotels",
         path: "/Hotels/approved-hotels",
@@ -185,6 +195,8 @@ const hotelUnapproved = (req, res, next) => {
         redirect("/");
       }
       res.render("../Admin/views/pages/Hotels/unapprovedHotels", {
+        user: req.session.user,
+        user: req.session.user,
         hotels: hotels,
         pageTitle: "Approved Hotels",
         path: "/Hotels/approved-hotels",
@@ -200,6 +212,8 @@ const addGalleryHotel = (req, res, next) => {
         res.redirect("/");
       }
       res.render("../Admin/views/pages/Hotels/addHotelGallery", {
+        user: req.session.user,
+        user: req.session.user,
         hotels: hotels,
         pageTitle: "Add Gallery",
         path: "/Hotels/add-gallery",
@@ -211,6 +225,8 @@ const addGalleryHotel = (req, res, next) => {
 const addHotelImages = (req, res, next) => {
   const hotelId = req.query.hotelId;
   res.render("../Admin/views/pages/Hotels/addImages", {
+    user: req.session.user,
+    user: req.session.user,
     title: "Selet Hotel Pictures",
     url: "/admin/Hotels/addHotelGallery",
     hotelId: hotelId,
@@ -220,6 +236,8 @@ const addHotelImages = (req, res, next) => {
 const addRoomImages = (req, res, next) => {
   const hotelId = req.query.hotelId;
   res.render("../Admin/views/pages/Hotels/addImages", {
+    user: req.session.user,
+    user: req.session.user,
     title: "Selet Room Pictures",
     url: "/admin/Hotels/addRoomsGallery",
     hotelId: hotelId,
@@ -233,6 +251,8 @@ const galleryList = (req, res, next) => {
         res.redirect("/");
       }
       res.render("../Admin/views/pages/Hotels/galleryList", {
+        user: req.session.user,
+        user: req.session.user,
         hotels: hotels,
         pageTitle: "Gallery List",
         path: "/Hotels/gallery-list",
@@ -249,6 +269,8 @@ const viewHotelImages = (req, res, next) => {
         res.redirect("/");
       }
       res.render("../Admin/views/pages/Hotels/viewHotelImages", {
+        user: req.session.user,
+        user: req.session.user,
         hotelId: hotel.id,
         hotel: hotel.name,
         gallery: hotel.gallery,
@@ -268,6 +290,8 @@ const viewRoomImages = (req, res, next) => {
         res.redirect("/");
       }
       res.render("../Admin/views/pages/Hotels/roomGalleryView", {
+        user: req.session.user,
+        user: req.session.user,
         hotelId: hotel.id,
         hotel: hotel.name,
         gallery: hotel.rooms.gallery,
@@ -373,6 +397,7 @@ const postAddHotel = async (req, res, next) => {
   if (!errors.isEmpty()) {
     const areas = await Areas.find();
     return res.status(422).render("../Admin/views/pages/Hotels/addHotel", {
+      user: req.session.user,
       path: "/Hotesl/addHotel",
       pageTitle: "Hotel",
       areas: areas,
@@ -517,6 +542,7 @@ const postAddHotel = async (req, res, next) => {
     console.log(err);
     const areas = await Areas.find();
     return res.status(422).render("../Admin/views/pages/Hotels/addHotel", {
+      user: req.session.user,
       path: "/admin/Hotesl/addHotel",
       pageTitle: "Hotel",
       areas: areas,
@@ -672,6 +698,7 @@ const postEditHotel = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).render("../Admin/views/pages/Hotels/editHotel", {
+      user: req.session.user,
       path: "/admin/Hotesl/editHotel",
       pageTitle: "Hotel",
       areas: areas,
@@ -826,6 +853,7 @@ const postEditHotel = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     res.status(422).render("../Admin/views/pages/Hotels/editHotel", {
+      user: req.session.user,
       path: "/admin/Hotesl/editHotel",
       pageTitle: "Hotel",
       areas: areas,

@@ -21,6 +21,7 @@ const addCategory = (req, res, next) => {
           res.redirect("/");
         } else {
           res.render("../Admin/views/pages/VehiclesCategory/categoryList", {
+            user: req.session.user,
             cats: cats,
             pageTitle: "list category",
             path: "/VehiclesCategory/category-list",
@@ -40,6 +41,7 @@ const addCategory = (req, res, next) => {
           res.redirect("/");
         } else {
           res.render("../Admin/views/pages/VehiclesCategory/editCategory", {
+            user: req.session.user,
             cat: cat,
             pageTitle: "edit category",
             path: "/VehiclesCategory/vehicleCategory",
@@ -58,6 +60,7 @@ const addCategory = (req, res, next) => {
       return res
         .status(422)
         .render("../views/pages/vehiclesCategory/addCategory", {
+          user: req.session.user,
           path: "/VehicleCategory/addCategory",
           pageTitle: "Vehicles Category",
           flashMessage: errors.array()[0].msg,
@@ -91,6 +94,7 @@ const addCategory = (req, res, next) => {
       return res
         .status(422)
         .render("../views/pages/vehiclesCategory/editCategory", {
+          user: req.session.user,
           path: "/VehicleCategory/addCategory",
           pageTitle: "Vehicles Category",
           flashMessage: errors.array()[0].msg,
@@ -128,6 +132,7 @@ const addCategory = (req, res, next) => {
         res.redirect("/admin/VehiclesCategory/addCategory");
       } else {
         res.render("../Admin/views/pages/Vehicles/addVehicles", {
+          user: req.session.user,
           areas: areas,
           cats: cats,
           pageTitle: "list category",
@@ -159,6 +164,7 @@ const addCategory = (req, res, next) => {
     Vehicles.find()
       .then((vehicles) => {
         res.render("../Admin/views/pages/Vehicles/vehicleList", {
+          user: req.session.user,
           vehicles: vehicles,
           pageTitle: "Vehicle List",
           path: "/Vehicles/vehicles-list",
@@ -172,6 +178,7 @@ const addCategory = (req, res, next) => {
     Vehicles.find()
       .then((vehicles) => {
         res.render("../Admin/views/pages/Vehicles/bookingsList", {
+          user: req.session.user,
           vehicles: vehicles,
           pageTitle: "Vehicle List",
           path: "/Vehicles/vehicles-list",
@@ -195,6 +202,7 @@ const addCategory = (req, res, next) => {
   
       const cats = await vehicleCategory.find();
       res.render("../Admin/views/pages/Vehicles/editVehicle", {
+        user: req.session.user,
         cats: cats,
         areas: areas,
         vehicle: vehicle,
@@ -207,7 +215,8 @@ const addCategory = (req, res, next) => {
   
   const addVehicleGallery = (req, res, next) => {
     const vehicleId = req.params.id;
-    res.render("../Admin/views/pages/Vehicles/addVehicleGallery", { vehicleId: vehicleId });
+    res.render("../Admin/views/pages/Vehicles/addVehicleGallery", {
+      user: req.session.user, vehicleId: vehicleId });
   };
   
   const editVehicleGallery = (req, res, next) => {
@@ -218,6 +227,7 @@ const addCategory = (req, res, next) => {
           res.redirect("/Vehicles/addVehicleGallery/" + vehicleId);
         } else {
           res.render("../Admin/views/pages/Vehicles/editVehicleGallery", {
+            user: req.session.user,
             gallery: vehicle.gallery,
             vehicleId: vehicle.id,
             pageTitle: "Gallery List",
@@ -250,6 +260,7 @@ const addCategory = (req, res, next) => {
     const cats = await vehicleCategory.find();
     if (!errors.isEmpty()) {
       return res.status(422).render("../Admin/views/pages/Vehicles/addVehicles", {
+        user: req.session.user,
         path: "/Vehicles/addVehicle",
         pageTitle: "Vehicles",
         flashMessage: errors.array()[0].msg,
@@ -300,6 +311,7 @@ const addCategory = (req, res, next) => {
     } catch (err) {
       console.log(err);
       return res.status(422).render("../Admin/views/pages/Vehicles/addVehicles", {
+        user: req.session.user,
         path: "/Vehicles/addVehicle",
         pageTitle: "Vehicles",
         flashMessage: 'Something went wrong.',
@@ -348,6 +360,7 @@ const addCategory = (req, res, next) => {
     if (!errors.isEmpty()) {
   
       return res.status(422).render("../Admin/views/pages/Vehicles/editVehicle", {
+        user: req.session.user,
         path: "/Vehicles/addVehicle",
         pageTitle: "Vehicles",
         flashMessage: errors.array()[0].msg,
@@ -399,6 +412,7 @@ const addCategory = (req, res, next) => {
     } catch (err) {
       console.log(err);
       return res.status(422).render("../Admin/views/pages/Vehicles/editVehicle", {
+        user: req.session.user,
         path: "/Vehicles/addVehicle",
         pageTitle: "Vehicles",
         flashMessage: errors.array()[0].msg,

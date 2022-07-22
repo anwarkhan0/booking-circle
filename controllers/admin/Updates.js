@@ -8,6 +8,7 @@ const addUpdates = async (req, res, next) => {
     try{
       const blogNo = await Updates.countDocuments({}).exec();
       res.render("../Admin/views/pages/Updates/addUpdates", {
+        user: req.session.user,
         flashMessage: req.flash("message"),
         oldInput: {
           blogNo: blogNo + 1,
@@ -27,6 +28,7 @@ const addUpdates = async (req, res, next) => {
     Updates.find()
       .then((updates) => {
         res.render("../Admin/views/pages/Updates/updateList", {
+          user: req.session.user,
           updates: updates,
           pageTitle: "Updates List",
           path: "/Updates/update-list",
@@ -44,6 +46,7 @@ const addUpdates = async (req, res, next) => {
           return res.redirect("/");
         }
         res.render("../Admin/views/pages/Updates/editUpdate", {
+          user: req.session.user,
           flashMessage: req.flash('message'),
           update: update,
         });
@@ -69,6 +72,7 @@ const addUpdates = async (req, res, next) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(422).render("../views/pages/Updates/addUpdates", {
+          user: req.session.user,
           path: "/Updates/addUpdate",
           pageTitle: "Updates",
           flashMessage: errors.array()[0].msg,
@@ -100,6 +104,7 @@ const addUpdates = async (req, res, next) => {
     } catch (err) {
       console.log(err);
       res.render("../views/pages/Updates/addUpdates", {
+        user: req.session.user,
         path: "/Updates/addUpdate",
         pageTitle: "Updates",
         flashMessage: "Something went wrong, please try again.",
@@ -131,6 +136,7 @@ const addUpdates = async (req, res, next) => {
     if (!errors.isEmpty()) {
   
       return res.status(422).render("../views/pages/Updates/editUpdate", {
+        user: req.session.user,
         path: "/Updates/editUpdate",
         pageTitle: "Updates",
         flashMessage: errors.array()[0].msg,

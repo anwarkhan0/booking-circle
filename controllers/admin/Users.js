@@ -9,6 +9,11 @@ const Users = require("../../models/SystemUsers");
 const Feedbacks = require('../../models/Feedback');
 const Messages = require('../../models/Message');
 const UsersModel = require('../../models/usersModel');
+const Hotels = require('../../models/Hotel')
+const Appartments = require('../../models/Appartment');
+const Vehicles = require('../../models/Vehicles');
+const Tours = require('../../models/Tour');
+const Houses = require('../../models/House');
 
 const login = (req, res, next) => {
     res.render("../Admin/views/login", {
@@ -25,6 +30,8 @@ const login = (req, res, next) => {
   const postLogin = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
+    const loginType = req.body.type;
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).render("../views/login", {
@@ -39,7 +46,10 @@ const login = (req, res, next) => {
         validationErrors: errors.array(),
       });
     }
-    Users.findOne({ email: email })
+    
+
+    if(loginType == 'adminLogin'){
+      Users.findOne({ email: email })
       .then((user) => {
         if (!user) {
           req.flash("message", "invalid email");
@@ -50,7 +60,7 @@ const login = (req, res, next) => {
           .then((doMatch) => {
             if (doMatch) {
               req.session.adminLoggedIn = true;
-              req.session.admin = user;
+              req.session.user = user;
               req.flash("message", "Welcome " + user.name);
               return req.session.save((err) => {
                 console.log(err);
@@ -71,6 +81,41 @@ const login = (req, res, next) => {
         req.flash('message', 'Something went wrong Please try Again.');
         res.redirect('/admin/login');
       });
+    }else{
+      Hotels.findOne({ "owner.email": email })
+      .then((hotel) => {
+        if (!hotel) {
+          req.flash("message", "invalid email");
+          return res.redirect("/admin/login");
+        }
+        bcrypt
+          .compare(password, hotel.owner.password)
+          .then((doMatch) => {
+            if (doMatch) {
+              req.session.adminLoggedIn = true;
+              req.session.user = hotel.owner;
+              req.flash("message", "Welcome " + hotel.owner.name);
+              return req.session.save((err) => {
+                console.log(err);
+                res.redirect("/admin");
+              });
+            }
+            req.flash("message", "invalid password");
+            res.redirect("/admin/login");
+          })
+          .catch((err) => {
+            console.log(err);
+            req.flash("message", "invalid email or password");
+            res.redirect("/admin/login");
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+        req.flash('message', 'Something went wrong Please try Again.');
+        res.redirect('/admin/login');
+      });
+    }
+    
   };
   
   const logout = (req, res, next) => {
@@ -81,14 +126,128 @@ const login = (req, res, next) => {
   };
   
   // Dashboard
-  const indexView = (req, res, next) => {
+  const indexView = async (req, res, next) => {
+    const hotels = await Hotels.find();
+    const appartments = await Appartments.find();
+    const houses = await Houses.find();
+    const vehicles = await Vehicles.find();
+    const tours = await Tours.find();
+    const hotelBookings = [];
+    let totalEarnings = 0;
+    let pendingBookings = 0;
+    let completedBookings = 0;
+
+
+    const today = new Date();
+    hotels.forEach(hotel => {
+      hotel.rooms.single.reservations.forEach(reservation => {
+        hotelBookings.push(reservation)
+        totalEarnings += reservation.total;
+        if(reservation.checkOut < today){
+          pendingBookings += 1;
+        }else{
+          completedBookings += 1;
+        }
+      })
+      hotel.rooms.twin.reservations.forEach(reservation => {
+        hotelBookings.push(reservation)
+        totalEarnings += reservation.total;
+        if(reservation.checkOut < today){
+          pendingBookings += 1;
+        }else{
+          completedBookings += 1;
+        }
+      })
+      hotel.rooms.triple.reservations.forEach(reservation => {
+        hotelBookings.push(reservation)
+        totalEarnings += reservation.total;
+        if(reservation.checkOut < today){
+          pendingBookings += 1;
+        }else{
+          completedBookings += 1;
+        }
+      })
+      hotel.rooms.quad.reservations.forEach(reservation => {
+        hotelBookings.push(reservation)
+        totalEarnings += reservation.total;
+        if(reservation.checkOut < today){
+          pendingBookings += 1;
+        }else{
+          completedBookings += 1;
+        }
+      })
+      hotel.rooms.quin.reservations.forEach(reservation => {
+        hotelBookings.push(reservation)
+        totalEarnings += reservation.total;
+        if(reservation.checkOut < today){
+          pendingBookings += 1;
+        }else{
+          completedBookings += 1;
+        }
+      })
+    })
+
+    appartments.forEach(appartment =>{
+      appartment.reservations.forEach( reservation =>{
+        totalEarnings += reservation.total
+        if(reservation.checkOut < today){
+          pendingBookings += 1;
+        }else{
+          completedBookings += 1;
+        }
+      })
+    })
+
+    houses.forEach(appartment =>{
+      appartment.reservations.forEach( reservation =>{
+        totalEarnings += reservation.total
+        if(reservation.checkOut < today){
+          pendingBookings += 1;
+        }else{
+          completedBookings += 1;
+        }
+      })
+    })
+
+    // vehicles.forEach(appartment =>{
+    //   appartment.reservations.forEach( reservation =>{
+    //     totalEarnings += reservation.total
+    //   })
+    // })
+
+    tours.forEach(appartment =>{
+      appartment.reservations.forEach( reservation =>{
+        totalEarnings += reservation.total;
+        if(reservation.checkOut < today){
+          pendingBookings += 1;
+        }else{
+          completedBookings += 1;
+        }
+      })
+    })
+    // collect all the bookings from each category and then store each in dif variable
     const message = req.flash("message");
-    res.render("../Admin/views/pages/Home/home", { flashMessage: message });
+    res.render("../Admin/views/pages/Home/home", { 
+      flashMessage: message,
+      user: req.session.user,
+      totalHotels: hotels.length,
+      totalAppartments: appartments.length,
+      totalHouses: houses.length,
+      totalTours: tours.length,
+      totalVehicles: vehicles.length,
+      totalEarnings: totalEarnings,
+      pendingBookings: pendingBookings,
+      completedBookings: completedBookings
+      });
   };
 
   const customersList = async (req, res, next) => {
     const customers = await UsersModel.find();
-    res.render("../Admin/views/pages/Customers/customer", {layout: '../Admin/views/layout', customers: customers});
+    res.render("../Admin/views/pages/Customers/customer", {
+      layout: '../Admin/views/layout', 
+      customers: customers,
+      user: req.session.user
+    });
   };
   
   const editMembership = (req, res, next) => {
@@ -98,14 +257,15 @@ const login = (req, res, next) => {
   const viewCustomer = async (req, res, next) => {
     const id = req.params.id;
     const user = await UsersModel.findById(id);
-    res.render("../Admin/views/pages/Customers/viewCustomer", {customer: user});
+    res.render("../Admin/views/pages/Customers/viewCustomer", {
+      customer: user,
+    user: req.session.user});
   };
   
   const delCustomer = async (req, res, next) => {
     const id = req.body.id;
     
     try {
-      const users = await UsersModel.find()
       await UsersModel.findByIdAndDelete(id);
       console.log('deleted Successfully');
       res.sendStatus(200);
@@ -127,7 +287,9 @@ const addBundle = (req, res, next) => {
   // Slider Images
   const addImagesSlider = (req, res, next) => {
     const galleryId = req.params.id;
-    res.render("../Admin/views/pages/SliderImages/addSliderImages", { galleryId: galleryId });
+    res.render("../Admin/views/pages/SliderImages/addSliderImages", { 
+      galleryId: galleryId,
+    user: req.session.user });
   };
   
   const sliderImages = (req, res, next) => {
@@ -140,6 +302,7 @@ const addBundle = (req, res, next) => {
         res.render("../Admin/views/pages/SliderImages/sliderImagesList", {
           gallery: gallery,
           flashMessage: req.flash("message"),
+          user: req.session.user
         });
       })
       .catch((err) => console.log(err));
@@ -218,14 +381,17 @@ const addBundle = (req, res, next) => {
   // Customer Feedback
   const feedback = async (req, res, next) => {
     const feedbacks = await Feedbacks.find();
-    res.render("../Admin/views/pages/Feedback/customerFeedback", {feedbacks: feedbacks});
+    res.render("../Admin/views/pages/Feedback/customerFeedback", {
+      feedbacks: feedbacks,
+    user: req.session.user});
   };
   
   const viewFeedbackQuery = async (req, res, next) => {
     const id = req.params.id;
     const feedback = await Feedbacks.findById(id);
     res.render("../Admin/views/pages/Feedback/viewFeedbackQuery",{
-      feedback: feedback
+      feedback: feedback,
+      user: req.session.user
     });
   };
   
@@ -233,6 +399,7 @@ const addBundle = (req, res, next) => {
   const msgList = async (req, res)=>{
     const msgs = await Messages.find();
     res.render("../Admin/views/pages/Messages/messagesList",{
+      user: req.session.user,
       messages: msgs
     });
   }
@@ -241,6 +408,7 @@ const addBundle = (req, res, next) => {
     const id = req.params.id;
     const message = await Messages.findById(id);
     res.render("../Admin/views/pages/Messages/viewMessage",{
+      user: req.session.user,
       message: message
     });
   };
@@ -251,6 +419,7 @@ const addBundle = (req, res, next) => {
     Areas.find()
       .then((areas) => {
         res.render("../Admin/views/pages/Users/addUser", {
+          user: req.session.user,
           areas: areas,
           oldInput: {
             name: "",
@@ -272,6 +441,7 @@ const addBundle = (req, res, next) => {
     Users.find()
       .then((users) => {
         res.render("../Admin/views/pages/Users/usersList", {
+          user: req.session.user,
           users: users,
           activeUser: req.session,
           pageTitle: "Users List",
@@ -288,6 +458,7 @@ const addBundle = (req, res, next) => {
       const areas = await Areas.find();
       const user = await Users.findById(userId);
       res.render("../Admin/views/pages/Users/editUser", {
+        user: req.session.user,
         user: user,
         areas: areas,
         pageTitle: "Edit User",
@@ -305,7 +476,7 @@ const addBundle = (req, res, next) => {
     const cnic = req.body.cnic;
     const city = req.body.city;
     const address = req.body.address;
-    const access = req.body.access;
+    const role = req.body.access;
     const email = req.body.email;
     const password = req.body.password;
   
@@ -313,6 +484,7 @@ const addBundle = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).render("../Admin/views/pages/Users/addUser", {
+        user: req.session.user,
         path: "/Users/addUser",
         pageTitle: "Add User",
         flashMessage: errors.array()[0].msg,
@@ -323,7 +495,7 @@ const addBundle = (req, res, next) => {
           CNIC: cnic,
           location: city,
           address: address,
-          access: access,
+          access: role,
           email: email,
           password: password,
         },
@@ -342,7 +514,7 @@ const addBundle = (req, res, next) => {
       CNIC: cnic,
       location: city,
       address: address,
-      access: access,
+      role: role,
       email: email,
       password: hashedPassword,
     });
@@ -356,6 +528,7 @@ const addBundle = (req, res, next) => {
   
       console.log(err);
       res.status(422).render("../Admin/views/pages/Users/addUser", {
+        user: req.session.user,
         path: "/Users/addUser",
         pageTitle: "Add User",
         flashMessage: 'Something went wrong.',
@@ -392,6 +565,7 @@ const addBundle = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).render("../Admin/views/pages/Users/editUser", {
+        user: req.session.user,
         path: "/Users/addUser",
         pageTitle: "Add User",
         flashMessage: errors.array()[0].msg,
@@ -443,6 +617,7 @@ const addBundle = (req, res, next) => {
     } catch (err) {
       console.log(err);
       res.status(422).render("../Admin/views/pages/Users/editUser", {
+        user: req.session.user,
         flashMessage: 'Something went wrong.',
         areas: areas,
         user: {

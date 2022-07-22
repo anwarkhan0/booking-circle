@@ -66,10 +66,10 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label>Access</label>
+                            <label>Role</label>
                             <select class="form-control" style="width: 100%;" name="access">
-                                <option value="0" <%= oldInput.type==='superAdmin' ? 'selected' : '' %> >Full Access</option>
-                                <option value="1" <%= oldInput.type==='admin' ? 'selected' : '' %> >Only Read</option>
+                                <option value="0" <%= oldInput.type==='superAdmin' ? 'selected' : '' %> >Super Admin</option>
+                                <option value="1" <%= oldInput.type==='admin' ? 'selected' : '' %> >Admin</option>
                             </select>
                         </div>
                     </div>

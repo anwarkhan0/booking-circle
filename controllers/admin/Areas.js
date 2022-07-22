@@ -5,7 +5,8 @@ const Areas = require("../../models/Location");
 
 const addArea = (req, res, next) => {
   const message = req.flash("message");
-  res.render("../Admin/views/pages/Areas/addAreas", { name: "", flashMessage: message });
+  res.render("../Admin/views/pages/Areas/addAreas", {
+    user: req.session.user, name: "", flashMessage: message });
 };
 
 const listAreas = (req, res, next) => {
@@ -13,6 +14,7 @@ const listAreas = (req, res, next) => {
   Areas.find()
     .then((areas) => {
       res.render("../Admin/views/pages/Areas/areaList", {
+        user: req.session.user,
         areas: areas,
         pageTitle: "Areas List",
         path: "/Areas/area-list",
@@ -28,10 +30,12 @@ const editArea = (req, res, next) => {
     .then((area) => {
       if (!area) {
         return res.render("../Admin/views/pages/Errors/error", {
+          user: req.session.user,
           desc: "The recored does't exist",
         });
       }
       res.render("../Admin/views/pages/Areas/editArea", {
+        user: req.session.user,
         layout: '../Admin/views/layout',
         pageTitle: "Edit Area",
         path: "/admin/edit-area",
@@ -51,6 +55,7 @@ const postAddArea = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).render("../Admin/views/pages/Areas/addAreas", {
+      user: req.session.user,
       flashMessage: errors.array()[0].msg,
       name: name,
       validationErrors: errors.array(),
@@ -68,6 +73,7 @@ const postAddArea = (req, res, next) => {
     .catch((err) => {
       console.log(err);
       return res.status(422).render("../Admin/views/pages/Areas/addAreas", {
+        user: req.session.user,
         flashMessage: "Something went Wrong, please try again.",
         name: name,
       });
@@ -81,6 +87,7 @@ const postEditArea = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).render("../Admin/views/pages/Areas/editArea", {
+      user: req.session.user,
       flashMessage: errors.array()[0].msg,
       area: {
         id: areaId,
@@ -103,6 +110,7 @@ const postEditArea = (req, res, next) => {
     .catch((err) => {
       console.log(err);
       return res.status(422).render("../Admin/views/pages/Areas/edit+Area", {
+        user: req.session.user,
         flashMessage: "Something went wrong, please try again.",
         area: {
           id: areaId,
