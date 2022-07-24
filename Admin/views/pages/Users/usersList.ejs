@@ -39,7 +39,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <% users.forEach((user, i) => { %> 
+                        <% users.forEach((usr, i) => { %> 
                         <tr id="<%= user.id %>">
                             <td><%= i + 1 %> </td>
                             <td><%= user.name %> </td>
@@ -47,15 +47,15 @@
                             <td><%= user.CNIC %> </td>
                             <td><%= user.location %> </td>
                             <td>
-                              <% if (activeUser.admin._id == user.id) { %>
+                              <% if (user._id == usr.id) { %>
                                 <span class="badge badge-success">active</span>
                                 <% }else {%> 
                                   <span class="badge badge-secondary">Inactive</span>
                                   <% } %> 
                             </td>
                             <td>
-                                <a href="<%= '/admin/Users/editUser/' + user.id %>" class="btn btn-success btn-sm">Edit &nbsp;<i class="fa fa-pencil"></i></a>
-                                <button class="btn btn-danger btn-sm" onClick="<%= `deleteHandler('/admin/Users/deleteUser', ${user.id.toString()}` %>"><i class="fa fa-trash"></i></button>
+                                <a href="<%= '/admin/Users/editUser/' + usr.id %>" class="btn btn-success btn-sm">Edit &nbsp;<i class="fa fa-pencil"></i></a>
+                                <button class="btn btn-danger btn-sm" onClick="<%= `deleteHandler('/admin/Users/deleteUser', ${usr.id.toString()}` %>"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>
                         <% }) %> 

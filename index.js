@@ -61,7 +61,7 @@ const fileFilter = (req, file, cb) => {
   } else {
     cb(null, false);
   }
-};
+};  
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

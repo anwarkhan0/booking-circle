@@ -14,6 +14,7 @@ const Appartments = require('../../models/Appartment');
 const Vehicles = require('../../models/Vehicles');
 const Tours = require('../../models/Tour');
 const Houses = require('../../models/House');
+const moment = require('moment')
 
 const login = (req, res, next) => {
     res.render("../Admin/views/login", {
@@ -132,54 +133,58 @@ const login = (req, res, next) => {
     const houses = await Houses.find();
     const vehicles = await Vehicles.find();
     const tours = await Tours.find();
-    const hotelBookings = [];
+    const upcomingBookings = [];
     let totalEarnings = 0;
     let pendingBookings = 0;
     let completedBookings = 0;
 
 
-    const today = new Date();
+    const today = moment();
     hotels.forEach(hotel => {
       hotel.rooms.single.reservations.forEach(reservation => {
-        hotelBookings.push(reservation)
         totalEarnings += reservation.total;
         if(reservation.checkOut < today){
+          upcomingBookings.push(reservation)
           pendingBookings += 1;
         }else{
           completedBookings += 1;
         }
       })
       hotel.rooms.twin.reservations.forEach(reservation => {
-        hotelBookings.push(reservation)
+        
         totalEarnings += reservation.total;
-        if(reservation.checkOut < today){
+        if(reservation.checkOut > today){
+          upcomingBookings.push(reservation)
           pendingBookings += 1;
         }else{
           completedBookings += 1;
         }
       })
       hotel.rooms.triple.reservations.forEach(reservation => {
-        hotelBookings.push(reservation)
+        upcomingBookings.push(reservation)
         totalEarnings += reservation.total;
-        if(reservation.checkOut < today){
+        if(reservation.checkOut > today){
+          upcomingBookings.push(reservation)
           pendingBookings += 1;
         }else{
           completedBookings += 1;
         }
       })
       hotel.rooms.quad.reservations.forEach(reservation => {
-        hotelBookings.push(reservation)
+        upcomingBookings.push(reservation)
         totalEarnings += reservation.total;
-        if(reservation.checkOut < today){
+        if(reservation.checkOut > today){
+          upcomingBookings.push(reservation)
           pendingBookings += 1;
         }else{
           completedBookings += 1;
         }
       })
       hotel.rooms.quin.reservations.forEach(reservation => {
-        hotelBookings.push(reservation)
+        upcomingBookings.push(reservation)
         totalEarnings += reservation.total;
-        if(reservation.checkOut < today){
+        if(reservation.checkOut > today){
+          upcomingBookings.push(reservation)
           pendingBookings += 1;
         }else{
           completedBookings += 1;
@@ -187,10 +192,12 @@ const login = (req, res, next) => {
       })
     })
 
+
     appartments.forEach(appartment =>{
       appartment.reservations.forEach( reservation =>{
         totalEarnings += reservation.total
-        if(reservation.checkOut < today){
+        if(reservation.checkOut > today){
+          upcomingBookings.push(reservation)
           pendingBookings += 1;
         }else{
           completedBookings += 1;
@@ -201,7 +208,8 @@ const login = (req, res, next) => {
     houses.forEach(appartment =>{
       appartment.reservations.forEach( reservation =>{
         totalEarnings += reservation.total
-        if(reservation.checkOut < today){
+        if(reservation.checkOut > today){
+          upcomingBookings.push(reservation)
           pendingBookings += 1;
         }else{
           completedBookings += 1;
@@ -218,13 +226,15 @@ const login = (req, res, next) => {
     tours.forEach(appartment =>{
       appartment.reservations.forEach( reservation =>{
         totalEarnings += reservation.total;
-        if(reservation.checkOut < today){
+        if(new Date(reservation.checkOut).getTime() > today.getTime()){
+          upcomingBookings.push(reservation)
           pendingBookings += 1;
         }else{
           completedBookings += 1;
         }
       })
     })
+
     // collect all the bookings from each category and then store each in dif variable
     const message = req.flash("message");
     res.render("../Admin/views/pages/Home/home", { 
@@ -443,7 +453,6 @@ const addBundle = (req, res, next) => {
         res.render("../Admin/views/pages/Users/usersList", {
           user: req.session.user,
           users: users,
-          activeUser: req.session,
           pageTitle: "Users List",
           path: "/Users/users-list",
         });
