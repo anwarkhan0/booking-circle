@@ -143,7 +143,8 @@ const login = (req, res, next) => {
     hotels.forEach(hotel => {
       hotel.rooms.single.reservations.forEach(reservation => {
         totalEarnings += reservation.total;
-        if(reservation.checkOut < today){
+        if(reservation.checkOut > today){
+          reservation.bookingOf = hotel.name;
           upcomingBookings.push(reservation)
           pendingBookings += 1;
         }else{
@@ -154,6 +155,7 @@ const login = (req, res, next) => {
         
         totalEarnings += reservation.total;
         if(reservation.checkOut > today){
+          reservation.bookingOf = hotel.name;
           upcomingBookings.push(reservation)
           pendingBookings += 1;
         }else{
@@ -164,6 +166,7 @@ const login = (req, res, next) => {
         upcomingBookings.push(reservation)
         totalEarnings += reservation.total;
         if(reservation.checkOut > today){
+          reservation.bookingOf = hotel.name;
           upcomingBookings.push(reservation)
           pendingBookings += 1;
         }else{
@@ -174,6 +177,7 @@ const login = (req, res, next) => {
         upcomingBookings.push(reservation)
         totalEarnings += reservation.total;
         if(reservation.checkOut > today){
+          reservation.bookingOf = hotel.name;
           upcomingBookings.push(reservation)
           pendingBookings += 1;
         }else{
@@ -184,6 +188,7 @@ const login = (req, res, next) => {
         upcomingBookings.push(reservation)
         totalEarnings += reservation.total;
         if(reservation.checkOut > today){
+          reservation.bookingOf = hotel.name;
           upcomingBookings.push(reservation)
           pendingBookings += 1;
         }else{
@@ -197,6 +202,7 @@ const login = (req, res, next) => {
       appartment.reservations.forEach( reservation =>{
         totalEarnings += reservation.total
         if(reservation.checkOut > today){
+          reservation.bookingOf = appartment.name;
           upcomingBookings.push(reservation)
           pendingBookings += 1;
         }else{
@@ -209,6 +215,7 @@ const login = (req, res, next) => {
       appartment.reservations.forEach( reservation =>{
         totalEarnings += reservation.total
         if(reservation.checkOut > today){
+          reservation.bookingOf = appartment.name;
           upcomingBookings.push(reservation)
           pendingBookings += 1;
         }else{
@@ -226,7 +233,8 @@ const login = (req, res, next) => {
     tours.forEach(appartment =>{
       appartment.reservations.forEach( reservation =>{
         totalEarnings += reservation.total;
-        if(new Date(reservation.checkOut).getTime() > today.getTime()){
+        if(reservation.checkOut > today){
+          reservation.bookingOf = appartment.fromPlace + ' to ' + appartment.toPlace;
           upcomingBookings.push(reservation)
           pendingBookings += 1;
         }else{
@@ -234,12 +242,12 @@ const login = (req, res, next) => {
         }
       })
     })
-
     // collect all the bookings from each category and then store each in dif variable
     const message = req.flash("message");
     res.render("../Admin/views/pages/Home/home", { 
       flashMessage: message,
       user: req.session.user,
+      moment: moment,
       totalHotels: hotels.length,
       totalAppartments: appartments.length,
       totalHouses: houses.length,
@@ -247,7 +255,8 @@ const login = (req, res, next) => {
       totalVehicles: vehicles.length,
       totalEarnings: totalEarnings,
       pendingBookings: pendingBookings,
-      completedBookings: completedBookings
+      completedBookings: completedBookings,
+      upcommingBookings: upcomingBookings
       });
   };
 

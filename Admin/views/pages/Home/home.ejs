@@ -177,41 +177,15 @@
                       </tr>
                     </thead>
                     <tbody>
+                      <% upcommingBookings.forEach((booking, i) => { %> 
                       <tr>
-                        <td>1</td>
-                        <td>Hotel</td>
-                        <td>2/3/2022</td>
-                        <td>4/3/2022</td>
-                        <td>3000</td>
+                        <td><%= i + 1 %> </td>
+                        <td><%= booking.bookingOf %> </td>
+                        <td><%= moment(booking.checkIn).format('DD-MM-YYY') %> </td>
+                        <td><%= moment(booking.checkOut).format('DD-MM-YYY') %> </td>
+                        <td><%= booking.total %> </td>
                       </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>Appartment</td>
-                        <td>2/3/2022</td>
-                        <td>4/3/2022</td>
-                        <td>3000</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>House</td>
-                        <td>2/3/2022</td>
-                        <td>4/3/2022</td>
-                        <td>3000</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>Vehicle</td>
-                        <td>2/3/2022</td>
-                        <td>4/3/2022</td>
-                        <td>3000</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>Tour</td>
-                        <td>2/3/2022</td>
-                        <td>4/3/2022</td>
-                        <td>3000</td>
-                      </tr>
+                      <% }) %> 
                     </tbody>
                     <tfoot>
                       <tr>
