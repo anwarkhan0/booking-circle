@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const Schema = mongoose.Schema;
 
@@ -36,5 +37,6 @@ const UsersSchema = new Schema({
         required: true
     }
 });
+
 
 module.exports = mongoose.model('SystemUsers', UsersSchema);

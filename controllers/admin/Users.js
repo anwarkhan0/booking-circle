@@ -126,7 +126,7 @@ const login = (req, res, next) => {
     });
   };
   
-  // Dashboard
+  // Dashboard Content
   const indexView = async (req, res, next) => {
     const hotels = await Hotels.find();
     const appartments = await Appartments.find();

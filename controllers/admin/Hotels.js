@@ -13,6 +13,7 @@ const hotelClients = (req, res, next) => {
   Areas.find()
     .then((areas) => {
       res.render("../Admin/views/pages/Hotels/addHotel", {
+        user: req.session.user,
         areas: areas,
         pageTitle: "add hotel",
         path: "/Hotels/add-hotel",

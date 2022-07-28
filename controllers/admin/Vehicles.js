@@ -8,6 +8,7 @@ const vehicleCategory = require("../../models/vehicleCategory");
 // Vehicle Category (New Data)
 const addCategory = (req, res, next) => {
     res.render("../Admin/views/pages/VehiclesCategory/addCategory", {
+      user: req.session.user,
       name: '',
       flashMessage: req.flash("message"),
     });
