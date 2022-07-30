@@ -108,7 +108,7 @@ app.use('/admin/*', (req, res, next)=>{
 });
 app.use(adminRoutes.routes);
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 8080;
 
 //Cloud Database
 mongoose
