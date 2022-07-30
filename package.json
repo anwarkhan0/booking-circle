@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production node index.js",
+    "start": "NODE_ENV=production DB_USER=mrobot DB_PASS=bookingring1234567890 COOKIE_SECRET=2197E6A8C52A349D235DC5605499AFBFF7AC2E8EA68D59D3AC390BF7B432352C BASE_URL=bookingring.herokuapp.com node index.js",
     "dev": "nodemon index.js"
   },
   "keywords": [],

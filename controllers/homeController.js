@@ -88,19 +88,6 @@ const home = async (req, res, next) => {
   });
 };
 
-//Appartments
-
-
-// Houses
-
-
-// hotels
-
-
-
-// vehicles
-
-
 const galleryAppRoom = async (req, res, next) => {
   const hotels = await HotelsModel.find();
   const appartments = await AppartmentModel.find();
