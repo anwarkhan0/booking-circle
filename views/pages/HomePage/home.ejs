@@ -15,56 +15,57 @@
 	</div>
 
 	<div class="slideshow">
-		<% sliderGallery.images.forEach( image =>{ %> 
-		<div class="slide slide--current parallax-top">
-			<figure class="slide__figure">
-				<div class="slide__figure-inner">
-					<div class="slide__figure-img" style="<%= 'background-image: url(/uploads/' + image + ')' %>"></div>
-					<div class="slide__figure-reveal"></div>
-				</div>
-			</figure>
-		</div>
-		<% }) %> 
-		
-		<!-- revealer -->
-		<div class="revealer">
-			<div class="revealer__item revealer__item--left"></div>
-			<div class="revealer__item revealer__item--right"></div>
-		</div>
-		<nav class="arrow-nav fade-top">
-			<button class="arrow-nav__item arrow-nav__item--prev">
-				<svg class="icon icon--nav">
-					<use xlink:href="#icon-nav"></use>
-				</svg>
-			</button>
-			<button class="arrow-nav__item arrow-nav__item--next">
-				<svg class="icon icon--nav">
-					<use xlink:href="#icon-nav"></use>
-				</svg>
-			</button>
-		</nav>
-		<!-- navigation -->
-
-		<nav class="nav fade-top">
-			<button class="nav__button">
-				<span class="nav__button-text"></span>
-			</button>
-			<h2 class="nav__chapter">discover your paradise</h2>
-			<div class="toc">
-				<a class="toc__item" href="#entry-1">
-					<span class="toc__item-title">discover your paradise</span>
-				</a>
-				<a class="toc__item" href="#entry-2">
-					<span class="toc__item-title">unpretentious comfort</span>
-				</a>
-				<a class="toc__item" href="#entry-3">
-					<span class="toc__item-title">azure sea sparkling</span>
-				</a>
+		<% sliderGallery.images.forEach( image=>{ %>
+			<div class="slide slide--current parallax-top">
+				<figure class="slide__figure">
+					<div class="slide__figure-inner">
+						<div class="slide__figure-img" style="<%= 'background-image: url(/uploads/' + image + ')' %>">
+						</div>
+						<div class="slide__figure-reveal"></div>
+					</div>
+				</figure>
 			</div>
-		</nav>
-		<!-- little sides -->
-		<div class="slideshow__indicator"></div>
-		<div class="slideshow__indicator"></div>
+			<% }) %>
+
+				<!-- revealer -->
+				<div class="revealer">
+					<div class="revealer__item revealer__item--left"></div>
+					<div class="revealer__item revealer__item--right"></div>
+				</div>
+				<nav class="arrow-nav fade-top">
+					<button class="arrow-nav__item arrow-nav__item--prev">
+						<svg class="icon icon--nav">
+							<use xlink:href="#icon-nav"></use>
+						</svg>
+					</button>
+					<button class="arrow-nav__item arrow-nav__item--next">
+						<svg class="icon icon--nav">
+							<use xlink:href="#icon-nav"></use>
+						</svg>
+					</button>
+				</nav>
+				<!-- navigation -->
+
+				<nav class="nav fade-top">
+					<button class="nav__button">
+						<span class="nav__button-text"></span>
+					</button>
+					<h2 class="nav__chapter">discover your paradise</h2>
+					<div class="toc">
+						<a class="toc__item" href="#entry-1">
+							<span class="toc__item-title">discover your paradise</span>
+						</a>
+						<a class="toc__item" href="#entry-2">
+							<span class="toc__item-title">unpretentious comfort</span>
+						</a>
+						<a class="toc__item" href="#entry-3">
+							<span class="toc__item-title">azure sea sparkling</span>
+						</a>
+					</div>
+				</nav>
+				<!-- little sides -->
+				<div class="slideshow__indicator"></div>
+				<div class="slideshow__indicator"></div>
 	</div>
 </div>
 
@@ -87,9 +88,11 @@
 						<!-- <select class="wide nice-select select2"> -->
 						<select class="wide nice-select" id="areaName">
 							<option data-display="Please Select Location"></option>
-							<% for(let i= 0; i< areas.length; i++){ %> 
-							<option value="<%= areas[i].name %>"><%= areas[i].name %></option>
-							<% } %> 
+							<% for(let i=0; i< areas.length; i++){ %>
+								<option value="<%= areas[i].name %>">
+									<%= areas[i].name %>
+								</option>
+								<% } %>
 						</select>
 					</div>
 
@@ -121,7 +124,8 @@
 						</div>
 					</div> -->
 					<div class="col-6  col-sm-4 col-lg-2">
-						<a class="booking-button customBtnSearch" href="javascript: ;" id="homeSearchCats">Search Now!</a>
+						<a class="booking-button customBtnSearch" href="javascript: ;" id="homeSearchCats">Search
+							Now!</a>
 					</div>
 				</div>
 			</div>
@@ -178,7 +182,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 	</div>
 </div>
 <div class="section background-grey over-hide">
@@ -229,7 +233,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 	</div>
 </div>
 
@@ -240,17 +244,20 @@
 		<h3 class="text-center  text-white subtitle with-line mb-5">OUR HOTELS IN</h3>
 		<div class="row">
 
-			<% hotels.forEach(hotel => { %>
-			<div class="col-sm-6 col-lg-4 mb-3">
-				<a href="/Hotels/<%= hotel.area %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="uploads/<%= hotel.gallery[0] ? hotel.gallery[0] : 'noImage.png'%>" alt="" class="image-cover">
-						<div class="services-text-over btn btn-primary fit-content"><%= hotel.location %></div>
-					</div>
-				</a>
-			</div>
-			<% }) %>
-			
+			<% hotels.forEach(hotel=> { %>
+				<div class="col-sm-6 col-lg-4 mb-3">
+					<a href="/Hotels/<%= hotel.location %>">
+						<div class="img-wrap services-wrap h-300">
+							<img src="uploads/<%= hotel.gallery[0] ? hotel.gallery[0] : 'noImage.png'%>" alt=""
+								class="image-cover">
+							<div class="services-text-over btn btn-primary fit-content">
+								<%= hotel.location %>
+							</div>
+						</div>
+					</a>
+				</div>
+				<% }) %>
+
 		</div>
 		<a class="booking-button mt-5" href="/Hotels/list">Explore Hotels in all Cities</a>
 	</div>
@@ -262,17 +269,20 @@
 		<h3 class="text-center  text-white subtitle with-line mb-5">OUR APARTMENTS IN</h3>
 		<div class="row">
 
-			<% appartments.forEach( appartment => { %> 
-			<div class="col-sm-6 col-lg-4 mb-3">
-				<a href="/Appartments/<%= appartment.area %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="uploads/<%= appartment.gallery[0] ? appartment.gallery[0] : 'noImage.png' %>" alt="" class="image-cover">
-						<div class="services-text-over btn btn-primary fit-content"><%= appartment.area %></div>
-					</div>
-				</a>
-			</div>
-			<% }) %> 
-			
+			<% appartments.forEach( appartment=> { %>
+				<div class="col-sm-6 col-lg-4 mb-3">
+					<a href="/Appartments/<%= appartment.area %>">
+						<div class="img-wrap services-wrap h-300">
+							<img src="uploads/<%= appartment.gallery[0] ? appartment.gallery[0] : 'noImage.png' %>"
+								alt="" class="image-cover">
+							<div class="services-text-over btn btn-primary fit-content">
+								<%= appartment.area %>
+							</div>
+						</div>
+					</a>
+				</div>
+				<% }) %>
+
 		</div>
 		<a class="booking-button mt-5" href="/Appartments/allappartments">Explore all Apartments</a>
 	</div>
@@ -289,16 +299,18 @@
 		<h3 class="text-center  text-white subtitle with-line mb-5">Our Tours to</h3>
 
 		<div class="row">
-			<% tours.forEach((tour) =>{ %> 
-			<div class="col-sm-6 col-lg-4 mb-3">
-				<a href="/Tours/<%= tour.toPlace %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="uploads/<%= tour.gallery[0] %>" alt="" class="image-cover">
-						<div class="services-text-over booking-button fit-content"><%= tour.toPlace %></div>
-					</div>
-				</a>
-			</div>
-			<% }) %> 
+			<% tours.forEach((tour)=>{ %>
+				<div class="col-sm-6 col-lg-4 mb-3">
+					<a href="/Tours/<%= tour.toPlace %>">
+						<div class="img-wrap services-wrap h-300">
+							<img src="uploads/<%= tour.gallery[0] %>" alt="" class="image-cover">
+							<div class="services-text-over booking-button fit-content">
+								<%= tour.toPlace %>
+							</div>
+						</div>
+					</a>
+				</div>
+				<% }) %>
 		</div>
 		<a class="booking-button mt-5" href="/Tours/tours">Tours in all Cities</a>
 	</div>
@@ -312,16 +324,19 @@
 		<h3 class="text-center  text-white subtitle with-line mb-5">OUR Cars</h3>
 
 		<div class="row">
-			<% vehicles.forEach( vehicle => { %> 
-			<div class="col-sm-6 col-lg-4 ">
-				<a href="/Vehicles/<%= vehicle.serviceArea %>">
-					<div class="img-wrap services-wrap h-300">
-						<img src="uploads/<%= vehicle.gallery[0] ? vehicle.gallery[0] : 'noImage.png' %>" alt="" class="image-cover">
-						<div class="services-text-over booking-button fit-content"><%= vehicle.ownerArea %></div>
-					</div>
-				</a>
-			</div>
-			<% }) %> 
+			<% vehicles.forEach( vehicle=> { %>
+				<div class="col-sm-6 col-lg-4 ">
+					<a href="/Vehicles/<%= vehicle.serviceArea %>">
+						<div class="img-wrap services-wrap h-300">
+							<img src="uploads/<%= vehicle.gallery[0] ? vehicle.gallery[0] : 'noImage.png' %>" alt=""
+								class="image-cover">
+							<div class="services-text-over booking-button fit-content">
+								<%= vehicle.ownerArea %>
+							</div>
+						</div>
+					</a>
+				</div>
+				<% }) %>
 		</div>
 		<a class="booking-button mt-5" href="/vehicles/list">Cars in all Cities</a>
 	</div>
@@ -349,14 +364,16 @@
 			<div class="row justify-content-center">
 				<div class="col-md-8">
 					<div id="owl-sep-1" class="owl-carousel owl-theme">
-						<% feedbacks.forEach( feedback => { %> 
-						<div class="item">
-							<div class="quote-sep">
-								<h4>"<%= feedback.message %>"</h4>
-								<h6><%= feedback.name %></h6>
+						<% feedbacks.forEach( feedback=> { %>
+							<div class="item">
+								<div class="quote-sep">
+									<h4>"<%= feedback.message %>"</h4>
+									<h6>
+										<%= feedback.name %>
+									</h6>
+								</div>
 							</div>
-						</div>
-						<% }) %> 
+							<% }) %>
 					</div>
 				</div>
 			</div>
@@ -445,7 +462,7 @@
 <div class="section">
 	<div id="owl-sep-2" class="owl-carousel owl-theme">
 		<% hotels.forEach((hotel)=>{ %>
-			<% hotel.rooms.gallery.forEach( image =>{ %>
+			<% hotel.rooms.gallery.forEach( image=>{ %>
 				<div class="item">
 					<a href="/uploads/<%= image %>" data-fancybox="gallery">
 						<div class="img-wrap gallery-small">
