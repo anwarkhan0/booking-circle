@@ -11,7 +11,12 @@ $(window).scroll(function () {
 $("#homeSearchCats").click(() => {
   const cat = $("#category").val();
   const area = $("#areaName").val();
-  window.location.href = `/${cat}/${area}`;
+  if(cat == '' || area == ''){
+    document.getElementById('searchErr').style.display = 'block';
+  }else{
+    window.location.href = `/${cat}/${area}`;
+  }
+  
 });
 
 $("#searchHotels").click(function () {
