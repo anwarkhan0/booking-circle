@@ -19,7 +19,7 @@ app.use(compression())
 
 // cloud
 const store = new MongoDBStore({
-  uri: `mongodb+srv://mrobot:bookingring1234567890@cluster0.xjk47.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+  uri: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xjk47.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
   collection: 'sessions',
 })
 
@@ -84,7 +84,7 @@ app.use(
 app.use(cookieParser(process.env.COOKIE_SECRET))
 app.use(
   session({
-    secret: 'aa74ff0722d0d4557ef8289639845fef',
+    secret: process.env.COOKIE_SECRET,
     cookie: { maxAge: 1800000 },
     resave: false,
     saveUninitialized: false,
@@ -119,7 +119,7 @@ const port = process.env.PORT || 8080
 //Cloud Database
 mongoose
   .connect(
-    `mongodb+srv://mrobot:bookingring1234567890@cluster0.xjk47.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xjk47.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
   )
   .then(result => {
     app.listen(port, () => console.log(`App listening on Port: ${port}`))
