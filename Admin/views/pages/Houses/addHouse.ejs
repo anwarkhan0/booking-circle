@@ -83,19 +83,19 @@
 
                     <div class="form-group col-md-2">
                       <label>Bed Rooms</label>
-                      <input type="number" value="<%=  %>" name="bedRooms" placeholder="only number"
+                      <input type="number" value="<%= oldInput.bedRooms %>" name="bedRooms" placeholder="only number"
                         class="form-control" required>
                     </div>
 
                     <div class="form-group col-md-2">
                       <label>Bath'(s)</label>
-                      <input type="number" value="<%=  %>" name="baths" placeholder="only number"
+                      <input type="number" value="<%= oldInput.baths %>" name="baths" placeholder="only number"
                         class="form-control" required>
                     </div>
 
                     <div class="form-group col-md-2">
                       <label>Area</label>
-                      <input type="text" value="<%=  %>" name="area" placeholder="14 marla"
+                      <input type="text" value="<%= oldInput.area %>" name="area" placeholder="14 marla"
                         class="form-control" required>
                     </div>
                     
@@ -110,19 +110,19 @@
                           </div>
                           <div class="card-body">
                             <div class="form-check form-check-inline">
-                              <input name="wifi" class="form-check-input" type="checkbox" id="" value="true">
+                              <input name="wifi" class="form-check-input" type="checkbox" id="" value="true" <%= oldInput.wifi ? 'checked' : '' %> >
                               <label class="form-check-label" for="inlineCheckbox3">Wifi</label>
                             </div>
                             <div class="form-check form-check-inline">
-                              <input name="parking" class="form-check-input" type="checkbox" id="" value="true">
+                              <input name="parking" class="form-check-input" type="checkbox" id="" value="true" <%= oldInput.parking ? 'checked' : '' %> >
                               <label class="form-check-label" for="inlineCheckbox3">Parking Area</label>
                             </div>
                             <div class="form-check form-check-inline">
-                              <input name="kitchen" class="form-check-input" type="checkbox" id="" value="true">
+                              <input name="kitchen" class="form-check-input" type="checkbox" id="" value="true" <%= oldInput.kitchen ? 'checked' : '' %> >
                               <label class="form-check-label" for="inlineCheckbox3">Kitchen</label>
                             </div>
                             <div class="form-check form-check-inline">
-                              <input name="secuirity" class="form-check-input" type="checkbox" id="" value="true">
+                              <input name="secuirity" class="form-check-input" type="checkbox" id="" value="true" <%= oldInput.secuirity ? 'checked' : '' %> >
                               <label class="form-check-label" for="inlineCheckbox3">Secuirity</label>
                             </div>
                           </div>

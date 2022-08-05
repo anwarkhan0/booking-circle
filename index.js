@@ -146,28 +146,28 @@ const cron = require('node-cron');
 //   console.log('running a task every minute');
 // });
 
-const admins = require('./models/SystemUsers');
-const bcrypt = require('bcrypt');
+// const admins = require('./models/SystemUsers');
+// const bcrypt = require('bcrypt');
 
-admins.find(users => {
-  if(!users) {
+// admins.find(users => {
+//   if(!users) {
 
-    bcrypt.genSalt(16, function (err, salt) {
-      bcrypt.hash('password', salt, function (err, hash) {
-        const user = new admins({
-          name: 'hasnain',
-          contact: 123,
-          CNIC: 123,
-          location: 'city',
-          address: 'address',
-          role: 0,
-          email: 'admin@admin.com',
-          password: hash,
-        })
-        user.save()
-      });
-    });
+//     bcrypt.genSalt(16, function (err, salt) {
+//       bcrypt.hash('password', salt, function (err, hash) {
+//         const user = new admins({
+//           name: 'hasnain',
+//           contact: 123,
+//           CNIC: 123,
+//           location: 'city',
+//           address: 'address',
+//           role: 0,
+//           email: 'admin@admin.com',
+//           password: hash,
+//         })
+//         user.save()
+//       });
+//     });
 
     
-  }
-}).catch(err => console.log(err))
+//   }
+// }).catch(err => console.log(err))

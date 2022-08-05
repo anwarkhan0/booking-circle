@@ -2,6 +2,7 @@ const { render } = require('ejs')
 const express = require('express')
 const Hotels = require('../models/Hotel')
 const Appartments = require('../models/Appartment')
+const Houses = require('../models/House');
 const Users = require('../models/SystemUsers')
 
 const {
@@ -742,7 +743,7 @@ router.post(
     body('loginEmail')
       .isEmail()
       .custom((value, { req }) => {
-        return Appartments.findOne({ loginEmail: value }).then(appartment => {
+        return Houses.findOne({ loginEmail: value }).then(appartment => {
           if (appartment) {
             return Promise.reject(
               'Appartment associated with E-Mail exists already, please pick a different one.'

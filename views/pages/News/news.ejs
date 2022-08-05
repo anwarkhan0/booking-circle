@@ -26,18 +26,18 @@
 			</div>
 			<div class="section clearfix"></div>
 
-			<% for(let i= 0; i< news.length; i++) { %> 
+			<% news.forEach( blog =>  { %> 
 			<div class="col-md-6 col-xl-4">
 				<div class="room-box background-white">
-					<img src="/uploads/<%= news[i].media %>" alt="">
+					<img src="/uploads/<%= blog.media %>" alt="">
 					<div class="room-box-in">
-						<h6 class=""><%= news[i].heading %> </h6>
-						<p class="mt-3"><%= news[i].description.substr(0, 100) + '....' %></p>
-						<a class="mt-1 btn btn-primary" href="<%= '/News/post/' + news[i].id %>">read more</a>
+						<h6 class=""><%= blog.heading %> </h6>
+						<p class="mt-3"><%= blog.description.substr(0, 100) + '....' %></p>
+						<a class="mt-1 btn btn-primary" href="<%= '/News/post/' + blog.id %>">read more</a>
 					</div>
 				</div>
 			</div>
-			<% } %> 
+			<% }) %> 
 
 		</div>
 	</div>

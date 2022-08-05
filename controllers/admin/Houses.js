@@ -21,7 +21,11 @@ const addHouse = (req, res, next) => {
             contact: "",
             parking: "",
             area: "",
-            appartmentType: "",
+            bedRooms: bedRooms,
+            baths: '',
+            wifi: '',
+            kitchen: '',
+            secuirity: '',
             address: "",
             ownerName: "",
             ownerCNIC: "",
@@ -85,7 +89,7 @@ const addHouse = (req, res, next) => {
   
   const addHouseGallery = (req, res, next)=>{
     const id = req.params.id;
-    res.render("../Admin/views/pages/Houses/addGallery", { houseId: id});
+    res.render("../Admin/views/pages/Houses/addGallery", { user: req.session.user, houseId: id});
   }
   
   const housesGallery = (req, res, next) => {
@@ -143,8 +147,13 @@ const addHouse = (req, res, next) => {
           name: name,
           price: price,
           contact: contact,
-          parking: parking,
+          bedRooms: bedRooms,
+          baths: baths,
           area: area,
+          wifi: wifi,
+          parking: parking,
+          kitchen: kitchen,
+          secuirity: secuirity,
           address: address,
           ownerName: ownerName,
           ownerCNIC: ownerCNIC,
@@ -176,7 +185,6 @@ const addHouse = (req, res, next) => {
       parking: parking,
       kitchen: kitchen,
       secuirity: secuirity,
-      location: location,
       location: location,
       address: address,
       owner: {
