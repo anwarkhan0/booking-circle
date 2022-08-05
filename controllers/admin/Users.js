@@ -122,7 +122,6 @@ const logout = (req, res, next) => {
     console.log(err)
     res.redirect('/admin/login')
   })
-  res.redirect('/admin/login')
 }
 
 // Dashboard Content
