@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const { validationResult, check } = require("express-validator");
 const Safepay = require("safepay");
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const moment = require('moment');
 
 const HomeModel = require("../models/homeModel");
 const AreasModel = require("../models/Location");
@@ -30,6 +31,7 @@ const tours = async (req, res, next) => {
       areas: areas,
       tours: tours,
       hikes: hikes,
+      moment: moment,
     });
   };
   

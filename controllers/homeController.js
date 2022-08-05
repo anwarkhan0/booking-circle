@@ -19,6 +19,7 @@ const queryModel = require("../models/Query");
 const Feedbacks = require("../models/Feedback");
 const checkout = require("safepay/dist/resources/checkout");
 const { findByIdAndDelete } = require("../models/Location");
+const Feedback = require("../models/Feedback");
 
 // HomePage
 const home = async (req, res, next) => {
@@ -193,17 +194,37 @@ const postMessage = async (req, res, next) => {
   const message = req.body.message;
 
   try {
-    const feedback = new MessageModel({
+    const message = new MessageModel({
       name: name,
       email: email,
       message: message,
     });
-    await feedback.save();
+    await message.save();
     console.log("message added");
-    res.redirect("/");
+    res.sendStatus(200);
   } catch (err) {
     console.log(err);
-    res.redirect("/");
+    res.sendStatus(204);
+  }
+};
+
+const postFeedback = async (req, res, next) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const message = req.body.feedback;
+
+  try {
+    const feedback = new Feedback({
+      name: name,
+      email: email,
+      feedback: message,
+    });
+    await feedback.save();
+    console.log("message added");
+    res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(204);
   }
 };
 
@@ -931,6 +952,7 @@ module.exports = {
   // Contact
   contact,
   postMessage,
+  postFeedback,
 
   // User
   login,

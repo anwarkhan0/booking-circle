@@ -13,9 +13,9 @@ const FeedbacksSchema = new Schema({
     },
     publish: {
         type: Boolean,
-        required: true
+        default: true
     },
-    message: {
+    feedback: {
         type: String,
         required: true
     }

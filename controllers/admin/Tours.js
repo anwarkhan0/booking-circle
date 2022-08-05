@@ -1,5 +1,6 @@
 const { delImg, delMultImages } = require("../../util/file");
 const { validationResult } = require("express-validator");
+const moment = require('moment');
 
 //models
 const Areas = require("../../models/Location");
@@ -70,7 +71,7 @@ const addTour = async (req, res, next) => {
   
   const addTourGallery = (req, res, next)=>{
     const tourId = req.params.id;
-    res.render("../Admin/views/pages/Tours/addGallery", { tourId: tourId });
+    res.render("../Admin/views/pages/Tours/addGallery", { user: req.session.user, tourId: tourId });
   }
   
   const tourGallery = (req, res, next) => {

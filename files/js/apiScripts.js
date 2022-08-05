@@ -94,6 +94,35 @@ $("#tourEnrolling").click(function () {
   window.location.href = `/Tours/enrolling?tourId=${tourId}&seats=${seats}&routePath=/Tours/booking/`;
 });
 
+$("#sendFeedback").click(function () {
+  const name = $("#fbname").val();
+  const email = $("#fbemail").val();
+  const message = $("#feedback").val();
+  const data = JSON.stringify({
+    name: name,
+    email: email,
+    feedback: message,
+  });
+  fetch("/Contact/feedback", {
+    method: "POST",
+    body: data,
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  })
+    // Checking Status
+    .then((response) => {
+      if (response.status === 200) {
+        $("#fbname").val("");
+        $("#fbemail").val("");
+        $("#feedback").val("");
+        alert("your Feedback sent successfully.");
+      } else {
+        alert("oop's something went wrong, Please Try again");
+      }
+    });
+});
+
 $("#send").click(function () {
   const name = $("#name").val();
   const email = $("#email").val();
@@ -103,7 +132,7 @@ $("#send").click(function () {
     email: email,
     message: message,
   });
-  fetch("/Contact/feedback", {
+  fetch("/Contact/message", {
     method: "POST",
     body: data,
     headers: {

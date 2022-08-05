@@ -32,37 +32,31 @@
                         <tr>
                             <th>S#</th>
                             <th>Name</th>
-                            <th>Contact</th>
-                            <!-- <th>CNIC</th>
-                            <th>Gender</th>
-                            <th>Address</th> -->
+                            <th>Email</th>
+                            <th>Feedback</th>
                             <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <% for(let i= 0; i< feedbacks.length; i++) { %> 
+                        <% feedbacks.forEach( (feedback, i) => { %> 
                         <tr>
                             <td><%= i+1 %> .</td>
-                            <td><%= feedbacks[i].name %> </td>
-                            <td><%= feedbacks[i].email %> </td>
-                            <!-- <td>1560284614213</td>
-                            <td>Male</td>
-                            <td>Saidu Sharif</td> -->
+                            <td><%= feedback.name %> </td>
+                            <td><%= feedback.email %> </td>
+                            <td><%= feedback.feedback.substring(0, 20) + '...' %> </td>
                             <td>
-                                <a href="/admin/Feedback/viewFeedbackQuery/<%= feedbacks[i].id %>" class="btn btn-success btn-sm">View &nbsp;<i class="fa fa-comments-o"></i></a>
+                                <a href="/admin/Feedback/viewFeedbackQuery/<%= feedback.id %>" class="btn btn-success btn-sm">View &nbsp;<i class="fa fa-comments-o"></i></a>
                             </td>
                         </tr>
-                        <% } %> 
+                        <% }) %> 
                       </tbody>
                       <tfoot>
                         <tr>
-                            <th>S#</th>
-                            <th>Name</th>
-                            <th>Contact</th>
-                            <th>CNIC</th>
-                            <th>Gender</th>
-                            <th>Address</th>
-                            <th>Action</th>
+                          <th>S#</th>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Feedback</th>
+                          <th>Action</th>
                         </tr>
                       </tfoot>
                     </table>

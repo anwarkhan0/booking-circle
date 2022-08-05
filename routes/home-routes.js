@@ -20,6 +20,7 @@ const {
   // Contact
   contact,
   postMessage,
+  postFeedback,
 
   // User
   login,
@@ -239,7 +240,8 @@ router.get("/About/about", about);
 
 // Contact
 router.get("/Contact/contact", contact);
-router.post("/Contact/feedback", postMessage);
+router.post("/Contact/message", postMessage);
+router.post("/Contact/feedback", postFeedback);
 
 // User
 router.get("/User/login", login);
