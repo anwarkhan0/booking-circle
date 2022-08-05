@@ -1094,13 +1094,14 @@ const postDeleteRoomGalleryImage = async (req, res) => {
     gallery.splice(gallery.indexOf(image), 1);
     hotel.rooms.gallery = gallery;
 
-    if (delImg(image)) {
-      await hotel.save();
-      console.log("UPDATED Gallery!");
-      res.sendStatus(200);
-    } else {
-      throw "Something went wrong while deleting the file.";
-    }
+    fs.unlink(path.join(__dirname, '../files/uploads'), (err) => {
+      if (err) throw 'Something went wrong while deleting file.';
+      console.log('image deleted');
+    });
+
+    await hotel.save();
+
+
   } catch (err) {
     console.log(err);
     res.sendStatus(204);
