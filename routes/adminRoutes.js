@@ -199,7 +199,7 @@ router.post(
     })
     .isLength({ min: 2, max: 200 })
     .trim()
-    .escape(),
+    ,
   isAuth,
   postAddArea
 )
@@ -217,7 +217,7 @@ router.post(
     })
     .isLength({ min: 2, max: 200 })
     .trim()
-    .escape(),
+    ,
   isAuth,
   postEditArea
 )
@@ -270,12 +270,12 @@ router.post(
       .notEmpty()
       .isLength({ min: 2, max: 200 })
       .trim()
-      .escape(),
+      ,
     body('address', 'Please enter valid Hotel Address.')
       .notEmpty()
       .isLength({ min: 2, max: 200 })
       .trim()
-      .escape(),
+      ,
     body('ownerName', 'Please enter valid Owner Name.')
       .notEmpty()
       .custom(val => {
@@ -287,7 +287,7 @@ router.post(
       })
       .isLength({ min: 2, max: 200 })
       .trim()
-      .escape(),
+      ,
     body('ownerCNIC', 'Please enter valid 13-digit CNIC Number.')
       .notEmpty()
       .custom(val => {
@@ -345,7 +345,7 @@ router.post(
       })
       .isLength({ min: 2, max: 200 })
       .trim()
-      .escape(),
+      ,
     body('contact', 'Please enter valid Hotel contact number.')
       .isLength({ min: 10, max: 11 })
       .isNumeric()
@@ -354,7 +354,7 @@ router.post(
       .notEmpty()
       .isLength({ min: 2, max: 200 })
       .trim()
-      .escape(),
+      ,
     body('address', 'Please enter valid Hotel Address.')
       .notEmpty()
       .custom(val => {
@@ -366,7 +366,7 @@ router.post(
       })
       .isLength({ min: 2, max: 200 })
       .trim()
-      .escape(),
+      ,
     body('ownerName', 'Please enter valid Owner Name.')
       .notEmpty()
       .custom(val => {
@@ -378,7 +378,7 @@ router.post(
       })
       .isLength({ min: 2, max: 200 })
       .trim()
-      .escape(),
+      ,
     body('ownerCNIC', 'Please enter valid 13-digit CNIC Number.')
       .isLength({ min: 13, max: 13 })
       .trim(),
@@ -451,7 +451,7 @@ router.post(
       })
       .isLength({ min: 2, max: 200 })
       .trim()
-      .escape(),
+      ,
     body('charges', 'Please enter valid charges value.').isNumeric().trim(),
     body('contact', 'Please enter valid Appartment Contact number.')
       .isLength({ min: 10, max: 11 })
@@ -466,7 +466,7 @@ router.post(
         }
       })
       .isLength({ min: 2, max: 200 })
-      .escape(),
+      ,
     body('address', 'Please enter valid address.')
       .notEmpty()
       .custom(val => {
@@ -478,7 +478,7 @@ router.post(
       })
       .isLength({ min: 2, max: 300 })
       .trim()
-      .escape(),
+      ,
     body('videoUrl', 'Please enter valid URL.').isURL(),
     body('description', 'Please enter valid description')
       .notEmpty()
@@ -490,7 +490,7 @@ router.post(
         }
       })
       .trim()
-      .escape(),
+      ,
     body('features', 'Please enter valid features')
       .notEmpty()
       .custom(val => {
@@ -501,7 +501,7 @@ router.post(
         }
       })
       .trim()
-      .escape(),
+      ,
     body('ownerName', 'Please enter valid Owner Name.')
       .notEmpty()
       .custom(val => {
@@ -513,7 +513,7 @@ router.post(
       })
       .isLength({ min: 2, max: 200 })
       .trim()
-      .escape(),
+      ,
     body('ownerCNIC', 'Please enter valid 13-digit CNIC Number.')
       .isLength({ min: 13, max: 13 })
       .trim(),
@@ -561,7 +561,7 @@ router.post(
       })
       .isLength({ min: 2, max: 200 })
       .trim()
-      .escape(),
+      ,
     body('charges', 'Please enter valid charges value.').isNumeric().trim(),
     body('contact', 'Please enter valid Appartment Contact number.')
       .isLength({ min: 10, max: 11 })
@@ -576,7 +576,7 @@ router.post(
         }
       })
       .isLength({ min: 2, max: 200 })
-      .escape(),
+      ,
     body('address', 'Please enter valid address.')
       .notEmpty()
       .custom(val => {
@@ -588,7 +588,7 @@ router.post(
       })
       .isLength({ min: 2, max: 300 })
       .trim()
-      .escape(),
+      ,
     body('videoUrl', 'Please enter valid URL.').isURL(),
     body('description', 'Please enter valid description')
       .notEmpty()
@@ -600,7 +600,7 @@ router.post(
         }
       })
       .trim()
-      .escape(),
+      ,
     body('features', 'Please enter valid features')
       .notEmpty()
       .custom(val => {
@@ -611,7 +611,7 @@ router.post(
         }
       })
       .trim()
-      .escape(),
+      ,
     body('ownerName', 'Please enter valid Owner Name.')
       .notEmpty()
       .custom(val => {
@@ -623,7 +623,7 @@ router.post(
       })
       .isLength({ min: 2, max: 200 })
       .trim()
-      .escape(),
+      ,
     body('ownerCNIC', 'Please enter valid 13-digit CNIC Number.')
       .isLength({ min: 13, max: 13 })
       .trim(),
@@ -669,7 +669,7 @@ router.post(
       })
       .isLength({ min: 2, max: 200 })
       .trim()
-      .escape(),
+      ,
     body('price', 'Please enter valid price.').isNumeric().trim(),
     body('contact', 'Please enter valid Contact number.')
       .isLength({ min: 10, max: 11 })
@@ -685,7 +685,7 @@ router.post(
         }
       })
       .isLength({ min: 2, max: 200 })
-      .escape(),
+      ,
     body('address', 'Please enter valid address.')
       .notEmpty()
       .custom(val => {
@@ -697,7 +697,7 @@ router.post(
       })
       .isLength({ min: 2, max: 300 })
       .trim()
-      .escape(),
+      ,
     body('videoUrl', 'Please enter valid URL.').isURL(),
     body('description', 'Please enter valid description')
       .notEmpty()
@@ -709,7 +709,7 @@ router.post(
         }
       })
       .trim()
-      .escape(),
+      ,
     body('features', 'Please enter valid features')
       .notEmpty()
       .custom(val => {
@@ -720,7 +720,7 @@ router.post(
         }
       })
       .trim()
-      .escape(),
+      ,
     body('ownerName', 'Please enter valid Owner Name.')
       .notEmpty()
       .custom(val => {
@@ -732,7 +732,7 @@ router.post(
       })
       .isLength({ min: 2, max: 200 })
       .trim()
-      .escape(),
+      ,
     body('ownerCNIC', 'Please enter valid 13-digit CNIC Number.')
       .isLength({ min: 13, max: 13 })
       .trim(),
@@ -779,7 +779,7 @@ router.post(
       })
       .isLength({ min: 2, max: 200 })
       .trim()
-      .escape(),
+      ,
     body('price', 'Please enter valid price.').isNumeric().trim(),
     body('contact', 'Please enter valid Contact number.')
       .isLength({ min: 10, max: 11 })
@@ -795,7 +795,7 @@ router.post(
         }
       })
       .isLength({ min: 2, max: 200 })
-      .escape(),
+      ,
     body('address', 'Please enter valid address.')
       .notEmpty()
       .custom(val => {
@@ -807,7 +807,7 @@ router.post(
       })
       .isLength({ min: 2, max: 300 })
       .trim()
-      .escape(),
+      ,
     body('videoUrl', 'Please enter valid URL.').isURL(),
     body('description', 'Please enter valid description')
       .notEmpty()
@@ -819,7 +819,7 @@ router.post(
         }
       })
       .trim()
-      .escape(),
+      ,
     body('features', 'Please enter valid features')
       .notEmpty()
       .custom(val => {
@@ -830,7 +830,7 @@ router.post(
         }
       })
       .trim()
-      .escape(),
+      ,
     body('ownerName', 'Please enter valid Owner Name.')
       .notEmpty()
       .custom(val => {
@@ -842,7 +842,7 @@ router.post(
       })
       .isLength({ min: 2, max: 200 })
       .trim()
-      .escape(),
+      ,
     body('ownerCNIC', 'Please enter valid 13-digit CNIC Number.')
       .isLength({ min: 13, max: 13 })
       .trim(),
@@ -894,7 +894,7 @@ router.post(
     })
     .isLength({ min: 2 })
     .trim()
-    .escape(),
+    ,
   isAuth,
   postAddVehicleCategory
 )
@@ -911,7 +911,7 @@ router.post(
     })
     .isLength({ min: 2 })
     .trim()
-    .escape(),
+    ,
   isAuth,
   postEditVehicleCategory
 )
@@ -932,24 +932,24 @@ router.post(
       .notEmpty()
       .isLength({ min: 2 })
       .trim()
-      .escape(),
+      ,
     body('model', 'Please enter valid model.')
       .notEmpty()
       .isLength({ min: 2 })
       .trim()
       .isNumeric()
-      .escape(),
+      ,
     body('seats', 'Please enter valid seats value.')
       .notEmpty()
       .isLength({ min: 1 })
       .trim()
       .isNumeric()
-      .escape(),
+      ,
     body('serviceArea', 'Please enter valid Service area.')
       .notEmpty()
       .isLength({ min: 2 })
       .trim()
-      .escape(),
+      ,
     body('videoUrl', 'Invalid URL.').notEmpty().isURL(),
     body('description', 'Please enter valid description.')
       .notEmpty()
@@ -962,7 +962,7 @@ router.post(
       })
       .isLength({ min: 4 })
       .trim()
-      .escape(),
+      ,
     body('features', 'Please enter valid features.')
       .notEmpty()
       .custom(val => {
@@ -974,7 +974,7 @@ router.post(
       })
       .isLength({ min: 4 })
       .trim()
-      .escape(),
+      ,
     body('ownerName', 'Please enter valid Owner Name.')
       .notEmpty()
       .custom(val => {
@@ -986,7 +986,7 @@ router.post(
       })
       .isLength({ min: 4 })
       .trim()
-      .escape(),
+      ,
     body('ownerCNIC', 'Please enter valid 13-digit CNIC Number without dashes.')
       .isLength({ min: 13, max: 13 })
       .trim(),
@@ -1004,7 +1004,7 @@ router.post(
       })
       .isLength({ min: 4 })
       .trim()
-      .escape(),
+      ,
   ],
   isAuth,
   postAddVehicle
@@ -1017,19 +1017,19 @@ router.post(
       .notEmpty()
       .isLength({ min: 2 })
       .trim()
-      .escape(),
+      ,
     body('model', 'Please enter valid model.')
       .notEmpty()
       .isLength({ min: 2 })
       .trim()
       .isNumeric()
-      .escape(),
+      ,
     body('seats', 'Please enter valid seats value.')
       .notEmpty()
       .isLength({ min: 1 })
       .trim()
       .isNumeric()
-      .escape(),
+      ,
     body('videoUrl', 'Invalid URL.').notEmpty().isURL(),
     body('description', 'Please enter valid description.')
       .notEmpty()
@@ -1042,7 +1042,7 @@ router.post(
       })
       .isLength({ min: 4 })
       .trim()
-      .escape(),
+      ,
     body('features', 'Please enter valid features.')
       .notEmpty()
       .custom(val => {
@@ -1054,7 +1054,7 @@ router.post(
       })
       .isLength({ min: 4 })
       .trim()
-      .escape(),
+      ,
     body('ownerName', 'Please enter valid Owner Name.')
       .notEmpty()
       .custom(val => {
@@ -1066,7 +1066,7 @@ router.post(
       })
       .isLength({ min: 4 })
       .trim()
-      .escape(),
+      ,
     body('ownerCNIC', 'Please enter valid 13-digit CNIC Number without dashes.')
       .isLength({ min: 13, max: 13 })
       .trim(),
@@ -1084,7 +1084,7 @@ router.post(
       })
       .isLength({ min: 4 })
       .trim()
-      .escape(),
+      ,
   ],
   isAuth,
   postEditVehicle
@@ -1115,7 +1115,7 @@ router.post(
         }
       })
       .trim()
-      .escape(),
+      ,
     body('author', 'invalid value for author.')
       .notEmpty()
       .custom(val => {
@@ -1127,7 +1127,7 @@ router.post(
       })
       .isLength({ min: 2 })
       .trim()
-      .escape(),
+      ,
     body('desc', 'Please enter description.')
       .notEmpty()
       .custom(val => {
@@ -1155,7 +1155,7 @@ router.post(
         }
       })
       .trim()
-      .escape(),
+      ,
     body('author', 'invalid value for author.')
       .notEmpty()
       .custom(val => {
@@ -1167,7 +1167,7 @@ router.post(
       })
       .isLength({ min: 2 })
       .trim()
-      .escape(),
+      ,
     body('desc', 'Please enter description.')
       .notEmpty()
       .custom(val => {
@@ -1226,7 +1226,7 @@ router.post(
         }
       })
       .trim()
-      .escape(),
+      ,
   ],
   isAuth,
   postAddTour
@@ -1286,7 +1286,7 @@ router.post(
         }
       })
       .trim()
-      .escape(),
+      ,
     body('contact', 'Please enter valid contact number.')
       .notEmpty()
       .isLength({ min: 10, max: 11 })
@@ -1370,7 +1370,7 @@ router.post(
         }
       })
       .trim()
-      .escape(),
+      ,
     body('contact', 'Please enter valid contact number.')
       .notEmpty()
       .isLength({ min: 10, max: 11 })

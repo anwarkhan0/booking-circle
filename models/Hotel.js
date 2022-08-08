@@ -25,7 +25,8 @@ const HotelsSchema = new Schema({
   },
   videoUrl: {
     type: String,
-    required: true
+    required: false,
+    default: false
   },
   parking: {
     type: Boolean,
@@ -79,7 +80,6 @@ const HotelsSchema = new Schema({
       videoUrl: String,
       size: String,
       occupancy: Number,
-      view: Number,
       bedSize: String,
       reservations: [{
         roomIndex: Number,
@@ -97,8 +97,8 @@ const HotelsSchema = new Schema({
       videoUrl: String,
       size: String,
       occupancy: Number,
-      view: Number,
-      bedSize: String,
+      bed1Size: String,
+      bed2Size: String,
       reservations: [{
         roomIndex: Number,
         user: Object,
@@ -115,8 +115,9 @@ const HotelsSchema = new Schema({
       videoUrl: String,
       size: String,
       occupancy: Number,
-      view: Number,
-      bedSize: String,
+      bed1Size: String,
+      bed2Size: String,
+      bed3Size: String,
       reservations: [{
         roomIndex: Number,
         user: Object,
@@ -133,8 +134,10 @@ const HotelsSchema = new Schema({
       videoUrl: String,
       size: String,
       occupancy: Number,
-      view: Number,
-      bedSize: String,
+      bed1Size: String,
+      bed2Size: String,
+      bed3Size: String,
+      bed4Size: String,
       reservations: [{
         roomIndex: Number,
         user: Object,
@@ -151,8 +154,11 @@ const HotelsSchema = new Schema({
       videoUrl: String,
       size: String,
       occupancy: Number,
-      view: Number,
-      bedSize: String,
+      bed1Size: String,
+      bed2Size: String,
+      bed3Size: String,
+      bed4Size: String,
+      bed5Size: String,
       reservations: [{
         roomIndex: Number,
         user: Object,

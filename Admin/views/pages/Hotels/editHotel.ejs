@@ -84,7 +84,7 @@
                   <div class="form-group col-md-4">
                     <label>Video Link</label>
                     <input type="url" value="<%= hotel.videoUrl %>" name="videoUrl"
-                      placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0" class="form-control" required>
+                      placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0" class="form-control">
                   </div>
 
                   
@@ -171,16 +171,11 @@
                             </div>
                         
                             <div class="form-group col-md-3">
-                              <label>Occupency</label>
+                              <label>Occupancy</label>
                               <input type="text" value="<%= hotel.rooms.single.occupancy %>" name="singleRmOccupancy" placeholder="i.e: Upto 4 childrens"
                                 class="form-control" required>
                             </div>
                         
-                            <div class="form-group col-md-3">
-                              <label>View</label>
-                              <input type="number" value="<%= hotel.rooms.single.view %>" name="singleRmView" placeholder="Enter Number of Rooms with View"
-                                class="form-control" required>
-                            </div>
                         
                             <div class="form-group col-md-3">
                               <label>Bed Size</label>
@@ -232,23 +227,32 @@
                             </div>
                         
                             <div class="form-group col-md-3">
-                              <label>Occupency</label>
+                              <label>Occupancy</label>
                               <input type="number" value="<%= hotel.rooms.twin.occupancy %>" name="twinRmOccupancy" placeholder="i.e: Upto 4 childrens"
                                 class="form-control" required>
                             </div>
+                  
                         
                             <div class="form-group col-md-3">
-                              <label>View</label>
-                              <input type="number" value="<%= hotel.rooms.twin.view %>" name="twinRmView" placeholder="Enter Number of Rooms with View"
-                                class="form-control" required>
+                              <label>Bed 1 Size</label>
+                              <select class="form-control " style="width: 100%;" name="twinRmBed1Size">
+                                <option value="master" <%=hotel.rooms.twin.bed1Size==='master' ? 'selected' : '' %> >Master Bed</option>
+                                <option value="matress" <%=hotel.rooms.twin.bed1Size==='matress' ? 'selected' : '' %> >Matress</option>
+                                <option value="king" <%=hotel.rooms.twin.bed1Size==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="queen" <%=hotel.rooms.twin.bed1Size==='queen' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="regular" <%=hotel.rooms.twin.bed1Size==='regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
                             </div>
-                        
+
                             <div class="form-group col-md-3">
-                              <label>Bed Size</label>
-                              <select class="form-control select2" style="width: 100%;" name="twinRmBedSize">
-                                <option value="king" <%=hotel.rooms.twin.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
-                                <option value="queen" <%=hotel.rooms.twin.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
-                                <option value="regular" <%=hotel.rooms.twin.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
+                              <label>Bed 2 Size</label>
+                              <select class="form-control " style="width: 100%;" name="twinRmBed2Size">
+                                <option value="master" <%=hotel.rooms.twin.bed2Size==='master' ? 'selected' : '' %> >Master Bed</option>
+                                <option value="matress" <%=hotel.rooms.twin.bed2Size==='matress' ? 'selected' : '' %> >Matress</option>
+                                <option value="king" <%=hotel.rooms.twin.bed2Size==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="queen" <%=hotel.rooms.twin.bed2Size==='queen' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="regular" <%=hotel.rooms.twin.bed2Size==='regular' ? 'selected' : '' %> >Regular Bed
                                 </option>
                               </select>
                             </div>
@@ -290,23 +294,44 @@
                             </div>
                         
                             <div class="form-group col-md-3">
-                              <label>Occupency</label>
+                              <label>Occupancy</label>
                               <input type="text" value="<%= hotel.rooms.triple.occupancy %>" name="tripleRmOccupancy" placeholder="i.e: Upto 4 childrens"
                                 class="form-control" required>
                             </div>
+                      
                         
                             <div class="form-group col-md-3">
-                              <label>View</label>
-                              <input type="number" value="<%= hotel.rooms.triple.view %>" name="tripleRmView" placeholder="Enter Number of Rooms with View"
-                                class="form-control" required>
+                              <label>Bed 1 Size</label>
+                              <select class="form-control " style="width: 100%;" name="tripleRmBed1Size">
+                                <option value="master" <%=hotel.rooms.triple.bed1Size==='master' ? 'selected' : '' %> >Master Bed</option>
+                                <option value="matress" <%=hotel.rooms.triple.bed1Size==='matress' ? 'selected' : '' %> >Matress</option>
+                                <option value="king" <%=hotel.rooms.triple.bed1Size==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="queen" <%=hotel.rooms.triple.bed1Size==='queen' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="regular" <%=hotel.rooms.triple.bed1Size==='regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
                             </div>
-                        
+
                             <div class="form-group col-md-3">
-                              <label>Bed Size</label>
-                              <select class="form-control select2" style="width: 100%;" name="tripleRmBedSize">
-                                <option value="king" <%=hotel.rooms.triple.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
-                                <option value="regular" <%=hotel.rooms.triple.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
-                                <option value="king&regular" <%=hotel.rooms.triple.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
+                              <label>Bed 2 Size</label>
+                              <select class="form-control " style="width: 100%;" name="tripleRmBed2Size">
+                                <option value="master" <%=hotel.rooms.triple.bed2Size==='master' ? 'selected' : '' %> >Master Bed</option>
+                                <option value="matress" <%=hotel.rooms.triple.bed2Size==='matress' ? 'selected' : '' %> >Matress</option>
+                                <option value="king" <%=hotel.rooms.triple.bed2Size==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="queen" <%=hotel.rooms.triple.bed2Size==='queen' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="regular" <%=hotel.rooms.triple.bed2Size==='regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
+                            </div>
+
+                            <div class="form-group col-md-3">
+                              <label>Bed 3 Size</label>
+                              <select class="form-control " style="width: 100%;" name="tripleRmBed3Size">
+                                <option value="master" <%=hotel.rooms.triple.bed3Size==='master' ? 'selected' : '' %> >Master Bed</option>
+                                <option value="matress" <%=hotel.rooms.triple.bed3Size==='matress' ? 'selected' : '' %> >Matress</option>
+                                <option value="king" <%=hotel.rooms.triple.bed3Size==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="queen" <%=hotel.rooms.triple.bed3Size==='queen' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="regular" <%=hotel.rooms.triple.bed3Size==='regular' ? 'selected' : '' %> >Regular Bed
                                 </option>
                               </select>
                             </div>
@@ -349,23 +374,56 @@
                             </div>
                         
                             <div class="form-group col-md-3">
-                              <label>Occupency</label>
+                              <label>Occupancy</label>
                               <input type="text" value="<%= hotel.rooms.quad.occupancy %>" name="quadRmOccupancy" placeholder="i.e: Upto 4 childrens"
                                 class="form-control" required>
                             </div>
+                  
                         
                             <div class="form-group col-md-3">
-                              <label>View</label>
-                              <input type="number" value="<%= hotel.rooms.quad.view %>" name="quadRmView" placeholder="Enter Number of Rooms with View"
-                                class="form-control" required>
+                              <label>Bed 1 Size</label>
+                              <select class="form-control " style="width: 100%;" name="quadRmBed1Size">
+                                <option value="master" <%=hotel.rooms.quad.bed1Size==='master' ? 'selected' : '' %> >Master Bed</option>
+                                <option value="matress" <%=hotel.rooms.quad.bed1Size==='matress' ? 'selected' : '' %> >Matress</option>
+                                <option value="king" <%=hotel.rooms.quad.bed1Size==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="queen" <%=hotel.rooms.quad.bed1Size==='queen' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="regular" <%=hotel.rooms.quad.bed1Size==='regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
                             </div>
-                        
+
                             <div class="form-group col-md-3">
-                              <label>Bed Size</label>
-                              <select class="form-control select2" style="width: 100%;" name="quadRmBedSize">
-                                <option value="king" <%=hotel.rooms.quad.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
-                                <option value="regular" <%=hotel.rooms.quad.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
-                                <option value="king&regular" <%=hotel.rooms.quad.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
+                              <label>Bed 2 Size</label>
+                              <select class="form-control " style="width: 100%;" name="quadRmBed2Size">
+                                <option value="master" <%=hotel.rooms.quad.bed2Size==='master' ? 'selected' : '' %> >Master Bed</option>
+                                <option value="matress" <%=hotel.rooms.quad.bed2Size==='matress' ? 'selected' : '' %> >Matress</option>
+                                <option value="king" <%=hotel.rooms.quad.bed2Size==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="queen" <%=hotel.rooms.quad.bed2Size==='queen' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="regular" <%=hotel.rooms.quad.bed2Size==='regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
+                            </div>
+                            
+                            <div class="form-group col-md-3">
+                              <label>Bed 3 Size</label>
+                              <select class="form-control " style="width: 100%;" name="quadRmBed3Size">
+                                <option value="master" <%=hotel.rooms.quad.bed3Size==='master' ? 'selected' : '' %> >Master Bed</option>
+                                <option value="matress" <%=hotel.rooms.quad.bed3Size==='matress' ? 'selected' : '' %> >Matress</option>
+                                <option value="king" <%=hotel.rooms.quad.bed3Size==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="queen" <%=hotel.rooms.quad.bed3Size==='queen' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="regular" <%=hotel.rooms.quad.bed3Size==='regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
+                            </div>
+
+                            <div class="form-group col-md-3">
+                              <label>Bed 4 Size</label>
+                              <select class="form-control " style="width: 100%;" name="quadRmBed4Size">
+                                <option value="master" <%=hotel.rooms.quad.bed4Size==='master' ? 'selected' : '' %> >Master Bed</option>
+                                <option value="matress" <%=hotel.rooms.quad.bed4Size==='matress' ? 'selected' : '' %> >Matress</option>
+                                <option value="king" <%=hotel.rooms.quad.bed4Size==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="queen" <%=hotel.rooms.quad.bed4Size==='queen' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="regular" <%=hotel.rooms.quad.bed4Size==='regular' ? 'selected' : '' %> >Regular Bed
                                 </option>
                               </select>
                             </div>
@@ -408,23 +466,68 @@
                             </div>
                         
                             <div class="form-group col-md-3">
-                              <label>Occupency</label>
-                              <input type="text" value="<%= hotel.rooms.quin.occupency %>" name="quinRmOccupancy" placeholder="i.e: Upto 4 childrens"
+                              <label>Occupancy</label>
+                              <input type="text" value="<%= hotel.rooms.quin.occupancy %>" name="quinRmOccupancy" placeholder="i.e: Upto 4 childrens"
                                 class="form-control" required>
                             </div>
                         
-                            <div class="form-group col-md-3">
-                              <label>View</label>
-                              <input type="number" value="<%= hotel.rooms.quin.view %>" name="quinRmView" placeholder="Enter Number of Rooms with View"
-                                class="form-control" required>
-                            </div>
                         
                             <div class="form-group col-md-3">
-                              <label>Bed Size</label>
-                              <select class="form-control select2" style="width: 100%;" name="quinRmBedSize">
-                                <option value="king" <%=hotel.rooms.quin.bedSize==='king' ? 'selected' : '' %> >King Bed</option>
-                                <option value="regular" <%=hotel.rooms.quin.bedSize==='regular' ? 'selected' : '' %> >Queen Bed</option>
-                                <option value="king&regular" <%=hotel.rooms.quin.bedSize==='king&regular' ? 'selected' : '' %> >Regular Bed
+                              <label>Bed 1 Size</label>
+                              <select class="form-control" style="width: 100%;" name="quinRmBed1Size">
+                                <option value="master" <%=hotel.rooms.quin.bed1Size==='master' ? 'selected' : '' %> >Master Bed</option>
+                                <option value="matress" <%=hotel.rooms.quin.bed1Size==='matress' ? 'selected' : '' %> >Matress</option>
+                                <option value="king" <%=hotel.rooms.quin.bed1Size==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="queen" <%=hotel.rooms.quin.bed1Size==='queen' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="regular" <%=hotel.rooms.quin.bed1Size==='regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
+                            </div>
+
+                            <div class="form-group col-md-3">
+                              <label>Bed 2 Size</label>
+                              <select class="form-control " style="width: 100%;" name="quinRmBed2Size">
+                                <option value="master" <%=hotel.rooms.quin.bed2Size==='master' ? 'selected' : '' %> >Master Bed</option>
+                                <option value="matress" <%=hotel.rooms.quin.bed2Size==='matress' ? 'selected' : '' %> >Matress</option>
+                                <option value="king" <%=hotel.rooms.quin.bed2Size==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="queen" <%=hotel.rooms.quin.bed2Size==='queen' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="regular" <%=hotel.rooms.quin.bed2Size==='regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
+                            </div>
+                            
+                            <div class="form-group col-md-3">
+                              <label>Bed 3 Size</label>
+                              <select class="form-control " style="width: 100%;" name="quinRmBed3Size">
+                                <option value="master" <%=hotel.rooms.quin.bed3Size==='master' ? 'selected' : '' %> >Master Bed</option>
+                                <option value="matress" <%=hotel.rooms.quin.bed3Size==='matress' ? 'selected' : '' %> >Matress</option>
+                                <option value="king" <%=hotel.rooms.quin.bed3Size==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="queen" <%=hotel.rooms.quin.bed3Size==='queen' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="regular" <%=hotel.rooms.quin.bed3Size==='regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
+                            </div>
+
+                            <div class="form-group col-md-3">
+                              <label>Bed 4 Size</label>
+                              <select class="form-control " style="width: 100%;" name="quinRmBed4Size">
+                                <option value="master" <%=hotel.rooms.quin.bed4Size==='master' ? 'selected' : '' %> >Master Bed</option>
+                                <option value="matress" <%=hotel.rooms.quin.bed4Size==='matress' ? 'selected' : '' %> >Matress</option>
+                                <option value="king" <%=hotel.rooms.quin.bed4Size==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="queen" <%=hotel.rooms.quin.bed4Size==='queen' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="regular" <%=hotel.rooms.quin.bed4Size==='regular' ? 'selected' : '' %> >Regular Bed
+                                </option>
+                              </select>
+                            </div>
+
+                            <div class="form-group col-md-3">
+                              <label>Bed 5 Size</label>
+                              <select class="form-control " style="width: 100%;" name="quinRmBed5Size">
+                                <option value="king" <%=hotel.rooms.quin.bed5Size==='master' ? 'selected' : '' %> >Master Bed</option>
+                                <option value="king" <%=hotel.rooms.quin.bed5Size==='matress' ? 'selected' : '' %> >Matress</option>
+                                <option value="king" <%=hotel.rooms.quin.bed5Size==='king' ? 'selected' : '' %> >King Bed</option>
+                                <option value="queen" <%=hotel.rooms.quin.bed5Size==='queen' ? 'selected' : '' %> >Queen Bed</option>
+                                <option value="regular" <%=hotel.rooms.quin.bed5Size==='regular' ? 'selected' : '' %> >Regular Bed
                                 </option>
                               </select>
                             </div>
