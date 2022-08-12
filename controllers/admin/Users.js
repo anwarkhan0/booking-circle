@@ -126,11 +126,12 @@ const logout = (req, res, next) => {
 
 // Dashboard Content
 const indexView = async (req, res, next) => {
-  const hotels = await Hotels.find()
-  const appartments = await Appartments.find()
-  const houses = await Houses.find()
-  const vehicles = await Vehicles.find()
-  const tours = await Tours.find()
+  const hotels = await Hotels.find();
+  const appartments = await Appartments.find();
+  const houses = await Houses.find();
+  const vehicles = await Vehicles.find();
+  const tours = await Tours.find();
+  const registeredUsers = await Users.find();
   const upcomingBookings = []
   let totalEarnings = 0
   let pendingBookings = 0
@@ -253,6 +254,7 @@ const indexView = async (req, res, next) => {
     pendingBookings: pendingBookings,
     completedBookings: completedBookings,
     upcommingBookings: upcomingBookings,
+    registeredUsers: registeredUsers.length
   })
 }
 

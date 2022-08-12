@@ -93,7 +93,8 @@ const AppartmentsSchema = new Schema({
   },
   videoUrl: {
     type: String,
-    required: true,
+    required: false,
+    default: false
   },
   gallery: {
     type: [String],

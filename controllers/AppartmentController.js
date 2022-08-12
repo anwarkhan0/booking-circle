@@ -55,9 +55,10 @@ const apartmentBooking = async (req, res, next) => {
 const searchAppartments = async (req, res, next) => {
   const location = req.params.location;
   const appartments = await AppartmentModel.find({ area: location });
-  res.render("./pages/Appartments/searchResult", {
+  res.render("./pages/Appartments/appartments", {
     loggedIn: req.session.userLoggedIn,
     user: req.session.user,
+    location: location,
     appartments: appartments,
   });
 };

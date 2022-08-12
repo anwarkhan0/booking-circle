@@ -60,7 +60,7 @@
 
                   <div class="form-group col-md-3">
                     <label>Location</label>
-                    <select class="form-control select2" style="width: 100%;" name="area">
+                    <select class="form-control" style="width: 100%;" name="area">
                       <% for(let i=0; i< areas.length; i++) { %>
                         <option value="<%= areas[i].name %>" <%= areas[i].name === oldInput.area ? 'selected' : '' %> >
                           <%= areas[i].name %>
@@ -84,7 +84,7 @@
                   <div class="form-group col-md-5">
                     <label>Video Link</label>
                     <input type="url" value="<%= oldInput.videoUrl %>" name="videoUrl" placeholder="i.e: https://www.youtube.com/embed/XV7OFsykBT0"
-                      class="form-control" required>
+                      class="form-control">
                   </div>
 
                   <div class="row col-12">

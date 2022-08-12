@@ -479,7 +479,6 @@ router.post(
       .isLength({ min: 2, max: 300 })
       .trim()
       ,
-    body('videoUrl', 'Please enter valid URL.').isURL(),
     body('description', 'Please enter valid description')
       .notEmpty()
       .custom(val => {

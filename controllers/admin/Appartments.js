@@ -454,28 +454,31 @@ const postAddAppartmentGallery = async (req, res, next) => {
   }
 };
 
-const postDeleteAppartmentGalleryImage = (req, res) => {
+const postDeleteAppartmentGalleryImage = async (req, res) => {
   //recieve the gallery id and the image name
   const image = req.body.image;
   const appartId = req.body.id;
 
-  Appartments.findById(appartId)
-    .then((appartment) => {
-      gallery = appartment.gallery;
-      //removing the selected image from array
-      gallery.splice(gallery.indexOf(image), 1);
-      appartment.gallery = gallery;
-      return appartment.save();
+  try {
+    const appartment = await Appartments.findById(appartId);
+    const gallery = appartment.gallery;
+    //removing the selected image from array
+    gallery.splice(gallery.indexOf(image), 1);
+    appartment.gallery = gallery;
+    const imgDir = path.join(__dirname, '../../files/uploads/' + image);
+    fs.unlink(imgDir, (err)=> {
+      if(err) console.log(err);
     })
-    .then((result) => {
-      if (delImg(image)) {
-        console.log("UPDATED Gallery!");
-        res.redirect("/admin/Appartments/editGallery/" + appartId);
-      } else {
-        throw "Something went wrong while deleting file.";
-      }
-    })
-    .catch((err) => console.log(err));
+    await appartment.save();
+
+    console.log("UPDATED Gallery!");
+    res.redirect("/admin/Appartments/editGallery/" + appartId);
+
+  }
+  catch (err) {
+    console.log(err);
+    res.redirect("/admin/Appartments/editGallery/" + appartId);
+  }
 };
 
 module.exports = {
