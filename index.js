@@ -18,16 +18,16 @@ app.use(cors())
 app.use(compression())
 
 // cloud
-// const store = new MongoDBStore({
-//   uri: process.env.MONGO_ATLUS,
-//   collection: 'sessions',
-// })
+const store = new MongoDBStore({
+  uri: process.env.MONGO_ATLUS,
+  collection: 'sessions',
+})
 
 // local db
-const store = new MongoDBStore({
-  uri: process.env.MONGO,
-  collection: 'sessions'
-});
+// const store = new MongoDBStore({
+//   uri: process.env.MONGO,
+//   collection: 'sessions'
+// });
 
 // configuring of file destination and name
 const fileStorage = multer.diskStorage({
@@ -117,28 +117,28 @@ app.use(adminRoutes.routes)
 const port = process.env.PORT || 8080
 
 //Cloud Database
-// mongoose
-//   .connect(
-//     process.env.MONGO_ATLUS
-//   )
-//   .then(result => {
-//     app.listen(port, () => console.log(`App listening on Port: ${port}`))
-//   })
-//   .catch(err => {
-//     console.log(err)
-//   })
+mongoose
+  .connect(
+    process.env.MONGO_ATLUS
+  )
+  .then(result => {
+    app.listen(port, () => console.log(`App listening on Port: ${port}`))
+  })
+  .catch(err => {
+    console.log(err)
+  })
 
 // LOCALHOST:DATABASE/////////////
-mongoose
-.connect(
-  process.env.MONGO
-)
-.then(result => {
-  app.listen(port, () => console.log(`App listening on Port: ${port}`));
-})
-.catch(err => {
-  console.log(err);
-});
+// mongoose
+// .connect(
+//   process.env.MONGO
+// )
+// .then(result => {
+//   app.listen(port, () => console.log(`App listening on Port: ${port}`));
+// })
+// .catch(err => {
+//   console.log(err);
+// });
 
 // const cron = require('node-cron');
 
@@ -146,28 +146,28 @@ mongoose
 //   console.log('running a task every minute');
 // });
 
-// const admins = require('./models/SystemUsers');
-// const bcrypt = require('bcrypt');
+const admins = require('./models/SystemUsers');
+const bcrypt = require('bcrypt');
 
-// admins.find(users => {
-//   if(!users) {
+admins.find(users => {
+  if(!users) {
 
-//     bcrypt.genSalt(16, function (err, salt) {
-//       bcrypt.hash('password', salt, function (err, hash) {
-//         const user = new admins({
-//           name: 'hasnain',
-//           contact: 123,
-//           CNIC: 123,
-//           location: 'city',
-//           address: 'address',
-//           role: 0,
-//           email: 'admin@admin.com',
-//           password: hash,
-//         })
-//         user.save()
-//       });
-//     });
+    bcrypt.genSalt(16, function (err, salt) {
+      bcrypt.hash('password', salt, function (err, hash) {
+        const user = new admins({
+          name: 'hasnain',
+          contact: 123,
+          CNIC: 123,
+          location: 'city',
+          address: 'address',
+          role: 0,
+          email: 'hasnainahmad0077@admin.com',
+          password: hash,
+        })
+        user.save()
+      });
+    });
 
     
-//   }
-// }).catch(err => console.log(err))
+  }
+}).catch(err => console.log(err))
