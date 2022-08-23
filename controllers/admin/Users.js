@@ -5,7 +5,7 @@ const { validationResult } = require('express-validator')
 //models
 const Areas = require('../../models/Location')
 const sliderGallery = require('../../models/SliderGallery')
-const Users = require('../../models/SystemUsers')
+const Users = require('../../models/usersModel')
 const Feedbacks = require('../../models/Feedback')
 const Messages = require('../../models/Message')
 const UsersModel = require('../../models/usersModel')
@@ -131,93 +131,116 @@ const indexView = async (req, res, next) => {
   const houses = await Houses.find();
   const vehicles = await Vehicles.find();
   const tours = await Tours.find();
-  const registeredUsers = await Users.find();
-  const upcomingBookings = []
-  let totalEarnings = 0
-  let pendingBookings = 0
-  let completedBookings = 0
+  let registeredUsers = await Users.find();
+  const upcomingBookings = [];
+  let totalEarnings = 0;
+  let pendingBookings = 0;
+  let completedBookings = 0;
+
+  if(!registeredUsers){
+    registeredUsers = 0;
+  }
 
   const today = moment()
   hotels.forEach(hotel => {
-    hotel.rooms.single.reservations.forEach(reservation => {
-      totalEarnings += reservation.total
-      if (reservation.checkOut > today) {
-        reservation.bookingOf = hotel.name
-        upcomingBookings.push(reservation)
-        pendingBookings += 1
-      } else {
-        completedBookings += 1
-      }
-    })
+    if(hotel.rooms.single.reservations){
+      hotel.rooms.single.reservations.forEach(reservation => {
+        totalEarnings += reservation.total
+        if (reservation.checkOut > today) {
+          reservation.bookingOf = hotel.name
+          upcomingBookings.push(reservation)
+          pendingBookings += 1
+        } else {
+          completedBookings += 1
+        }
+      })
+    }
+    
     hotel.rooms.twin.reservations.forEach(reservation => {
-      totalEarnings += reservation.total
-      if (reservation.checkOut > today) {
-        reservation.bookingOf = hotel.name
-        upcomingBookings.push(reservation)
-        pendingBookings += 1
-      } else {
-        completedBookings += 1
+      if (hotel.rooms.twin.reservations) {
+        totalEarnings += reservation.total
+        if (reservation.checkOut > today) {
+          reservation.bookingOf = hotel.name
+          upcomingBookings.push(reservation)
+          pendingBookings += 1
+        } else {
+          completedBookings += 1
+        }
       }
     })
+
     hotel.rooms.triple.reservations.forEach(reservation => {
-      upcomingBookings.push(reservation)
-      totalEarnings += reservation.total
-      if (reservation.checkOut > today) {
-        reservation.bookingOf = hotel.name
+      if (hotel.rooms.triple.reservations) {
         upcomingBookings.push(reservation)
-        pendingBookings += 1
-      } else {
-        completedBookings += 1
+        totalEarnings += reservation.total
+        if (reservation.checkOut > today) {
+          reservation.bookingOf = hotel.name
+          upcomingBookings.push(reservation)
+          pendingBookings += 1
+        } else {
+          completedBookings += 1
+        }
       }
     })
+
     hotel.rooms.quad.reservations.forEach(reservation => {
-      upcomingBookings.push(reservation)
-      totalEarnings += reservation.total
-      if (reservation.checkOut > today) {
-        reservation.bookingOf = hotel.name
+      if (hotel.rooms.quad.reservations) {
         upcomingBookings.push(reservation)
-        pendingBookings += 1
-      } else {
-        completedBookings += 1
+        totalEarnings += reservation.total
+        if (reservation.checkOut > today) {
+          reservation.bookingOf = hotel.name
+          upcomingBookings.push(reservation)
+          pendingBookings += 1
+        } else {
+          completedBookings += 1
+        }
       }
     })
+
     hotel.rooms.quin.reservations.forEach(reservation => {
-      upcomingBookings.push(reservation)
-      totalEarnings += reservation.total
-      if (reservation.checkOut > today) {
-        reservation.bookingOf = hotel.name
+      if (hotel.rooms.quin.reservations) {
         upcomingBookings.push(reservation)
-        pendingBookings += 1
-      } else {
-        completedBookings += 1
+        totalEarnings += reservation.total
+        if (reservation.checkOut > today) {
+          reservation.bookingOf = hotel.name
+          upcomingBookings.push(reservation)
+          pendingBookings += 1
+        } else {
+          completedBookings += 1
+        }
       }
     })
   })
 
   appartments.forEach(appartment => {
-    appartment.reservations.forEach(reservation => {
-      totalEarnings += reservation.total
-      if (reservation.checkOut > today) {
-        reservation.bookingOf = appartment.name
-        upcomingBookings.push(reservation)
-        pendingBookings += 1
-      } else {
-        completedBookings += 1
-      }
-    })
+    if(appartment.reservations){
+      appartment.reservations.forEach(reservation => {
+        totalEarnings += reservation.total
+        if (reservation.checkOut > today) {
+          reservation.bookingOf = appartment.name
+          upcomingBookings.push(reservation)
+          pendingBookings += 1
+        } else {
+          completedBookings += 1
+        }
+      })
+    }
   })
 
   houses.forEach(appartment => {
-    appartment.reservations.forEach(reservation => {
-      totalEarnings += reservation.total
-      if (reservation.checkOut > today) {
-        reservation.bookingOf = appartment.name
-        upcomingBookings.push(reservation)
-        pendingBookings += 1
-      } else {
-        completedBookings += 1
-      }
-    })
+    if(appartment.reservations){
+      appartment.reservations.forEach(reservation => {
+        totalEarnings += reservation.total
+        if (reservation.checkOut > today) {
+          reservation.bookingOf = appartment.name
+          upcomingBookings.push(reservation)
+          pendingBookings += 1
+        } else {
+          completedBookings += 1
+        }
+      })
+    }
+    
   })
 
   // vehicles.forEach(appartment =>{
@@ -227,17 +250,20 @@ const indexView = async (req, res, next) => {
   // })
 
   tours.forEach(appartment => {
-    appartment.reservations.forEach(reservation => {
-      totalEarnings += reservation.total
-      if (reservation.checkOut > today) {
-        reservation.bookingOf =
-          appartment.fromPlace + ' to ' + appartment.toPlace
-        upcomingBookings.push(reservation)
-        pendingBookings += 1
-      } else {
-        completedBookings += 1
-      }
-    })
+    if(appartment.reservations){
+      appartment.reservations.forEach(reservation => {
+        totalEarnings += reservation.total
+        if (reservation.checkOut > today) {
+          reservation.bookingOf =
+            appartment.fromPlace + ' to ' + appartment.toPlace
+          upcomingBookings.push(reservation)
+          pendingBookings += 1
+        } else {
+          completedBookings += 1
+        }
+      })
+    }
+    
   })
   // collect all the bookings from each category and then store each in dif variable
   const message = req.flash('message')
