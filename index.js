@@ -146,28 +146,30 @@ mongoose
 //   console.log('running a task every minute');
 // });
 
-// const admins = require('./models/SystemUsers');
-// const bcrypt = require('bcrypt');
 
-// admins.find(users => {
-//   if(!users) {
+  // const admins = require('./models/AppData');
+  // const bcrypt = require('bcrypt');
 
-//     bcrypt.genSalt(16, function (err, salt) {
-//       bcrypt.hash('password', salt, function (err, hash) {
-//         const user = new admins({
-//           name: 'hasnain',
-//           contact: 123,
-//           CNIC: 123,
-//           location: 'city',
-//           address: 'address',
-//           role: 0,
-//           email: 'hasnainahmad0077@admin.com',
-//           password: hash,
-//         })
-//         user.save()
-//       });
-//     });
+  // admins.find(users => {
+  //   if (!users) {
 
-    
-//   }
-// }).catch(err => console.log(err))
+  //     bcrypt.genSalt(16, function (err, salt) {
+  //       bcrypt.hash('password', salt, function (err, hash) {
+  //         const user = new admins({
+  //           name: 'hasnain',
+  //           contact: 123,
+  //           CNIC: 123,
+  //           location: 'city',
+  //           address: 'address',
+  //           role: 0,
+  //           email: 'admin@admin.com',
+  //           password: hash,
+  //         })
+  //         user.save()
+  //       });
+  //     });
+
+
+  //   }
+  // }).catch(err => console.log(err))
+

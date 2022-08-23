@@ -5,7 +5,8 @@ const { validationResult } = require('express-validator')
 //models
 const Areas = require('../../models/Location')
 const sliderGallery = require('../../models/SliderGallery')
-const Users = require('../../models/usersModel')
+const Users = require('../../models/SystemUsers')
+const RUsers = require('../../models/usersModel');
 const Feedbacks = require('../../models/Feedback')
 const Messages = require('../../models/Message')
 const UsersModel = require('../../models/usersModel')
@@ -131,7 +132,7 @@ const indexView = async (req, res, next) => {
   const houses = await Houses.find();
   const vehicles = await Vehicles.find();
   const tours = await Tours.find();
-  let registeredUsers = await Users.find();
+  let registeredUsers = await RUsers.find();
   const upcomingBookings = [];
   let totalEarnings = 0;
   let pendingBookings = 0;
